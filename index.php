@@ -4,7 +4,7 @@ session_start();
 
 require_once("controller/LoginController.php");
 require_once("controller/AdminController.php");
-require_once("controller/OfficeController.php");
+require_once("controller/StudentOfficerController.php");
 require_once("controller/ProfessorController.php");
 require_once("controller/StudentController.php");
 
