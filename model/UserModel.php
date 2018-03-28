@@ -9,11 +9,10 @@ class UserModel {
     public static function getUser($email, $password) {
         $db = DBInit::getInstance();
         
-        // TODO: db schema is not created yet
         $statement = $db->prepare("
-            SELECT uid, email, password, type
-            FROM User
-            WHERE email = :email
+            SELECT ID_OSEBA, EMAIL, GESLO, STAT
+            FROM OSEBA
+            WHERE EMAIL = :email
         ");
         $statement->bindValue(":email", $email);
         $statement->execute();

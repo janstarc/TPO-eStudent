@@ -29,6 +29,21 @@ $urls = [
     }, "/^logout$/" => function ($method) {
         if ($method == "GET") LoginController::logout();
         else ViewHelper::error405();
+    }, "/^elektronskiIndeks$/" => function ($method) {
+        if ($method == "GET") StudentController::elektronskiIndeksForm();
+        else ViewHelper::error405();
+    }, "/^PregledIzpitovStudent$/" => function ($method) {
+        if ($method == "GET") StudentController::PregledIzpitovStudentForm();
+        else ViewHelper::error405();
+    }, "/^PregledIzpitovProfesor$/" => function ($method) {
+        if ($method == "GET") ProffesorController::PregledIzpitovProfesorForm();
+        else ViewHelper::error405();
+    }, "/^VnosIzpitov$/" => function ($method) {
+        if ($method == "GET") ProffesorController::VnosIzpitovForm();
+        else ViewHelper::error405();
+    }, "/^VnosOcen$/" => function ($method) {
+        if ($method == "GET") ProffesorController::VnosOcenForm();
+        else ViewHelper::error405();
     }
 ];
 

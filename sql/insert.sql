@@ -1,1 +1,0 @@
-#VES INSERT JE ŽE NA KONCU db.sql

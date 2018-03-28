@@ -4,7 +4,7 @@ class DBInit {
     private static $host = "localhost";
     private static $user = "root";
     private static $password = "";
-    private static $schema = ""; // TODO: name of the sql db to be added
+    private static $schema = "tpo";
     private static $instance = null;
 
     private function __construct() {
