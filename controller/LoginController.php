@@ -30,8 +30,11 @@ class LoginController {
         if (empty($errorMessage)) {
             User::login($user);
             // TODO: redirect OR render based on type of user
-            // ViewHelper::redirect(BASE_URL . "");
-            // ViewHelper::render("view/ .php", []);
+            if (User::isLoggedInAsProfessor()) {
+                ViewHelper::redirect(BASE_URL . "PregledIzpitovProfesor");
+            } else if (User::isLoggedInAsStudent()) {
+                ViewHelper::redirect(BASE_URL . "PregledIzpitovStudent");
+            }
         } else {
             ViewHelper::render("view/LoginViewer.php", [
                 "errorMessage" => $errorMessage,

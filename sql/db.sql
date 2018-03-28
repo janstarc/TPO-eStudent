@@ -178,9 +178,9 @@ create table OBLIKA_STUDIJA
 create table OSEBA
 (
   ID_OSEBA             int not null,
-  UPOR_IME             char(30),
-  GESLO                char(30) not null,
-  STATUS               int,
+  EMAIL                 char(30) not null,
+  GESLO                char(60) not null,
+  `type`               char(10),
   IME                  char(50),
   PRIIMEK              char(50),
   primary key (ID_OSEBA)
@@ -478,14 +478,15 @@ references STUDENT (ID_OSEBA, EMSO) on delete restrict on update restrict;
 
 
 
-INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`UPOR_IME`,`GESLO`,`STATUS`,`IME`,`PRIIMEK`)VALUES
-  (1,'testStudent' ,12345678,3,'Janez', 'Novak'),
-  (2,'testUcitelj' ,123456789,2,'An', 'Ban'),
-  (3,'testReferent' ,1234567890,1,'Ančka', 'Novak'),
-  (4,'testStudent2' ,12345678,3,'Janezek', 'Novakovič');
+INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`GESLO`,`type`,`IME`,`PRIIMEK`)VALUES
+  (1,'testS', '$2y$10$6QZqRs9p/3mOUEVSnu60MuVBeYa24mt945zAIZaWj0amcNwsw7uxC', 'student', 'Janez', 'Novak'),
+  (2,'testP', '$2y$10$6QZqRs9p/3mOUEVSnu60MuVBeYa24mt945zAIZaWj0amcNwsw7uxC', 'professor', 'An', 'Ban'),
+  (3,'testO', '$2y$10$6QZqRs9p/3mOUEVSnu60MuVBeYa24mt945zAIZaWj0amcNwsw7uxC', 'office', 'Ančka', 'Novak'),
+  (4,'testS2', '$2y$10$6QZqRs9p/3mOUEVSnu60MuVBeYa24mt945zAIZaWj0amcNwsw7uxC', 'student', 'Janezek', 'Novakovič');
 # preverjanje login:
-# uporabnisko ime= testStudent  geslo=12345678
-# referent ima STAT = 1 , učitelj ima STAT = 2 , študent ima STAT = 3
+# uporabnisko ime= testStudent  geslo='password'
+# type = 'admin', 'office', 'professor' in 'student'
+
 INSERT INTO `tpo`.`drzava`
 (`ID_DRZAVE`,`DVOMESTNAKODA`,`TRIMESTNAKODA`,`ISONAZIV`,`SLOVENSKINAZIV`,`OPOMBA`,`AKTIVNOST_DRZAVA`)VALUES
   (1,'MK','MKD','Macedonia','Makedonija','Ni opomb',1),
@@ -501,7 +502,6 @@ INSERT INTO `tpo`.`studijsko_leto`
 VALUES
   (1,2017),
   (2,2018);
-
 
 INSERT INTO `tpo`.`program`(`ID_PROGRAM`,`SIFRA_PROGRAM`,`NAZIV_PROGRAM`,
                             `STOPNJA_PROGRAM`,`ST_SEMESTROV`,`SIFRA_EVS`,`AKTIVNOST_PROGRAM`)VALUES

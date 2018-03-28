@@ -24,7 +24,7 @@ class User {
 		return $_SESSION["user"]["type"]==="student";
 	}
 	public function getId() {
-		return $_SESSION["user"]["uid"];
+		return $_SESSION["user"]["ID_OSEBA"];
 	}
 	public function getTypeOfUser() {
 		return $_SESSION["user"]["type"];

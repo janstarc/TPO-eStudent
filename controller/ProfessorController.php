@@ -6,41 +6,38 @@ require_once("ViewHelper.php");
 
 class ProffesorController {
     public static function PregledIzpitovProfesorForm() {
-//        if (User::isLoggedIn()){
-//            if (User::isLoggedInAsProffesor()){
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
                 ViewHelper::render("view/PregledIzpitovProfesor.php", []);
-/*            }else{
+            }else{
                 ViewHelper::error403();
             }
         }else{
             ViewHelper::error401();
         }
-*/
     }
     
     public static function VnosIzpitovForm() {
-//        if (User::isLoggedIn()){
-//            if (User::isLoggedInAsProffesor()){
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
                 ViewHelper::render("view/VnosIzpitov.php", []);
-/*            }else{
+            }else{
                 ViewHelper::error403();
             }
         }else{
             ViewHelper::error401();
         }
-*/
     }
 
     public static function VnosOcenForm() {
-//        if (User::isLoggedIn()){
-//            if (User::isLoggedInAsProffesor()){
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
                 ViewHelper::render("view/VnosOcen.php", []);
-/*            }else{
+            }else{
                 ViewHelper::error403();
             }
         }else{
             ViewHelper::error401();
         }
-*/
     }
 }

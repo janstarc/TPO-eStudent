@@ -14,12 +14,12 @@
     <body>
         <div id="login-page">
             <div class="container">
-                <form class="form-login" id="okno">
+                <form action="<?= BASE_URL . $formAction ?>" method="post" class="form-login">
                     <h2 class="form-login-heading">sign in now</h2>
                     <div class="login-wrap">
-                        <input type="text" class="form-control" id="login-username" placeholder="Email" autofocus>
+                        <input type="text" class="form-control" name="email" placeholder="Email" required autofocus>
                         <br>
-                        <input type="password" class="form-control" id="login-password" placeholder="Password">
+                        <input type="password" class="form-control" name="password" placeholder="Password" required>
                         <br>
                         <button id="btn-login" class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
                         <br>

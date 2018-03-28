@@ -10,7 +10,7 @@ class UserModel {
         $db = DBInit::getInstance();
         
         $statement = $db->prepare("
-            SELECT ID_OSEBA, EMAIL, GESLO, STAT
+            SELECT ID_OSEBA, EMAIL, GESLO, type
             FROM OSEBA
             WHERE EMAIL = :email
         ");
@@ -18,8 +18,8 @@ class UserModel {
         $statement->execute();
         
         $user = $statement->fetch();
-        if (password_verify($password, $user["password"])) {
-            unset($user["password"]);
+        if (password_verify($password, $user["GESLO"])) {
+            unset($user["GESLO"]);
             return $user;
         } else {
             return false;
