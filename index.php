@@ -29,7 +29,7 @@ $urls = [
     }, "/^logout$/" => function ($method) {
         if ($method == "GET") LoginController::logout();
         else ViewHelper::error405();
-    }, "/^elektronskiIndeks$/" => function ($method) {
+    }, "/^ElektronskiIndeks$/" => function ($method) {
         if ($method == "GET") StudentController::elektronskiIndeksForm();
         else ViewHelper::error405();
     }, "/^PregledIzpitovStudent$/" => function ($method) {
