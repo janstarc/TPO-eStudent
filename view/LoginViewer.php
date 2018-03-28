@@ -23,15 +23,7 @@
                         <br>
                         <button id="btn-login" class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
                         <br>
-                        <div class="container">
-                            <span>
-                                <label>
-                                    <input type="checkbox" checked="checked" name="remember"> Remember me
-                                </label>
-                            </span>
-                            <span class="psw" align="right "><h6><a href="#">Forgot password?</h6></a></span>
-                        </div>
-                        <hr>
+                        <span class="psw"><h6><a href="#">Forgot password?</h6></a></span>
                     </div>
                 </form>
             </div>

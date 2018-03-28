@@ -36,11 +36,6 @@
                                 </table>
                             </div>
                         </div>>
-                        <p>
-                            <h5>
-                                <a href="PregledIzpitovStudent.php">&#8658 Prikaži vse izpitne roke</a>
-                            </h5>
-                        </p>
                     </div>
                 </section>
             </section>

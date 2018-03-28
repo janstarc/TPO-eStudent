@@ -20,26 +20,14 @@
 <aside>
     <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
-            <h4 class="centered">IME STUDENTA</h4>
-
             <li class="mt">
-                <a href="/">
-                    <i class="fa fa-home"></i>
-                    <span>Domov</span>
+                <a href="ElektronskiIndeks">
+                    <span>ElektronskiIndeks</span>
                 </a>
             </li>
-
-            <li class="mt">
-                <a class="active" href="ElektronskiIndeks">
-                    <i class="fa fa-book"></i>
-                    <span>Elektronski indeks</span>
-                </a>
-            </li>
-
             <li class="mt">
                 <a href="PregledIzpitovStudent">
-                    <i class="fa fa-folder-open-o"></i>
-                    <span>Pregled izpitov</span>
+                    <span>PregledIzpitovStudent</span>
                 </a>
             </li>
         </ul>

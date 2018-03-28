@@ -21,21 +21,20 @@
 
 <aside>
     <div id="sidebar" class="nav-collapse ">
-        <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <h5 class="centered">Ime studenta</h5>
-
             <li class="mt">
-                <a href="/">
-                    <i class="fa fa-home"></i>
-                    <span>Domov</span>
+                <a href="PregledIzpitovProfesor">
+                    <span>PregledIzpitovProfesor</span>
                 </a>
             </li>
-
             <li class="mt">
-                <a class="active" href="PregledIzpitovProfesor">
-                    <i class="fa fa-folder-open-o"></i>
-                    <span>Pregled izpitov</span>
+                <a href="VnosIzpitov">
+                    <span>VnosIzpitov</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="VnosOcen">
+                    <span>VnosOcen</span>
                 </a>
             </li>
         </ul>
