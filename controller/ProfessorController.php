@@ -4,7 +4,7 @@ require_once("model/UserModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
 
-class ProffesorController {
+class ProfesorController {
     public static function PregledIzpitovProfesorForm() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){

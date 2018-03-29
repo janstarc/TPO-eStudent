@@ -5,7 +5,7 @@ class DBInit {
     private static $user = "root";
     private static $password = "";
     private static $schema = "tpo";
-    private static $instance = null;
+    private static $instance = "localhost/phpmyadmin";
 
     private function __construct() {
         

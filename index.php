@@ -22,11 +22,13 @@ $urls = [
         // TODO: redirect based on type of logged-in user
         if ($method == "GET") ViewHelper::redirect(BASE_URL . "login");
         else ViewHelper::error405();
-    }, "/^login$/" => function ($method) {
+        },
+    "/^login$/" => function ($method) {
         if ($method == "POST") LoginController::login();
         else if ($method == "GET") LoginController::loginForm();
         else ViewHelper::error405();
-    }, "/^logout$/" => function ($method) {
+        },
+    "/^logout$/" => function ($method) {
         if ($method == "GET") LoginController::logout();
         else ViewHelper::error405();
     }, "/^ElektronskiIndeks$/" => function ($method) {
@@ -36,13 +38,16 @@ $urls = [
         if ($method == "GET") StudentController::PregledIzpitovStudentForm();
         else ViewHelper::error405();
     }, "/^PregledIzpitovProfesor$/" => function ($method) {
-        if ($method == "GET") ProffesorController::PregledIzpitovProfesorForm();
+        if ($method == "GET") ProfesorController::PregledIzpitovProfesorForm();
         else ViewHelper::error405();
     }, "/^VnosIzpitov$/" => function ($method) {
-        if ($method == "GET") ProffesorController::VnosIzpitovForm();
+        if ($method == "GET") ProfesorController::VnosIzpitovForm();
         else ViewHelper::error405();
     }, "/^VnosOcen$/" => function ($method) {
-        if ($method == "GET") ProffesorController::VnosOcenForm();
+        if ($method == "GET") ProfesorController::VnosOcenForm();
+        else ViewHelper::error405();
+    }, "/^OsebniPodatkiStudenta$/" => function ($method) {
+        if ($method == "GET") AdminController::PregledOsebnihPodatkovStudenta();
         else ViewHelper::error405();
     }
 ];
