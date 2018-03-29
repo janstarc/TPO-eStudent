@@ -54,6 +54,8 @@ drop table if exists VRSTA_VPISA;
 
 drop table if exists ZETON;
 
+drop table if exists NASLOV;
+
 /*==============================================================*/
 /* Table: DEL_PREDMETNIKA                                       */
 /*==============================================================*/
@@ -71,7 +73,7 @@ create table DEL_PREDMETNIKA
 /*==============================================================*/
 create table DRZAVA
 (
-  ID_DRZAVE            int not null,
+  ID_DRZAVE            int not null AUTO_INCREMENT,
   DVOMESTNAKODA        char(2) not null,
   TRIMESTNAKODA        char(3) not null,
   ISONAZIV             char(50) not null,
@@ -86,7 +88,7 @@ create table DRZAVA
 /*==============================================================*/
 create table IZPIT
 (
-  ID_IZPITA            int not null,
+  ID_IZPITA            int not null AUTO_INCREMENT,
   ID_PRIJAVA           int,
   OCENA_IZPITA         int,
   AKTIVNOST_IZPITA     int not null,
@@ -98,7 +100,7 @@ create table IZPIT
 /*==============================================================*/
 create table IZVEDBA_PREDMETA
 (
-  ID_IZVEDBE           int not null,
+  ID_IZVEDBA           int not null AUTO_INCREMENT,
   ID_OSEBA             int,
   ID_UCITELJ           int,
   ID_STUD_LETO         int not null,
@@ -107,7 +109,7 @@ create table IZVEDBA_PREDMETA
   UCI_ID_OSEBA2        int not null,
   UCI_ID_UCITELJ2      int not null,
   ID_PREDMET           int not null,
-  primary key (ID_IZVEDBE)
+  primary key (ID_IZVEDBA)
 );
 
 /*==============================================================*/
@@ -115,7 +117,7 @@ create table IZVEDBA_PREDMETA
 /*==============================================================*/
 create table KANDIDAT
 (
-  ID_KANDIDATA         int not null,
+  ID_KANDIDATA         int not null AUTO_INCREMENT,
   ID_OSEBA             int,
   EMSO                 int,
   IZKORISCEN           int not null,
@@ -131,7 +133,7 @@ create table KANDIDAT
 /*==============================================================*/
 create table LETNIK
 (
-  ID_LETNIK            int not null,
+  ID_LETNIK            int not null AUTO_INCREMENT,
   LETNIK               int not null,
   MOZEN_VPIS           char(10),
   primary key (ID_LETNIK)
@@ -142,11 +144,28 @@ create table LETNIK
 /*==============================================================*/
 create table NACIN_STUDIJA
 (
-  ID_NACIN             int not null,
+  ID_NACIN             int not null AUTO_INCREMENT,
   OPIS_NACIN           char(50) not null,
   ANG_OPIS_NACIN       char(50),
   AKTIVNOST_NACIN      int not null,
   primary key (ID_NACIN)
+);
+
+
+
+/*==============================================================*/
+/* Table: NASLOV                                                */
+/*==============================================================*/
+create table NASLOV
+(
+  ID_POSTA             int not null AUTO_INCREMENT,
+  ID_OBCINA            int not null,
+  ID_DRZAVE            int not null,
+  ID_OSEBA             int,
+  ZAVROCANJE           int,
+  ULICA                char(50),
+  HISNA_STEVILKA       char(50),
+  primary key (ID_POSTA, ID_OBCINA)
 );
 
 /*==============================================================*/
@@ -154,7 +173,7 @@ create table NACIN_STUDIJA
 /*==============================================================*/
 create table OBCINA
 (
-  ID_OBCINA            int not null,
+  ID_OBCINA            int not null AUTO_INCREMENT,
   IME_OBCINA           char(50) not null,
   AKTIVNA_OBCINA       char(50),
   primary key (ID_OBCINA)
@@ -165,7 +184,7 @@ create table OBCINA
 /*==============================================================*/
 create table OBLIKA_STUDIJA
 (
-  ID_OBLIKA            int not null,
+  ID_OBLIKA            int not null AUTO_INCREMENT,
   NAZIV_OBLIKA         char(50) not null,
   ANG_OPIS_OBLIKA      char(50),
   AKTIVNOST_OBLIKA     int not null,
@@ -177,10 +196,10 @@ create table OBLIKA_STUDIJA
 /*==============================================================*/
 create table OSEBA
 (
-  ID_OSEBA             int not null,
-  EMAIL                 char(30) not null,
+  ID_OSEBA             int not null AUTO_INCREMENT,
+  EMAIL                char(30) not null,
   GESLO                char(60) not null,
-  VRSTA_VLOGE      char(1) not null,
+  VRSTA_VLOGE          char(1) not null,
   IME                  char(50),
   PRIIMEK              char(50),
   primary key (ID_OSEBA)
@@ -189,20 +208,23 @@ create table OSEBA
 /*==============================================================*/
 /* Table: POSTA                                                 */
 /*==============================================================*/
+
 create table POSTA
 (
-  ID_POSTA             int not null,
+  ID_POSTA             int not null AUTO_INCREMENT,
+  ST_POSTA             char(4),
   KRAJ                 char(30) not null,
   AKTIVNOST_POSTA      int not null,
   primary key (ID_POSTA)
 );
+
 
 /*==============================================================*/
 /* Table: PREDMET                                               */
 /*==============================================================*/
 create table PREDMET
 (
-  ID_PREDMET           int not null,
+  ID_PREDMET           int not null AUTO_INCREMENT,
   IME_PREDMET          char(50) not null,
   AKTIVNOST_PREDMET    int not null,
   primary key (ID_PREDMET)
@@ -213,7 +235,7 @@ create table PREDMET
 /*==============================================================*/
 create table PREDMETI_STUDENTA
 (
-  ID_PREDMETISTUDENT   int not null,
+  ID_PREDMETISTUDENT   int not null AUTO_INCREMENT,
   ID_VPISA             int not null,
   ID_PREDMET           int not null,
   STUD_LETO            int,
@@ -225,7 +247,7 @@ create table PREDMETI_STUDENTA
 /*==============================================================*/
 create table PREDMETNIK
 (
-  ID_PREDMETNIK        int not null,
+  ID_PREDMETNIK        int not null AUTO_INCREMENT,
   ID_STUD_LETO         int not null,
   ID_LETNIK            int not null,
   ID_PREDMET           int not null,
@@ -241,7 +263,7 @@ create table PREDMETNIK
 /*==============================================================*/
 create table PRIJAVA
 (
-  ID_PRIJAVA           int not null,
+  ID_PRIJAVA           int not null AUTO_INCREMENT,
   ID_IZPITA            int,
   ID_PREDMETISTUDENT   int not null,
   ID_ROKA              int not null,
@@ -259,7 +281,7 @@ create table PRIJAVA
 /*==============================================================*/
 create table PROGRAM
 (
-  ID_PROGRAM           int not null,
+  ID_PROGRAM           int not null AUTO_INCREMENT,
   SIFRA_PROGRAM        char(15) not null,
   NAZIV_PROGRAM        char(50) not null,
   STOPNJA_PROGRAM      char(50) not null,
@@ -274,7 +296,7 @@ create table PROGRAM
 /*==============================================================*/
 create table REFERENT
 (
-  ID_OSEBA             int not null,
+  ID_OSEBA             int not null AUTO_INCREMENT,
   IME                  char(50),
   PRIIMEK              char(50),
   primary key (ID_OSEBA)
@@ -285,8 +307,8 @@ create table REFERENT
 /*==============================================================*/
 create table ROK
 (
-  ID_ROKA              int not null,
-  ID_IZVEDBE           int not null,
+  ID_ROKA              int not null AUTO_INCREMENT,
+  ID_IZVEDBA           int not null,
   DATUM_ROKA           date not null,
   CAS_ROKA             time not null,
   AKTIVNOST_ROKA       int,
@@ -302,14 +324,14 @@ create table STUDENT
   VPISNA_STEVILKA      int not null,
   PRIIMEK              char(50),
   IME                  char(50),
-  EMSO                 int not null,
+  EMSO                 char(20) not null,
   ID_KANDIDATA         int,
   ID_POSTA             int not null,
   ID_DRZAVE            int not null,
   ID_VPISA             int,
   ID_OBCINA            int not null,
   SIFRA_PROGRAM        char(15),
-  primary key (ID_OSEBA, EMSO)
+  primary key (ID_OSEBA)
 );
 
 /*==============================================================*/
@@ -317,7 +339,7 @@ create table STUDENT
 /*==============================================================*/
 create table STUDIJSKO_LETO
 (
-  ID_STUD_LETO         int not null,
+  ID_STUD_LETO         int not null AUTO_INCREMENT,
   STUD_LETO            int,
   primary key (ID_STUD_LETO)
 );
@@ -340,7 +362,7 @@ create table UCITELJ
 /*==============================================================*/
 create table VPIS
 (
-  ID_VPISA             int not null,
+  ID_VPISA             int not null AUTO_INCREMENT,
   ID_PROGRAM           int not null,
   ID_NACIN             int not null,
   ID_STUD_LETO         int not null,
@@ -357,7 +379,7 @@ create table VPIS
 /*==============================================================*/
 create table VRSTA_VPISA
 (
-  ID_VRSTAVPISA        int not null,
+  ID_VRSTAVPISA        int not null AUTO_INCREMENT,
   OPIS_VPISA           char(30) not null,
   AKTIVNOST_VPIS       int not null,
   primary key (ID_VRSTAVPISA)
@@ -368,7 +390,7 @@ create table VRSTA_VPISA
 /*==============================================================*/
 create table ZETON
 (
-  ID_ZETONA            int not null,
+  ID_ZETONA            int not null AUTO_INCREMENT,
   ID_OSEBA             int not null,
   EMSO                 int not null,
   IZKORISCEN           int,
@@ -397,6 +419,17 @@ references UCITELJ (ID_OSEBA, ID_UCITELJ) on delete restrict on update restrict;
 
 #alter table KANDIDAT add constraint FK_RELATIONSHIP_4 foreign key (ID_OSEBA)
 #      references STUDENT (ID_OSEBA) on delete restrict on update restrict;
+alter table NASLOV add constraint FK_RELATIONSHIP_30 foreign key (ID_POSTA)
+references POSTA (ID_POSTA) on delete restrict on update restrict;
+
+alter table NASLOV add constraint FK_RELATIONSHIP_31 foreign key (ID_OBCINA)
+references OBCINA (ID_OBCINA) on delete restrict on update restrict;
+
+alter table NASLOV add constraint FK_RELATIONSHIP_32 foreign key (ID_OSEBA)
+references STUDENT (ID_OSEBA) on delete restrict on update restrict;
+
+alter table NASLOV add constraint FK_RELATIONSHIP_33 foreign key (ID_DRZAVE)
+references DRZAVA (ID_DRZAVE) on delete restrict on update restrict;
 
 alter table PREDMETI_STUDENTA add constraint FK_RELATIONSHIP_23 foreign key (ID_VPISA)
 references VPIS (ID_VPISA) on delete restrict on update restrict;
@@ -431,20 +464,11 @@ references IZPIT (ID_IZPITA) on delete restrict on update restrict;
 alter table REFERENT add constraint FK_INHERITANCE_2 foreign key (ID_OSEBA)
 references OSEBA (ID_OSEBA) on delete restrict on update restrict;
 
-alter table ROK add constraint FK_RELATIONSHIP_25 foreign key (ID_IZVEDBE)
-references IZVEDBA_PREDMETA (ID_IZVEDBE) on delete restrict on update restrict;
+alter table ROK add constraint FK_RELATIONSHIP_25 foreign key (ID_IZVEDBA)
+references IZVEDBA_PREDMETA (ID_IZVEDBA) on delete restrict on update restrict;
 
 alter table STUDENT add constraint FK_INHERITANCE_3 foreign key (ID_OSEBA)
 references OSEBA (ID_OSEBA) on delete restrict on update restrict;
-
-alter table STUDENT add constraint FK_RELATIONSHIP_1 foreign key (ID_DRZAVE)
-references DRZAVA (ID_DRZAVE) on delete restrict on update restrict;
-
-alter table STUDENT add constraint FK_RELATIONSHIP_2 foreign key (ID_OBCINA)
-references OBCINA (ID_OBCINA) on delete restrict on update restrict;
-
-alter table STUDENT add constraint FK_RELATIONSHIP_3 foreign key (ID_POSTA)
-references POSTA (ID_POSTA) on delete restrict on update restrict;
 
 alter table STUDENT add constraint FK_RELATIONSHIP_5 foreign key (ID_KANDIDATA)
 references KANDIDAT (ID_KANDIDATA) on delete restrict on update restrict;
@@ -473,8 +497,8 @@ references VRSTA_VPISA (ID_VRSTAVPISA) on delete restrict on update restrict;
 alter table VPIS add constraint FK_RELATIONSHIP_9 foreign key (ID_NACIN)
 references NACIN_STUDIJA (ID_NACIN) on delete restrict on update restrict;
 
-alter table ZETON add constraint FK_RELATIONSHIP_7 foreign key (ID_OSEBA, EMSO)
-references STUDENT (ID_OSEBA, EMSO) on delete restrict on update restrict;
+alter table ZETON add constraint FK_RELATIONSHIP_7 foreign key (ID_OSEBA)
+references STUDENT (ID_OSEBA) on delete restrict on update restrict;
 
 
 
@@ -510,7 +534,7 @@ INSERT INTO `tpo`.`program`(`ID_PROGRAM`,`SIFRA_PROGRAM`,`NAZIV_PROGRAM`,
   (2,'P7','RAČUNAL. IN MATEMATIKA UN','C-(predbolonjski) univerzitetni',
    8,1000425,1);
 
-INSERT INTO `tpo`.`posta`(`ID_POSTA`,`KRAJ`,`AKTIVNOST_POSTA`)VALUES
+INSERT INTO `tpo`.`posta`(`ST_POSTA`,`KRAJ`,`AKTIVNOST_POSTA`)VALUES
   (1000,'Ljubljana', 1),
   (2000,'Maribor',1);
 
@@ -557,3 +581,8 @@ INSERT INTO `tpo`.`student`
  `ID_POSTA`,`ID_DRZAVE`,`ID_VPISA`,`ID_OBCINA`,`SIFRA_PROGRAM`)VALUES
   (1,63150000,'Novak', 'Janez', 2505996500532,1,1000,1,2,1,1),
   (4,63150001,'Novakovič','Janezek',0406996505123,2,2000,1,2,1,2);
+
+
+INSERT INTO `tpo`.`naslov`(`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVE`,`ID_OSEBA`,
+                           `ZAVROCANJE`,`ULICA`,`HISNA_STEVILKA`)VALUES
+  (1,1,1,1,1,'šmihel',12);
