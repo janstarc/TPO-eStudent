@@ -16,7 +16,9 @@ class ViewHelper {
     }
     
     // Redirects to the given URL
+        // DON'T SEND ANY HTML CONTENT BEFORE CALLING REDIRECT
     public static function redirect($url) {
+
         header("Location: " . $url);
     }
     
@@ -82,4 +84,4 @@ class ViewHelper {
         return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) 
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
     }
-}
+}?>

@@ -8,17 +8,22 @@ class UserModel {
     
     public static function getUser($email, $password) {
         $db = DBInit::getInstance();
-        
+
+        // Testno zamenjan email z usernamom!
         $statement = $db->prepare("
-            SELECT ID_OSEBA, EMAIL, GESLO, type
+            SELECT ID_OSEBA, UPOR_IME, GESLO, STAT
             FROM OSEBA
-            WHERE EMAIL = :email
+            WHERE UPOR_IME = :email
         ");
+
         $statement->bindValue(":email", $email);
         $statement->execute();
         
         $user = $statement->fetch();
-        if (password_verify($password, $user["GESLO"])) {
+
+        // TODO Change if statement when password hashing is added!
+        //if (password_verify($password, $user["GESLO"])) {
+        if($password == $user["GESLO"]){
             unset($user["GESLO"]);
             return $user;
         } else {
