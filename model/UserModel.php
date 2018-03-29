@@ -9,9 +9,8 @@ class UserModel {
     public static function getUser($email, $password) {
         $db = DBInit::getInstance();
 
-        // Testno zamenjan email z usernamom!
         $statement = $db->prepare("
-            SELECT ID_OSEBA, EMAIL, GESLO, STAT
+            SELECT ID_OSEBA, EMAIL, GESLO, VRSTA_VLOGE
             FROM OSEBA
             WHERE EMAIL = :email
         ");

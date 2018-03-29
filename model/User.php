@@ -11,24 +11,22 @@ class User {
 	public function isLoggedIn() {
 		return isset($_SESSION["user"]);
 	}
-
-	// STAT is user type!
 	public function isLoggedInAsAdmin() {
-		return $_SESSION["user"]["STAT"]==="admin";
+		return $_SESSION["user"]["VRSTA_VLOGE"]==="a";
 	}
 	public function isLoggedInAsStudentOfficer() {
-		return $_SESSION["user"]["STAT"]==="1";
+		return $_SESSION["user"]["VRSTA_VLOGE"]==="r";
 	}
 	public function isLoggedInAsProfessor() {
-		return $_SESSION["user"]["STAT"]==="2";
+		return $_SESSION["user"]["VRSTA_VLOGE"]==="p";
 	}
 	public function isLoggedInAsStudent() {
-		return $_SESSION["user"]["STAT"]==="3";
+		return $_SESSION["user"]["VRSTA_VLOGE"]==="s";
 	}
 	public function getId() {
 		return $_SESSION["user"]["ID_OSEBA"];
 	}
 	public function getTypeOfUser() {
-		return $_SESSION["user"]["type"];
+		return $_SESSION["user"]["VRSTA_VLOGE"];
 	}
 }

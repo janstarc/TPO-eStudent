@@ -180,7 +180,7 @@ create table OSEBA
   ID_OSEBA             int not null,
   EMAIL                 char(30) not null,
   GESLO                char(60) not null,
-  `type`               char(10),
+  VRSTA_VLOGE      char(1) not null,
   IME                  char(50),
   PRIIMEK              char(50),
   primary key (ID_OSEBA)
@@ -478,14 +478,14 @@ references STUDENT (ID_OSEBA, EMSO) on delete restrict on update restrict;
 
 
 
-INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`GESLO`,`type`,`IME`,`PRIIMEK`)VALUES
-  (1,'testS', '$2y$10$6QZqRs9p/3mOUEVSnu60MuVBeYa24mt945zAIZaWj0amcNwsw7uxC', 'student', 'Janez', 'Novak'),
-  (2,'testP', '$2y$10$6QZqRs9p/3mOUEVSnu60MuVBeYa24mt945zAIZaWj0amcNwsw7uxC', 'professor', 'An', 'Ban'),
-  (3,'testO', '$2y$10$6QZqRs9p/3mOUEVSnu60MuVBeYa24mt945zAIZaWj0amcNwsw7uxC', 'office', 'Ančka', 'Novak'),
-  (4,'testS2', '$2y$10$6QZqRs9p/3mOUEVSnu60MuVBeYa24mt945zAIZaWj0amcNwsw7uxC', 'student', 'Janezek', 'Novakovič');
+INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`)VALUES
+  (1,'testS', '123456', 's', 'Janez', 'Novak'),
+  (2,'testP', '123456', 'p', 'An', 'Ban'),
+  (3,'testR', '123456', 'r', 'Ančka', 'Novak'),
+  (4,'testS2', '123456', 's', 'Janezek', 'Novakovič');
 # preverjanje login:
-# uporabnisko ime= testStudent  geslo='password'
-# type = 'admin', 'office', 'professor' in 'student'
+# uporabnisko ime=testS  geslo='123456'
+# VRSTA_VLOGE: admin='a', referat='r', profesor='p' in student='s'
 
 INSERT INTO `tpo`.`drzava`
 (`ID_DRZAVE`,`DVOMESTNAKODA`,`TRIMESTNAKODA`,`ISONAZIV`,`SLOVENSKINAZIV`,`OPOMBA`,`AKTIVNOST_DRZAVA`)VALUES
