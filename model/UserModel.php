@@ -11,16 +11,15 @@ class UserModel {
 
         // Testno zamenjan email z usernamom!
         $statement = $db->prepare("
-            SELECT ID_OSEBA, UPOR_IME, GESLO, STAT
+            SELECT ID_OSEBA, EMAIL, GESLO, STAT
             FROM OSEBA
-            WHERE UPOR_IME = :email
+            WHERE EMAIL = :email
         ");
 
         $statement->bindValue(":email", $email);
         $statement->execute();
-        
-        $user = $statement->fetch();
 
+        $user = $statement->fetch();
         // TODO Change if statement when password hashing is added!
         //if (password_verify($password, $user["GESLO"])) {
         if($password == $user["GESLO"]){
