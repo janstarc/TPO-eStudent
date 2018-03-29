@@ -11,7 +11,7 @@
     </div>
     
     <div class="top-menu">
-        <ul class="nav pull-right top-menu">
+        <ul class="top-menu">
             <li>
                 <a class="logout" href="logout">Logout</a>
             </li>

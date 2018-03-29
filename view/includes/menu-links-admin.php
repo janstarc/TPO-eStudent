@@ -2,12 +2,14 @@
     <div class="sidebar-toggle-box">
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
     </div>
+    <!--logo start-->
     <a href="/" class="logo">
-        <b>eStudent</b>
+        <b>eŠtudent</b>
     </a>
 
     <div class="nav notify-row" id="top_menu">
     </div>
+
     <div class="top-menu">
         <ul class="top-menu">
             <li>
@@ -21,13 +23,13 @@
     <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
-                <a href="ElektronskiIndeks">
-                    <span>ElektronskiIndeks</span>
+                <a href="PregledIzpitovProfesor">
+                    <span>PregledIzpitovProfesor</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="PregledIzpitovStudent">
-                    <span>PregledIzpitovStudent</span>
+                <a href="VnosIzpitov">
+                    <span>VnosIzpitov</span>
                 </a>
             </li>
         </ul>
