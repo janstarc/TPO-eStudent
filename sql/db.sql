@@ -158,14 +158,15 @@ create table NACIN_STUDIJA
 /*==============================================================*/
 create table NASLOV
 (
-  ID_POSTA             int not null AUTO_INCREMENT,
+  ID_NASLOV            int not null AUTO_INCREMENT,
+  ID_POSTA             int not null,
   ID_OBCINA            int not null,
   ID_DRZAVE            int not null,
   ID_OSEBA             int,
   ZAVROCANJE           int,
   ULICA                char(50),
   HISNA_STEVILKA       char(50),
-  primary key (ID_POSTA, ID_OBCINA)
+  primary key (ID_NASLOV)
 );
 
 /*==============================================================*/
@@ -505,8 +506,8 @@ references STUDENT (ID_OSEBA) on delete restrict on update restrict;
 INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`)VALUES
   (1,'testS', '123456', 's', 'Janez', 'Novak'),
   (2,'testP', '123456', 'p', 'An', 'Ban'),
-  (3,'testR', '123456', 'r', 'Ančka', 'Novak'),
-  (4,'testS2', '123456', 's', 'Janezek', 'Novakovič');
+  (3,'testR', '123456', 'r', 'Ancka', 'Novak'),
+  (4,'testS2', '123456', 's', 'Janezek', 'Novakovic');
 # preverjanje login:
 # uporabnisko ime=testS  geslo='123456'
 # VRSTA_VLOGE: admin='a', referat='r', profesor='p' in student='s'
@@ -529,9 +530,9 @@ VALUES
 
 INSERT INTO `tpo`.`program`(`ID_PROGRAM`,`SIFRA_PROGRAM`,`NAZIV_PROGRAM`,
                             `STOPNJA_PROGRAM`,`ST_SEMESTROV`,`SIFRA_EVS`,`AKTIVNOST_PROGRAM`)VALUES
-  (1,'L2','RAČUNAL. IN INFORMATIKA UN','C-(predbolonjski) univerzitetni',
+  (1,'L2','RACUNAL. IN INFORMATIKA UN','C-(predbolonjski) univerzitetni',
    9,1000475,1),
-  (2,'P7','RAČUNAL. IN MATEMATIKA UN','C-(predbolonjski) univerzitetni',
+  (2,'P7','RACUNAL. IN MATEMATIKA UN','C-(predbolonjski) univerzitetni',
    8,1000425,1);
 
 INSERT INTO `tpo`.`posta`(`ST_POSTA`,`KRAJ`,`AKTIVNOST_POSTA`)VALUES
@@ -549,7 +550,7 @@ INSERT INTO `tpo`.`oblika_studija`
 (`ID_OBLIKA`,`NAZIV_OBLIKA`,`ANG_OPIS_OBLIKA`,`AKTIVNOST_OBLIKA`)VALUES
   (1,'na lokaciji','on site','e-learning'),
   (2,'na daljavo','distance learning','e-learning'),
-  (3,'e-študij','e-študij','e-learning');
+  (3,'e-studij','e-studij','e-learning');
 
 INSERT INTO `tpo`.`vrsta_vpisa`
 (`ID_VRSTAVPISA`,`OPIS_VPISA`,`AKTIVNOST_VPIS`)VALUES
@@ -558,12 +559,12 @@ INSERT INTO `tpo`.`vrsta_vpisa`
 
 
 INSERT INTO `tpo`.`letnik`(`ID_LETNIK`,`LETNIK`,`MOZEN_VPIS`)VALUES
-  (1,'Stari dodiplomski program -uni','dodatno leto in za podaljšanje'),
-  (2,'Stari dodiplomski-visokošolski', 'vpis ni več možen'),
+  (1,'Stari dodiplomski program -uni','dodatno leto in za podaljsanje'),
+  (2,'Stari dodiplomski-visokosolski', 'vpis ni vec mozen'),
   (3,'1.,2.,3., stopnja', 'vsi letniki'),
   (4,'EM', 'Vsi letniki'),
-  (5,'Stari magisterski študij', 'vpis ni več možen'),
-  (6,'stari doktorski študij', 'vpis ni več možen');
+  (5,'Stari magisterski studij', 'vpis ni vec mozen'),
+  (6,'stari doktorski studij', 'vpis ni vec mozen');
 
 INSERT INTO `tpo`.`vpis`(`ID_VPISA`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_VRSTAVPISA`,
                          `ID_OBLIKA`,`ID_LETNIK`,`POTRJENOST_VPISA`,`VPISNA_STEVILKA`)VALUES
@@ -573,16 +574,20 @@ INSERT INTO `tpo`.`vpis`(`ID_VPISA`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_V
 INSERT INTO `tpo`.`kandidat`(`ID_KANDIDATA`,`ID_OSEBA`,`EMSO`,`IZKORISCEN`,`IME`,
                              `PRIIMEK`,`VPISNA_STEVILKA`,`SIFRA_PROGRAM`)VALUES
   (1,1,2505996500532,1,'Janez', 'Novak',63150000,1),
-  (2,1,0406996505123,1,'Janezek', 'Novakovič',63150001,2);
+  (2,1,0406996505123,1,'Janezek', 'Novakovic',63150001,2);
 
 
 INSERT INTO `tpo`.`student`
 (`ID_OSEBA`,`VPISNA_STEVILKA`,`PRIIMEK`,`IME`,`EMSO`,`ID_KANDIDATA`,
  `ID_POSTA`,`ID_DRZAVE`,`ID_VPISA`,`ID_OBCINA`,`SIFRA_PROGRAM`)VALUES
   (1,63150000,'Novak', 'Janez', 2505996500532,1,1000,1,2,1,1),
-  (4,63150001,'Novakovič','Janezek',0406996505123,2,2000,1,2,1,2);
+  (4,63150001,'Novakovic','Janezek',0406996505123,2,2000,1,2,1,2);
 
 
 INSERT INTO `tpo`.`naslov`(`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVE`,`ID_OSEBA`,
                            `ZAVROCANJE`,`ULICA`,`HISNA_STEVILKA`)VALUES
-  (1,1,1,1,1,'šmihel',12);
+  (1,1,1,1,1,'smihel',12);
+
+INSERT INTO `tpo`.`naslov`(`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVE`,`ID_OSEBA`,
+                           `ZAVROCANJE`,`ULICA`,`HISNA_STEVILKA`)VALUES
+  (1,1,1,1,1,'smihel',12);
