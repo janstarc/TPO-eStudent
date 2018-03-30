@@ -164,6 +164,7 @@ create table NASLOV
   ID_DRZAVE            int not null,
   ID_OSEBA             int,
   ZAVROCANJE           int,
+  STALNI               int,
   ULICA                char(50),
   HISNA_STEVILKA       char(50),
   primary key (ID_NASLOV)
@@ -203,6 +204,7 @@ create table OSEBA
   VRSTA_VLOGE          char(1) not null,
   IME                  char(50),
   PRIIMEK              char(50),
+  TELEFONSKA_STEVIKLKA char(10),
   primary key (ID_OSEBA)
 );
 
@@ -503,11 +505,11 @@ references STUDENT (ID_OSEBA) on delete restrict on update restrict;
 
 
 
-INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`)VALUES
-  (1,'testS', '123456', 's', 'Janez', 'Novak'),
-  (2,'testP', '123456', 'p', 'An', 'Ban'),
-  (3,'testR', '123456', 'r', 'Ancka', 'Novak'),
-  (4,'testS2', '123456', 's', 'Janezek', 'Novakovic');
+INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`,`TELEFONSKA_STEVIKLKA`)VALUES
+  (1,'testS', '123456', 's', 'Janez', 'Novak','040040040'),
+  (2,'testP', '123456', 'p', 'An', 'Ban','030030030'),
+  (3,'testR', '123456', 'r', 'Ancka', 'Novak','050505050'),
+  (4,'testS2', '123456', 's', 'Janezek', 'Novakovic','123581321');
 # preverjanje login:
 # uporabnisko ime=testS  geslo='123456'
 # VRSTA_VLOGE: admin='a', referat='r', profesor='p' in student='s'
@@ -585,9 +587,9 @@ INSERT INTO `tpo`.`student`
 
 
 INSERT INTO `tpo`.`naslov`(`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVE`,`ID_OSEBA`,
-                           `ZAVROCANJE`,`ULICA`,`HISNA_STEVILKA`)VALUES
-  (1,1,1,1,1,'smihel',12);
+                           `ZAVROCANJE`,`ULICA`,`HISNA_STEVILKA`,`STALNI`)VALUES
+  (1,1,1,1,1,'naslovzavrocanje',13,0);
 
 INSERT INTO `tpo`.`naslov`(`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVE`,`ID_OSEBA`,
-                           `ZAVROCANJE`,`ULICA`,`HISNA_STEVILKA`)VALUES
-  (1,1,1,1,1,'smihel',12);
+                           `ZAVROCANJE`,`ULICA`,`HISNA_STEVILKA`,`STALNI`)VALUES
+  (1,1,1,1,0,'stalninaslov',12,1);
