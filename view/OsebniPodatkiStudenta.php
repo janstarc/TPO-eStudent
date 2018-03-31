@@ -1,3 +1,26 @@
+<?php
+    include("model/Query.php");
+
+    $studData = "";
+    $vpisData = "";
+    $resultFound = false;
+
+    if(isset($_GET['searchVpisna'])){
+        $vpisnaStevilka = $_GET['searchVpisna'];
+        $studData = Query::getStudentData($vpisnaStevilka);
+        $vpisData = Query::getEnrollmentDetails($vpisnaStevilka);
+
+        if(count($studData) != 0){
+            $resultFound = true;
+        }
+
+    } else if (isset($_GET['searchIme'])){
+        //$imeInPriimek = $_GET['searchIme'];
+        //$studData =
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,84 +28,110 @@
 </head>
 <body>
 <section id="container">
-    <?php include("view/includes/menu-links-admin.php"); ?>
+    <?php
+        include("view/includes/menu-links-admin.php");
+    ?>
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
                 <div class="col-md-12">
                     <div class="content-panel">
-                        <h2>Iskanje studenta</h2>
+                        <h2>Iskanje študenta</h2>
                         <br>
                         <form class="example">
-                            <input type="text" placeholder="ISCI PO VPISNO STEVILKO..." name="search">
-                            <button type="submit">Isci</button>
+                            <input type="text" placeholder="IŠČI PO VPISNI STEVILKI..." name="searchVpisna">
+                            <button type="submit" name="isciVpisnaBtn">Isci</button>
                         </form>
                         <br>
                         <br>
                         <p>
                             <form class="example2">
-                                <input type="text" placeholder="ISCI PO PRIIMEK IN IME..." name="search">
+                                <input type="text" placeholder="IŠČI PO IMENU IN PRIIMKU..." name="searchIme">
                                 <button type="submit">Isci</button>
                             </form>
                         </p>
                         <br>
                         <br>
                         <hr>
-                        <h2>Prikaz studenta</h2>
-                        <table id="table-izpitov" class="table table-striped table-advance table-hover">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Podatek o studentu</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Vpisna stevilka</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Priimek in ime</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Naslov stalnega bivalisca</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Naslov za prejemanje pošte</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Telefonsko stevilko</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Naslov elektronske poste</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Studijsko leto</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Letnik</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Studijski program</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Vrsta vpisa</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Nacin studija</td>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                            <div id="tables" <?php if (!$resultFound){ echo 'style="display:none;"'; } ?>>
+                                <h2>Podatki študenta</h2>
+                                <table id="table-student" class="table table-striped table-advance table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Podatek o studentu</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Vpisna številka</td>
+                                        <td><?= $studData['0']['vpisna_stevilka'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ime in priimek</td>
+                                        <td><?= $studData['0']['ime']." ".$studData['0']['priimek'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Naslov stalnega bivališča</td>
+                                        <td>
+                                            <?php
+                                                foreach ($studData as $key => $value) {
+                                                    if($value['stalni'] == 1){
+                                                        echo $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj']."</br>";
+                                                    }
+                                                }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Naslov za prejemanje pošte</td>
+                                        <td>
+                                            <?php
+                                                foreach ($studData as $key => $value) {
+                                                    if($value['zavrocanje'] == 1){
+                                                        echo $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj']."</br>";
+                                                    }
+                                                }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefonska številka</td>
+                                        <td><?= $studData['0']['telefonska_steviklka'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Naslov elektronske poste</td>
+                                        <td><?= $studData['0']['email'] ?></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <br/><br/>
+                                <h2>Podatki o vpisih</h2>
+                                <table id="table-vpisi" class="table table-striped table-advance table-hover">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Letnik</th>
+                                    <th>Študijski program</th>
+                                    <th>Vrsta vpisa</th>
+                                    <th>Način študija</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <?php
+                                            foreach ($vpisData as $key => $value){
+                                                echo "<tr>"
+                                                        ."<td>".$key."</td>"
+                                                        ."<td>".$value['letnik']."</td>"
+                                                        ."<td>".$value['naziv_program']." (".$value['sifra_program'].")</td>"
+                                                        ."<td>".$value['opis_vpisa']."</td>"
+                                                        ."<td>".$value['opis_nacin']."</td>"
+                                                      ."</tr>";
+                                            }
+                                        ?>
+                                    </tbody>
+                                </table>
+                        </div>
                     </div>
                 </div>
             </div>

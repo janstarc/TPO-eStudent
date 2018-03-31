@@ -34,6 +34,8 @@ class LoginController {
                 ViewHelper::redirect(BASE_URL . "PregledIzpitovProfesor");
             } else if (User::isLoggedInAsStudent()) {
                 ViewHelper::redirect(BASE_URL . "PregledIzpitovStudent");
+            } else if (User::isLoggedInAsStudentOfficer()){
+                ViewHelper::redirect(BASE_URL . "OsebniPodatkiStudenta");
             }
         } else {
             ViewHelper::render("view/LoginViewer.php", [
