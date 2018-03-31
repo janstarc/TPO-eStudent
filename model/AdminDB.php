@@ -56,4 +56,17 @@ class AdminDB {
 
         return $statement->fetchAll();
     }
+
+    public static function getAllNames(){
+
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "SELECT ime, priimek, vpisna_stevilka FROM student"
+        );
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
 }

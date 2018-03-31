@@ -12,16 +12,25 @@ class AdminController {
 
 
     public static function PregledOsebnihPodatkovStudenta() {
-//        if (User::isLoggedIn()){
-//            if (User::isLoggedInAsAdmin()){
-                ViewHelper::render("view/OsebniPodatkiStudenta.php", []);
-        /*    }else{
-                        ViewHelper::error403();
-                    }
-                }else{
-                    ViewHelper::error401();
-                }
-        */
+        //if (User::isLoggedIn()){
+            //if (User::isLoggedInAsAdmin()){
+
+                $namesAndSurnames = AdminDB::getAllNames();
+                //var_dump($namesAndSurnames);
+
+                ViewHelper::render("view/OsebniPodatkiStudenta.php", [
+                    "namesAndSurnames" => $namesAndSurnames
+                ]);
+
+                //ViewHelper::render("view/OsebniPodatkiStudenta.php", []);
+                //returnAllNames();
+          //  }else{
+              //  ViewHelper::error403();
+          //  }
+        //}else{
+          //  ViewHelper::error401();
+        //}
+
     }
 
     public static function searchByVpisna(){
@@ -30,12 +39,15 @@ class AdminController {
             "searchVpisna" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
+        //var_dump($data['searchVpisna']);
         $studData = AdminDB::getStudentData($data["searchVpisna"]);
         $vpisData = AdminDB::getEnrollmentDetails($data["searchVpisna"]);
+        $namesAndSurnames = AdminDB::getAllNames();
 
         ViewHelper::render("view/OsebniPodatkiStudenta.php", [
             "studData" => $studData,
-            "vpisData" => $vpisData
+            "vpisData" => $vpisData,
+            "namesAndSurnames" => $namesAndSurnames
         ]);
     }
 }

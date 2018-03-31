@@ -1,14 +1,72 @@
 <?php
-    //include("model/AdminDB.php");         // Aleksandar, ce to odkomentiras se pojavi tisti error
 
     $resultFound = false;
     if(!empty($studData)) $resultFound = true;
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <?php include("view/includes/head.php"); ?>
+
+    <!-- BEGIN syntax highlighter -->
+    <script type="text/javascript" src="../static/js/shCore.js"></script>
+    <script type="text/javascript" src="../static/js/shBrushJScript.js"></script>
+    <link type="text/css" rel="stylesheet" href="../static/css/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../static/css/shThemeDefault.css"/>
+    <script type="text/javascript">
+        SyntaxHighlighter.all();
+    </script>
+    <!-- END syntax highlighter -->
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.searchabledropdown-1.0.8.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("select").searchable();
+        });
+
+
+        // demo functions
+        $(document).ready(function() {
+            $("#value").html($("#myselect :selected").text() + " (VALUE: " + $("#myselect").val() + ")");
+            $("select").change(function(){
+                $("#value").html(this.options[this.selectedIndex].text + " (VALUE: " + this.value + ")");
+            });
+        });
+
+        function modifySelect() {
+            $("select").get(0).selectedIndex = 5;
+        }
+
+        function appendSelectOption(str) {
+            $("select").append("<option value=\"" + str + "\">" + str + "</option>");
+        }
+
+        function applyOptions() {
+            $("select").searchable({
+                maxListSize: $("#maxListSize").val(),
+                maxMultiMatch: $("#maxMultiMatch").val(),
+                latency: $("#latency").val(),
+                exactMatch: $("#exactMatch").get(0).checked,
+                wildcards: $("#wildcards").get(0).checked,
+                ignoreCase: $("#ignoreCase").get(0).checked
+            });
+
+            alert(
+                "OPTIONS\n---------------------------\n" +
+                "maxListSize: " + $("#maxListSize").val() + "\n" +
+                "maxMultiMatch: " + $("#maxMultiMatch").val() + "\n" +
+                "exactMatch: " + $("#exactMatch").get(0).checked + "\n"+
+                "wildcards: " + $("#wildcards").get(0).checked + "\n" +
+                "ignoreCase: " + $("#ignoreCase").get(0).checked + "\n" +
+                "latency: " + $("#latency").val()
+            );
+        }
+    </script>
 </head>
 <body>
 <section id="container">
@@ -24,19 +82,29 @@
                         <br>
                         <form class="example" action="<?= BASE_URL . "OsebniPodatkiStudenta/vpisnaSearch" ?>" method="post">
                             <input type="text" placeholder="IŠČI PO VPISNI STEVILKI..." name="searchVpisna">
-                            <button type="submit" name="isciVpisnaBtn">Isci</button>
+                            <button type="submit" name="isciVpisnaBtn">Išči</button>
                         </form>
                         <br>
                         <br>
                         <p>
-                            <form class="example2">
-                                <input type="text" placeholder="IŠČI PO IMENU IN PRIIMKU..." name="searchIme">
-                                <button type="submit">Isci</button>
+                            <form class="example2" action="<?= BASE_URL . "OsebniPodatkiStudenta/vpisnaSearch" ?>" method="post">
+                                <select class="example" id="myselect" name="searchVpisna">
+                                    <?php
+                                        foreach ($namesAndSurnames as $key => $value){
+                                            echo "<option value=".$value['vpisna_stevilka'].">".$value['ime']." ".$value['priimek']."</option>";
+                                        }
+                                    ?>
+                                </select><br>
+                                <br>
+                                <button type="submit">Išči</button>
                             </form>
                         </p>
                         <br>
                         <br>
                         <hr>
+                            <div id="tables" <?php if ($resultFound){ echo 'style="display:none;"'; } ?>>
+                                <p>Izbrani študent ne obstaja, ali pa so njegovi podatki nepopolni! (Manjkajo atributi iz queryjev)</p>
+                            </div>
                             <div id="tables" <?php if (!$resultFound){ echo 'style="display:none;"'; } ?>>
                                 <h2>Podatki študenta</h2>
                                 <table id="table-student" class="table table-striped table-advance table-hover">
