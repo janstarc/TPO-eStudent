@@ -2,7 +2,7 @@
 
 require_once "DBInit.php";
 
-class Query{
+class AdminDB {
 
     // User story 2
     public static function getStudentData($vpisna_stevilka){

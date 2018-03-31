@@ -1,24 +1,8 @@
 <?php
-    include("model/Query.php");
+    //include("model/AdminDB.php");         // Aleksandar, ce to odkomentiras se pojavi tisti error
 
-    $studData = "";
-    $vpisData = "";
     $resultFound = false;
-
-    if(isset($_GET['searchVpisna'])){
-        $vpisnaStevilka = $_GET['searchVpisna'];
-        $studData = Query::getStudentData($vpisnaStevilka);
-        $vpisData = Query::getEnrollmentDetails($vpisnaStevilka);
-
-        if(count($studData) != 0){
-            $resultFound = true;
-        }
-
-    } else if (isset($_GET['searchIme'])){
-        //$imeInPriimek = $_GET['searchIme'];
-        //$studData =
-    }
-
+    if(!empty($studData)) $resultFound = true;
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +22,7 @@
                     <div class="content-panel">
                         <h2>Iskanje študenta</h2>
                         <br>
-                        <form class="example">
+                        <form class="example" action="<?= BASE_URL . "OsebniPodatkiStudenta/vpisnaSearch" ?>" method="post">
                             <input type="text" placeholder="IŠČI PO VPISNI STEVILKI..." name="searchVpisna">
                             <button type="submit" name="isciVpisnaBtn">Isci</button>
                         </form>

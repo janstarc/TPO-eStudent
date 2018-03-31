@@ -49,7 +49,10 @@ $urls = [
     }, "/^OsebniPodatkiStudenta$/" => function ($method) {
         if ($method == "GET") AdminController::PregledOsebnihPodatkovStudenta();
         else ViewHelper::error405();
-    }
+    }, "/^OsebniPodatkiStudenta\/vpisnaSearch/" => function ($method) {
+        if ($method == "POST") AdminController::searchByVpisna();
+        else ViewHelper::error405();
+    },
 ];
 
 foreach ($urls as $pattern => $controller) {
