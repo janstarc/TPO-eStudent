@@ -50,4 +50,18 @@ class AdminController {
             "namesAndSurnames" => $namesAndSurnames
         ]);
     }
+
+
+    public static function PregledPodatkovOIzvajalcih() {
+       // if (User::isLoggedIn()){
+       //     if (User::isLoggedInAsStudent()){
+                ViewHelper::render("view/PodatkiIzvajalcev.php", []);
+       /*     }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }*/
+    }
+
 }
