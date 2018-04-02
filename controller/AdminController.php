@@ -6,62 +6,87 @@ require_once("model/User.php");
 require_once("ViewHelper.php");
 
 
-class AdminController {
-
-
-
-
-    public static function PregledOsebnihPodatkovStudenta() {
-        //if (User::isLoggedIn()){
-            //if (User::isLoggedInAsAdmin()){
-
-                $namesAndSurnames = AdminDB::getAllNames();
-                //var_dump($namesAndSurnames);
-
-                ViewHelper::render("view/OsebniPodatkiStudenta.php", [
-                    "namesAndSurnames" => $namesAndSurnames
-                ]);
-
-                //ViewHelper::render("view/OsebniPodatkiStudenta.php", []);
-                //returnAllNames();
-          //  }else{
-              //  ViewHelper::error403();
-          //  }
-        //}else{
-          //  ViewHelper::error401();
-        //}
-
-    }
-
-    public static function searchByVpisna(){
-
+class AdminController
+{
+    public static function searchByVpisna()
+    {
         $data = filter_input_array(INPUT_POST, [
             "searchVpisna" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        //var_dump($data['searchVpisna']);
         $studData = AdminDB::getStudentData($data["searchVpisna"]);
         $vpisData = AdminDB::getEnrollmentDetails($data["searchVpisna"]);
         $namesAndSurnames = AdminDB::getAllNames();
 
-        ViewHelper::render("view/OsebniPodatkiStudenta.php", [
+        ViewHelper::render("view/PodatkiIzvajalcev.php", [
             "studData" => $studData,
             "vpisData" => $vpisData,
             "namesAndSurnames" => $namesAndSurnames
         ]);
     }
 
+    public static function PregledPodatkovOIzvajalcih()
+    {
+        $db = DBInit::getInstance();
+        $sql = "SELECT * FROM ucitelj";
+        $stmt = $db->prepare($sql);
 
-    public static function PregledPodatkovOIzvajalcih() {
-       // if (User::isLoggedIn()){
-       //     if (User::isLoggedInAsStudent()){
-                ViewHelper::render("view/PodatkiIzvajalcev.php", []);
-       /*     }else{
+        $professors = array();
+        if ($stmt->execute()) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $professors[] = $row;
+            }
+        }
+
+        $sql1 = "SELECT * FROM studijsko_leto";
+        $stmt1 = $db->prepare($sql1);
+
+        $semesters = array();
+        if ($stmt1->execute()) {
+            while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+                $semesters[] = $row;
+            }
+        }
+
+        $sql2 = "SELECT * FROM predmet";
+        $stmt2 = $db->prepare($sql2);
+
+        $subjects = array();
+        if ($stmt2->execute()) {
+            while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                $subjects[] = $row;
+            }
+        }
+
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudent()) {  //FIXME:loggedInAsAdmin
+                ViewHelper::render("view/PodatkiIzvajalcev.php", [
+                    "formAction" => "PodatkiOIzvajalcih",
+                    "professors" => $professors,
+                    "semesters" => $semesters,
+                    "subjects" => $subjects
+                ]);
+            } else {
                 ViewHelper::error403();
             }
-        }else{
+        } else {
             ViewHelper::error401();
-        }*/
+        }
+    }
+
+    public static function storeProfessor()
+    {
+        $loggedInUser = (int)$_SESSION['user']['ID_OSEBA'];  // ID_OSEBA ja zemame od userot kojsto e logiran momentalno (od sesija).. ne e bas logicno, ama improvizirame xD
+
+        $db_connection = DBInit::getInstance();
+        $sql = "INSERT INTO izvedba_predmeta (ID_UCITELJ, ID_STUD_LETO, ID_PREDMET) VALUES (?, ?, ?)";
+        $stmt = $db_connection->prepare($sql);
+
+        if ($stmt->execute(array((int)$_POST["professor_id"], (int)$_POST["semester_id"], (int)$_POST["subject_id"]))) {
+            ViewHelper::redirect(BASE_URL . 'PodatkiOIzvajalcih');
+        } else {
+            echo "Error: " . $sql . "<br>" . $db_connection->errorInfo();
+        }
     }
 
 }
