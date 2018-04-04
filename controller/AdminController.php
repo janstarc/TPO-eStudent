@@ -6,10 +6,22 @@ require_once("model/User.php");
 require_once("ViewHelper.php");
 
 
-class AdminController
-{
-    public static function searchByVpisna()
-    {
+class AdminController {
+    public static function PregledOsebnihPodatkovStudenta() {
+        //if (User::isLoggedIn()){
+            //if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/OsebniPodatkiStudenta.php", [
+                    "namesAndSurnames" => AdminDB::getAllNames()
+                ]);
+          //  }else{
+              //  ViewHelper::error403();
+          //  }
+        //}else{
+          //  ViewHelper::error401();
+        //}
+    }
+    
+    public static function searchByVpisna() {
         $data = filter_input_array(INPUT_POST, [
             "searchVpisna" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
@@ -18,7 +30,7 @@ class AdminController
         $vpisData = AdminDB::getEnrollmentDetails($data["searchVpisna"]);
         $namesAndSurnames = AdminDB::getAllNames();
 
-        ViewHelper::render("view/PodatkiIzvajalcev.php", [
+        ViewHelper::render("view/OsebniPodatkiStudenta.php", [
             "studData" => $studData,
             "vpisData" => $vpisData,
             "namesAndSurnames" => $namesAndSurnames
@@ -74,10 +86,8 @@ class AdminController
         }
     }
 
-    public static function storeProfessor()
-    {
-        $loggedInUser = (int)$_SESSION['user']['ID_OSEBA'];  // ID_OSEBA ja zemame od userot kojsto e logiran momentalno (od sesija).. ne e bas logicno, ama improvizirame xD
-
+    public static function storeProfessor() {
+        $loggedInUser = User::getId();
         $db_connection = DBInit::getInstance();
         $sql = "INSERT INTO izvedba_predmeta (ID_UCITELJ, ID_STUD_LETO, ID_PREDMET) VALUES (?, ?, ?)";
         $stmt = $db_connection->prepare($sql);
@@ -88,5 +98,4 @@ class AdminController
             echo "Error: " . $sql . "<br>" . $db_connection->errorInfo();
         }
     }
-
 }
