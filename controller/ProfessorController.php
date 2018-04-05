@@ -53,13 +53,13 @@ class ProfesorController {
                     'min_range' => 1
                 ]
             ],
-            "DATUM_ROKA" => ["filter" => ...],
-            "CAS_ROKA" => ["filter" => ...]
+            #"DATUM_ROKA" => ["filter" => ...],
+            #"CAS_ROKA" => ["filter" => ...]
         ]);
 
         if (self::checkValues($data)) {
-            $idIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByTheacher(User:getId(), $data["idSubject"]);
-            RokModel::insert($idIzvedbaPredmeta, $data["DATUM_ROKA"], $data["CAS_ROKA"]);
+            #$idIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByTheacher(User:getId(), $data["idSubject"]);
+            #RokModel::insert($idIzvedbaPredmeta, $data["DATUM_ROKA"], $data["CAS_ROKA"]);
             
             //TODO: add name of the view
             ViewHelper::render("view/....php", [

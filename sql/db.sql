@@ -234,6 +234,14 @@ create table PREDMET
   primary key (ID_PREDMET)
 );
 
+
+create table PREDMETPREDMETNIK
+(
+  ID_PREDMETPREDMETNIK int not null,
+  ID_DELPREDMETNIKA    int not null,
+  ID_PREDMET           int not null,
+  primary key (ID_PREDMETPREDMETNIK)
+);
 /*==============================================================*/
 /* Table: PREDMETI_STUDENTA                                     */
 /*==============================================================*/
@@ -404,10 +412,10 @@ create table ZETON
 alter table IZPIT add constraint FK_RELATIONSHIP_28 foreign key (ID_PRIJAVA)
 references PRIJAVA (ID_PRIJAVA) on delete restrict on update restrict;
 
-alter table IZVEDBA_PREDMETA add constraint FK_RELATIONSHIP_19 foreign key (ID_PREDMET)
+alter table IZVEDBA_PREDMETA add constraint FK_RELATIONSHIP_18 foreign key (ID_PREDMET)
 references PREDMET (ID_PREDMET) on delete restrict on update restrict;
 
-alter table IZVEDBA_PREDMETA add constraint FK_RELATIONSHIP_20 foreign key (ID_STUD_LETO)
+alter table IZVEDBA_PREDMETA add constraint FK_RELATIONSHIP_19 foreign key (ID_STUD_LETO)
 references STUDIJSKO_LETO (ID_STUD_LETO) on delete restrict on update restrict;
 
 alter table NASLOV add constraint FK_RELATIONSHIP_30 foreign key (ID_POSTA)
@@ -434,8 +442,17 @@ references PROGRAM (ID_PROGRAM) on delete restrict on update restrict;
 alter table PREDMETNIK add constraint FK_RELATIONSHIP_14 foreign key (ID_LETNIK)
 references LETNIK (ID_LETNIK) on delete restrict on update restrict;
 
-alter table PREDMETNIK add constraint FK_RELATIONSHIP_18 foreign key (ID_STUD_LETO)
+alter table PREDMETNIK add constraint FK_RELATIONSHIP_17 foreign key (ID_STUD_LETO)
 references STUDIJSKO_LETO (ID_STUD_LETO) on delete restrict on update restrict;
+
+alter table PREDMETNIK add constraint FK_RELATIONSHIP_36 foreign key (ID_PREDMETPREDMETNIK)
+references PREDMETPREDMETNIK (ID_PREDMETPREDMETNIK) on delete restrict on update restrict;
+
+alter table PREDMETPREDMETNIK add constraint FK_RELATIONSHIP_34 foreign key (ID_DELPREDMETNIKA)
+references DEL_PREDMETNIKA (ID_DELPREDMETNIKA) on delete restrict on update restrict;
+
+alter table PREDMETPREDMETNIK add constraint FK_RELATIONSHIP_35 foreign key (ID_PREDMET)
+references PREDMET (ID_PREDMET) on delete restrict on update restrict;
 
 alter table PRIJAVA add constraint FK_RELATIONSHIP_26 foreign key (ID_ROKA)
 references ROK (ID_ROKA) on delete restrict on update restrict;
@@ -473,7 +490,7 @@ references LETNIK (ID_LETNIK) on delete restrict on update restrict;
 alter table VPIS add constraint FK_RELATIONSHIP_12 foreign key (ID_PROGRAM)
 references PROGRAM (ID_PROGRAM) on delete restrict on update restrict;
 
-alter table VPIS add constraint FK_RELATIONSHIP_17 foreign key (ID_STUD_LETO)
+alter table VPIS add constraint FK_RELATIONSHIP_16 foreign key (ID_STUD_LETO)
 references STUDIJSKO_LETO (ID_STUD_LETO) on delete restrict on update restrict;
 
 alter table VPIS add constraint FK_RELATIONSHIP_8 foreign key (ID_VRSTAVPISA)
