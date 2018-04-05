@@ -19,16 +19,14 @@ $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 // ROUTER: defines mapping between URLS and controllers
 $urls = [
     "/^$/" => function ($method) {
-        // TODO: redirect based on type of logged-in user
+        // TODO: if already logged in, then redirect based on type of logged-in user
         if ($method == "GET") ViewHelper::redirect(BASE_URL . "login");
         else ViewHelper::error405();
-        },
-    "/^login$/" => function ($method) {
+    }, "/^login$/" => function ($method) {
         if ($method == "POST") LoginController::login();
         else if ($method == "GET") LoginController::loginForm();
         else ViewHelper::error405();
-        },
-    "/^logout$/" => function ($method) {
+    }, "/^logout$/" => function ($method) {
         if ($method == "GET") LoginController::logout();
         else ViewHelper::error405();
     }, "/^ElektronskiIndeks$/" => function ($method) {
@@ -52,11 +50,16 @@ $urls = [
     }, "/^OsebniPodatkiStudenta\/vpisnaSearch/" => function ($method) {
         if ($method == "POST") AdminController::searchByVpisna();
         else ViewHelper::error405();
-    },"/^PodatkiOIzvajalcih$/" => function ($method) {
+    }, "/^PodatkiOIzvajalcih$/" => function ($method) {
         if ($method == 'POST') AdminController::storeProfessor();
         elseif ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
         else ViewHelper::error405();
-    },
+    }, "/^izpitniRok$/" => function ($method) {
+        //($method == "GET")
+            //Referentka/Učitelj lahko vnese izpitni rok
+            //TODO: choose between student officer or professor controller based on logged in user
+        //else ViewHelper::error405();
+    }
 ];
 
 foreach ($urls as $pattern => $controller) {
