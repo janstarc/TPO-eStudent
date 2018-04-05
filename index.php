@@ -54,12 +54,20 @@ $urls = [
         if ($method == 'POST') AdminController::storeProfessor();
         elseif ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
         else ViewHelper::error405();
+
     }, "/^izpitniRok$/" => function ($method) {
         //($method == "GET")
             //Referentka/Učitelj lahko vnese izpitni rok
             //TODO: choose between student officer or professor controller based on logged in user
         //else ViewHelper::error405();
+    }, "/^Vzdrzevanjepredmetnika\/dodaj/" => function ($method) {
+    if ($method == "POST") ProfesorController::dodaj();
+    else ViewHelper::error405();
+    },"/^Vzdrzevanjepredmetnika/" => function ($method) {
+        if ($method == "GET") ProfesorController::VzdrzevanjePredmetnika();
+        else ViewHelper::error405();
     }
+
 ];
 
 foreach ($urls as $pattern => $controller) {

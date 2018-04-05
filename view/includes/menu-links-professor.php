@@ -37,6 +37,11 @@
                     <span>VnosOcen</span>
                 </a>
             </li>
+            <li class="mt">
+                <a href="Vzdrzevanjepredmetnika">
+                    <span>Vzdrževanje predmetnika</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

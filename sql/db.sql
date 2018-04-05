@@ -32,6 +32,8 @@ drop table if exists PREDMET;
 
 drop table if exists PREDMETI_STUDENTA;
 
+drop table if exists PREDMETPREDMETNIK;
+
 drop table if exists PREDMETNIK;
 
 drop table if exists PRIJAVA;
@@ -61,12 +63,14 @@ drop table if exists NASLOV;
 /*==============================================================*/
 create table DEL_PREDMETNIKA
 (
-  SIFRA                int not null,
+  ID_DELPREDMETNIKA    int not null,
   NAZIV_DELAPREDMETNIKA char(50) not null,
   SKUPNOSTEVILOKT      int not null,
   AKTIVNOST_DELPREDMETNIKA int not null,
-  primary key (SIFRA)
+  TIP                  char(2) not null,
+  primary key (ID_DELPREDMETNIKA)
 );
+
 
 /*==============================================================*/
 /* Table: DRZAVA                                                */
@@ -101,13 +105,10 @@ create table IZPIT
 create table IZVEDBA_PREDMETA
 (
   ID_IZVEDBA           int not null AUTO_INCREMENT,
-  ID_OSEBA             int,
-  ID_UCITELJ           int,
+  ID_UCITELJ1           int,
   ID_STUD_LETO         int not null,
-  UCI_ID_OSEBA         int,
-  UCI_ID_UCITELJ       int,
-  UCI_ID_OSEBA2        int not null,
-  UCI_ID_UCITELJ2      int not null,
+  ID_UCITELJ2           int,
+  ID_UCITELJ3           int,
   ID_PREDMET           int not null,
   primary key (ID_IZVEDBA)
 );
@@ -250,14 +251,12 @@ create table PREDMETI_STUDENTA
 /*==============================================================*/
 create table PREDMETNIK
 (
-  ID_PREDMETNIK        int not null AUTO_INCREMENT,
+  ID_PREDMETNIK        int not null,
   ID_STUD_LETO         int not null,
-  ID_LETNIK            int not null,
-  ID_PREDMET           int not null,
-  SIFRA                int not null,
   ID_PROGRAM           int not null,
+  ID_LETNIK            int not null,
+  ID_PREDMETPREDMETNIK int not null,
   AKTIVNOST_PREDMETNIK int not null,
-  STUD_LETO            int,
   primary key (ID_PREDMETNIK)
 );
 
@@ -411,17 +410,6 @@ references PREDMET (ID_PREDMET) on delete restrict on update restrict;
 alter table IZVEDBA_PREDMETA add constraint FK_RELATIONSHIP_20 foreign key (ID_STUD_LETO)
 references STUDIJSKO_LETO (ID_STUD_LETO) on delete restrict on update restrict;
 
-alter table IZVEDBA_PREDMETA add constraint FK_UCITELJ1 foreign key (ID_OSEBA, ID_UCITELJ)
-references UCITELJ (ID_OSEBA, ID_UCITELJ) on delete restrict on update restrict;
-
-alter table IZVEDBA_PREDMETA add constraint FK_UCITELJ2 foreign key (UCI_ID_OSEBA2, UCI_ID_UCITELJ2)
-references UCITELJ (ID_OSEBA, ID_UCITELJ) on delete restrict on update restrict;
-
-alter table IZVEDBA_PREDMETA add constraint FK_UCITELJ3 foreign key (UCI_ID_OSEBA, UCI_ID_UCITELJ)
-references UCITELJ (ID_OSEBA, ID_UCITELJ) on delete restrict on update restrict;
-
-#alter table KANDIDAT add constraint FK_RELATIONSHIP_4 foreign key (ID_OSEBA)
-#      references STUDENT (ID_OSEBA) on delete restrict on update restrict;
 alter table NASLOV add constraint FK_RELATIONSHIP_30 foreign key (ID_POSTA)
 references POSTA (ID_POSTA) on delete restrict on update restrict;
 
@@ -445,12 +433,6 @@ references PROGRAM (ID_PROGRAM) on delete restrict on update restrict;
 
 alter table PREDMETNIK add constraint FK_RELATIONSHIP_14 foreign key (ID_LETNIK)
 references LETNIK (ID_LETNIK) on delete restrict on update restrict;
-
-alter table PREDMETNIK add constraint FK_RELATIONSHIP_15 foreign key (SIFRA)
-references DEL_PREDMETNIKA (SIFRA) on delete restrict on update restrict;
-
-alter table PREDMETNIK add constraint FK_RELATIONSHIP_16 foreign key (ID_PREDMET)
-references PREDMET (ID_PREDMET) on delete restrict on update restrict;
 
 alter table PREDMETNIK add constraint FK_RELATIONSHIP_18 foreign key (ID_STUD_LETO)
 references STUDIJSKO_LETO (ID_STUD_LETO) on delete restrict on update restrict;
@@ -593,3 +575,10 @@ INSERT INTO `tpo`.`naslov`(`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVE`,`ID_OSEBA`,
 INSERT INTO `tpo`.`naslov`(`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVE`,`ID_OSEBA`,
                            `ZAVROCANJE`,`ULICA`,`HISNA_STEVILKA`,`STALNI`)VALUES
   (1,1,1,1,0,'stalninaslov',12,1);
+
+INSERT INTO `tpo`.`studijsko_leto`(`STUD_LETO`)VALUES
+  (2017/2018),(2018/2019);
+
+INSERT INTO `tpo`.`ucitelj`
+(`ID_OSEBA`, `ID_UCITELJ`, `IME`, `PRIIMEK`, `AKTIVNOST_UCITELJ`)VALUES
+  (2,1,'An','Ban',1);

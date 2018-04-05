@@ -1,6 +1,7 @@
 <?php
 
 require_once("model/UserModel.php");
+require_once("model/ProfesorDB.php");
 require_once("model/User.php");
 require_once("model/IzvedbaPredmetaModel.php");
 require_once("model/RokModel.php");
@@ -42,7 +43,7 @@ class ProfesorController {
             ViewHelper::error401();
         }
     }
-    
+
     public static function VnosIzpitnegaRoka() {
         // TODO: check all needed validations
         $data = filter_input_array(INPUT_POST, [
@@ -77,6 +78,67 @@ class ProfesorController {
     }
     
     
+
+
+
+    public static function VzdrzevanjePredmetnika() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
+                ViewHelper::render("view/Vzdrzevanjepredmetnika.php", []);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+    public static function getPredmeti(){
+        return ProfesorDB::getPredmeti();
+    }
+    public static function getPredmetIme($val){
+        return ProfesorDB::getPredmetIme($val);
+    }
+
+
+    public static function getUcitelj($val, $st){
+        echo("<script>console.log('controller: ', ".$val.");</script>");
+        if ($st == 1)return ProfesorDB::getUcitelj1($val);
+        else if($st == 2 )return ProfesorDB::getUcitelj2($val);
+        else if($st == 3)return ProfesorDB::getUcitelj3($val);
+        else return -1;
+    }
+    public static function dodaj()
+    {
+
+        $data = filter_input_array(INPUT_POST, [
+            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS] ,
+            "GlavniIme" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "GlavniPriimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "2Ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "2Priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "3Ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "3Priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+        ]);
+
+        echo("<script>console.log('PHP: ', ".$data["leto"].");</script>");
+        $idPredmet = ProfesorDB::addPredmet($data["ime"]);
+        $studLeto=ProfesorDB::getStudLeto($data["leto"]);
+        $ucitelj = ProfesorDB::getIDucitelj($data["GlavniIme"], $data["GlavniPriimek"]);
+        if ($data["2Ime"] != '' or $data["2Priimek"] != '')  $ucitelj2 =getIDucitelj($data["2Ime"], $data["2Priimek"]);
+        else $ucitelj2 = "";
+        if ($data["3Ime"] != '' or $data["3Priimek"] != '')  $ucitelj3 =getIDucitelj($data["3Ime"], $data["3Priimek"]);
+        else $ucitelj3 = "";
+
+
+        ProfesorDB::addIzvedbaPredmet($idPredmet,$studLeto,$ucitelj,$ucitelj2,$ucitelj3);
+        ViewHelper::render("view/Vzdrzevanjepredmetnika.php", []);
+    }
+
+
+
+
     // leave this code on the end of the file
     public static function checkValues($input) {
         if (empty($input)) {
