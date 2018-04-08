@@ -53,9 +53,11 @@ $urls = [
     }, "/^OsebniPodatkiStudenta\/vpisnaSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchByVpisna();
         else ViewHelper::error405();
-    }, "/^PodatkiOIzvajalcih$/" => function ($method) {
-        if ($method == 'POST') AdminController::storeProfessor();
-        elseif ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
+    }, "/^PodatkiIzvajalcev$/" => function ($method) {
+        if ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
+        else ViewHelper::error405();
+    }, "/^PodatkiIzvajalcev\/subjectSearch$/" => function ($method) {
+        if ($method == "POST") AdminController::searchBySubject();
         else ViewHelper::error405();
     }, "/^izpitniRok\/profesor$/" => function ($method) {
         if ($method == "GET") ProfesorController::izpitniRokForm();
@@ -74,13 +76,23 @@ $urls = [
 ];
 
 foreach ($urls as $pattern => $controller) {
+   // print($path) ;
+    //print("<br>");
+   // print_r($params);
+   // print("<br>");
     if (preg_match($pattern, $path, $params)) {
         try {
+     //       print( "begin");
+      //      print("<br>");
             $params[0] = $_SERVER["REQUEST_METHOD"];
             $controller(...$params);
+       //     print ("end");
+        //    print("<br>");
         } catch (InvalidArgumentException $e) {
+          //  print_r($e);
+          //  print("<br>");
             ViewHelper::error404();
-        } catch (Exception $e) {
+        } catch (Exception $e){
             //ViewHelper::displayError($e, true);
             echo $e;
         }

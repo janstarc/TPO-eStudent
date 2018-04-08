@@ -39,52 +39,30 @@ class AdminController {
 
     public static function PregledPodatkovOIzvajalcih()
     {
-        $db = DBInit::getInstance();
-        $sql = "SELECT * FROM ucitelj";
-        $stmt = $db->prepare($sql);
 
-        $professors = array();
-        if ($stmt->execute()) {
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $professors[] = $row;
-            }
-        }
-
-        $sql1 = "SELECT * FROM studijsko_leto";
-        $stmt1 = $db->prepare($sql1);
-
-        $semesters = array();
-        if ($stmt1->execute()) {
-            while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-                $semesters[] = $row;
-            }
-        }
-
-        $sql2 = "SELECT * FROM predmet";
-        $stmt2 = $db->prepare($sql2);
-
-        $subjects = array();
-        if ($stmt2->execute()) {
-            while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-                $subjects[] = $row;
-            }
-        }
-
-        if (User::isLoggedIn()) {
-            if (User::isLoggedInAsStudent()) {  //FIXME:loggedInAsAdmin
+      //  if (User::isLoggedIn()) {
+       //     if (User::isLoggedInAsStudent()) {  //FIXME:loggedInAsAdmin
                 ViewHelper::render("view/PodatkiIzvajalcev.php", [
-                    "formAction" => "PodatkiOIzvajalcih",
-                    "professors" => $professors,
-                    "semesters" => $semesters,
-                    "subjects" => $subjects
+                    "subjects" => array()
                 ]);
-            } else {
+        /*    } else {
                 ViewHelper::error403();
             }
         } else {
             ViewHelper::error401();
-        }
+        }*/
     }
+
+    public static function searchBySubject() {
+        $data = filter_input_array(INPUT_POST, [
+            "searchSubject" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        ViewHelper::render("view/PodatkiIzvajalcev.php", [
+            "subjects" => IzvedbaPredmetaModel::findSubject($data["searchSubject"])
+        ]);
+    }
+
 
     public static function storeProfessor() {
         $loggedInUser = User::getId();
