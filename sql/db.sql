@@ -105,8 +105,8 @@ create table IZPIT
 create table IZVEDBA_PREDMETA
 (
   ID_IZVEDBA           int not null AUTO_INCREMENT,
-  ID_UCITELJ1           int,
   ID_STUD_LETO         int not null,
+  ID_UCITELJ1           int not null,
   ID_UCITELJ2           int,
   ID_UCITELJ3           int,
   ID_PREDMET           int not null,
@@ -350,7 +350,7 @@ create table STUDENT
 create table STUDIJSKO_LETO
 (
   ID_STUD_LETO         int not null AUTO_INCREMENT,
-  STUD_LETO            int,
+  STUD_LETO            char(10) not null,
   primary key (ID_STUD_LETO)
 );
 
@@ -523,12 +523,6 @@ INSERT INTO `tpo`.`obcina`(`ID_OBCINA`,`IME_OBCINA`,`AKTIVNA_OBCINA`)VALUES
   (2,'Trebnje',1),
   (3,'Ljubljana',1);
 
-INSERT INTO `tpo`.`studijsko_leto`
-(`ID_STUD_LETO`,`STUD_LETO`)
-VALUES
-  (1,2017),
-  (2,2018);
-
 INSERT INTO `tpo`.`program`(`ID_PROGRAM`,`SIFRA_PROGRAM`,`NAZIV_PROGRAM`,
                             `STOPNJA_PROGRAM`,`ST_SEMESTROV`,`SIFRA_EVS`,`AKTIVNOST_PROGRAM`)VALUES
   (1,'L2','RACUNAL. IN INFORMATIKA UN','C-(predbolonjski) univerzitetni',
@@ -567,6 +561,9 @@ INSERT INTO `tpo`.`letnik`(`ID_LETNIK`,`LETNIK`,`MOZEN_VPIS`)VALUES
   (5,'Stari magisterski studij', 'vpis ni vec mozen'),
   (6,'stari doktorski studij', 'vpis ni vec mozen');
 
+INSERT INTO `tpo`.`studijsko_leto`(`STUD_LETO`)VALUES
+  ("2016/2017"),("2017/2018"),("2018/2019");
+  
 INSERT INTO `tpo`.`vpis`(`ID_VPISA`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_VRSTAVPISA`,
                          `ID_OBLIKA`,`ID_LETNIK`,`POTRJENOST_VPISA`,`VPISNA_STEVILKA`)VALUES
   (1,1,1,1,1,1,1,1,63150000),
@@ -593,9 +590,23 @@ INSERT INTO `tpo`.`naslov`(`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVE`,`ID_OSEBA`,
                            `ZAVROCANJE`,`ULICA`,`HISNA_STEVILKA`,`STALNI`)VALUES
   (1,1,1,1,0,'stalninaslov',12,1);
 
-INSERT INTO `tpo`.`studijsko_leto`(`STUD_LETO`)VALUES
-  (2017/2018),(2018/2019);
-
 INSERT INTO `tpo`.`ucitelj`
 (`ID_OSEBA`, `ID_UCITELJ`, `IME`, `PRIIMEK`, `AKTIVNOST_UCITELJ`)VALUES
   (2,1,'An','Ban',1);
+
+INSERT INTO `tpo`.`PREDMET`
+    (`IME_PREDMET`, `AKTIVNOST_PREDMET`)
+VALUES
+    ('TPO', 1),
+    ('PRPO', 1),
+    ('SP', 1),
+    ('EP', 1),
+    ('OM', 1);
+
+INSERT INTO `tpo`.`IZVEDBA_PREDMETA`
+    (`ID_STUD_LETO`, `ID_UCITELJ1`, `ID_PREDMET`)
+VALUES
+    (1, 1, 1),
+    (2, 1, 1),
+    (3, 1, 1),
+    (2, 1, 2);

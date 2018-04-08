@@ -5,6 +5,8 @@ require_once("model/ProfesorDB.php");
 require_once("model/User.php");
 require_once("model/IzvedbaPredmetaModel.php");
 require_once("model/RokModel.php");
+require_once("model/UciteljModel.php");
+require_once("model/StudijskoLetoModel.php");
 require_once("ViewHelper.php");
 
 class ProfesorController {
@@ -36,6 +38,26 @@ class ProfesorController {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
                 ViewHelper::render("view/VnosOcen.php", []);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+    
+    public static function izpitniRokForm() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
+                $IdProfesor = UciteljModel::getProfesorId(User::getId());
+                $IdProfesor = (int)$IdProfesor["ID_UCITELJ"];
+                $IdYear = 2;// TODO StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
+//                var_dump($IdYear);
+                $IdIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByProfesor($IdProfesor, $IdYear);
+//                var_dump($IdIzvedbaPredmeta);
+                ViewHelper::render("view/IzpitniRokProfesor.php", [
+                    "IdIzvedbaPredmeta" => $IdIzvedbaPredmeta
+                ]);
             }else{
                 ViewHelper::error403();
             }

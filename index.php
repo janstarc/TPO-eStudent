@@ -7,6 +7,7 @@ require_once("controller/AdminController.php");
 require_once("controller/StudentOfficerController.php");
 require_once("controller/ProfessorController.php");
 require_once("controller/StudentController.php");
+require_once("model/User.php");
 
 define("APP_NAME", "STUDIS");
 define("BASE_URL", $_SERVER["SCRIPT_NAME"] . "/");
@@ -14,6 +15,8 @@ define("PROJECT_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php"));
 define("IMAGES_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/images/");
 define("CSS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/css/");
 define("JS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/js/");
+
+define("CURRENT_YEAR", "2017-2018");
 
 $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 // ROUTER: defines mapping between URLS and controllers
@@ -47,23 +50,23 @@ $urls = [
     }, "/^OsebniPodatkiStudenta$/" => function ($method) {
         if ($method == "GET") AdminController::PregledOsebnihPodatkovStudenta();
         else ViewHelper::error405();
-    }, "/^OsebniPodatkiStudenta\/vpisnaSearch/" => function ($method) {
+    }, "/^OsebniPodatkiStudenta\/vpisnaSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchByVpisna();
         else ViewHelper::error405();
     }, "/^PodatkiOIzvajalcih$/" => function ($method) {
         if ($method == 'POST') AdminController::storeProfessor();
         elseif ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
         else ViewHelper::error405();
-
-    }, "/^izpitniRok$/" => function ($method) {
-        //($method == "GET")
-            //Referentka/Učitelj lahko vnese izpitni rok
-            //TODO: choose between student officer or professor controller based on logged in user
-        //else ViewHelper::error405();
-    }, "/^Vzdrzevanjepredmetnika\/dodaj/" => function ($method) {
-    if ($method == "POST") ProfesorController::dodaj();
-    else ViewHelper::error405();
-    },"/^Vzdrzevanjepredmetnika/" => function ($method) {
+    }, "/^izpitniRok\/profesor$/" => function ($method) {
+        if ($method == "GET") ProfesorController::izpitniRokForm();
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/referent$/" => function ($method) {
+        if ($method == "GET") StudentOfficerController::izpitniRokForm();
+        else ViewHelper::error405();
+    }, "/^Vzdrzevanjepredmetnika\/dodaj$/" => function ($method) {
+        if ($method == "POST") ProfesorController::dodaj();
+        else ViewHelper::error405();
+    },"/^Vzdrzevanjepredmetnika$/" => function ($method) {
         if ($method == "GET") ProfesorController::VzdrzevanjePredmetnika();
         else ViewHelper::error405();
     }

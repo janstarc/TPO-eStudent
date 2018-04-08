@@ -24,7 +24,7 @@ class User {
 		return $_SESSION["user"]["VRSTA_VLOGE"]==="s";
 	}
 	public function getId() {
-		return $_SESSION["user"]["ID_OSEBA"];
+		return (int)$_SESSION["user"]["ID_OSEBA"];
 	}
 	public function getTypeOfUser() {
 		return $_SESSION["user"]["VRSTA_VLOGE"];
