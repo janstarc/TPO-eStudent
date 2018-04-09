@@ -12,7 +12,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO del_predmetnika
-        (NAZIV_DELAPREDMETNIKA,SKUPNOSTEVILOKT,AKTIVNOST_DELPREDMETNIKA,TIP)
+        (NAZIV_DELAPREDMETNIKA,SKUPNOSTEVILOKT,AKTIVNOST,TIP)
         VALUES(:naziv,:kt,1,:tip);"
         );
         $statement->bindValue(":naziv", $naziv);
@@ -20,8 +20,6 @@ class SifrantDB
         $statement->bindValue(":tip", $tip);
         $statement->execute();
         return true;
-
-
     }
     public static function DrzavaAdd($dk, $tk, $iso, $slo, $opo){
         $db = DBInit::getInstance();
@@ -54,7 +52,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO nacin_studija
-        (OPIS_NACIN,ANG_OPIS_NACIN,AKTIVNOST_NACIN)
+        (OPIS_NACIN,ANG_OPIS_NACIN,AKTIVNOST)
         VALUES(:opis,:angopis,1);"
         );
         $statement->bindValue(":opis", $opis);
@@ -79,7 +77,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO oblika_studija
-        (NAZIV_OBLIKA,ANG_OPIS_OBLIKA,AKTIVNOST_OBLIKA)
+        (NAZIV_OBLIKA,ANG_OPIS_OBLIKA,AKTIVNOST)
         VALUES(:naziv,:ang,1);"
         );
         $statement->bindValue(":naziv", $naziv);
@@ -92,7 +90,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO posta
-        (ST_POSTA,KRAJ,AKTIVNOST_POSTA)
+        (ST_POSTA,KRAJ,AKTIVNOST)
         VALUES(:stevilka,:kraj,1);"
         );
         $statement->bindValue(":stevilka", $stevilka);
@@ -105,7 +103,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO predmet
-        (IME_PREDMET,AKTIVNOST_PREDMET)
+        (IME_PREDMET,AKTIVNOST)
         VALUES(:ime,1);"
         );
         $statement->bindValue(":ime", $ime);
@@ -116,7 +114,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO studijsko_leto
-        (STUD_LETO,AKTIVNOST_STUDIJSKOLETO)
+        (STUD_LETO,AKTIVNOST)
         VALUES(:leto,1);"
         );
         $statement->bindValue(":leto", $leto);
@@ -128,7 +126,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO vrsta_vpisa
-        (OPIS_VPISA,AKTIVNOST_VPIS)
+        (OPIS_VPISA,AKTIVNOST)
         VALUES(:opis,1);"
         );
         $statement->bindValue(":opis", $opis);
@@ -143,7 +141,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE del_predmetnika SET
-        AKTIVNOST_DELPREDMETNIKA = 0
+        AKTIVNOST = 0
         where  ID_DELPREDMETNIKA = :id"
         );
         $statement->bindValue(":id", $id);
@@ -154,7 +152,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE drzava SET
-        AKTIVNOST_DRZAVA = 0
+        AKTIVNOST = 0
         where  ID_DRZAVE = :id"
         );
         $statement->bindValue(":id", $id);
@@ -165,7 +163,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE letnik SET
-        AKTIVNOST_LETNIK = 0
+        AKTIVNOST = 0
         where  ID_LETNIK = :id"
         );
         $statement->bindValue(":id", $id);
@@ -176,7 +174,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE nacin_studija SET
-        AKTIVNOST_NACIN = 0
+        AKTIVNOST = 0
         where  ID_NACIN = :id"
         );
         $statement->bindValue(":id", $id);
@@ -198,7 +196,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE oblika_studija SET
-        AKTIVNOST_OBLIKA = 0
+        AKTIVNOST = 0
         where  ID_OBLIKA = :id"
         );
         $statement->bindValue(":id", $id);
@@ -209,7 +207,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE posta SET
-        AKTIVNOST_POSTA = 0
+        AKTIVNOST = 0
         where  ID_POSTA = :id"
         );
         $statement->bindValue(":id", $id);
@@ -220,7 +218,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE predmet SET
-        AKTIVNOST_PREDMET = 0
+        AKTIVNOST = 0
         where  ID_PREDMET = :id"
         );
         $statement->bindValue(":id", $id);
@@ -231,7 +229,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE studijsko_leto SET
-        AKTIVNOST_STUDIJSKOLETO = 0
+        AKTIVNOST = 0
         where  ID_STUD_LETO = :id"
         );
         $statement->bindValue(":id", $id);
@@ -242,13 +240,17 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE vrsta_vpisa SET
-        AKTIVNOST_VPIS = 0
+        AKTIVNOST = 0
         where  ID_VRSTAVPISA = :id"
         );
         $statement->bindValue(":id", $id);
         $statement->execute();
         return true;
     }
+
+
+
+
 
 
 
@@ -347,39 +349,144 @@ class SifrantDB
 
 
 
-    public static function DelPredmetnikaEdit(){
+    public static function DelPredmetnikaEdit($id, $naziv, $kt, $tip){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE del_predmetnika SET
+        NAZIV_DELAPREDMETNIKA = :naziv,
+        SKUPNOSTEVILOKT = :kt,
+        TIP = :tip
+        where  ID_DELPREDMETNIKA = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":naziv", $naziv);
+        $statement->bindValue(":kt", $kt);
+        $statement->bindValue(":tip", $tip);
+        $statement->execute();
+        return true;
+    }
+    public static function DrzavaEdit($id,$dk, $tk, $iso, $slo, $opo){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE drzava SET
+        DVOMESTNAKODA = :dk,
+        ISONAZIV = :iso, 
+        OPOMBA = :opo, 
+        SLOVENSKINAZIV = :slo,
+        TRIMESTNAKODA = :tk
+        where  ID_DRZAVE = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":dk", $dk);
+        $statement->bindValue(":iso", $iso);
+        $statement->bindValue(":opo", $opo);
+        $statement->bindValue(":slo", $slo);
+        $statement->bindValue(":tk", $tk);
+        $statement->execute();
+        return true;
+    }
+    public static function LetnikEdit($id,$letnik){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE letnik SET
+        LETNIK = :letnik
+        where  ID_LETNIK = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":letnik", $letnik);
+        $statement->execute();
+        return true;
+    }
+    public static function NacinStudijaEdit($id,$opis, $angopis){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE nacin_studija SET
+        ANG_OPIS_NACIN = :ang,
+        OPIS_NACIN = :opis
+        where  ID_NACIN = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":opis", $opis);
+        $statement->bindValue(":ang", $angopis);
+        $statement->execute();
+        return true;
+    }
+    public static function ObcinaEdit($id,$ime){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE obcina SET
+        IME_OBCINA = :ime
+        where  ID_OBCINA = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":ime", $ime);
+        $statement->execute();
+        return true;
+    }
+    public static function OblikaStudijaEdit($id,$naziv,$ang){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE oblika_studija SET
+        ANG_OPIS_OBLIKA = :ang,
+        NAZIV_OBLIKA = :naziv
+        where  ID_OBLIKA = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":naziv", $naziv);
+        $statement->bindValue(":ang", $ang);
+        $statement->execute();
+        return true;
+    }
+    public static function PostaEdit($id,$stevilka, $kt){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE posta SET
+        ST_POSTA = :st, 
+        KRAJ = :kr
+        where  ID_POSTA = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":st", $stevilka);
+        $statement->bindValue(":kr", $kt);
+        $statement->execute();
+        return true;
+    }
+    public static function PredmetEdit($id,$ime){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE predmet SET
+        IME_PREDMET = :ime
+        where  ID_PREDMET = :id"
+        );
+        $statement->bindValue(":ime", $ime);
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
+    }
+    public static function StudijskoLetoEdit($id,$leto){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE studijsko_leto SET
+            STUD_LETO = :leto
+        where  ID_STUD_LETO = :id"
+        );
+        $statement->bindValue(":leto", $leto);
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
+    }
+    public static function VrstaVpisaEdit($id,$opis ){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE vrsta_vpisa SET
+        OPIS_VPISA = :opis
+        where  ID_VRSTAVPISA = :id"
+        );
+        $statement->bindValue(":opis", $opis);
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
 
     }
-    public static function DrzavaEdit(){
-
-    }
-    public static function LetnikEdit(){
-
-    }
-    public static function NacinStudijaEdit(){
-
-    }
-    public static function ObcinaEdit(){
-
-    }
-    public static function OblikaStudijaEdit(){
-
-    }
-    public static function PostaEdit(){
-
-    }
-    public static function PredmetEdit(){
-
-    }
-    public static function StudijskoLetoEdit(){
-
-    }
-    public static function VrstaVpisaEdit(){
-
-    }
-
-
-
-
 
 }
