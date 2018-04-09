@@ -74,4 +74,20 @@ class AdminController {
             echo "Error: " . $sql . "<br>" . $db_connection->errorInfo();
         }
     }
+
+    public static function UvozPodatkov(){
+
+        ViewHelper::render("view/UvozPodatkov.php", []);
+    }
+
+    public static function ParseInput(){
+
+
+        $data = filter_input_array(INPUT_POST, [
+            "podatkiInput" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        echo $data["podatkiInput"];
+        yvar_dump($data);
+    }
 }

@@ -136,7 +136,13 @@ $urls = [
     },"/^VrstaVpisaAll$/" => function ($method) {
         if ($method == "GET") SifrantController::getVrstaVpisa();
         else ViewHelper::error405();
-    },
+    }, "/^UvozPodatkov$/" => function($method){
+        if ($method == "GET") AdminController::UvozPodatkov();
+        else ViewHelper::error405();
+    }, "/^UvozPodatkov\/parse$/" => function($method) {
+        if ($method == "POST") AdminController::ParseInput();
+        else ViewHelper::error405();
+    }
 ];
 
 foreach ($urls as $pattern => $controller) {
