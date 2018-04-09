@@ -1,8 +1,6 @@
 <?php
-
     $resultFound = false;
     if(!empty($studData)) $resultFound = true;
-
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +13,7 @@
     <script type="text/javascript" src="../static/js/shBrushJScript.js"></script>
     <link type="text/css" rel="stylesheet" href="../static/css/shCore.css"/>
     <link type="text/css" rel="stylesheet" href="../static/css/shThemeDefault.css"/>
+    <link type="text/css" rel="stylesheet" href="../static/css/custom.css">
     <script type="text/javascript">
         SyntaxHighlighter.all();
     </script>
@@ -81,24 +80,26 @@
                         <h2>Iskanje študenta</h2>
                         <br>
                         <form class="example" action="<?= BASE_URL . "OsebniPodatkiStudenta/vpisnaSearch" ?>" method="post">
-                            <input type="text" placeholder="IŠČI PO VPISNI STEVILKI..." name="searchVpisna">
+                            <input type="text" class="width-fix" placeholder="Išči po vpisni številki" name="searchVpisna">
                             <button type="submit" name="isciVpisnaBtn">Išči</button>
                         </form>
                         <br>
                         <br>
-                        <p>
-                            <form class="example2" action="<?= BASE_URL . "OsebniPodatkiStudenta/vpisnaSearch" ?>" method="post">
-                                <select class="example" id="myselect" name="searchVpisna">
-                                    <?php
-                                        foreach ($namesAndSurnames as $key => $value){
-                                            echo "<option value=".$value['vpisna_stevilka'].">".$value['ime']." ".$value['priimek']."</option>";
-                                        }
-                                    ?>
-                                </select><br>
-                                <br>
-                                <button type="submit">Išči</button>
-                            </form>
-                        </p>
+                        <p></p>
+                        <form class="example"  action="<?= BASE_URL . "OsebniPodatkiStudenta/vpisnaSearch" ?>" method="post">
+                            <select class="btn btn-secondary dropdown-toggle m-left" id="myselect" name="searchVpisna">
+                                <?php
+                                    echo "<option disabled selected value=''>"."Išči po imenu in priimku"."</option>";
+
+                                    foreach ($namesAndSurnames as $key => $value){
+                                        echo "<option value=".$value['vpisna_stevilka'].">".$value['ime']." ".$value['priimek']."</option>";
+                                    }
+                                ?>
+                            </select>
+                            <button type="submit">Išči</button>
+                        </form>
+
+
                         <br>
                         <br>
                         <hr>

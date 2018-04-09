@@ -91,6 +91,10 @@ a, a:hover, a:focus {
     background-color: #b4162c;
     border-color: #48bcb4;
 }
+
+
+
+
 .btn-theme:hover,
 .btn-theme:focus,
 .btn-theme:active,
@@ -2028,14 +2032,26 @@ form.example input[type=text] {
     font-size: 12px;
     border: 1px solid grey;
     float: left;
-    width: 40%;
+    width: 30%;
     background: #f1f1f1;
     margin-left: 20px;
+
+}
+
+form.example select {
+    padding: 10px;
+    font-size: 12px;
+    border: 1px solid grey;
+    float: left;
+    width: 70%;
+    background: #f1f1f1;
+    margin-left: 20px;
+
 }
 
 form.example button {
     float: left;
-    width: 20%;
+    width: 15%;
     padding: 10px;
     background: #2196F3;
     color: white;
