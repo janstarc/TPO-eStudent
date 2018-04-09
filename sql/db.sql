@@ -351,6 +351,7 @@ create table STUDIJSKO_LETO
 (
   ID_STUD_LETO         int not null AUTO_INCREMENT,
   STUD_LETO            char(10) not null,
+  AKTIVNOST_STUDIJSKOLETO int,
   primary key (ID_STUD_LETO)
 );
 
@@ -562,8 +563,8 @@ INSERT INTO `tpo`.`letnik`(`ID_LETNIK`,`LETNIK`,`MOZEN_VPIS`)VALUES
   (5,'Stari magisterski studij', 'vpis ni vec mozen'),
   (6,'stari doktorski studij', 'vpis ni vec mozen');
 
-INSERT INTO `tpo`.`studijsko_leto`(`STUD_LETO`)VALUES
-  ("2016/2017"),("2017/2018"),("2018/2019");
+INSERT INTO `tpo`.`studijsko_leto`(`STUD_LETO`, `AKTIVNOST_STUDIJSKOLETO`)VALUES
+  ("2016/2017",1),("2017/2018",1),("2018/2019",1);
   
 INSERT INTO `tpo`.`vpis`(`ID_VPISA`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_VRSTAVPISA`,
                          `ID_OBLIKA`,`ID_LETNIK`,`POTRJENOST_VPISA`,`VPISNA_STEVILKA`)VALUES
