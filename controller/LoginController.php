@@ -5,6 +5,26 @@ require_once("model/User.php");
 require_once("ViewHelper.php");
 
 class LoginController {
+    public static function dashboardForm() {
+        if (User::isLoggedInAsAdmin()) {
+            ViewHelper::render("view/DashboardViewer.php", [
+                "typeOfUser" => "admin"
+            ]);
+        } else if (User::isLoggedInAsProfessor()) {
+            ViewHelper::render("view/DashboardViewer.php", [
+                "typeOfUser" => "professor"
+            ]);
+        } else if (User::isLoggedInAsStudent()) {
+            ViewHelper::render("view/DashboardViewer.php", [
+                "typeOfUser" => "student"
+            ]);
+        } else if (User::isLoggedInAsStudentOfficer()){
+            ViewHelper::render("view/DashboardViewer.php", [
+                "typeOfUser" => "student-officer"
+            ]);
+        }
+    }
+    
     public static function loginForm() {
         if (!User::isLoggedIn()){
             ViewHelper::render("view/LoginViewer.php", [
@@ -29,14 +49,7 @@ class LoginController {
         $errorMessage =  empty($data["email"]) || empty($data["password"]) || $user == null ? "Invalid email or password." : "";
         if (empty($errorMessage)) {
             User::login($user);
-            // TODO: redirect OR render based on type of user
-            if (User::isLoggedInAsProfessor()) {
-                ViewHelper::redirect(BASE_URL . "PregledIzpitovProfesor");
-            } else if (User::isLoggedInAsStudent()) {
-                ViewHelper::redirect(BASE_URL . "PregledIzpitovStudent");
-            } else if (User::isLoggedInAsStudentOfficer()){
-                ViewHelper::redirect(BASE_URL . "OsebniPodatkiStudenta");
-            }
+            ViewHelper::redirect(BASE_URL);
         } else {
             ViewHelper::render("view/LoginViewer.php", [
                 "errorMessage" => $errorMessage,

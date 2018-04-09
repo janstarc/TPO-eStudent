@@ -13,7 +13,7 @@
     <div class="top-menu">
         <ul class="top-menu">
             <li>
-                <a class="logout" href="logout">Logout</a>
+                <a class="logout" href="<?= BASE_URL . "logout" ?>">Logout</a>
             </li>
         </ul>
     </div>
@@ -23,13 +23,13 @@
     <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
-                <a href="PregledIzpitovProfesor">
-                    <span>PregledIzpitovProfesor</span>
+                <a href="OsebniPodatkiStudenta">
+                    <span>OsebniPodatkiStudenta</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="VnosIzpitov">
-                    <span>VnosIzpitov</span>
+                <a href="PodatkiIzvajalcev">
+                    <span>PodatkiIzvajalcev</span>
                 </a>
             </li>
         </ul>

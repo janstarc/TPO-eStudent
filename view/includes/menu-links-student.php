@@ -11,7 +11,7 @@
     <div class="top-menu">
         <ul class="top-menu">
             <li>
-                <a class="logout" href="logout">Logout</a>
+                <a class="logout" href="<?= BASE_URL . "logout" ?>">Logout</a>
             </li>
         </ul>
     </div>

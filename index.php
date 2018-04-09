@@ -22,9 +22,13 @@ $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 // ROUTER: defines mapping between URLS and controllers
 $urls = [
     "/^$/" => function ($method) {
-        // TODO: if already logged in, then redirect based on type of logged-in user
-        if ($method == "GET") ViewHelper::redirect(BASE_URL . "login");
-        else ViewHelper::error405();
+        if (User::isLoggedIn()){
+            if ($method == "GET") LoginController::dashboardForm();
+            else ViewHelper::error405();
+        }else{
+            if ($method == "GET") ViewHelper::redirect(BASE_URL . "login");
+            else ViewHelper::error405();
+        }
     }, "/^login$/" => function ($method) {
         if ($method == "POST") LoginController::login();
         else if ($method == "GET") LoginController::loginForm();
@@ -68,32 +72,20 @@ $urls = [
     }, "/^Vzdrzevanjepredmetnika\/dodaj$/" => function ($method) {
         if ($method == "POST") ProfesorController::dodaj();
         else ViewHelper::error405();
-    },"/^Vzdrzevanjepredmetnika$/" => function ($method) {
+    }, "/^Vzdrzevanjepredmetnika$/" => function ($method) {
         if ($method == "GET") ProfesorController::VzdrzevanjePredmetnika();
         else ViewHelper::error405();
     }
-
 ];
 
 foreach ($urls as $pattern => $controller) {
-   // print($path) ;
-    //print("<br>");
-   // print_r($params);
-   // print("<br>");
     if (preg_match($pattern, $path, $params)) {
         try {
-     //       print( "begin");
-      //      print("<br>");
             $params[0] = $_SERVER["REQUEST_METHOD"];
             $controller(...$params);
-       //     print ("end");
-        //    print("<br>");
         } catch (InvalidArgumentException $e) {
-          //  print_r($e);
-          //  print("<br>");
             ViewHelper::error404();
         } catch (Exception $e){
-            //ViewHelper::displayError($e, true);
             echo $e;
         }
         exit();

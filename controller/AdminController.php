@@ -8,17 +8,17 @@ require_once("ViewHelper.php");
 
 class AdminController {
     public static function PregledOsebnihPodatkovStudenta() {
-        //if (User::isLoggedIn()){
-            //if (User::isLoggedInAsAdmin()){
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
                 ViewHelper::render("view/OsebniPodatkiStudenta.php", [
                     "namesAndSurnames" => AdminDB::getAllNames()
                 ]);
-          //  }else{
-              //  ViewHelper::error403();
-          //  }
-        //}else{
-          //  ViewHelper::error401();
-        //}
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
     }
     
     public static function searchByVpisna() {
@@ -37,20 +37,18 @@ class AdminController {
         ]);
     }
 
-    public static function PregledPodatkovOIzvajalcih()
-    {
-
-      //  if (User::isLoggedIn()) {
-       //     if (User::isLoggedInAsStudent()) {  //FIXME:loggedInAsAdmin
+    public static function PregledPodatkovOIzvajalcih() {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
                 ViewHelper::render("view/PodatkiIzvajalcev.php", [
                     "subjects" => array()
                 ]);
-        /*    } else {
+            } else {
                 ViewHelper::error403();
             }
         } else {
             ViewHelper::error401();
-        }*/
+        }
     }
 
     public static function searchBySubject() {
