@@ -6,7 +6,7 @@
  * Time: 14:35
  */
 
-class StifrantiDB
+class SifrantDB
 {
     public static function DelPredmetnikaAdd($naziv, $kt, $tip){
         $db = DBInit::getInstance();
