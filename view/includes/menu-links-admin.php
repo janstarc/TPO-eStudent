@@ -20,7 +20,7 @@
 </header>
 
 <aside>
-    <div id="sidebar" class="nav-collapse ">
+    <div id="sidebar" class="nav-collapse " style="overflow-y: auto;">
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
                 <a href="OsebniPodatkiStudenta">
@@ -32,6 +32,107 @@
                     <span>PodatkiIzvajalcev</span>
                 </a>
             </li>
+            <li class="mt">
+                <a href="DelPredmetnikaAdd">
+                    <span>DelPredmetnikaAdd</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="DelPredmetnikaAll">
+                    <span>DelPredmetnikaAll</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="DrzavaAdd">
+                    <span>DrzavaAdd</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="DrzavaAll">
+                    <span>DrzavaAll</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="LetnikAdd">
+                    <span>LetnikAdd</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="LetnikAll">
+                    <span>LetnikAll</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="NacinStudijaAdd">
+                    <span>NacinStudijaAdd</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="NacinStudijaAll">
+                    <span>NacinStudijaAll</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="ObcinaAdd">
+                    <span>ObcinaAdd</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="ObcinaAll">
+                    <span>ObcinaAll</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="OblikaStudijaAdd">
+                    <span>OblikaStudijaAdd</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="OblikaStudijaAll">
+                    <span>OblikaStudijaAll</span>
+                </a>
+            </li><li class="mt">
+                <a href="PostaAdd">
+                    <span>PostaAdd</span>
+                </a>
+            </li><li class="mt">
+                <a href="PostaAll">
+                    <span>PostaAll</span>
+                </a>
+            </li><li class="mt">
+                <a href="PredmetAdd">
+                    <span>PredmetAdd</span>
+                </a>
+            </li><li class="mt">
+                <a href="PredmetAll">
+                    <span>PredmetAll</span>
+                </a>
+            </li><li class="mt">
+                <a href="StudijskoLetoAdd">
+                    <span>StudijskoLetoAdd</span>
+                </a>
+
+            <li class="mt">
+                <a href="StudijskoLetoAll">
+                    <span>StudijskoLetoAll</span>
+                </a>
+            </li>
+
+            <li class="mt">
+                <a href="VrstaVpisaAdd">
+                    <span>VrstaVpisaAdd</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="VrstaVpisaAll">
+                    <span>VrstaVpisaAll</span>
+                </a>
+            </li>
+
+
+
+
+
         </ul>
     </div>
 </aside>

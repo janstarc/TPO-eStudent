@@ -614,3 +614,6 @@ VALUES
     (2, 1, 1),
     (3, 1, 1),
     (2, 1, 2);
+
+
+INSERT INTO del_predmetnika VALUES (1,"TEST",3,1,'m')
