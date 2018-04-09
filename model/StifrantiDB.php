@@ -101,7 +101,7 @@ class StifrantiDB
         $statement->execute();
         return true;
     }
-    public static function PredmetiAdd($ime){
+    public static function PredmetAdd($ime){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO predmet
@@ -139,35 +139,115 @@ class StifrantiDB
 
 
 
-    public static function DelPredmetnikaDelete(){
-
+    public static function DelPredmetnikaDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE del_predmetnika SET
+        AKTIVNOST_DELPREDMETNIKA = 0
+        where  ID_DELPREDMETNIKA = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
-    public static function DrzavaDelete(){
-
+    public static function DrzavaDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE drzava SET
+        AKTIVNOST_DRZAVA = 0
+        where  ID_DRZAVE = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
-    public static function LetnikDelete(){
-
+    public static function LetnikDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE letnik SET
+        AKTIVNOST_LETNIK = 0
+        where  ID_LETNIK = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
-    public static function NacinStudijaDelete(){
-
+    public static function NacinStudijaDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE nacin_studija SET
+        AKTIVNOST_NACIN = 0
+        where  ID_NACIN = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
-    public static function ObcinaDelete(){
-
+    public static function ObcinaDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE obcina SET
+        AKTIVNA_OBCINA = 0
+        where  ID_OBCINA = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
-    public static function OblikaStudijaDelete(){
-
+    public static function OblikaStudijaDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE oblika_studija SET
+        AKTIVNOST_OBLIKA = 0
+        where  ID_OBLIKA = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
-    public static function PostaDelete(){
-
+    public static function PostaDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE posta SET
+        AKTIVNOST_POSTA = 0
+        where  ID_POSTA = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
-    public static function PredmetiDelete(){
-
+    public static function PredmetDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE predmet SET
+        AKTIVNOST_PREDMET = 0
+        where  ID_PREDMET = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
-    public static function StudijskoLetoDelete(){
-
+    public static function StudijskoLetoDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE studijsko_leto SET
+        AKTIVNOST_STUDIJSKOLETO = 0
+        where  ID_STUD_LETO = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
-    public static function VrstaVpisaDelete(){
-
+    public static function VrstaVpisaDelete($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "UPDATE vrsta_vpisa SET
+        AKTIVNOST_VPIS = 0
+        where  ID_VRSTAVPISA = :id"
+        );
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
     }
 
 
@@ -288,7 +368,7 @@ class StifrantiDB
     public static function PostaEdit(){
 
     }
-    public static function PredmetiEdit(){
+    public static function PredmetEdit(){
 
     }
     public static function StudijskoLetoEdit(){

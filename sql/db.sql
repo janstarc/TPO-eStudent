@@ -137,6 +137,8 @@ create table LETNIK
   ID_LETNIK            int not null AUTO_INCREMENT,
   LETNIK               int not null,
   MOZEN_VPIS           char(10),
+  AKTIVNOST_LETNIK     int,
+
   primary key (ID_LETNIK)
 );
 
@@ -555,13 +557,13 @@ INSERT INTO `tpo`.`vrsta_vpisa`
   (2,'Ponavlanje letnika',1);
 
 
-INSERT INTO `tpo`.`letnik`(`ID_LETNIK`,`LETNIK`,`MOZEN_VPIS`)VALUES
-  (1,'Stari dodiplomski program -uni','dodatno leto in za podaljsanje'),
-  (2,'Stari dodiplomski-visokosolski', 'vpis ni vec mozen'),
-  (3,'1.,2.,3., stopnja', 'vsi letniki'),
-  (4,'EM', 'Vsi letniki'),
-  (5,'Stari magisterski studij', 'vpis ni vec mozen'),
-  (6,'stari doktorski studij', 'vpis ni vec mozen');
+INSERT INTO `tpo`.`letnik`(`ID_LETNIK`,`LETNIK`,`MOZEN_VPIS`,`AKTIVNOST_LETNIK`)VALUES
+  (1,'Stari dodiplomski program -uni','dodatno leto in za podaljsanje',1),
+  (2,'Stari dodiplomski-visokosolski', 'vpis ni vec mozen',1),
+  (3,'1.,2.,3., stopnja', 'vsi letniki',1),
+  (4,'EM', 'Vsi letniki',1),
+  (5,'Stari magisterski studij', 'vpis ni vec mozen',1),
+  (6,'stari doktorski studij', 'vpis ni vec mozen',1);
 
 INSERT INTO `tpo`.`studijsko_leto`(`STUD_LETO`, `AKTIVNOST_STUDIJSKOLETO`)VALUES
   ("2016/2017",1),("2017/2018",1),("2018/2019",1);
