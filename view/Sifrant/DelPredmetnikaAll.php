@@ -24,12 +24,12 @@
                                 <th>Stevilo kreditov</th>
                                 <th>Tip</th>
                                 <th>Uredi</th>
-                                <th>Izbrisi</th>
+                                <th>Deaktiviraj</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            //var_dump($all);
+                           // var_dump($all);
                             foreach($all as $key=>$value): ?>
                                 <tr>
                                     <td><?php echo $value['NAZIV_DELAPREDMETNIKA']; ?></td>
@@ -41,7 +41,16 @@
                                             <input class="btn btn-primary btn-sm" type="submit" value="Uredi" />
                                         </form>
                                     </td>
-                                    <td><button type="button" class="btn btn-primary btn-sm">Izbrisi</button></td>
+                                    <td>
+                                        <form  action="<?= BASE_URL . "DelPredmetnikaAll/toogleActivated" ?>" method="post">
+                                            <input type="hidden" name="activateId" value="<?= $value["ID_DELPREDMETNIKA"] ?>" />
+                                            <?php if(!$value["AKTIVNOST"]) : ?>
+                                                <input class="btn btn-success btn-sm" type="submit" value="Activate" />
+                                            <?php else : ?>
+                                                <input class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
+                                            <?php endif; ?>
+                                        </form>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

@@ -137,15 +137,26 @@ class SifrantDB
 
 
 
-    public static function DelPredmetnikaDelete($id){
+    public static function DelPredmetnikaToogleActivated($id){
         $db = DBInit::getInstance();
-        $statement = $db -> prepare(
-            "UPDATE del_predmetnika SET
-        AKTIVNOST = 0
-        where  ID_DELPREDMETNIKA = :id"
-        );
+        $statement = $db->prepare("SELECT AKTIVNOST FROM DEL_PREDMETNIKA WHERE ID_DELPREDMETNIKA = :id");
         $statement->bindValue(":id", $id);
         $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
+
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare(
+            "UPDATE DEL_PREDMETNIKA
+                SET AKTIVNOST = :is_activated
+                WHERE ID_DELPREDMETNIKA = :id"
+        );
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
         return true;
     }
     public static function DrzavaDelete($id){
@@ -259,7 +270,9 @@ class SifrantDB
     public static function DelPredmetnikaGet(){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
-            "SELECT * FROM DEL_PREDMETNIKA"
+            "SELECT * 
+                      FROM DEL_PREDMETNIKA
+                      "
         );
         $statement->execute();
         return $statement->fetchAll();

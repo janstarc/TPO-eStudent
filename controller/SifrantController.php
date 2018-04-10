@@ -93,6 +93,26 @@ class SifrantController
 
     }
 
+    public static function toogleActivatedDelPredmetnika(){
+        $data = filter_input_array(INPUT_POST, [
+            "activateId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                SifrantDB::DelPredmetnikaToogleActivated($data["activateId"]);
+
+                ViewHelper::redirect(BASE_URL . "DelPredmetnikaAll");
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
     public static function getDrzava() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){

@@ -91,6 +91,9 @@ $urls = [
     },"/^DelPredmetnikaAll\/edit$/" => function ($method) {
         if ($method == "POST") SifrantController::editDelPredmetnika();
         else ViewHelper::error405();
+    }, "/^DelPredmetnikaAll\/toogleActivated$/" => function ($method) {
+        if ($method == "POST") SifrantController::toogleActivatedDelPredmetnika();
+        else ViewHelper::error405();
     },"/^DrzavaAdd$/" => function ($method) {
         if ($method == "POST") SifrantController::addDrzava();
         else ViewHelper::error405();
