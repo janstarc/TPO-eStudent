@@ -33,12 +33,12 @@
                 </a>
             </li>
             <li class="mt">
-                <a href="DelPredmetnikaAdd">
+                <a href="<?= BASE_URL . "DelPredmetnikaAdd" ?>">
                     <span>DelPredmetnikaAdd</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="DelPredmetnikaAll">
+                <a href="<?= BASE_URL . "DelPredmetnikaAll" ?>">
                     <span>DelPredmetnikaAll</span>
                 </a>
             </li>

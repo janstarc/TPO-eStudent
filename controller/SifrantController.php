@@ -10,7 +10,7 @@ class SifrantController
     public static function getDelPredmetnika() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
-                var_dump( SifrantDB::DelPredmetnikaGet());
+              //  var_dump( SifrantDB::DelPredmetnikaGet());
                 ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
                     "all" => SifrantDB::DelPredmetnikaGet()
                 ]);
@@ -20,6 +20,77 @@ class SifrantController
         }else{
             ViewHelper::error401();
         }
+    }
+
+    public static function getAddDelPredmetnika() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/DelPredmetnikaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addDelPredmetnika() {
+        $data = filter_input_array(INPUT_POST, [
+            "naziv_delpredmetnika" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "st_Kt" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS] ,
+            "tip" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+               // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::DelPredmetnikaAdd($data["naziv_delpredmetnika"],$data["st_Kt"],$data["tip"]);
+                ViewHelper::render("view/Sifrant/DelPredmetnikaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editFormDelPredmetnika() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+       // var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                   ViewHelper::render("view/Sifrant/DelPredmetnikaEdit.php", [
+                    "getId" => SifrantDB::getOneDelPredmetniks($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editDelPredmetnika() {
+        $data = filter_input_array(INPUT_POST, [
+            'urediId' => [
+                'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
+            ],
+            "naziv_delpredmetnika" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "st_Kt" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "tip" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+       //     echo "Edit del predmetnika";
+            var_dump($data);
+            SifrantDB::DelPredmetnikaEdit($data["urediId"], $data["naziv_delpredmetnika"], $data["st_Kt"], $data["tip"]);
+            ViewHelper::redirect(BASE_URL . "DelPredmetnikaAll");
+
     }
 
     public static function getDrzava() {

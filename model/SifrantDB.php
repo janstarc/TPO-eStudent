@@ -12,8 +12,8 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO del_predmetnika
-        (NAZIV_DELAPREDMETNIKA,SKUPNOSTEVILOKT,AKTIVNOST,TIP)
-        VALUES(:naziv,:kt,1,:tip);"
+        (NAZIV_DELAPREDMETNIKA,SKUPNOSTEVILOKT,TIP,AKTIVNOST)
+        VALUES(:naziv,:kt,:tip,1);"
         );
         $statement->bindValue(":naziv", $naziv);
         $statement->bindValue(":kt", $kt);
@@ -348,9 +348,30 @@ class SifrantDB
 
 
 
+    public static function getOneDelPredmetniks($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT dp.ID_DELPREDMETNIKA, dp.NAZIV_DELAPREDMETNIKA, dp.SKUPNOSTEVILOKT, dp.TIP
+            FROM DEL_PREDMETNIKA as dp
+            WHERE dp.ID_DELPREDMETNIKA = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+       // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+
 
     public static function DelPredmetnikaEdit($id, $naziv, $kt, $tip){
         $db = DBInit::getInstance();
+        //echo $id . $naziv . $kt .$tip;
         $statement = $db -> prepare(
             "UPDATE del_predmetnika SET
         NAZIV_DELAPREDMETNIKA = :naziv,

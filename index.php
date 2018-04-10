@@ -77,10 +77,19 @@ $urls = [
         if ($method == "GET") ProfesorController::VzdrzevanjePredmetnika();
         else ViewHelper::error405();
     }, "/^DelPredmetnikaAdd$/" => function ($method) {
-        if ($method == "POST") SifrantController::addDelPredmetnika();
+        if ($method == "GET") SifrantController::getAddDelPredmetnika();
         else ViewHelper::error405();
     },"/^DelPredmetnikaAll$/" => function ($method) {
         if ($method == "GET") SifrantController::getDelPredmetnika();
+        else ViewHelper::error405();
+    },"/^DelPredmetnikaAdd\/dodaj$/" => function ($method) {
+        if ($method == "POST") SifrantController::addDelPredmetnika();
+        else ViewHelper::error405();
+    },"/^DelPredmetnikaAll\/editForm$/" => function ($method) {
+        if ($method == "POST") SifrantController::editFormDelPredmetnika();
+        else ViewHelper::error405();
+    },"/^DelPredmetnikaAll\/edit$/" => function ($method) {
+        if ($method == "POST") SifrantController::editDelPredmetnika();
         else ViewHelper::error405();
     },"/^DrzavaAdd$/" => function ($method) {
         if ($method == "POST") SifrantController::addDrzava();
