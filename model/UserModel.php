@@ -28,4 +28,33 @@ class UserModel {
             return false;
         }
     }
+
+    /*
+     BEGIN;
+     INSERT INTO users (username, password)
+       VALUES('test', 'test');
+     INSERT INTO profiles (userid, bio, homepage)
+       VALUES(LAST_INSERT_ID(),'Hello world!', 'http://www.stackoverflow.com');
+     COMMIT;
+     */
+
+    public static function insertNewStudent($studentArray){
+        $db = DBInit::getInstance();
+
+        var_dump($studentArray);
+        
+
+        foreach ($studentArray as $key => $value){
+
+
+        }
+
+
+        $statement = $db->prepare("
+           BEGIN;
+           INSERT INTO `oseba`(`ime`, `priimek`)
+                VALUES 
+        ");
+
+    }
 }

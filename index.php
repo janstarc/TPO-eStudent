@@ -53,13 +53,13 @@ $urls = [
         if ($method == "GET") ProfesorController::VnosOcenForm();
         else ViewHelper::error405();
     }, "/^OsebniPodatkiStudenta$/" => function ($method) {
-        if ($method == "GET") AdminController::PregledOsebnihPodatkovStudenta();
+        if ($method == "GET") AdminController::pregledOsebnihPodatkovStudenta();
         else ViewHelper::error405();
     }, "/^OsebniPodatkiStudenta\/vpisnaSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchByVpisna();
         else ViewHelper::error405();
     }, "/^PodatkiIzvajalcev$/" => function ($method) {
-        if ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
+        if ($method == "GET") AdminController::pregledPodatkovOIzvajalcih();
         else ViewHelper::error405();
     }, "/^PodatkiIzvajalcev\/subjectSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchBySubject();
@@ -286,13 +286,14 @@ $urls = [
         else ViewHelper::error405();
     },
 
-
-
     "/^UvozPodatkov$/" => function($method){
-        if ($method == "GET") AdminController::UvozPodatkov();
+        if ($method == "GET") AdminController::uvozPodatkov();
         else ViewHelper::error405();
     }, "/^UvozPodatkov\/parse$/" => function($method) {
-        if ($method == "POST") AdminController::ParseInput();
+        if ($method == "POST") AdminController::parseInput();
+        else ViewHelper::error405();
+    }, "/^UvozPodatkov\/submit/" => function($method) {
+        if ($method == "POST") AdminController::insertParsedData();
         else ViewHelper::error405();
     }
 ];

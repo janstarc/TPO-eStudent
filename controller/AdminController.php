@@ -7,7 +7,7 @@ require_once("ViewHelper.php");
 
 
 class AdminController {
-    public static function PregledOsebnihPodatkovStudenta() {
+    public static function pregledOsebnihPodatkovStudenta() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                 ViewHelper::render("view/OsebniPodatkiStudenta.php", [
@@ -37,7 +37,7 @@ class AdminController {
         ]);
     }
 
-    public static function PregledPodatkovOIzvajalcih() {
+    public static function pregledPodatkovOIzvajalcih() {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsAdmin()) {
                 ViewHelper::render("view/PodatkiIzvajalcev.php", [
@@ -75,26 +75,26 @@ class AdminController {
         }
     }
 
-    public static function UvozPodatkov(){
+    public static function uvozPodatkov(){
 
         ViewHelper::render("view/UvozPodatkov.php", []);
     }
 
-    public static function ParseInput(){
+    public static function parseInput(){
 
         $data = filter_input_array(INPUT_POST, [
             "podatkiInput" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        $splitted = self::SplitInput($data["podatkiInput"]);
+        $splitted = self::splitInput($data["podatkiInput"]);
         $sizeSplitted = count($splitted);
 
         $mainArray = null;
         if($sizeSplitted % 4 == 0){
-            $mainArray = self::GenerateMainArray($splitted, $sizeSplitted);
+            $mainArray = self::generateMainArray($splitted, $sizeSplitted);
 
             if(is_array($mainArray)){
-                $mainArray = self::GenerateVpisnaUnPass($mainArray);
+                $mainArray = self::generateVpisnaUnPass($mainArray);
                 //var_dump($mainArray);
                 ViewHelper::render("view/UvozPodatkovConfirm.php", [
                         "mainArray" => $mainArray,
@@ -107,7 +107,7 @@ class AdminController {
         }
     }
 
-    public static function SplitInput($toSplit){
+    public static function splitInput($toSplit){
         $splitted = explode( "&#13;&#10;", $toSplit);
         $splitted = array_filter($splitted);    // Removes empty lines
         $splitted = array_values($splitted);    // Re-Index the array
@@ -116,7 +116,7 @@ class AdminController {
     }
 
     // Checks length of each input, returns associative array
-    public static function GenerateMainArray($splitted, $sizeSplitted){
+    public static function generateMainArray($splitted, $sizeSplitted){
 
             $mainArray = array();
             $temp = array();
@@ -154,20 +154,20 @@ class AdminController {
     }
 
     // Generates vpisna, username, pass, returns enriched associative array
-    public static function GenerateVpisnaUnPass($mainArray){
+    public static function generateVpisnaUnPass($mainArray){
 
         $out = array();
 
         foreach ($mainArray as $key => $value){
 
-            $vpisna = rand(10000000, 99999999);
+            $vpisna = rand(63180000, 63189999);
 
             $imePrva = substr($value['ime'], 0, 1);
             $priimekPrva = substr($value['priimek'], 0, 1);
             $randomUn = rand(1000, 9999);
             $username = $imePrva.$priimekPrva.$randomUn;
 
-            $pass = self::GeneratePass(6);
+            $pass = self::generatePass(6);
 
             $value['vpisna'] = $vpisna;
             $value['username'] = $username;
@@ -178,7 +178,7 @@ class AdminController {
         return $out;
     }
 
-    public static function GeneratePass($len){
+    public static function generatePass($len){
 
         //Under the string $Caracteres you write all the characters you want to be used to randomly generate the code.
         $Caracteres = 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvxyz0123456789';
@@ -192,5 +192,13 @@ class AdminController {
         }
 
         return $Hash;
+    }
+
+    public static function insertParsedData(){
+
+        $data = $_SESSION['mainArray'];
+        //var_dump($data);
+        UserModel::insertNewStudent($data);
+
     }
 }
