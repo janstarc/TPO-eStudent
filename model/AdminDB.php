@@ -191,6 +191,7 @@ class AdminDB {
     }
     public static function addPredmetnik($data){
         $db = DBInit::getInstance();
+
         $statement = $db -> prepare(
             "INSERT INTO predmetnik(ID_PREDMET, ID_DELPREDMETNIKA, ID_LETNIK, ID_STUD_LETO, ID_PROGRAM, AKTIVNOST)
           VALUES (:predmet,:delPredmetnika,:letnik,:stud_leto,:program,1)"

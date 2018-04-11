@@ -252,13 +252,13 @@ class AdminController {
             "tip"  => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
         if($data['tip'] == "d"){
+
             AdminDB::changePredmetnik($data['idPredmetnik']);
             $predmetniki = AdminDB::predmetniki($data['idPredmet']);
             ViewHelper::render("view/UrediPredmet.php", [
                 "predmetniki" => $predmetniki,
                 "predmet" => AdminDB::predmetName($data['idPredmet']),
                 "data" => $data
-
             ]);
         }
         else {
@@ -289,7 +289,8 @@ class AdminController {
             AdminDB::editPredmetnik($data);
         }
         else{
-            AdminDB::addPredmetnik($data);
+            if(is_null($data['leto']) or is_null($data['letnik'])  or is_null($data['program']) or is_null($data['delpredmetnika'])){}
+            else AdminDB::addPredmetnik($data);
         }
 
         $predmetniki = AdminDB::predmetniki($data['idPredmet']);
@@ -299,5 +300,31 @@ class AdminController {
             "data" => $data
 
         ]);
+    }
+    public static function toogleActivated()
+    {
+        $data = filter_input_array(INPUT_POST, [
+            "idPredmetnik" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "idPredmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "aktivnost" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+                AdminDB::changePredmetnik($data['idPredmetnik']);
+                $predmetniki = AdminDB::predmetniki($data['idPredmet']);
+                ViewHelper::render("view/UrediPredmet.php", [
+                    "predmetniki" => $predmetniki,
+                    "predmet" => AdminDB::predmetName($data['idPredmet']),
+                    "data" => $data
+
+                ]);
+
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
     }
 }

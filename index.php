@@ -82,12 +82,10 @@ $urls = [
     },"/^Vzdrzevanjepredmetnika$/" => function ($method) {
         if ($method == "GET") AdminController::VzdrzevanjePredmetnika();
         else ViewHelper::error405();
-    },
-
-
-
-
-    "/^DelPredmetnikaAdd$/" => function ($method) {
+    }, "/^dodajPredmet\/toogleActivated/" => function ($method) {
+        if ($method == "POST") AdminController::toogleActivated();
+        else ViewHelper::error405();
+    },"/^DelPredmetnikaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddDelPredmetnika();
         else ViewHelper::error405();
     },"/^DelPredmetnikaAll$/" => function ($method) {
