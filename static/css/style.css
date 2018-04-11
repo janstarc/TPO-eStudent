@@ -2061,6 +2061,21 @@ form.example button {
     margin-left: 20px;
 
 }
+form.example3 button {
+    float: left;
+    width: 75%;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 12px;
+    border: 1px solid grey;
+    border-left: none;
+    margin-left: 1px;
+
+}
+form.example3 button:hover {
+    background: #0b7dda;
+}
 
 form.example button:hover {
     background: #0b7dda;

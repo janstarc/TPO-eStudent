@@ -28,6 +28,11 @@
                 </a>
             </li>
             <li class="mt">
+                <a href="Vzdrzevanjepredmetnika">
+                    <span>Vzdrževanje predmetnika</span>
+                </a>
+            </li>
+            <li class="mt">
                 <a href="PodatkiIzvajalcev">
                     <span>PodatkiIzvajalcev</span>
                 </a>

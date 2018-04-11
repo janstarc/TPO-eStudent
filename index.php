@@ -70,13 +70,21 @@ $urls = [
     }, "/^izpitniRok\/referent$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::izpitniRokForm();
         else ViewHelper::error405();
-    }, "/^Vzdrzevanjepredmetnika\/dodaj$/" => function ($method) {
-        if ($method == "POST") ProfesorController::dodaj();
+    }, "/^dodajPredmet$/" => function ($method) {
+        if ($method == "POST") AdminController::addInPredmetnik();
         else ViewHelper::error405();
-    }, "/^Vzdrzevanjepredmetnika$/" => function ($method) {
-        if ($method == "GET") ProfesorController::VzdrzevanjePredmetnika();
+    },"/^spremeniPredmetnik/" => function ($method) {
+        if ($method == "POST") AdminController::spremeniPredmetnik();
+        else ViewHelper::error405();
+    }, "/^predmet$/" => function ($method) {
+        if ($method == "POST") AdminController::Predmet();
+        else ViewHelper::error405();
+    },"/^Vzdrzevanjepredmetnika$/" => function ($method) {
+        if ($method == "GET") AdminController::VzdrzevanjePredmetnika();
         else ViewHelper::error405();
     },
+
+
 
 
     "/^DelPredmetnikaAdd$/" => function ($method) {

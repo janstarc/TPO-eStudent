@@ -95,7 +95,7 @@ class AdminController {
 
             if(is_array($mainArray)){
                 $mainArray = self::generateVpisnaUnPass($mainArray);
-                //var_dump($mainArray);
+
                 ViewHelper::render("view/UvozPodatkovConfirm.php", [
                         "mainArray" => $mainArray,
                     ]);
@@ -197,8 +197,89 @@ class AdminController {
     public static function insertParsedData(){
 
         $data = $_SESSION['mainArray'];
-        //var_dump($data);
+
         UserModel::insertNewStudent($data);
 
+    }
+    public static function VzdrzevanjePredmetnika() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                $data = AdminDB::getPredmeti();
+                ViewHelper::render("view/Vzdrzevanjepredmetnika.php", [
+                    "data" => $data
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+    public static function Predmet(){
+        $data = filter_input_array(INPUT_POST, [
+            "idPredmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+        $predmetniki = AdminDB::predmetniki($data['idPredmet']);
+        ViewHelper::render("view/UrediPredmet.php", [
+            "predmetniki" => $predmetniki,
+            "predmet" => AdminDB::predmetName($data['idPredmet']),
+            "data" => $data
+
+        ]);
+    }
+    public static function addInPredmetnik(){
+        $data = filter_input_array(INPUT_POST, [
+            "idPredmetnik" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "idPredmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "tip"  => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+        if($data['tip'] == "d"){
+            AdminDB::changePredmetnik($data['idPredmetnik']);
+            $predmetniki = AdminDB::predmetniki($data['idPredmet']);
+            ViewHelper::render("view/UrediPredmet.php", [
+                "predmetniki" => $predmetniki,
+                "predmet" => AdminDB::predmetName($data['idPredmet']),
+                "data" => $data
+
+            ]);
+        }
+        else {
+            ViewHelper::render("view/predmetnik.php", [
+                "data" => $data,
+                "all" => AdminDB::all(),
+                "predmetnik" => AdminDB::predmetnik($data['idPredmetnik'])
+
+            ]);
+        }
+
+    }
+    public static function spremeniPredmetnik(){
+        $data = filter_input_array(INPUT_POST, [
+            "tip" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS] ,
+            "letnik" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "program" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "delpredmetnika" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "idPredmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "idPredmetnik" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+
+        if($data['tip'] == "e"){
+
+            AdminDB::editPredmetnik($data);
+        }
+        else{
+            AdminDB::addPredmetnik($data);
+        }
+
+        $predmetniki = AdminDB::predmetniki($data['idPredmet']);
+        ViewHelper::render("view/UrediPredmet.php", [
+            "predmetniki" => $predmetniki,
+            "predmet" => AdminDB::predmetName($data['idPredmet']),
+            "data" => $data
+
+        ]);
     }
 }
