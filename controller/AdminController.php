@@ -61,7 +61,7 @@ class AdminController {
         ]);
     }
 
-
+    // TODO --> Napaka: ne izvajaj QUERYjev iz controllerja, klici model
     public static function storeProfessor() {
         $loggedInUser = User::getId();
         $db_connection = DBInit::getInstance();
@@ -75,11 +75,21 @@ class AdminController {
         }
     }
 
+    // Render user form
     public static function uvozPodatkov(){
 
-        ViewHelper::render("view/UvozPodatkov.php", []);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+            ViewHelper::render("view/UvozPodatkov.php", []);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
     }
 
+    // Parse input asd put it to associative array
     public static function parseInput(){
 
         $data = filter_input_array(INPUT_POST, [
@@ -96,9 +106,11 @@ class AdminController {
             if(is_array($mainArray)){
                 $mainArray = self::generateVpisnaUnPass($mainArray);
 
+                // Renders user form to confirm the insert!
                 ViewHelper::render("view/UvozPodatkovConfirm.php", [
-                        "mainArray" => $mainArray,
-                    ]);
+                    "mainArray" => $mainArray,
+                ]);
+
             } else {
                 echo "Vnos '".$mainArray."' presega maksimalno dolžino [Omejitve: Ime in priimek - 30 znakov, Program - 7 znakov, Email - 60 znakov]";
             }
@@ -107,6 +119,7 @@ class AdminController {
         }
     }
 
+    // Tokenizes input, removes empty lines from input
     public static function splitInput($toSplit){
         $splitted = explode( "&#13;&#10;", $toSplit);
         $splitted = array_filter($splitted);    // Removes empty lines
@@ -115,7 +128,7 @@ class AdminController {
         return $splitted;
     }
 
-    // Checks length of each input, returns associative array
+    // Checks length constraints of each input, returns associative array
     public static function generateMainArray($splitted, $sizeSplitted){
 
             $mainArray = array();
@@ -178,6 +191,7 @@ class AdminController {
         return $out;
     }
 
+    // Random string generator
     public static function generatePass($len){
 
         //Under the string $Caracteres you write all the characters you want to be used to randomly generate the code.
@@ -194,12 +208,16 @@ class AdminController {
         return $Hash;
     }
 
+    // Called from "UvozPodatkovConfirm.php" when user input is confirmed to be inserted
     public static function insertParsedData(){
 
         $data = $_SESSION['mainArray'];
-
         UserModel::insertNewStudent($data);
-
+        $result = UserModel::getAllStudents();
+        //var_dump($result);
+        ViewHelper::render("view/UvozPodatkovSuccess.php", [
+            "result" => $result,
+        ]);
     }
     public static function VzdrzevanjePredmetnika() {
         if (User::isLoggedIn()){

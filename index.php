@@ -300,7 +300,7 @@ $urls = [
     }, "/^UvozPodatkov\/parse$/" => function($method) {
         if ($method == "POST") AdminController::parseInput();
         else ViewHelper::error405();
-    }, "/^UvozPodatkov\/submit/" => function($method) {
+    }, "/^UvozPodatkov\/insert$/" => function($method) {
         if ($method == "POST") AdminController::insertParsedData();
         else ViewHelper::error405();
     }

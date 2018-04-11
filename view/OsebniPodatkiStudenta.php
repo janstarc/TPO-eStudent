@@ -87,7 +87,7 @@
                                         <td>
                                             <?php
                                                 foreach ($studData as $key => $value) {
-                                                    if($value['stalni'] == 1){
+                                                    if($value['je_stalni'] == 1){
                                                         echo $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj']."</br>";
                                                     }
                                                 }
@@ -99,7 +99,7 @@
                                         <td>
                                             <?php
                                                 foreach ($studData as $key => $value) {
-                                                    if($value['zavrocanje'] == 1){
+                                                    if($value['je_zavrocanje'] == 1){
                                                         echo $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj']."</br>";
                                                     }
                                                 }
@@ -108,7 +108,7 @@
                                     </tr>
                                     <tr>
                                         <td>Telefonska številka</td>
-                                        <td><?= $studData['0']['telefonska_steviklka'] ?></td>
+                                        <td><?= $studData['0']['telefonska_stevilka'] ?></td>
                                     </tr>
                                     <tr>
                                         <td>Naslov elektronske poste</td>

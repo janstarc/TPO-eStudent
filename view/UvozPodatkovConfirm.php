@@ -1,6 +1,7 @@
 <?php
 
     $_SESSION['mainArray'] = $mainArray;
+    //var_dump($mainArray);
 ?>
 
 <html>
@@ -34,9 +35,7 @@
         <button type="submit">Nazaj</button>
     </form>
 
-    <form action="<?= BASE_URL . "UvozPodatkov/submit" ?>" method="POST">
-        <!--
-        <input type="hidden" name="mainArray[]" value="<?= $mainArray ?>"/> -->
+    <form action="<?= BASE_URL . "UvozPodatkov/insert" ?>" method="POST">
         <button type="submit">Potrdi vnos - INSERT</button>
     </form>
 </html>
