@@ -83,48 +83,53 @@
                 </a>
             </li>
             <li class="mt">
-                <a href="OblikaStudijaAdd">
+                <a href="<?= BASE_URL . "OblikaStudijaAdd" ?>">
                     <span>OblikaStudijaAdd</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="OblikaStudijaAll">
+                <a href="<?= BASE_URL . "OblikaStudijaAll" ?>">
                     <span>OblikaStudijaAll</span>
                 </a>
-            </li><li class="mt">
-                <a href="PostaAdd">
+            </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "PostaAdd" ?>">
                     <span>PostaAdd</span>
                 </a>
-            </li><li class="mt">
-                <a href="PostaAll">
+            </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "PostaAll" ?>">
                     <span>PostaAll</span>
                 </a>
-            </li><li class="mt">
-                <a href="PredmetAdd">
+            </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "PredmetAdd" ?>">
                     <span>PredmetAdd</span>
                 </a>
-            </li><li class="mt">
-                <a href="PredmetAll">
+            </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "PredmetAll" ?>">
                     <span>PredmetAll</span>
                 </a>
-            </li><li class="mt">
-                <a href="StudijskoLetoAdd">
+            </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "StudijskoLetoAdd" ?>">
                     <span>StudijskoLetoAdd</span>
                 </a>
-
+            </li>
             <li class="mt">
-                <a href="StudijskoLetoAll">
+                <a href="<?= BASE_URL . "StudijskoLetoAll" ?>">
                     <span>StudijskoLetoAll</span>
                 </a>
             </li>
 
             <li class="mt">
-                <a href="VrstaVpisaAdd">
+                <a href="<?= BASE_URL . "VrstaVpisaAdd" ?>">
                     <span>VrstaVpisaAdd</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="VrstaVpisaAll">
+                <a href="<?= BASE_URL . "VrstaVpisaAll" ?>">
                     <span>VrstaVpisaAll</span>
                 </a>
             </li>

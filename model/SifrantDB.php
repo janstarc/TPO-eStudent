@@ -114,8 +114,8 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO studijsko_leto
-        (STUD_LETO,AKTIVNOST)
-        VALUES(:leto,1);"
+        (STUD_LETO)
+        VALUES(:leto);"
         );
         $statement->bindValue(":leto", $leto);
         $statement->execute();
@@ -231,8 +231,99 @@ class SifrantDB
     }
 
 
+    public static function OblikaStudijaToogleActivated($id){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT AKTIVNOST FROM OBLIKA_STUDIJA WHERE ID_OBLIKA = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
+
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare(
+            "UPDATE OBLIKA_STUDIJA
+                SET AKTIVNOST = :is_activated
+                WHERE ID_OBLIKA = :id"
+        );
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
+        return true;
+    }
 
 
+    public static function PostaToogleActivated($id){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT AKTIVNOST FROM POSTA WHERE ID_POSTA = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
+
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare(
+            "UPDATE POSTA
+                SET AKTIVNOST = :is_activated
+                WHERE ID_POSTA = :id"
+        );
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
+        return true;
+    }
+
+    public static function PredmetToogleActivated($id){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT AKTIVNOST FROM PREDMET WHERE ID_PREDMET = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
+
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare(
+            "UPDATE PREDMET
+                SET AKTIVNOST = :is_activated
+                WHERE ID_PREDMET = :id"
+        );
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
+        return true;
+    }
+
+
+    public static function VrstaVpisaToogleActivated($id){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT AKTIVNOST FROM VRSTA_VPISA WHERE ID_VRSTAVPISA = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
+
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare(
+            "UPDATE VRSTA_VPISA
+                SET AKTIVNOST = :is_activated
+                WHERE ID_VRSTAVPISA = :id"
+        );
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
+        return true;
+    }
 
 
 
@@ -438,7 +529,7 @@ class SifrantDB
 
 
 
-    public static function getOneDelPredmetniks($id) {
+    public static function getOneDelPredmetnika($id) {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare(
@@ -522,6 +613,102 @@ class SifrantDB
             "SELECT o.ID_OBCINA, o.IME_OBCINA
             FROM OBCINA as o
             WHERE o.ID_OBCINA = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+    public static function getOneOblikaStudija($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT os.ID_OBLIKA, os.NAZIV_OBLIKA, os.ANG_OPIS_OBLIKA
+            FROM OBLIKA_STUDIJA as os
+            WHERE os.ID_OBLIKA = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+
+    public static function getOnePosta($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT p.ID_POSTA, p.ST_POSTA, p.KRAJ
+            FROM POSTA as p
+            WHERE p.ID_POSTA = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+    public static function getOnePredmet($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT p.ID_PREDMET, p.IME_PREDMET
+            FROM PREDMET as p
+            WHERE p.ID_PREDMET = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+    public static function getOneStudijskoLeto($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT st.ID_STUD_LETO, st.STUD_LETO
+            FROM STUDIJSKO_LETO as st
+            WHERE st.ID_STUD_LETO = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+    public static function getOneVrstaVpisa($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT v.ID_VRSTAVPISA, v.OPIS_VPISA
+            FROM VRSTA_VPISA as v
+            WHERE v.ID_VRSTAVPISA = :id "
         );
         $statement->bindParam(":id", $id);
         $statement->execute();
@@ -628,13 +815,13 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE posta SET
-        ST_POSTA = :st, 
-        KRAJ = :kr
+        ST_POSTA = :stevilka, 
+        KRAJ = :kt
         where  ID_POSTA = :id"
         );
         $statement->bindValue(":id", $id);
-        $statement->bindValue(":st", $stevilka);
-        $statement->bindValue(":kr", $kt);
+        $statement->bindValue(":stevilka", $stevilka);
+        $statement->bindValue(":kt", $kt);
         $statement->execute();
         return true;
     }

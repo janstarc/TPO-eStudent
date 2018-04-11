@@ -185,40 +185,110 @@ $urls = [
 
 
 
-
-
-
     "/^OblikaStudijaAdd$/" => function ($method) {
-        if ($method == "POST") SifrantController::addOblikaStudija();
+        if ($method == "GET") SifrantController::getAddOblikaStudija();
         else ViewHelper::error405();
     },"/^OblikaStudijaAll$/" => function ($method) {
         if ($method == "GET") SifrantController::getOblikaStudija();
         else ViewHelper::error405();
-    },"/^PostaAdd$/" => function ($method) {
-        if ($method == "POST") SifrantController::addPosta();
+    },"/^OblikaStudijaAdd\/dodaj$/" => function ($method) {
+        if ($method == "POST") SifrantController::addOblikaStudija();
+        else ViewHelper::error405();
+    },"/^OblikaStudijaAll\/editForm$/" => function ($method) {
+        if ($method == "POST") SifrantController::editFormOblikaStudija();
+        else ViewHelper::error405();
+    }   ,"/^OblikaStudijaAll\/edit$/" => function ($method) {
+        if ($method == "POST") SifrantController::editOblikaStudija();
+        else ViewHelper::error405();
+    }, "/^OblikaStudijaAll\/toogleActivated$/" => function ($method) {
+        if ($method == "POST") SifrantController::toogleActivatedOblikaStudija();
+        else ViewHelper::error405();
+    },
+
+
+
+    "/^PostaAdd$/" => function ($method) {
+        if ($method == "GET") SifrantController::getAddPosta();
         else ViewHelper::error405();
     },"/^PostaAll$/" => function ($method) {
         if ($method == "GET") SifrantController::getPosta();
         else ViewHelper::error405();
-    },"/^PredmetAdd$/" => function ($method) {
-        if ($method == "POST") SifrantController::addPredmet();
+    },"/^PostaAdd\/dodaj$/" => function ($method) {
+        if ($method == "POST") SifrantController::addPosta();
+        else ViewHelper::error405();
+    },"/^PostaAll\/editForm$/" => function ($method) {
+        if ($method == "POST") SifrantController::editFormPosta();
+        else ViewHelper::error405();
+    }   ,"/^PostaAll\/edit$/" => function ($method) {
+        if ($method == "POST") SifrantController::editPosta();
+        else ViewHelper::error405();
+    }, "/^PostaAll\/toogleActivated$/" => function ($method) {
+        if ($method == "POST") SifrantController::toogleActivatedPosta();
+        else ViewHelper::error405();
+    },
+
+
+    "/^PredmetAdd$/" => function ($method) {
+        if ($method == "GET") SifrantController::getAddPredmet();
         else ViewHelper::error405();
     },"/^PredmetAll$/" => function ($method) {
         if ($method == "GET") SifrantController::getPredmet();
         else ViewHelper::error405();
-    },"/^StudijskoLetoAdd$/" => function ($method) {
-        if ($method == "POST") SifrantController::addStudijskoLeto();
+    },"/^PredmetAdd\/dodaj$/" => function ($method) {
+        if ($method == "POST") SifrantController::addPredmet();
+        else ViewHelper::error405();
+    }, "/^PredmetAll\/editForm$/" => function ($method) {
+        if ($method == "POST") SifrantController::editFormPredmet();
+        else ViewHelper::error405();
+    }   ,"/^PredmetAll\/edit$/" => function ($method) {
+        if ($method == "POST") SifrantController::editPredmet();
+        else ViewHelper::error405();
+    },"/^PredmetAll\/toogleActivated$/" => function ($method) {
+        if ($method == "POST") SifrantController::toogleActivatedPredmet();
+        else ViewHelper::error405();
+    },
+
+    "/^StudijskoLetoAdd$/" => function ($method) {
+        if ($method == "GET") SifrantController::getAddStudijskoLeto();
         else ViewHelper::error405();
     },"/^StudijskoLetoAll$/" => function ($method) {
         if ($method == "GET") SifrantController::getStudijskoLeto();
         else ViewHelper::error405();
-    },"/^VrstaVpisaAdd$/" => function ($method) {
-        if ($method == "POST") SifrantController::addVrstaVpisa();
+    },"/^StudijskoLetoAdd\/dodaj$/" => function ($method) {
+        if ($method == "POST") SifrantController::addStudijskoLeto();
+        else ViewHelper::error405();
+    }, "/^StudijskoLetoAll\/editForm$/" => function ($method) {
+        if ($method == "POST") SifrantController::editFormStudijskoLeto();
+        else ViewHelper::error405();
+    }   ,"/^StudijskoLetoAll\/edit$/" => function ($method) {
+        if ($method == "POST") SifrantController::editStudijskoLeto();
+        else ViewHelper::error405();
+    },
+
+
+    "/^VrstaVpisaAdd$/" => function ($method) {
+        if ($method == "GET") SifrantController::getAddVrstaVpisa();
         else ViewHelper::error405();
     },"/^VrstaVpisaAll$/" => function ($method) {
         if ($method == "GET") SifrantController::getVrstaVpisa();
         else ViewHelper::error405();
-    }, "/^UvozPodatkov$/" => function($method){
+    },"/^VrstaVpisaAdd\/dodaj$/" => function ($method) {
+        if ($method == "POST") SifrantController::addVrstaVpisa();
+        else ViewHelper::error405();
+    }, "/^VrstaVpisaAll\/editForm$/" => function ($method) {
+        if ($method == "POST") SifrantController::editFormVrstaVpisa();
+        else ViewHelper::error405();
+    }   ,"/^VrstaVpisaAll\/edit$/" => function ($method) {
+        if ($method == "POST") SifrantController::editVrstaVpisa();
+        else ViewHelper::error405();
+    },"/^VrstaVpisaAll\/toogleActivated$/" => function ($method) {
+        if ($method == "POST") SifrantController::toogleActivatedVrstaVpisa();
+        else ViewHelper::error405();
+    },
+
+
+
+    "/^UvozPodatkov$/" => function($method){
         if ($method == "GET") AdminController::UvozPodatkov();
         else ViewHelper::error405();
     }, "/^UvozPodatkov\/parse$/" => function($method) {

@@ -69,7 +69,7 @@ class SifrantController
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                    ViewHelper::render("view/Sifrant/DelPredmetnikaEdit.php", [
-                    "getId" => SifrantDB::getOneDelPredmetniks($data["urediId"])
+                    "getId" => SifrantDB::getOneDelPredmetnika($data["urediId"])
 
                 ]);
             }else{
@@ -519,6 +519,8 @@ class SifrantController
 
 
 
+    /************************************************************************************/
+    //OBLIKA STUDIJA
 
     public static function getOblikaStudija() {
         if (User::isLoggedIn()){
@@ -534,6 +536,97 @@ class SifrantController
         }
     }
 
+    public static function getAddOblikaStudija() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/OblikaStudijaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addOblikaStudija() {
+        $data = filter_input_array(INPUT_POST, [
+            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::OblikaStudijaAdd($data["opis"],$data["angopis"]);
+                ViewHelper::render("view/Sifrant/OblikaStudijaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+    public static function editFormOblikaStudija() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/Sifrant/OblikaStudijaEdit.php", [
+                    "getId" => SifrantDB::getOneOblikaStudija($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editOblikaStudija() {
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+        // var_dump($data);
+        SifrantDB::OblikaStudijaEdit($data["urediId"],$data["opis"],$data["angopis"]);
+        ViewHelper::redirect(BASE_URL . "OblikaStudijaAll");
+
+    }
+
+    public static function toogleActivatedOblikaStudija(){
+        $data = filter_input_array(INPUT_POST, [
+            "activateId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                SifrantDB::OblikaStudijaToogleActivated($data["activateId"]);
+
+                ViewHelper::redirect(BASE_URL . "OblikaStudijaAll");
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+    /************************************************************************************/
+    //POSTA
     public static function getPosta() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
@@ -547,6 +640,96 @@ class SifrantController
             ViewHelper::error401();
         }
     }
+
+    public static function getAddPosta() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/PostaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addPosta() {
+        $data = filter_input_array(INPUT_POST, [
+            "st_posta" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "kraj" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::PostaAdd($data["st_posta"],$data["kraj"]);
+                ViewHelper::render("view/Sifrant/PostaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editFormPosta() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/Sifrant/PostaEdit.php", [
+                    "getId" => SifrantDB::getOnePosta($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editPosta() {
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "st_posta" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "kraj" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+         var_dump($data);
+        SifrantDB::PostaEdit($data["urediId"],$data["st_posta"],$data["kraj"]);
+        ViewHelper::redirect(BASE_URL . "PostaAll");
+
+    }
+
+    public static function toogleActivatedPosta(){
+        $data = filter_input_array(INPUT_POST, [
+            "activateId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                SifrantDB::PostaToogleActivated($data["activateId"]);
+
+                ViewHelper::redirect(BASE_URL . "PostaAll");
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+    /************************************************************************************/
+    //PREDMET
 
     public static function getPredmet() {
         if (User::isLoggedIn()){
@@ -562,6 +745,96 @@ class SifrantController
         }
     }
 
+    public static function getAddPredmet() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/PredmetAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addPredmet() {
+        $data = filter_input_array(INPUT_POST, [
+            "predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::PredmetAdd($data["predmet"]);
+                ViewHelper::render("view/Sifrant/PredmetAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editFormPredmet() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/Sifrant/PredmetEdit.php", [
+                    "getId" => SifrantDB::getOnePredmet($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editPredmet() {
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+        // var_dump($data);
+        SifrantDB::PredmetEdit($data["urediId"],$data["predmet"]);
+        ViewHelper::redirect(BASE_URL . "PredmetAll");
+
+    }
+
+    public static function toogleActivatedPredmet(){
+        $data = filter_input_array(INPUT_POST, [
+            "activateId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                SifrantDB::PredmetToogleActivated($data["activateId"]);
+
+                ViewHelper::redirect(BASE_URL . "PredmetAll");
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+
+    /************************************************************************************/
+    //STUDIJSKO LETO
+
     public static function getStudijskoLeto() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
@@ -575,6 +848,77 @@ class SifrantController
             ViewHelper::error401();
         }
     }
+
+    public static function getAddStudijskoLeto() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/StudijskoLetoAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addStudijskoLeto() {
+        $data = filter_input_array(INPUT_POST, [
+            "stud_leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::StudijskoLetoAdd($data["stud_leto"]);
+                ViewHelper::render("view/Sifrant/StudijskoLetoAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editFormStudijskoLeto() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/Sifrant/StudijskoLetoEdit.php", [
+                    "getId" => SifrantDB::getOneStudijskoLeto($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editStudijskoLeto() {
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "stud_leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+         var_dump($data);
+        SifrantDB::StudijskoLetoEdit($data["urediId"],$data["stud_leto"]);
+        ViewHelper::redirect(BASE_URL . "StudijskoLetoAll");
+
+    }
+
+
+
+
+    /************************************************************************************/
+    //VRSTA VPISA
 
     public static function getVrstaVpisa() {
         if (User::isLoggedIn()){
@@ -590,7 +934,89 @@ class SifrantController
         }
     }
 
+    public static function getAddVrstaVpisa() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/VrstaVpisaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
 
+    public static function addVrstaVpisa() {
+        $data = filter_input_array(INPUT_POST, [
+            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
 
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::VrstaVpisaAdd($data["opis"]);
+                ViewHelper::render("view/Sifrant/VrstaVpisaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editFormVrstaVpisa() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/Sifrant/VrstaVpisaEdit.php", [
+                    "getId" => SifrantDB::getOneVrstaVpisa($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editVrstaVpisa() {
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+        // var_dump($data);
+        SifrantDB::VrstaVpisaEdit($data["urediId"],$data["opis"]);
+        ViewHelper::redirect(BASE_URL . "VrstaVpisaAll");
+
+    }
+
+    public static function toogleActivatedVrstaVpisa(){
+        $data = filter_input_array(INPUT_POST, [
+            "activateId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                SifrantDB::VrstaVpisaToogleActivated($data["activateId"]);
+
+                ViewHelper::redirect(BASE_URL . "VrstaVpisaAll");
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
 
 }
