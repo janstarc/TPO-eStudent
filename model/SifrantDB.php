@@ -25,8 +25,8 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO drzava
-        (DVOMESTNAKODA,TRIMESTNAKODA,ISONAZIV,SLOVENSKINAZIV,OPOMBA)VALUES
-        (:dk, :tk, :iso, :slo, :opo);"
+        (DVOMESTNAKODA,TRIMESTNAKODA,ISONAZIV,SLOVENSKINAZIV,OPOMBA,AKTIVNOST)VALUES
+        (:dk, :tk, :iso, :slo, :opo,1);"
         );
         $statement->bindValue(":dk", $dk);
         $statement->bindValue(":tk", $tk);
@@ -41,8 +41,8 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO letnik
-              (LETNIK,MOZEN_VPIS)VALUES
-              (:letnik,1);"
+              (LETNIK)VALUES
+              (:letnik);"
         );
         $statement->bindValue(":letnik", $letnik);
         $statement->execute();
@@ -65,7 +65,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO obcina
-        (IME_OBCINA,AKTIVNA_OBCINA)
+        (IME_OBCINA,AKTIVNOST)
         VALUES(:ime,1);"
         );
         $statement->bindValue(":ime", $ime);
@@ -159,6 +159,83 @@ class SifrantDB
         $statement2->execute();
         return true;
     }
+
+    public static function DrzavaToogleActivated($id){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT AKTIVNOST FROM DRZAVA WHERE ID_DRZAVA = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
+
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare(
+            "UPDATE DRZAVA
+                SET AKTIVNOST = :is_activated
+                WHERE ID_DRZAVA = :id"
+        );
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
+        return true;
+    }
+
+    public static function NacinStudijaToogleActivated($id){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT AKTIVNOST FROM NACIN_STUDIJA WHERE ID_NACIN = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
+
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare(
+            "UPDATE NACIN_STUDIJA
+                SET AKTIVNOST = :is_activated
+                WHERE ID_NACIN = :id"
+        );
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
+        return true;
+    }
+
+
+    public static function ObcinaToogleActivated($id){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT AKTIVNOST FROM OBCINA WHERE ID_OBCINA = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
+
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare(
+            "UPDATE OBCINA
+                SET AKTIVNOST = :is_activated
+                WHERE ID_OBCINA = :id"
+        );
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
+        return true;
+    }
+
+
+
+
+
+
+
     public static function DrzavaDelete($id){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
@@ -380,6 +457,82 @@ class SifrantDB
         }
     }
 
+    public static function getOneDrzava($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT d.ID_DRZAVA, d.DVOMESTNAKODA, d.TRIMESTNAKODA, d.ISONAZIV, d.SLOVENSKINAZIV, d.OPOMBA
+            FROM DRZAVA as d
+            WHERE d.ID_DRZAVA = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+
+    public static function getOneLetnik($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT l.ID_LETNIK, l.LETNIK
+            FROM LETNIK as l
+            WHERE l.ID_LETNIK = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+    public static function getOneNacinStudija($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT ns.ID_NACIN, ns.OPIS_NACIN, ns.ANG_OPIS_NACIN
+            FROM NACIN_STUDIJA as ns
+            WHERE ns.ID_NACIN = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+    public static function getOneObcina($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT o.ID_OBCINA, o.IME_OBCINA
+            FROM OBCINA as o
+            WHERE o.ID_OBCINA = :id "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetch();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
 
 
     public static function DelPredmetnikaEdit($id, $naziv, $kt, $tip){
@@ -408,7 +561,7 @@ class SifrantDB
         OPOMBA = :opo, 
         SLOVENSKINAZIV = :slo,
         TRIMESTNAKODA = :tk
-        where  ID_DRZAVE = :id"
+        where  ID_DRZAVA = :id"
         );
         $statement->bindValue(":id", $id);
         $statement->bindValue(":dk", $dk);

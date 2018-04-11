@@ -43,42 +43,42 @@
                 </a>
             </li>
             <li class="mt">
-                <a href="DrzavaAdd">
+                <a href="<?= BASE_URL . "DrzavaAdd" ?>">
                     <span>DrzavaAdd</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="DrzavaAll">
+                <a href="<?= BASE_URL . "DrzavaAll" ?>">
                     <span>DrzavaAll</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="LetnikAdd">
+                <a href="<?= BASE_URL . "LetnikAdd" ?>">
                     <span>LetnikAdd</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="LetnikAll">
+                <a href="<?= BASE_URL . "LetnikAll" ?>">
                     <span>LetnikAll</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="NacinStudijaAdd">
+                <a href="<?= BASE_URL . "NacinStudijaAdd" ?>">
                     <span>NacinStudijaAdd</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="NacinStudijaAll">
+                <a href="<?= BASE_URL . "NacinStudijaAll" ?>">
                     <span>NacinStudijaAll</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="ObcinaAdd">
+                <a href="<?= BASE_URL . "ObcinaAdd" ?>">
                     <span>ObcinaAdd</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="ObcinaAll">
+                <a href="<?= BASE_URL . "ObcinaAll" ?>">
                     <span>ObcinaAll</span>
                 </a>
             </li>

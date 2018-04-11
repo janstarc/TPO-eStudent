@@ -7,6 +7,9 @@ require_once("ViewHelper.php");
 
 class SifrantController
 {
+
+    /************************************************************************************/
+    //DEL PREDMETNIKA
     public static function getDelPredmetnika() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
@@ -87,7 +90,7 @@ class SifrantController
             "tip" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
        //     echo "Edit del predmetnika";
-            var_dump($data);
+           // var_dump($data);
             SifrantDB::DelPredmetnikaEdit($data["urediId"], $data["naziv_delpredmetnika"], $data["st_Kt"], $data["tip"]);
             ViewHelper::redirect(BASE_URL . "DelPredmetnikaAll");
 
@@ -113,6 +116,9 @@ class SifrantController
         }
     }
 
+
+    /************************************************************************************/
+    //DRZAVA
     public static function getDrzava() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
@@ -126,6 +132,101 @@ class SifrantController
             ViewHelper::error401();
         }
     }
+
+    public static function getAddDrzava() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/DrzavaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addDrzava() {
+        $data = filter_input_array(INPUT_POST, [
+            "dvomestnakoda" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "trimestnakoda" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS] ,
+            "isonaziv" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "slonaziv" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "opomba" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::DrzavaAdd($data["dvomestnakoda"],$data["trimestnakoda"],$data["isonaziv"],$data["slonaziv"],$data["opomba"]);
+                ViewHelper::render("view/Sifrant/DrzavaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editFormDrzava() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+         var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/Sifrant/DrzavaEdit.php", [
+                    "getId" => SifrantDB::getOneDrzava($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editDrzava() {
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "dvomestnakoda" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "trimestnakoda" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS] ,
+            "isonaziv" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "slonaziv" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "opomba" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+       // var_dump($data);
+        SifrantDB::DrzavaEdit($data["urediId"],$data["dvomestnakoda"],$data["trimestnakoda"],$data["isonaziv"],$data["slonaziv"],$data["opomba"]);
+        ViewHelper::redirect(BASE_URL . "DrzavaAll");
+
+    }
+
+    public static function toogleActivatedDrzava(){
+        $data = filter_input_array(INPUT_POST, [
+            "activateId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                SifrantDB::DrzavaToogleActivated($data["activateId"]);
+
+                ViewHelper::redirect(BASE_URL . "DrzavaAll");
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    /************************************************************************************/
+    //LETNIK
 
     public static function getLetnik() {
         if (User::isLoggedIn()){
@@ -141,6 +242,74 @@ class SifrantController
         }
     }
 
+    public static function getAddLetnik() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/LetnikAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addLetnik() {
+        $data = filter_input_array(INPUT_POST, [
+            "letnik" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::LetnikAdd($data["letnik"]);
+                ViewHelper::render("view/Sifrant/LetnikAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editFormLetnik() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/Sifrant/LetnikEdit.php", [
+                    "getId" => SifrantDB::getOneLetnik($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editLetnik() {
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "letnik" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+        // var_dump($data);
+        SifrantDB::LetnikEdit($data["urediId"],$data["letnik"]);
+        ViewHelper::redirect(BASE_URL . "LetnikAll");
+
+    }
+
+    /************************************************************************************/
+    //NACIN STUDIJA
+
     public static function getNacinStudija() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
@@ -155,6 +324,98 @@ class SifrantController
         }
     }
 
+    public static function getAddNacinStudija() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/NacinStudijaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addNacinStudija() {
+        $data = filter_input_array(INPUT_POST, [
+            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::NacinStudijaAdd($data["opis"],$data["angopis"]);
+                ViewHelper::render("view/Sifrant/NacinStudijaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+    public static function editFormNacinStudija() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/Sifrant/NacinStudijaEdit.php", [
+                    "getId" => SifrantDB::getOneNacinStudija($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editNacinStudija() {
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+        // var_dump($data);
+        SifrantDB::NacinStudijaEdit($data["urediId"],$data["opis"],$data["angopis"]);
+        ViewHelper::redirect(BASE_URL . "NacinStudijaAll");
+
+    }
+
+    public static function toogleActivatedNacinStudija(){
+        $data = filter_input_array(INPUT_POST, [
+            "activateId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                SifrantDB::NacinStudijaToogleActivated($data["activateId"]);
+
+                ViewHelper::redirect(BASE_URL . "NacinStudijaAll");
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+    /************************************************************************************/
+    //OBCINA
+
     public static function getObcina() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
@@ -168,6 +429,96 @@ class SifrantController
             ViewHelper::error401();
         }
     }
+
+    public static function getAddObcina() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                //  var_dump( SifrantDB::DelPredmetnikaGet());
+                ViewHelper::render("view/Sifrant/ObcinaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addObcina() {
+        $data = filter_input_array(INPUT_POST, [
+            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                // var_dump( SifrantDB::DelPredmetnikaGet());
+                SifrantDB::ObcinaAdd($data["ime"]);
+                ViewHelper::render("view/Sifrant/ObcinaAdd.php", [
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+    public static function editFormObcina() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ViewHelper::render("view/Sifrant/ObcinaEdit.php", [
+                    "getId" => SifrantDB::getOneObcina($data["urediId"])
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editObcina() {
+        $data = filter_input_array(INPUT_POST, [
+            "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+        // var_dump($data);
+        SifrantDB::ObcinaEdit($data["urediId"],$data["ime"]);
+        ViewHelper::redirect(BASE_URL . "ObcinaAll");
+
+    }
+
+    public static function toogleActivatedObcina(){
+        $data = filter_input_array(INPUT_POST, [
+            "activateId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                SifrantDB::ObcinaToogleActivated($data["activateId"]);
+
+                ViewHelper::redirect(BASE_URL . "ObcinaAll");
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+
+
 
     public static function getOblikaStudija() {
         if (User::isLoggedIn()){
