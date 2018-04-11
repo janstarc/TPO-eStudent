@@ -725,12 +725,12 @@ INSERT INTO `tpo`.`program`(`ID_PROGRAM`, `ID_STOPNJA`, `SIFRA_PROGRAM`, `NAZIV_
   (3,3,'XX','RACUNAL. IN INFORMATIKA BUN RI',6,1000426,1);
 
 
-INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`,`TELEFONSKA_STEVILKA`)VALUES
-  (1,'testS', '123456', 's', 'Janez', 'Novak','040040040'),
-  (2,'testP', '123456', 'p', 'An', 'Ban','030030030'),
-  (3,'testR', '123456', 'r', 'Ancka', 'Novak','050505050'),
-  (4,'testS2', '123456', 's', 'Janezek', 'Novakovic','123581321'),
-  (5,'testA', '123456', 'a', 'Admin', 'Admin','123581321');
+INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`,`TELEFONSKA_STEVILKA`)VALUES
+  (1,'testS', 'testS', '123456', 's', 'Janez', 'Novak','040040040'),
+  (2,'testP', 'testP', '123456', 'p', 'An', 'Ban','030030030'),
+  (3,'testR', 'testR', '123456', 'r', 'Ancka', 'Novak','050505050'),
+  (4,'testS2', 'testS2', '123456', 's', 'Janezek', 'Novakovic','123581321'),
+  (5,'testA', 'testA', '123456', 'a', 'Admin', 'Admin','123581321');
 # preverjanje login:
 # uporabnisko ime=testS  geslo='123456'
 # VRSTA_VLOGE: admin='a', referat='r', profesor='p' in student='s'

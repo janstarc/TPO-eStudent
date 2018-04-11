@@ -42,7 +42,7 @@ class UserModel {
         $db = DBInit::getInstance();
 
         var_dump($studentArray);
-        
+
 
         foreach ($studentArray as $key => $value){
 
@@ -52,8 +52,9 @@ class UserModel {
 
         $statement = $db->prepare("
            BEGIN;
-           INSERT INTO `oseba`(`ime`, `priimek`)
+           INSERT INTO `oseba`(`ime`, `priimek`, )
                 VALUES 
+           COMMIT;
         ");
 
     }
