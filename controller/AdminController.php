@@ -82,12 +82,115 @@ class AdminController {
 
     public static function ParseInput(){
 
-
         $data = filter_input_array(INPUT_POST, [
             "podatkiInput" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        echo $data["podatkiInput"];
-        yvar_dump($data);
+        $splitted = self::SplitInput($data["podatkiInput"]);
+        $sizeSplitted = count($splitted);
+
+        $mainArray = null;
+        if($sizeSplitted % 4 == 0){
+            $mainArray = self::GenerateMainArray($splitted, $sizeSplitted);
+
+            if(is_array($mainArray)){
+                $mainArray = self::GenerateVpisnaUnPass($mainArray);
+                //var_dump($mainArray);
+                ViewHelper::render("view/UvozPodatkovConfirm.php", [
+                        "mainArray" => $mainArray,
+                    ]);
+            } else {
+                echo "Vnos '".$mainArray."' presega maksimalno dolžino [Omejitve: Ime in priimek - 30 znakov, Program - 7 znakov, Email - 60 znakov]";
+            }
+        } else {
+            echo "Nepravilna dolžina vnosa - manjkajoči atributi";
+        }
+    }
+
+    public static function SplitInput($toSplit){
+        $splitted = explode( "&#13;&#10;", $toSplit);
+        $splitted = array_filter($splitted);    // Removes empty lines
+        $splitted = array_values($splitted);    // Re-Index the array
+
+        return $splitted;
+    }
+
+    // Checks length of each input, returns associative array
+    public static function GenerateMainArray($splitted, $sizeSplitted){
+
+            $mainArray = array();
+            $temp = array();
+
+            for($i = 0; $i < $sizeSplitted; $i+=4){
+
+                if(strlen($splitted[$i]) <= 30){
+                    $temp['ime'] = $splitted[$i];
+                } else {
+                    return $splitted[$i];
+                }
+
+                if(strlen($splitted[$i+1]) <= 30){
+                    $temp['priimek'] = $splitted[$i+1];
+                } else {
+                    return $splitted[$i+1];
+                }
+
+                if(strlen($splitted[$i+2]) <= 7){
+                    $temp['program'] = $splitted[$i+2];
+                } else {
+                    return $splitted[$i+2];
+                }
+
+                if(strlen($splitted[$i+3]) <= 60){
+                    $temp['email'] = $splitted[$i+3];
+                } else {
+                    return $splitted[$i+3];
+                }
+
+                array_push($mainArray, $temp);
+            }
+
+            return $mainArray;
+    }
+
+    // Generates vpisna, username, pass, returns enriched associative array
+    public static function GenerateVpisnaUnPass($mainArray){
+
+        $out = array();
+
+        foreach ($mainArray as $key => $value){
+
+            $vpisna = rand(10000000, 99999999);
+
+            $imePrva = substr($value['ime'], 0, 1);
+            $priimekPrva = substr($value['priimek'], 0, 1);
+            $randomUn = rand(1000, 9999);
+            $username = $imePrva.$priimekPrva.$randomUn;
+
+            $pass = self::GeneratePass(6);
+
+            $value['vpisna'] = $vpisna;
+            $value['username'] = $username;
+            $value['password'] = $pass;
+            array_push($out, $value);
+        }
+
+        return $out;
+    }
+
+    public static function GeneratePass($len){
+
+        //Under the string $Caracteres you write all the characters you want to be used to randomly generate the code.
+        $Caracteres = 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvxyz0123456789';
+        $QuantidadeCaracteres = strlen($Caracteres);
+        $QuantidadeCaracteres--;
+
+        $Hash=NULL;
+        for($x=1;$x<=$len;$x++){
+            $Posicao = rand(0,$QuantidadeCaracteres);
+            $Hash .= substr($Caracteres,$Posicao,1);
+        }
+
+        return $Hash;
     }
 }
