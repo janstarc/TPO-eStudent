@@ -58,13 +58,31 @@ $urls = [
     }, "/^OsebniPodatkiStudenta\/vpisnaSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchByVpisna();
         else ViewHelper::error405();
-    }, "/^PodatkiIzvajalcev$/" => function ($method) {
-        if ($method == "GET") AdminController::pregledPodatkovOIzvajalcih();
+
+    },
+    "/^PodatkiIzvajalcev$/" => function ($method) {
+        if ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
         else ViewHelper::error405();
     }, "/^PodatkiIzvajalcev\/subjectSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchBySubject();
         else ViewHelper::error405();
-    }, "/^izpitniRok\/profesor$/" => function ($method) {
+    }, "/^PodatkiIzvajalcev\/edit$/" => function ($method) {
+        if ($method == "POST") AdminController::editIzvajalec();
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/editForm$/" => function ($method) {
+        if ($method == "POST") AdminController::editFormIzvajalec();
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcevAdd$/" => function ($method) {
+        if ($method == "GET") AdminController::getFormIzvajalec();
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/dodaj$/" => function ($method) {
+        if ($method == "POST") AdminController::addIzvajalec();
+        else ViewHelper::error405();
+    },
+
+
+
+    "/^izpitniRok\/profesor$/" => function ($method) {
         if ($method == "GET") ProfesorController::izpitniRokForm();
         else ViewHelper::error405();
     }, "/^izpitniRok\/referent$/" => function ($method) {

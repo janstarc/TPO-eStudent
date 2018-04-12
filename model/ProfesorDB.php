@@ -138,5 +138,182 @@ class ProfesorDB {
         $statement->execute();
         return $statement->fetchColumn();
     }
+
+    public static function getAllProfessors(){
+        $db=DBInit::getInstance();
+
+        $statement=$db->prepare("
+            SELECT o.IME, o.PRIIMEK , o.EMAIL, o.TELEFONSKA_STEVILKA
+            FROM OSEBA as o
+            WHERE o.VRSTA_VLOGE='p'
+        ");
+
+        $statement->execute();
+        return $statement->fetchAll();
+
+    }
+
+    public static function getOneIzvajalec($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "
+            SELECT DISTINCT o.ID_OSEBA, o.IME, o.PRIIMEK, o.EMAIL, o.TELEFONSKA_STEVILKA
+            FROM OSEBA as o
+            WHERE o.ID_OSEBA=:id"
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $product = $statement->fetchAll();
+        // var_dump($product);
+        if ($product != null) {
+            return $product;
+        } else {
+            throw new InvalidArgumentException("No record with id $id");
+        }
+    }
+
+    public static function IzvajalecEdit($ime, $priimek, $email, $tel,$id_predmet){
+      /*  var_dump($ime);
+        var_dump($priimek);
+        var_dump($email);
+        var_dump($tel);*/
+        $db = DBInit::getInstance();
+
+       for($i=0; $i<count($ime);$i++){
+
+
+            $statement=$db->prepare("
+             SELECT ID_OSEBA 
+             FROM OSEBA   
+             WHERE IME=:ime AND PRIIMEK=:priimek AND EMAIL=:email AND TELEFONSKA_STEVILKA=:tel
+            ");
+
+            $statement->bindValue(":ime", $ime[$i]);
+            $statement->bindValue(":priimek", $priimek[$i]);
+            $statement->bindValue(":email", $email[$i]);
+            $statement->bindValue(":tel", $tel[$i]);
+            $statement->execute();
+
+            $result=$statement->fetch();
+          //  var_dump($result);
+            if($result==null) {
+                echo "ERROR11111!";
+                return;
+            }
+
+            $id=$result["ID_OSEBA"];
+
+            if($i==0){
+                $statement = $db -> prepare(
+                    "UPDATE IZVEDBA_PREDMETA 
+                      SET
+                     ID_OSEBA1 = :id 
+                    where  ID_PREDMET = :id_predmet"
+                );
+                //var_dump($id_predmet);
+                $statement->bindValue(":id", $id);
+                $statement->bindValue(":id_predmet", $id_predmet);
+                $statement->execute();
+            }else if($i==1){
+                $statement = $db -> prepare(
+                    "UPDATE IZVEDBA_PREDMETA 
+                      SET
+                     ID_OSEBA2 = :id
+                    where  ID_PREDMET = :id_predmet"
+                );
+                $statement->bindValue(":id", $id);
+                $statement->bindValue(":id_predmet", $id_predmet);
+                $statement->execute();
+            }else  {
+                $statement = $db -> prepare(
+                    "UPDATE IZVEDBA_PREDMETA 
+                      SET
+                     ID_OSEBA3 = :id
+                    where  ID_PREDMET = :id_predmet"
+                );
+                $statement->bindValue(":id", $id);
+                $statement->bindValue(":id_predmet", $id_predmet);
+                $statement->execute();
+            }
+
+
+           /* $statement = $db -> prepare(
+                "UPDATE OSEBA 
+                SET
+            IME = :ime,
+            PRIIMEK = :priimek, 
+            EMAIL = :email,
+            TELEFONSKA_STEVILKA = :tel
+            where  ID_OSEBA = :id;"
+            );
+            echo "ALOOOO".$id.$ime[$i].$priimek[$i].$email[$i].$tel[$i];
+            $statement->bindValue(":id", $id);
+           $statement->bindValue(":ime", $ime[$i]);
+           $statement->bindValue(":priimek", $priimek[$i]);
+           $statement->bindValue(":email", $email[$i]);
+           $statement->bindValue(":tel", $tel[$i]);
+            $statement->execute();
+            echo "bteh4eh46j";*/
+        }
+
+        return true;
+
+
+    }
+
+    public static function IzvajalecAdd($ime, $priimek,$email,$geslo,$telefon){
+        $db = DBInit::getInstance();
+
+
+        $statement = $db -> prepare(
+            "INSERT INTO OSEBA
+        (IME,PRIIMEK,EMAIL,GESLO,VRSTA_VLOGE,TELEFONSKA_STEVILKA)
+        VALUES(:ime,:priimek,:email,:geslo,'p',:telefon);"
+        );
+
+        $statement->bindValue(":ime", $ime);
+        $statement->bindValue(":priimek", $priimek);
+        $statement->bindValue(":email", $email);
+        $statement->bindValue(":geslo", $geslo);
+        $statement->bindValue(":telefon", $telefon);
+
+
+        $statement->execute();
+
+        return true;
+    }
+
+
+    public  static  function getSubjectProfessors($id_subject){
+        $db = DBInit::getInstance();
+
+
+        $statement = $db -> prepare(
+            "SELECT ID_OSEBA1,ID_OSEBA2, ID_OSEBA3
+            FROM IZVEDBA_PREDMETA 
+            WHERE ID_PREDMET=:id_subject
+            "
+        );
+        $statement->bindValue(":id_subject", $id_subject);
+        $statement->execute();
+        $result=$statement->fetch();
+
+        //$len=count($result);
+       // var_dump($result);
+      /*  for($i=count($result);$i>=0;$i--){
+
+            if($result[$i]==null){
+                unset($result[$i]);
+                //$len=count($result);
+            }
+        }*/
+
+
+        return $result;
+
+    }
+
+
 }
 

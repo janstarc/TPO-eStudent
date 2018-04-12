@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="content-panel">
-                        <h3>Iskanje predmeta</h3>
+                        <h3>Iskanje predmeta za trenutno studijsko leto</h3>
                         <br>
                         <form class="subject" action="<?= BASE_URL . "PodatkiIzvajalcev/subjectSearch" ?>" method="post">
                             <input type="text" placeholder="IŠČI PO PREDMETU..." name="searchSubject">
@@ -29,19 +29,33 @@
                             <thead>
                             <tr>
                                 <th>Predmet</th>
-                                <th>Studijsko leto</th>
-                                <th>Izvajalec</th>
-                                <th>Operacije</th>
+                                <th>Ime izvajalca</th>
+                                <th>Priimek izvajalca</th>
+                                <th>Email</th>
+                                <th>Telefon</th>
+                                <th>Uredi</th>
 
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach($subjects as $key=>$value): ?>
+
+                            <?php
+                          //  var_dump($subjects);
+                            foreach($subjects as $key=>$value): ?>
+
                                 <tr>
                                     <td><?php echo $value['IME_PREDMET']; ?></td>
-                                    <td><?php echo $value['STUD_LETO']; ?></td>
-                                    <td><?php echo $value['IME'] . ' ' . $value['PRIIMEK']; ?></td>
-                                    <td></td>
+                                    <td><?php echo $value['IME'] ; ?></td>
+                                    <td><?php echo $value['PRIIMEK'] ; ?></td>
+                                    <td><?php echo $value['EMAIL']; ?></td>
+                                    <td><?php echo $value['TELEFONSKA_STEVILKA']; ?></td>
+                                    <td>
+                                        <form action="<?= BASE_URL . "PodatkiIzvajalcev/editForm" ?>" method="post">
+                                            <input type="hidden" name="urediId" value="<?= $value['ID_OSEBA'] ?>" />
+                                            <input type="hidden" name="predmetId" value="<?= $value['ID_PREDMET'] ?>" />
+                                            <input class="btn btn-primary btn-sm" type="submit" value="Uredi" />
+                                        </form>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

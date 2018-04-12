@@ -61,22 +61,132 @@ class AdminController {
         ]);
     }
 
-    // TODO --> Napaka: ne izvajaj QUERYjev iz controllerja, klici model
-    public static function storeProfessor() {
-        $loggedInUser = User::getId();
-        $db_connection = DBInit::getInstance();
-        $sql = "INSERT INTO izvedba_predmeta (ID_UCITELJ, ID_STUD_LETO, ID_PREDMET) VALUES (?, ?, ?)";
-        $stmt = $db_connection->prepare($sql);
 
-        if ($stmt->execute(array((int)$_POST["professor_id"], (int)$_POST["semester_id"], (int)$_POST["subject_id"]))) {
-            ViewHelper::redirect(BASE_URL . 'PodatkiOIzvajalcih');
-        } else {
-            echo "Error: " . $sql . "<br>" . $db_connection->errorInfo();
+
+
+
+    public static function editFormIzvajalec() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "predmetId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data["predmetId"]);
+        //echo"Alo";
+         //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                $subjectProfessors=ProfesorDB::getSubjectProfessors($data["predmetId"]);
+                $profData=array();
+               // for($i=0;$i<count($subjectProfessors);$i++){
+                 foreach ($subjectProfessors as $val){
+              //      echo "htnw4";
+                   //  echo $val;
+                     if($val!=NULL){
+                        $temp=ProfesorDB::getOneIzvajalec($val);
+                     //  var_dump($temp);
+                    //   var_dump($temp[0]["IME"]);
+                        array_push($profData,$temp[0]);
+                    }
+
+                }
+
+               // var_dump($profData);
+
+
+                ViewHelper::render("view/PodatkiIzvajalcevForm.php", [
+                    "professors" => ProfesorDB::getAllProfessors(),
+                    "profData" => $profData,
+                    "predmetId" => $data["predmetId"]
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
         }
     }
 
+    public static function editIzvajalec() {
+        $data = filter_input_array(INPUT_POST, [
+            'predmetId' => [
+                'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
+            ],
+            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "telefon" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+
+        //array(5) { ["urediId"]=> string(1) "2" ["ime"]=> string(9) "Jan, Lina" ["priimek"]=> string(9) "Ban,Yolo," ["email"]=> string(12) "testP,testP1" ["telefon"]=> string(10) "030030030," }
+        $ime=explode(",",$data["ime"]);
+        $ime=array_map('trim',$ime);
+        $ime=array_filter($ime);
+        $priimek=explode(",",$data["priimek"]);
+        $priimek=array_map('trim',$priimek);
+        $priimek=array_filter($priimek);
+        $email=explode(",",$data["email"]);
+        $email=array_map('trim',$email);
+        $email=array_filter($email);
+        $telefon=explode(",",$data["telefon"]);
+        $telefon=array_map('trim',$telefon);
+        $telefon=array_filter($telefon);
+
+
+        $size=count($ime);
+        if(!(count($priimek)==$size && count($email)==$size && count($telefon)==$size)){
+            echo "ERROR!";
+            return ;
+        }
+        ProfesorDB::IzvajalecEdit($ime,$priimek,$email,$telefon,$data["predmetId"]);
+        ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev");
+
+    }
+
+    public static function addIzvajalec(){
+
+        $data = filter_input_array(INPUT_POST, [
+            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "geslo" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "telefon" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                ProfesorDB::IzvajalecAdd($data["ime"],$data["priimek"],$data["email"],$data["geslo"],$data["telefon"]);
+                ViewHelper::render("view/PodatkiIzvajalcevAdd.php", [
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+    public static function getFormIzvajalec(){
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+                ViewHelper::render("view/PodatkiIzvajalcevAdd.php", [
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+
     // Render user form
-    public static function uvozPodatkov(){
+
+    public static function UvozPodatkov(){
 
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
