@@ -21,12 +21,12 @@
     <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
-                <a href="ElektronskiIndeks">
+                <a href="<?= BASE_URL . "ElektronskiIndeks" ?>">
                     <span>ElektronskiIndeks</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="PregledIzpitovStudent">
+                <a href="<?= BASE_URL . "PregledIzpitovStudent" ?>">
                     <span>PregledIzpitovStudent</span>
                 </a>
             </li>

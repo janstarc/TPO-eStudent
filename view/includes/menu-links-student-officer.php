@@ -21,7 +21,7 @@
     <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
-                <a href="izpitniRok/referent">
+                <a href="<?= BASE_URL . "izpitniRok/referent" ?>">
                     <span>Izpitni Rok</span>
                 </a>
             </li>

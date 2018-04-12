@@ -23,27 +23,27 @@
     <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
-                <a href="PregledIzpitovProfesor">
+                <a href="<?= BASE_URL . "PregledIzpitovProfesor" ?>">
                     <span>PregledIzpitovProfesor</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="VnosIzpitov">
+                <a href="<?= BASE_URL . "VnosIzpitov" ?>">
                     <span>VnosIzpitov</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="VnosOcen">
+                <a href="<?= BASE_URL . "VnosOcen" ?>">
                     <span>VnosOcen</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="izpitniRok/profesor">
+                <a href="<?= BASE_URL . "izpitniRok/profesor" ?>">
                     <span>Izpitni Rok</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="izpitniRok/profesor/add">
+                <a href="<?= BASE_URL . "izpitniRok/profesor/add" ?>">
                     <span>Dodaj Izpitni Rok</span>
                 </a>
             </li>
