@@ -32,12 +32,12 @@ class IzvedbaPredmetaModel {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-                SELECT p.IME_PREDMET, sl.STUD_LETO, o.IME, o.PRIIMEK
+                SELECT DISTINCT p.IME_PREDMET,p.ID_PREDMET, o.ID_OSEBA ,o.IME, o.PRIIMEK, o.EMAIL, o.TELEFONSKA_STEVILKA
                 FROM IZVEDBA_PREDMETA as ip 
-                JOIN (PREDMET as p, STUDIJSKO_LETO as sl, OSEBA as o, UCITELJ as u)
-                ON ip.ID_STUD_LETO=sl.ID_STUD_LETO AND ip.ID_PREDMET=p.ID_PREDMET 
-                    AND (ip.ID_UCITELJ1=u.ID_UCITELJ OR ip.ID_UCITELJ2=u.ID_UCITELJ OR ip.ID_UCITELJ3=u.ID_UCITELJ)
-                    AND u.ID_OSEBA=o.ID_OSEBA
+                JOIN (PREDMET as p, OSEBA as o)
+                ON ip.ID_PREDMET=p.ID_PREDMET 
+                    AND (ip.ID_OSEBA1=o.ID_OSEBA OR ip.ID_OSEBA2=o.ID_OSEBA OR ip.ID_OSEBA3=o.ID_OSEBA)
+                    
                 WHERE p.IME_PREDMET LIKE :ime_predmeta
         ");
         $ime_predmeta_like="%" . $ime_predmeta . "%";
@@ -45,9 +45,6 @@ class IzvedbaPredmetaModel {
         $statement->execute();
         $results = $statement->fetchAll();
 
-      /*  print_r($results);
-        print("<br>");
-*/
         if ($results != null) {
             return $results;
         } else {

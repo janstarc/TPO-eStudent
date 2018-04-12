@@ -58,14 +58,31 @@ $urls = [
     }, "/^OsebniPodatkiStudenta\/vpisnaSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchByVpisna();
         else ViewHelper::error405();
-    }, "/^PodatkiIzvajalcev$/" => function ($method) {
-        if ($method == "GET") AdminController::pregledPodatkovOIzvajalcih();
+
+    },
+    "/^PodatkiIzvajalcev$/" => function ($method) {
+        if ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
         else ViewHelper::error405();
     }, "/^PodatkiIzvajalcev\/subjectSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchBySubject();
         else ViewHelper::error405();
+
+        
+    }, "/^PodatkiIzvajalcev\/edit$/" => function ($method) {
+        if ($method == "POST") AdminController::editIzvajalec();
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/editForm$/" => function ($method) {
+        if ($method == "POST") AdminController::editFormIzvajalec();
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcevAdd$/" => function ($method) {
+        if ($method == "GET") AdminController::getFormIzvajalec();
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/dodaj$/" => function ($method) {
+        if ($method == "POST") AdminController::addIzvajalec();
+        else ViewHelper::error405();
     },
-    
+
+
     "/^izpitniRok\/profesor$/" => function ($method) {
         if ($method == "GET") ProfesorController::izpitniRokAllForm();
         else ViewHelper::error405();
@@ -99,12 +116,10 @@ $urls = [
     },"/^Vzdrzevanjepredmetnika$/" => function ($method) {
         if ($method == "GET") AdminController::VzdrzevanjePredmetnika();
         else ViewHelper::error405();
-    },
-
-
-
-
-    "/^DelPredmetnikaAdd$/" => function ($method) {
+    }, "/^dodajPredmet\/toogleActivated/" => function ($method) {
+        if ($method == "POST") AdminController::toogleActivated();
+        else ViewHelper::error405();
+    },"/^DelPredmetnikaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddDelPredmetnika();
         else ViewHelper::error405();
     },"/^DelPredmetnikaAll$/" => function ($method) {
@@ -317,7 +332,7 @@ $urls = [
     }, "/^UvozPodatkov\/parse$/" => function($method) {
         if ($method == "POST") AdminController::parseInput();
         else ViewHelper::error405();
-    }, "/^UvozPodatkov\/submit/" => function($method) {
+    }, "/^UvozPodatkov\/insert$/" => function($method) {
         if ($method == "POST") AdminController::insertParsedData();
         else ViewHelper::error405();
     }

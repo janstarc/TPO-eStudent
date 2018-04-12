@@ -23,18 +23,28 @@
     <div id="sidebar" class="nav-collapse " style="overflow-y: auto;">
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
-                <a href="OsebniPodatkiStudenta">
+                <a href="<?= BASE_URL . "OsebniPodatkiStudenta" ?>">
                     <span>OsebniPodatkiStudenta</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="Vzdrzevanjepredmetnika">
+                <a href="<?= BASE_URL . "UvozPodatkov" ?>">
+                    <span>UvozPodatkov</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "Vzdrzevanjepredmetnika" ?>">
                     <span>Vzdrževanje predmetnika</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="PodatkiIzvajalcev">
+                <a href="<?= BASE_URL . "PodatkiIzvajalcev" ?>">
                     <span>PodatkiIzvajalcev</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "PodatkiIzvajalcevAdd" ?>">
+                    <span>AddIzvajalec</span>
                 </a>
             </li>
             <li class="mt">

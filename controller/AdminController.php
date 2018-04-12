@@ -62,24 +62,144 @@ class AdminController {
     }
 
 
-    public static function storeProfessor() {
-        $loggedInUser = User::getId();
-        $db_connection = DBInit::getInstance();
-        $sql = "INSERT INTO izvedba_predmeta (ID_UCITELJ, ID_STUD_LETO, ID_PREDMET) VALUES (?, ?, ?)";
-        $stmt = $db_connection->prepare($sql);
 
-        if ($stmt->execute(array((int)$_POST["professor_id"], (int)$_POST["semester_id"], (int)$_POST["subject_id"]))) {
-            ViewHelper::redirect(BASE_URL . 'PodatkiOIzvajalcih');
-        } else {
-            echo "Error: " . $sql . "<br>" . $db_connection->errorInfo();
+
+
+    public static function editFormIzvajalec() {
+
+        $data = filter_input_array(INPUT_POST, [
+            "predmetId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        //var_dump($data["predmetId"]);
+        //echo"Alo";
+         //var_dump($data);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                $subjectProfessors=ProfesorDB::getSubjectProfessors($data["predmetId"]);
+                $profData=array();
+               // for($i=0;$i<count($subjectProfessors);$i++){
+                 foreach ($subjectProfessors as $val){
+              //      echo "htnw4";
+                   //  echo $val;
+                     if($val!=NULL){
+                        $temp=ProfesorDB::getOneIzvajalec($val);
+                     //  var_dump($temp);
+                    //   var_dump($temp[0]["IME"]);
+                        array_push($profData,$temp[0]);
+                    }
+
+                }
+
+               // var_dump($profData);
+
+
+                ViewHelper::render("view/PodatkiIzvajalcevForm.php", [
+                    "professors" => ProfesorDB::getAllProfessors(),
+                    "profData" => $profData,
+                    "predmetId" => $data["predmetId"]
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
         }
     }
 
-    public static function uvozPodatkov(){
+    public static function editIzvajalec() {
+        $data = filter_input_array(INPUT_POST, [
+            'predmetId' => [
+                'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
+            ],
+            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "telefon" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
 
-        ViewHelper::render("view/UvozPodatkov.php", []);
+        ]);
+
+        //array(5) { ["urediId"]=> string(1) "2" ["ime"]=> string(9) "Jan, Lina" ["priimek"]=> string(9) "Ban,Yolo," ["email"]=> string(12) "testP,testP1" ["telefon"]=> string(10) "030030030," }
+        $ime=explode(",",$data["ime"]);
+        $ime=array_map('trim',$ime);
+        $ime=array_filter($ime);
+        $priimek=explode(",",$data["priimek"]);
+        $priimek=array_map('trim',$priimek);
+        $priimek=array_filter($priimek);
+        $email=explode(",",$data["email"]);
+        $email=array_map('trim',$email);
+        $email=array_filter($email);
+        $telefon=explode(",",$data["telefon"]);
+        $telefon=array_map('trim',$telefon);
+        $telefon=array_filter($telefon);
+
+
+        $size=count($ime);
+        if(!(count($priimek)==$size && count($email)==$size && count($telefon)==$size)){
+            echo "ERROR!";
+            return ;
+        }
+        ProfesorDB::IzvajalecEdit($ime,$priimek,$email,$telefon,$data["predmetId"]);
+        ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev");
+
     }
 
+    public static function addIzvajalec(){
+
+        $data = filter_input_array(INPUT_POST, [
+            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "geslo" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "telefon" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                ProfesorDB::IzvajalecAdd($data["ime"],$data["priimek"],$data["email"],$data["geslo"],$data["telefon"]);
+                ViewHelper::render("view/PodatkiIzvajalcevAdd.php", [
+
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+
+    public static function getFormIzvajalec(){
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+                ViewHelper::render("view/PodatkiIzvajalcevAdd.php", [
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+
+    // Render user form
+
+    public static function UvozPodatkov(){
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+            ViewHelper::render("view/UvozPodatkov.php", []);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    // Parse input asd put it to associative array
     public static function parseInput(){
 
         $data = filter_input_array(INPUT_POST, [
@@ -96,9 +216,11 @@ class AdminController {
             if(is_array($mainArray)){
                 $mainArray = self::generateVpisnaUnPass($mainArray);
 
+                // Renders user form to confirm the insert!
                 ViewHelper::render("view/UvozPodatkovConfirm.php", [
-                        "mainArray" => $mainArray,
-                    ]);
+                    "mainArray" => $mainArray,
+                ]);
+
             } else {
                 echo "Vnos '".$mainArray."' presega maksimalno dolžino [Omejitve: Ime in priimek - 30 znakov, Program - 7 znakov, Email - 60 znakov]";
             }
@@ -107,6 +229,7 @@ class AdminController {
         }
     }
 
+    // Tokenizes input, removes empty lines from input
     public static function splitInput($toSplit){
         $splitted = explode( "&#13;&#10;", $toSplit);
         $splitted = array_filter($splitted);    // Removes empty lines
@@ -115,7 +238,7 @@ class AdminController {
         return $splitted;
     }
 
-    // Checks length of each input, returns associative array
+    // Checks length constraints of each input, returns associative array
     public static function generateMainArray($splitted, $sizeSplitted){
 
             $mainArray = array();
@@ -178,6 +301,7 @@ class AdminController {
         return $out;
     }
 
+    // Random string generator
     public static function generatePass($len){
 
         //Under the string $Caracteres you write all the characters you want to be used to randomly generate the code.
@@ -194,12 +318,16 @@ class AdminController {
         return $Hash;
     }
 
+    // Called from "UvozPodatkovConfirm.php" when user input is confirmed to be inserted
     public static function insertParsedData(){
 
         $data = $_SESSION['mainArray'];
-
         UserModel::insertNewStudent($data);
-
+        $result = UserModel::getAllStudents();
+        //var_dump($result);
+        ViewHelper::render("view/UvozPodatkovSuccess.php", [
+            "result" => $result,
+        ]);
     }
     public static function VzdrzevanjePredmetnika() {
         if (User::isLoggedIn()){
@@ -234,13 +362,13 @@ class AdminController {
             "tip"  => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
         if($data['tip'] == "d"){
+
             AdminDB::changePredmetnik($data['idPredmetnik']);
             $predmetniki = AdminDB::predmetniki($data['idPredmet']);
             ViewHelper::render("view/UrediPredmet.php", [
                 "predmetniki" => $predmetniki,
                 "predmet" => AdminDB::predmetName($data['idPredmet']),
                 "data" => $data
-
             ]);
         }
         else {
@@ -271,7 +399,8 @@ class AdminController {
             AdminDB::editPredmetnik($data);
         }
         else{
-            AdminDB::addPredmetnik($data);
+            if(is_null($data['leto']) or is_null($data['letnik'])  or is_null($data['program']) or is_null($data['delpredmetnika'])){}
+            else AdminDB::addPredmetnik($data);
         }
 
         $predmetniki = AdminDB::predmetniki($data['idPredmet']);
@@ -281,5 +410,31 @@ class AdminController {
             "data" => $data
 
         ]);
+    }
+    public static function toogleActivated()
+    {
+        $data = filter_input_array(INPUT_POST, [
+            "idPredmetnik" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "idPredmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "aktivnost" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+                AdminDB::changePredmetnik($data['idPredmetnik']);
+                $predmetniki = AdminDB::predmetniki($data['idPredmet']);
+                ViewHelper::render("view/UrediPredmet.php", [
+                    "predmetniki" => $predmetniki,
+                    "predmet" => AdminDB::predmetName($data['idPredmet']),
+                    "data" => $data
+
+                ]);
+
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
     }
 }

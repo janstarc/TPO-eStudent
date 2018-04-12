@@ -11,7 +11,7 @@ class AdminDB {
 
         // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
         $statement = $db -> prepare(
-            "SELECT s.vpisna_stevilka, s.ime, s.priimek, n.ulica, n.hisna_stevilka, n.stalni, p.st_posta, p.kraj, n.zavrocanje, o.email, o.telefonska_steviklka 
+            "SELECT s.vpisna_stevilka, o.ime, o.priimek, n.ulica, n.hisna_stevilka, n.je_stalni, p.st_posta, p.kraj, n.je_zavrocanje, o.email, o.telefonska_stevilka 
                         FROM student AS s, 
                               posta AS p,
                               naslov AS n,
@@ -34,21 +34,16 @@ class AdminDB {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare(
-            "SELECT DISTINCT s.stud_leto, l.letnik, p.sifra_program, p.naziv_program, vr.opis_vpisa, n.opis_nacin
-                        FROM  student AS st, 
-                              vpis AS v, 
-                              studijsko_leto AS s, 
-                              program AS p, 
-                              vrsta_vpisa AS vr, 
-                              nacin_studija AS n,
-                              letnik AS l
-                        WHERE st.vpisna_stevilka = :vpisna_stevilka 
-                        AND st.id_vpisa = v.id_vpisa
-                        AND v.id_stud_leto = s.id_stud_leto
-                        AND v.id_program = p.id_program
-                        AND v.id_vrstavpisa = vr.id_vrstavpisa
-                        AND v.id_nacin = n.id_nacin
-                        ORDER BY s.stud_leto DESC"
+            "SELECT sl.stud_leto, l.letnik,  p.sifra_program, p.naziv_program, vr.opis_vpisa, n.opis_nacin
+                        FROM  student AS st
+                        JOIN vpis AS v ON st.id_vpis = v.id_vpis
+                        JOIN studijsko_leto AS sl ON v.id_stud_leto = sl.id_stud_leto
+                        JOIN program AS p ON v.id_program = p.id_program
+                        JOIN vrsta_vpisa AS vr ON v.id_vrstavpisa = vr.id_vrstavpisa
+                        JOIN nacin_studija AS n ON v.id_nacin = n.id_nacin
+                        JOIN letnik AS l ON v.ID_LETNIK = l.ID_LETNIK
+  						WHERE st.vpisna_stevilka = :vpisna_stevilka
+                        ORDER BY sl.stud_leto DESC"
         );
 
         $statement->bindValue(":vpisna_stevilka", $vpisna_stevilka);
@@ -62,7 +57,10 @@ class AdminDB {
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare(
-            "SELECT ime, priimek, vpisna_stevilka FROM student"
+            "SELECT o.ime, o.priimek, s.vpisna_stevilka 
+                        FROM  student as s,
+                              oseba as o 
+                        WHERE o.id_oseba = s.id_oseba"
         );
 
         $statement->execute();
@@ -188,6 +186,7 @@ class AdminDB {
     }
     public static function addPredmetnik($data){
         $db = DBInit::getInstance();
+
         $statement = $db -> prepare(
             "INSERT INTO predmetnik(ID_PREDMET, ID_DELPREDMETNIKA, ID_LETNIK, ID_STUD_LETO, ID_PROGRAM, AKTIVNOST)
           VALUES (:predmet,:delPredmetnika,:letnik,:stud_leto,:program,1)"

@@ -32,11 +32,11 @@
                             <thead>
                             <tr>
                                 <th>Študijsko leto</th>
-                                <th>program</th>
-                                <th>letnik</th>
-                                <th>del predmetnika</th>
-                                <th>aktivnost</th>
-                                <th>uredi</th>
+                                <th>Program</th>
+                                <th>Letnik</th>
+                                <th>Del predmetnika</th>
+                                <th>Aktivnost</th>
+                                <th>Uredi</th>
                                 <th>Spremeni aktivnost</th>
 
                             </tr>
@@ -66,15 +66,20 @@
                                         <input type="hidden" name="idPredmetnik" value="<?= $row['id_predmetnik'] ?>" />
                                         <input type="hidden" name="idPredmet" value="<?= $data['idPredmet'] ?>" />
                                         <input type="hidden" name="tip" value="e" />
-                                        <button type=submit >Uredi</button>
+                                        <button type=submit >Edit</button>
                                     </form>
                                 </td>
                                 <td>
-                                    <form class=example3  action="<?= BASE_URL . "dodajPredmet" ?>" method='post'>
+                                    <form  action="<?= BASE_URL . "dodajPredmet" ?>" method="post">
                                         <input type="hidden" name="idPredmetnik" value="<?= $row['id_predmetnik'] ?>" />
-                                        <input type="hidden" name="idPredmet" value="<?= $data['idPredmet'] ?>" />
+                                        <input type="hidden" name="idPredmet" value="<?= $data["idPredmet"] ?>" />
+                                        <input type="hidden" name="aktivnost" value="<?= $value["AKTIVNOST"] ?>" />
                                         <input type="hidden" name="tip" value="d" />
-                                        <button type=submit >spremeni</button>
+                                        <?php if($row["aktivnost"] == 0) : ?>
+                                            <input class="btn btn-success btn-sm" type="submit" value="Activate" />
+                                        <?php else : ?>
+                                            <input class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
+                                        <?php endif; ?>
                                     </form>
                                 </td>
                                 </tr><?php

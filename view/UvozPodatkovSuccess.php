@@ -1,9 +1,5 @@
 <?php
-
-    $_SESSION['mainArray'] = $mainArray;
-    //var_dump($mainArray);
 ?>
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -19,7 +15,7 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Prikaz</h4>
+                        <h4>Pregled vseh študentov v bazi</h4>
                         <br>
                         <br>
                         <br>
@@ -28,37 +24,36 @@
                             <tr>
                                 <th>Ime</th>
                                 <th>Priimek</th>
-                                <th>Program</th>
                                 <th>Email</th>
+                                <th>Uporabniško ime</th>
                                 <th>Vpisna</th>
-                                <th>Username</th>
+                                <th>ID Program</th>
+                                <th>Naziv program</th>
                                 <th>Password</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            foreach ($mainArray as $key => $value){
+                            foreach ($result as $key => $value){
                                 echo "<tr>".
                                     "<td>".$value['ime']."</td>".
                                     "<td>".$value['priimek']."</td>".
-                                    "<td>".$value['program']."</td>".
                                     "<td>".$value['email']."</td>".
-                                    "<td>".$value['vpisna']."</td>".
-                                    "<td>".$value['username']."</td>".
-                                    "<td>".$value['password']."</td>".
+                                    "<td>".$value['uporabnisko_ime']."</td>".
+                                    "<td>".$value['vpisna_stevilka']."</td>".
+                                    "<td>".$value['id_program']."</td>".
+                                    "<td>".$value['naziv_program']."</td>".
+                                    "<td> Generated </td>".
                                     "</tr>";
                             }
                             ?>
                             </tbody>
 
                         </table>
-                        <form action="<?= BASE_URL . "UvozPodatkov" ?>" method="GET">
-                        <button type="submit">Nazaj</button>
+                        <form action="<?= BASE_URL . "OsebniPodatkiStudenta"?>" method="GET">
+                            <button type="submit">OK</button>
                         </form>
 
-                        <form action="<?= BASE_URL . "UvozPodatkov/insert" ?>" method="POST">
-                            <button type="submit">Potrdi vnos - INSERT</button>
-                        </form>
                     </div>
                 </div>
 
@@ -67,5 +62,5 @@
     </section>
 </section>
 </body>
+>>>>>>> Stashed changes
 </html>
-
