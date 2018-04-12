@@ -30,7 +30,7 @@
         ?>
     </table>
 
-    <form action="<?= BASE_URL ?>" method="GET">
+    <form action="<?= BASE_URL . "OsebniPodatkiStudenta"?>" method="GET">
         <button type="submit">OK</button>
     </form>
 </html>
