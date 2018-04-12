@@ -28,6 +28,11 @@
                 </a>
             </li>
             <li class="mt">
+                <a href="<?= BASE_URL . "UvozPodatkov" ?>">
+                    <span>UvozPodatkov</span>
+                </a>
+            </li>
+            <li class="mt">
                 <a href="<?= BASE_URL . "Vzdrzevanjepredmetnika" ?>">
                     <span>Vzdrževanje predmetnika</span>
                 </a>
