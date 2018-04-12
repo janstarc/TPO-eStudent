@@ -34,20 +34,15 @@ class AdminDB {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare(
-            "SELECT sl.stud_leto, l.letnik, p.sifra_program, p.naziv_program, vr.opis_vpisa, n.opis_nacin
-                        FROM  student AS st, 
-                              vpis AS v, 
-                              studijsko_leto AS sl, 
-                              program AS p, 
-                              vrsta_vpisa AS vr, 
-                              nacin_studija AS n,
-                              letnik AS l
-                        WHERE st.vpisna_stevilka = :vpisna_stevilka 
-                        AND st.id_vpis = v.id_vpis
-                        AND v.id_stud_leto = sl.id_stud_leto
-                        AND v.id_program = p.id_program
-                        AND v.id_vrstavpisa = vr.id_vrstavpisa
-                        AND v.id_nacin = n.id_nacin
+            "SELECT sl.stud_leto, l.letnik,  p.sifra_program, p.naziv_program, vr.opis_vpisa, n.opis_nacin
+                        FROM  student AS st
+                        JOIN vpis AS v ON st.id_vpis = v.id_vpis
+                        JOIN studijsko_leto AS sl ON v.id_stud_leto = sl.id_stud_leto
+                        JOIN program AS p ON v.id_program = p.id_program
+                        JOIN vrsta_vpisa AS vr ON v.id_vrstavpisa = vr.id_vrstavpisa
+                        JOIN nacin_studija AS n ON v.id_nacin = n.id_nacin
+                        JOIN letnik AS l ON v.ID_LETNIK = l.ID_LETNIK
+  						WHERE st.vpisna_stevilka = :vpisna_stevilka
                         ORDER BY sl.stud_leto DESC"
         );
 
