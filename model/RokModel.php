@@ -7,13 +7,98 @@ class RokModel {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            INSERT INTO ROK (ID_IZVEDBA, DATUM_ROKA, CAS_ROKA, AKTIVNOST_ROKA)
-            VALUES (:idIzvedbaPredmeta, :date, :time, TRUE)
+            INSERT INTO ROK (ID_IZVEDBA, DATUM_ROKA, CAS_ROKA, AKTIVNOST)
+            VALUES (:idIzvedbaPredmeta, :date, :time, 1)
         ");
         
         $statement->bindParam(":idIzvedbaPredmeta", $idIzvedbaPredmeta, PDO::PARAM_INT);
         $statement->bindParam(":date", $date);
         $statement->bindParam(":time", $time);
         $statement->execute();
+    }
+    
+    public static function getAll($idUser, $idCurrentYear) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT r.ID_ROK, ip.ID_IZVEDBA, p.ID_PREDMET, p.IME_PREDMET, r.DATUM_ROKA, r.CAS_ROKA, r.AKTIVNOST
+            FROM IZVEDBA_PREDMETA as ip
+            JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
+            JOIN ROK as r ON r.ID_IZVEDBA = ip.ID_IZVEDBA
+            WHERE ID_STUD_LETO = :idCurrentYear
+                AND (
+                    ID_OSEBA1 = :idUser OR ID_OSEBA2 = :idUser OR ID_OSEBA3 = :idUser
+                )
+                AND p.AKTIVNOST = 1
+        ");
+        $statement->bindParam(":idUser", $idUser, PDO::PARAM_INT);
+        $statement->bindParam(":idCurrentYear", $idCurrentYear, PDO::PARAM_INT);
+        $statement->execute();
+        $IzvedbaPredmeta = $statement->fetchAll();
+
+        if ($IzvedbaPredmeta != null) {
+            return $IzvedbaPredmeta;
+        } else {
+            throw new InvalidArgumentException("No record with User id $idUser");
+        }
+    }
+    
+    public static function get($idRok) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT r.ID_ROK, ip.ID_IZVEDBA, ip.ID_STUD_LETO, p.ID_PREDMET, p.IME_PREDMET, r.DATUM_ROKA, r.CAS_ROKA
+            FROM IZVEDBA_PREDMETA as ip
+            JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
+            JOIN ROK as r ON r.ID_IZVEDBA = ip.ID_IZVEDBA
+            WHERE r.ID_ROK = :idRok
+                AND p.AKTIVNOST = 1
+        ");
+        $statement->bindParam(":idRok", $idRok, PDO::PARAM_INT);
+        $statement->execute();
+        $IzvedbaPredmeta = $statement->fetch();
+
+        if ($IzvedbaPredmeta != null) {
+            return $IzvedbaPredmeta;
+        } else {
+            throw new InvalidArgumentException("No record with User id $idUser");
+        }
+    }
+    
+    public static function update($ID_ROK, $ID_IZVEDBA, $DATUM_ROKA, $CAS_ROKA) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            UPDATE ROK
+            SET ID_IZVEDBA = :ID_IZVEDBA, DATUM_ROKA = :DATUM_ROKA, CAS_ROKA = :CAS_ROKA
+            WHERE ID_ROK = :ID_ROK
+        ");
+        $statement->bindParam(":ID_IZVEDBA", $ID_IZVEDBA);
+        $statement->bindParam(":DATUM_ROKA", $DATUM_ROKA);
+        $statement->bindParam(":CAS_ROKA", $CAS_ROKA);
+        $statement->bindParam(":ID_ROK", $ID_ROK, PDO::PARAM_INT);
+        $statement->execute();
+    }
+    
+    public static function toogleActivated ($id){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT AKTIVNOST FROM ROK WHERE ID_ROK = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
+
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare("
+            UPDATE ROK
+            SET AKTIVNOST = :is_activated
+            WHERE ID_ROK = :id
+        ");
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
     }
 }

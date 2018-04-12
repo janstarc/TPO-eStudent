@@ -5,7 +5,6 @@ require_once("model/ProfesorDB.php");
 require_once("model/User.php");
 require_once("model/IzvedbaPredmetaModel.php");
 require_once("model/RokModel.php");
-require_once("model/UciteljModel.php");
 require_once("model/StudijskoLetoModel.php");
 require_once("ViewHelper.php");
 
@@ -49,14 +48,11 @@ class ProfesorController {
     public static function izpitniRokForm() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
-                $IdProfesor = UciteljModel::getProfesorId(User::getId());
-                $IdProfesor = (int)$IdProfesor["ID_UCITELJ"];
-                $IdYear = 2;// TODO StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
-//                var_dump($IdYear);
-                $IdIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByProfesor($IdProfesor, $IdYear);
-//                var_dump($IdIzvedbaPredmeta);
-                ViewHelper::render("view/IzpitniRokProfesor.php", [
-                    "IdIzvedbaPredmeta" => $IdIzvedbaPredmeta
+                $IdYear =  StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
+                $IdIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByProfesor(User::getId(), $IdYear);
+                ViewHelper::render("view/IzpitniRokProfesorAdd.php", [
+                    "IdIzvedbaPredmeta" => $IdIzvedbaPredmeta,
+                    "formAction" => "izpitniRok/profesor/add"
                 ]);
             }else{
                 ViewHelper::error403();
@@ -67,35 +63,188 @@ class ProfesorController {
     }
 
     public static function VnosIzpitnegaRoka() {
-        // TODO: check all needed validations
         $data = filter_input_array(INPUT_POST, [
-            'idSubject' => [
+            'ID_IZVEDBA' => [
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => [
                     'min_range' => 1
                 ]
             ],
-            #"DATUM_ROKA" => ["filter" => ...],
-            #"CAS_ROKA" => ["filter" => ...]
+            "DATUM_ROKA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "CAS_ROKA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-
-        if (self::checkValues($data)) {
-            #$idIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByTheacher(User:getId(), $data["idSubject"]);
-            #RokModel::insert($idIzvedbaPredmeta, $data["DATUM_ROKA"], $data["CAS_ROKA"]);
-            
-            //TODO: add name of the view
-            ViewHelper::render("view/....php", [
-                //"typeOfUser" => (User::isLoggedIn() ? User::getTypeOfUser() : "anonymous-client"),
-                "status" => "Success",
-                "message" => "You have successfully created a new product."
-            ]);
+        // check all needed validations
+        list($y, $m, $d) = explode('-', $data["DATUM_ROKA"]);
+        if (!checkdate($m, $d, $y)) {
+            $data["DATUM_ROKA"]=false;
         } else {
-            //TODO: add name of the view
-            ViewHelper::render("view/....php", [
-                //"typeOfUser" => (User::isLoggedIn() ? User::getTypeOfUser() : "anonymous-client"),
+            date_default_timezone_set('Europe/Ljubljana');
+            $weekDay = date('w', strtotime($data["DATUM_ROKA"]));
+            if ($weekDay == 0 || $weekDay == 6) {
+                $data["DATUM_ROKA"]=false;
+//                var_dump("izbor-1");
+            }
+            $holidays = array("01-01", "02-01", "08-02", "02-04", "27-04", "01-05", "02-05", "25-06", "15-08", "31-10", "01-11", "25-12", "26-12");
+            if (in_array($d . "-" . $m, $holidays)) {
+                $data["DATUM_ROKA"]=false;
+//                var_dump("izbor-2");
+            }
+            if (strtotime(date("Y-m-d")) >= strtotime($data["DATUM_ROKA"])) {
+                $data["DATUM_ROKA"]=false;
+//                var_dump("izbor-3");
+            }
+        }
+        if ($data["CAS_ROKA"]{0} == '2' && $data["CAS_ROKA"]{1} > '3') {
+            $data["CAS_ROKA"]=false;
+        }
+        
+        if (self::checkValues($data)) {
+            // TODO: check for duplicates before inserting
+            RokModel::insert($data["ID_IZVEDBA"], $data["DATUM_ROKA"], $data["CAS_ROKA"]);
+            ViewHelper::redirect(BASE_URL . "izpitniRok/profesor");
+        } else {
+            $IdYear =  StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
+            $IdIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByProfesor(User::getId(), $IdYear);
+            ViewHelper::render("view/IzpitniRokProfesorAdd.php", [
+                "IdIzvedbaPredmeta" => $IdIzvedbaPredmeta,
                 "status" => "Failure",
-                "message" => "You have entered an invalid value. Please try again."
+                "message" => "You have entered an invalid value. Please try again.",
+                "formAction" => "izpitniRok/profesor/add"
             ]);
+        }
+    }
+    
+    public static function izpitniRokAllForm() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
+                $IdYear =  StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
+                $roki = RokModel::getAll(User::getId(), $IdYear);
+                ViewHelper::render("view/IzpitniRokProfesorAll.php", [
+                    "roki" => $roki,
+                    "formAction" => "izpitniRok/profesor/"
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+    
+    public static function izpitniRokEditForm() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
+                $data = filter_input_array(INPUT_POST, [
+                    'urediId' => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => [
+                            'min_range' => 1
+                        ]
+                    ]
+                ]);
+                if (self::checkValues($data)) {
+                    $rok = RokModel::get($data["urediId"]);
+                    ViewHelper::render("view/IzpitniRokProfesorEdit.php", [
+                        "getId" => $rok,
+                        "IdIzvedbaPredmeta" => IzvedbaPredmetaModel::getIdIzvedbaPredmetaByProfesor(User::getId(), $rok["ID_STUD_LETO"]),
+                        "formAction" => "izpitniRok/profesor/"
+                    ]);
+                } else {
+                    ViewHelper::render("view/DisplayMessageViewer.php", [
+                        "status" => "Failure",
+                        "message" => "Error trying to edit the chosen exam."
+                    ]);
+                }
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+    
+    public static function SpremembaIzpitnegaRoka() {
+        $data = filter_input_array(INPUT_POST, [
+            'ID_ROK' => [
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => [
+                    'min_range' => 1
+                ]
+            ],
+            'ID_IZVEDBA' => [
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => [
+                    'min_range' => 1
+                ]
+            ],
+            "DATUM_ROKA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "CAS_ROKA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+        // check all needed validations
+        list($y, $m, $d) = explode('-', $data["DATUM_ROKA"]);
+        if (!checkdate($m, $d, $y)) {
+            $data["DATUM_ROKA"]=false;
+        } else {
+            date_default_timezone_set('Europe/Ljubljana');
+            $weekDay = date('w', strtotime($data["DATUM_ROKA"]));
+            if ($weekDay == 0 || $weekDay == 6) {
+                $data["DATUM_ROKA"]=false;
+//                var_dump("izbor-1");
+            }
+            $holidays = array("01-01", "02-01", "08-02", "02-04", "27-04", "01-05", "02-05", "25-06", "15-08", "31-10", "01-11", "25-12", "26-12");
+            if (in_array($d . "-" . $m, $holidays)) {
+                $data["DATUM_ROKA"]=false;
+//                var_dump("izbor-2");
+            }
+            if (strtotime(date("Y-m-d")) >= strtotime($data["DATUM_ROKA"])) {
+                $data["DATUM_ROKA"]=false;
+//                var_dump("izbor-3");
+            }
+        }
+        if ($data["CAS_ROKA"]{0} == '2' && $data["CAS_ROKA"]{1} > '3') {
+            $data["CAS_ROKA"]=false;
+        }
+        
+        if (self::checkValues($data)) {
+            RokModel::update($data["ID_ROK"], $data["ID_IZVEDBA"], $data["DATUM_ROKA"], $data["CAS_ROKA"]);
+            ViewHelper::redirect(BASE_URL . "izpitniRok/profesor");
+        } else {
+            $IdYear =  StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
+            $IdIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByProfesor(User::getId(), $IdYear);
+            ViewHelper::render("view/IzpitniRokProfesorAdd.php", [
+                "IdIzvedbaPredmeta" => $IdIzvedbaPredmeta,
+                "status" => "Failure",
+                "message" => "You have entered an invalid value. Please try again.",
+                "formAction" => "izpitniRok/profesor/add"
+            ]);
+        }
+    }
+    
+    public static function toggleizpitniRokActivated() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
+                $data = filter_input_array(INPUT_POST, [
+                    'activateId' => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => [
+                            'min_range' => 1
+                        ]
+                    ]
+                ]);
+                if (self::checkValues($data)) {
+                    RokModel::toogleActivated($data['activateId']);
+                    ViewHelper::redirect(BASE_URL . "izpitniRok/profesor");
+                } else {
+                    ViewHelper::render("view/DisplayMessageViewer.php", [
+                        "status" => "Failure",
+                        "message" => "Error toogling activity of the exam."
+                    ]);
+                }
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
         }
     }
     

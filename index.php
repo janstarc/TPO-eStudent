@@ -17,7 +17,7 @@ define("IMAGES_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/image
 define("CSS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/css/");
 define("JS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/js/");
 
-define("CURRENT_YEAR", "2017-2018");
+define("CURRENT_YEAR", "2017/18");
 
 $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 // ROUTER: defines mapping between URLS and controllers
@@ -64,13 +64,30 @@ $urls = [
     }, "/^PodatkiIzvajalcev\/subjectSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchBySubject();
         else ViewHelper::error405();
-    }, "/^izpitniRok\/profesor$/" => function ($method) {
-        if ($method == "GET") ProfesorController::izpitniRokForm();
+    },
+    
+    "/^izpitniRok\/profesor$/" => function ($method) {
+        if ($method == "GET") ProfesorController::izpitniRokAllForm();
         else ViewHelper::error405();
-    }, "/^izpitniRok\/referent$/" => function ($method) {
+    }, "/^izpitniRok\/profesor\/add$/" => function ($method) {
+        if ($method == "GET") ProfesorController::izpitniRokForm();
+        else if ($method == "POST") ProfesorController::VnosIzpitnegaRoka();
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/profesor\/edit$/" => function ($method) {
+        if ($method == "POST") ProfesorController::izpitniRokEditForm();
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/profesor\/edit2$/" => function ($method) {
+        if ($method == "POST") ProfesorController::SpremembaIzpitnegaRoka();
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/profesor\/toogleActivated$/" => function ($method) {
+        if ($method == "POST") ProfesorController::toggleizpitniRokActivated();
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/referent\/add$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::izpitniRokForm();
         else ViewHelper::error405();
-    }, "/^dodajPredmet$/" => function ($method) {
+    },
+    
+    "/^dodajPredmet$/" => function ($method) {
         if ($method == "POST") AdminController::addInPredmetnik();
         else ViewHelper::error405();
     },"/^spremeniPredmetnik/" => function ($method) {

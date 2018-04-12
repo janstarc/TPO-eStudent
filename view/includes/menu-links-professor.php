@@ -38,13 +38,13 @@
                 </a>
             </li>
             <li class="mt">
-                <a href="Vzdrzevanjepredmetnika">
-                    <span>Vzdrževanje predmetnika</span>
+                <a href="izpitniRok/profesor">
+                    <span>Izpitni Rok</span>
                 </a>
             </li>
             <li class="mt">
-                <a href="izpitniRok/profesor">
-                    <span>Izpitni Rok</span>
+                <a href="izpitniRok/profesor/add">
+                    <span>Dodaj Izpitni Rok</span>
                 </a>
             </li>
         </ul>

@@ -12,9 +12,10 @@ class IzvedbaPredmetaModel {
             JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
             WHERE ID_STUD_LETO = :idCurrentYear
                 AND (
-                    ID_UCITELJ1 = :idUser OR ID_UCITELJ2 = :idUser OR ID_UCITELJ3 = :idUser
+                    ID_OSEBA1 = :idUser OR ID_OSEBA2 = :idUser OR ID_OSEBA3 = :idUser
                 )
-            ");
+                AND p.AKTIVNOST = 1
+        ");
         $statement->bindParam(":idUser", $idUser, PDO::PARAM_INT);
         $statement->bindParam(":idCurrentYear", $idCurrentYear, PDO::PARAM_INT);
         $statement->execute();
@@ -38,7 +39,7 @@ class IzvedbaPredmetaModel {
                     AND (ip.ID_UCITELJ1=u.ID_UCITELJ OR ip.ID_UCITELJ2=u.ID_UCITELJ OR ip.ID_UCITELJ3=u.ID_UCITELJ)
                     AND u.ID_OSEBA=o.ID_OSEBA
                 WHERE p.IME_PREDMET LIKE :ime_predmeta
-            ");
+        ");
         $ime_predmeta_like="%" . $ime_predmeta . "%";
         $statement->bindParam(":ime_predmeta", $ime_predmeta_like, PDO::PARAM_STR);
         $statement->execute();

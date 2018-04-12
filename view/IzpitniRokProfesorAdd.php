@@ -13,10 +13,10 @@
                             <div class="col-xs-12 col-md-6">
                                 <form action="<?= BASE_URL . $formAction ?>" method="post" class="form-horizontal">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="DATUM_ROKA" placeholder="Datum" required autofocus>
+                                        <input type="text" class="form-control" name="DATUM_ROKA" placeholder="Datum: vnesi kot YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required autofocus>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="CAS_ROKA" placeholder="Cas" required>
+                                        <input type="text" class="form-control" name="CAS_ROKA" placeholder="Cas: vnesi kot HH:MM" pattern="[0-2][0-9]:[0-5][0-9]" required>
                                     </div>
                                     <div class="form-group">
                                         <select class="form-control" name="ID_IZVEDBA" required>
