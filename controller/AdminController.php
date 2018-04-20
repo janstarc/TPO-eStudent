@@ -202,40 +202,39 @@ class AdminController {
     // Parse input asd put it to associative array
     public static function parseInput(){
 
-        $data = filter_input_array(INPUT_POST, [
-            "podatkiInput" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
-        ]);
+        $target_file = basename($_FILES["fileToUpload"]["name"]);
+        $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
-        $splitted = self::splitInput($data["podatkiInput"]);
-        $sizeSplitted = count($splitted);
-        //var_dump($sizeSplitted);
+        if(isset($_POST["submit"])) {
+            if ($fileType == "txt") {
+                $fileContent = filter_var(file_get_contents($_FILES["fileToUpload"]["tmp_name"]), FILTER_SANITIZE_SPECIAL_CHARS);
 
-        $mainArray = null;
-        if($sizeSplitted > 0){
-            $mainArray = self::generateMainArray($splitted, $sizeSplitted);
-            //var_dump($mainArray);
+                $splitted = self::splitInput($fileContent);
+                $sizeSplitted = count($splitted);
 
-            if(is_array($mainArray)){
+                $mainArray = null;
+                if ($sizeSplitted > 0) {
+                    $mainArray = self::generateMainArray($splitted, $sizeSplitted);
+                    //var_dump($mainArray);
 
-                $allStudents = UserModel::getAllStudents();
-                $mainArray = self::findDuplicates($mainArray, $allStudents);
-                var_dump($mainArray);
-                $mainArray = self::generateVpisnaUnPass($mainArray);
+                    if (is_array($mainArray)) {
 
+                        $allStudents = UserModel::getAllStudents();
+                        $mainArray = self::findDuplicates($mainArray, $allStudents);
+                        $mainArray = self::generateVpisnaUnPass($mainArray);
 
-                // Renders user form to confirm the insert!
-                ViewHelper::render("view/UvozPodatkovConfirm.php", [
-                    "mainArray" => $mainArray,
-                ]);
-
+                        // Renders user form to confirm the insert!
+                        ViewHelper::render("view/UvozPodatkovConfirm.php", [
+                            "mainArray" => $mainArray,
+                        ]);
+                    }
+                } else {
+                    echo "Naložena datoteka je prazna.";
+                }
             } else {
-                echo "Vnos '".$mainArray."' presega maksimalno dolžino [Omejitve: Ime in priimek - 30 znakov, Program - 7 znakov, Email - 60 znakov]";
+                echo "Napaka - datoteka ni ustreznega tipa. Uvoz sprejme le datoteke v formatu .TXT";
             }
-
-        } else {
-            echo "Nepravilna dolžina vnosa - manjkajoči atributi";
         }
-
     }
 
     public static function findDuplicates($mainArray, $allStudents){

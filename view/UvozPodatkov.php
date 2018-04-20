@@ -9,16 +9,12 @@
     <?php include("view/includes/menu-links-admin.php"); ?>
     <section id="main-content">
         <section class="wrapper">
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    <form action="<?= BASE_URL . "UvozPodatkov/parse" ?>" method="post">
-                        Vnesi podatke:<br>
-                        <textarea rows="20" cols="50" type="text" name="podatkiInput"></textarea><br>
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
-            </div>
-            </div>
+            <br>
+            <form action="<?= BASE_URL . "UvozPodatkov/parse" ?>" method="post" enctype="multipart/form-data">
+                Izberi datoteko:
+                <input type="file" name="fileToUpload" id="fileToUpload">
+                <input type="submit" value="Naloži datoteko" name="submit">
+            </form>
         </section>
     </section>
 </section>
