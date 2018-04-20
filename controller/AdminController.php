@@ -208,13 +208,20 @@ class AdminController {
 
         $splitted = self::splitInput($data["podatkiInput"]);
         $sizeSplitted = count($splitted);
+        //var_dump($sizeSplitted);
 
         $mainArray = null;
-        if($sizeSplitted % 4 == 0){
+        if($sizeSplitted > 0){
             $mainArray = self::generateMainArray($splitted, $sizeSplitted);
+            //var_dump($mainArray);
 
             if(is_array($mainArray)){
+
+                $allStudents = UserModel::getAllStudents();
+                $mainArray = self::findDuplicates($mainArray, $allStudents);
+                var_dump($mainArray);
                 $mainArray = self::generateVpisnaUnPass($mainArray);
+
 
                 // Renders user form to confirm the insert!
                 ViewHelper::render("view/UvozPodatkovConfirm.php", [
@@ -224,14 +231,31 @@ class AdminController {
             } else {
                 echo "Vnos '".$mainArray."' presega maksimalno dolžino [Omejitve: Ime in priimek - 30 znakov, Program - 7 znakov, Email - 60 znakov]";
             }
+
         } else {
             echo "Nepravilna dolžina vnosa - manjkajoči atributi";
         }
+
+    }
+
+    public static function findDuplicates($mainArray, $allStudents){
+
+        foreach($mainArray as $keyMain => $valueMain){          // V mainArray vpisemo, ce je duplikat ali ne
+
+            foreach ($allStudents as $keyAll => $valueAll){
+                if($valueMain['ime'] == $valueAll['ime'] && $valueMain['priimek'] == $valueAll['priimek'] && $valueMain['program'] == $valueAll['sifra_evs'] && $valueMain['email'] == $valueAll['email']){
+                    $mainArray[$keyMain]['duplikat'] = "DA";
+                }
+            }
+        }
+
+        return $mainArray;
     }
 
     // Tokenizes input, removes empty lines from input
     public static function splitInput($toSplit){
-        $splitted = explode( "&#13;&#10;", $toSplit);
+
+        $splitted = explode("&#13;&#10;", $toSplit);
         $splitted = array_filter($splitted);    // Removes empty lines
         $splitted = array_values($splitted);    // Re-Index the array
 
@@ -244,35 +268,16 @@ class AdminController {
             $mainArray = array();
             $temp = array();
 
-            for($i = 0; $i < $sizeSplitted; $i+=4){
+            for($i = 0; $i < $sizeSplitted; $i++){
 
-                if(strlen($splitted[$i]) <= 30){
-                    $temp['ime'] = $splitted[$i];
-                } else {
-                    return $splitted[$i];
-                }
-
-                if(strlen($splitted[$i+1]) <= 30){
-                    $temp['priimek'] = $splitted[$i+1];
-                } else {
-                    return $splitted[$i+1];
-                }
-
-                if(strlen($splitted[$i+2]) <= 7){
-                    $temp['program'] = $splitted[$i+2];
-                } else {
-                    return $splitted[$i+2];
-                }
-
-                if(strlen($splitted[$i+3]) <= 60){
-                    $temp['email'] = $splitted[$i+3];
-                } else {
-                    return $splitted[$i+3];
-                }
+                $temp['ime'] = rtrim(substr($splitted[$i], 0, 30));
+                $temp['priimek'] = rtrim(substr($splitted[$i], 30, 30));
+                $temp['program'] = rtrim(substr($splitted[$i], 60,7));
+                $temp['email'] = rtrim(substr($splitted[$i], 67, 60));
+                $temp['duplikat'] = "NE";
 
                 array_push($mainArray, $temp);
             }
-
             return $mainArray;
     }
 
@@ -285,16 +290,23 @@ class AdminController {
 
             $vpisna = rand(63180000, 63189999);
 
-            $imePrva = substr($value['ime'], 0, 1);
-            $priimekPrva = substr($value['priimek'], 0, 1);
+            $imePrva = strtolower(substr($value['ime'], 0, 1));
+            $priimekPrva = strtolower(substr($value['priimek'], 0, 1));
             $randomUn = rand(1000, 9999);
             $username = $imePrva.$priimekPrva.$randomUn;
 
             $pass = self::generatePass(6);
 
-            $value['vpisna'] = $vpisna;
-            $value['username'] = $username;
-            $value['password'] = $pass;
+            if($value['duplikat'] == "NE"){
+                $value['vpisna'] = $vpisna;
+                $value['username'] = $username;
+                $value['password'] = $pass;
+            } else {
+                $value['vpisna'] = "";
+                $value['username'] = "";
+                $value['password'] = "";
+            }
+
             array_push($out, $value);
         }
 

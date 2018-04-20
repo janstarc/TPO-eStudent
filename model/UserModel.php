@@ -35,12 +35,27 @@ class UserModel {
 
         foreach ($studentArray as $key => $value) {
 
+            if($value['duplikat'] == "NE"){
+                $id_program = self::getIdProgram($db, $value);
+
+                if($id_program != null){
+                    $id_oseba = self::insertOseba($db, $value);
+                    self::insertStudent($db, $value, $id_oseba, $id_program);
+                } else {
+                    echo "Program '".$value['program']."' ne obstaja. Vnos od studenta '".$value['ime']." ".$value['priimek']."' naprej je bil prekinjen";
+                }
+            }
+
+            }
+
+            /*
             $count = self::checkIfUserIsUnique($db, $value['username']);
             if ($count != 0) {
                 echo "Duplikat vnosa! Uporabnik '" . $value['username'] . "' že obstaja!'";
                 return;
             }
-
+            */
+            /*
             $id_program = self::getIdProgram($db, $value);
             if($id_program == null){
                 echo "Program '".$value['program']."' ne obstaja. Vnos od studenta '".$value['ime']." ".$value['priimek']."' naprej je bil prekinjen";
@@ -52,7 +67,8 @@ class UserModel {
             $id_oseba = self::insertOseba($db, $value);
             // Insert new student
             self::insertStudent($db, $value, $id_oseba, $id_program);
-        }
+            */
+
 
 
     }
@@ -143,7 +159,7 @@ class UserModel {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, s.vpisna_stevilka, s.id_program, p.naziv_program
+            SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, s.vpisna_stevilka, s.id_program, p.naziv_program, p.sifra_evs
             FROM oseba AS o, student AS s, program AS p
             WHERE o.id_oseba = s.id_oseba
             AND s.id_program = p.id_program

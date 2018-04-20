@@ -15,7 +15,8 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Pregled vseh študentov v bazi</h4>
+                        <h5>Vnos uspešen!</h5>
+                        <h4>Pregled študentov</h4>
                         <br>
                         <br>
                         <br>

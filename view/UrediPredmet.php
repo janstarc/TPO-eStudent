@@ -73,7 +73,7 @@
                                     <form  action="<?= BASE_URL . "dodajPredmet" ?>" method="post">
                                         <input type="hidden" name="idPredmetnik" value="<?= $row['id_predmetnik'] ?>" />
                                         <input type="hidden" name="idPredmet" value="<?= $data["idPredmet"] ?>" />
-                                        <input type="hidden" name="aktivnost" value="<?= $value["AKTIVNOST"] ?>" />
+                                        <input type="hidden" name="aktivnost" value="<?= $row["aktivnost"] ?>" />
                                         <input type="hidden" name="tip" value="d" />
                                         <?php if($row["aktivnost"] == 0) : ?>
                                             <input class="btn btn-success btn-sm" type="submit" value="Activate" />
