@@ -25,6 +25,11 @@
                     <span>Izpitni Rok</span>
                 </a>
             </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "zeton" ?>">
+                    <span>Žeton</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

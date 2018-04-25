@@ -335,7 +335,19 @@ $urls = [
     }, "/^UvozPodatkov\/insert$/" => function($method) {
         if ($method == "POST") AdminController::insertParsedData();
         else ViewHelper::error405();
+    },"/^zeton\/EMSOSearch$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::searchByEMSO();
+        else ViewHelper::error405();
+    },"/^zeton\/dodaj$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::dodaj();
+        else ViewHelper::error405();
+    },"/^zeton$/" => function ($method) {
+    if ($method == "GET") StudentOfficerController::zeton();
+    else ViewHelper::error405();
     }
+
+
+
 ];
 
 foreach ($urls as $pattern => $controller) {
