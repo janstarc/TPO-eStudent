@@ -171,5 +171,60 @@ class UserModel {
 
         return $result;
     }
+    
+    public static function checkEmail($email) {
+        $db = DBInit::getInstance();
+        
+        $statement = $db->prepare("
+            SELECT ID_OSEBA 
+            FROM oseba 
+            WHERE EMAIL = :email
+        ");
+        $statement->bindValue(":email", $email);
+        $statement->execute();
+        
+        $user = $statement->fetch();
+        return ($user != null);
+    }
 
+    public static function saveToken(array $params){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            UPDATE oseba 
+            SET resetPwToken = :token, resetPwExpiration = :expiration, resetPwUsed = 0 
+            WHERE EMAIL = :email
+        ");
+        $statement->bindParam(":token", $params["token"]);
+        $statement->bindParam(":expiration", $params["expiration"]);
+        $statement->bindParam(":email", $params["email"]);
+        $statement->execute();
+    }
+    
+    public static function checkToken(array $params){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT ID_OSEBA 
+            FROM oseba 
+            WHERE resetPwToken = :token AND resetPwExpiration > :expiration AND resetPwUsed = 0
+        ");
+        $statement->bindParam(":token", $params["token"]);
+        $statement->bindParam(":expiration", $params["expiration"]);
+        $statement->execute();
+        $user = $statement->fetch();
+        return ($user != null);
+    }
+    
+    public static function changePasswordUsingToken(array $params){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            UPDATE oseba 
+            SET GESLO = :password, resetPwUsed = 1 
+            WHERE resetPwToken = :token
+        ");
+        $statement->bindParam(":token", $params["token"]);
+        // TODO: change if password hashing is added
+        // $params["new-password"]=password_hash($params["new-password"], PASSWORD_BCRYPT);
+        $statement->bindParam(":password", $params["new-password"]);
+        $statement->execute();
+    }
 }

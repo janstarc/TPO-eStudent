@@ -103,6 +103,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`oseba` (
   `GESLO` CHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   `VRSTA_VLOGE` CHAR(1) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   `TELEFONSKA_STEVILKA` CHAR(20) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NULL DEFAULT NULL,
+  `resetPwToken` VARCHAR(40),
+  `resetPwExpiration` INT(11),
+  `resetPwUsed` TINYINT(1),
   PRIMARY KEY (`ID_OSEBA`))
   ENGINE = InnoDB
   AUTO_INCREMENT = 6

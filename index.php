@@ -37,7 +37,17 @@ $urls = [
     }, "/^logout$/" => function ($method) {
         if ($method == "GET") LoginController::logout();
         else ViewHelper::error405();
-    }, "/^ElektronskiIndeks$/" => function ($method) {
+    }, "/^forgottenPassword$/" => function ($method) {
+        if ($method == "POST") LoginController::forgottenPassword();
+        else if ($method == "GET") LoginController::forgottenPasswordForm();
+        else ViewHelper::error405();
+    }, "/^resetPassword$/" => function ($method) {
+        if ($method == "POST") LoginController::resetPassword();
+        else if ($method == "GET") LoginController::resetPasswordForm();
+        else ViewHelper::error405();
+    },
+
+    "/^ElektronskiIndeks$/" => function ($method) {
         if ($method == "GET") StudentController::elektronskiIndeksForm();
         else ViewHelper::error405();
     }, "/^PregledIzpitovStudent$/" => function ($method) {
