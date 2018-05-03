@@ -4,6 +4,8 @@ require_once("model/AdminDB.php");
 require_once("model/UserModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
+require ("view/includes/fpdf.php");
+require ("view/includes/helveticab.php");
 
 
 class AdminController {
@@ -448,4 +450,115 @@ class AdminController {
             ViewHelper::error401();
         }
     }
+
+    public static function exportCSV(){
+
+        $data = filter_input_array(INPUT_POST, [
+            "searchVpisna" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        $studData = AdminDB::getStudentData($data["searchVpisna"]);
+        $vpisData = AdminDB::getEnrollmentDetails($data["searchVpisna"]);
+
+        $spacing="          ";
+        $delimiter = ",";
+        $filename = "data.csv";
+        $f = fopen('php://memory', 'w');
+
+        //set column headers
+        $fields = array('VpisnaStevilka','Ime', 'Priimek', 'NaslovStalnegaBivalisca', 'NaslovZaPrejemanjePoste','TelefonskaStevilka','NaslovElektronskePoste');
+        for($i=0;$i<count($fields);$i++){
+            $fields[$i]=$fields[$i].$spacing;
+        }
+
+        fputcsv($f, $fields, $delimiter);
+
+        $naslovStalnegaBivalisca=null;
+        $naslovPrejemanje=null;
+        foreach ($studData as $key => $value) {
+            if($value['je_stalni'] == 1 ){
+                $naslovStalnegaBivalisca= $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj'];
+            }
+
+            if($value['je_zavrocanje'] == 1 ){
+                $naslovPrejemanje= $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj'];
+            }
+        }
+
+        $lineData = array($value['vpisna_stevilka'], $value['ime'], $value['priimek'], $naslovStalnegaBivalisca,$naslovPrejemanje, $value['telefonska_stevilka'], $value['email']);
+        for($i=0;$i<count($lineData);$i++){
+            $lineData[$i]=$lineData[$i].$spacing;
+        }
+        fputcsv($f, $lineData, $delimiter);
+
+        $fields = array();
+        fputcsv($f, $fields, $delimiter);
+        $fields = array('Letnik','NazivProgram', 'SifraPrograma', 'VrstaVpisa', 'NacinStudija');
+        for($i=0;$i<count($fields);$i++){
+            $fields[$i]=$fields[$i].$spacing;
+        }
+        fputcsv($f, $fields, $delimiter);
+
+        foreach ($vpisData as $key => $value){
+            $lineData = array($value['letnik'], $value['naziv_program'], $value['sifra_program'], $value['opis_vpisa'],$value['opis_nacin']);
+            for($i=0;$i<count($lineData);$i++){
+                $lineData[$i]=$lineData[$i].$spacing;
+            }
+            fputcsv($f, $lineData, $delimiter);
+        }
+
+
+        fseek($f, 0);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+        fpassthru($f);
+
+    }
+
+
+
+
+    public static function exportPDF(){
+        $data = filter_input_array(INPUT_POST, [
+            "searchVpisna" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        $studData = AdminDB::getStudentData($data["searchVpisna"]);
+        $vpisData = AdminDB::getEnrollmentDetails($data["searchVpisna"]);
+
+        $header = array('VpisnaStevilka','Ime', 'Priimek', 'NaslovStalnegaBivalisca', 'NaslovZaPrejemanjePoste','TelefonskaStevilka','NaslovElektronskePoste');
+
+        foreach ($studData as $key => $value) {
+            if($value['je_stalni'] == 1 ){
+                $naslovStalnegaBivalisca= $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj'];
+            }
+
+            if($value['je_zavrocanje'] == 1 ){
+                $naslovPrejemanje= $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj'];
+            }
+        }
+
+        $lineData = array($value['vpisna_stevilka'], $value['ime'], $value['priimek'], $naslovStalnegaBivalisca,$naslovPrejemanje, $value['telefonska_stevilka'], $value['email']);
+
+        $header2 = array('Letnik','NazivProgram', 'SifraPrograma', 'VrstaVpisa', 'NacinStudija');
+
+        $lineData2=null;
+        foreach ($vpisData as $key => $value){
+            $lineData2 = array($value['letnik'], $value['naziv_program'], $value['sifra_program'], $value['opis_vpisa'],$value['opis_nacin']);
+        }
+
+
+        $pdf = new FPDF();
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial','B',8);
+        $pdf->BasicTable($header,$lineData);
+        $pdf->BasicTable2($header2,$lineData2);
+        $pdf->Output('I','data.pdf');
+
+        $filename="data.pdf";
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+    }
+
+
 }

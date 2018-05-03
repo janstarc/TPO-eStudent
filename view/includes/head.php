@@ -6,6 +6,22 @@
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "bootstrap.css" ?>">
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 
+<!--
+<link rel="stylesheet" type="text/css" href="<?= CSS_URL . "shCore.css" ?>">
+<link rel="stylesheet" type="text/css" href="<?= CSS_URL . "custom.css" ?>">
+<link rel="stylesheet" type="text/css" href="<?= CSS_URL . "shThemeDefault.css" ?>">
+-->
+
+
+
 <script type="text/javascript" src="<?= JS_URL . "jquery.js" ?>"></script>
 <script type="text/javascript" src="<?= JS_URL . "bootstrap.min.js" ?>"></script>
 <script type="text/javascript" src="<?= JS_URL . "jquery.backstretch.min.js" ?>"></script>
+
+
+
+<!--
+<script type="text/javascript" src="<?= JS_URL . "shCore.js" ?>"></script>
+<script type="text/javascript" src="<?= JS_URL . "shBrushJScript.js" ?>"></script>
+<script type="text/javascript" src="<?= JS_URL . "jquery.searchabledropdown-1.0.8.min.js" ?>"></script>
+-->

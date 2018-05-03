@@ -352,12 +352,15 @@ $urls = [
         if ($method == "POST") StudentOfficerController::dodaj();
         else ViewHelper::error405();
     },"/^zeton$/" => function ($method) {
-    if ($method == "GET") StudentOfficerController::zeton();
-    else ViewHelper::error405();
+        if ($method == "GET") StudentOfficerController::zeton();
+        else ViewHelper::error405();
+    },"/^OsebniPodatkiStudenta\/exportCSV$/" => function($method) {
+        if ($method == "POST") AdminController::exportCSV();
+        else ViewHelper::error405();
+    },"/^OsebniPodatkiStudenta\/exportPDF$/" => function($method) {
+        if ($method == "POST") AdminController::exportPDF();
+        else ViewHelper::error405();
     }
-
-
-
 ];
 
 foreach ($urls as $pattern => $controller) {

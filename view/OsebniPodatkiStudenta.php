@@ -14,18 +14,40 @@
     <link type="text/css" rel="stylesheet" href="../static/css/shCore.css"/>
     <link type="text/css" rel="stylesheet" href="../static/css/shThemeDefault.css"/>
     <link type="text/css" rel="stylesheet" href="../static/css/custom.css">
-    <script type="text/javascript">
-        SyntaxHighlighter.all();
-    </script>
+
     <!-- END syntax highlighter -->
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="../static/js/jquery.searchabledropdown-1.0.8.min.js"></script>
+
+
     <script type="text/javascript">
         $(document).ready(function() {
             $("select").searchable();
         });
     </script>
+
+
+<!--
+    <script type="application/javascript">
+        var doc = new jsPDF();
+        var specialElementHandlers = {
+            '#editor': function (element, renderer) {
+                return true;
+            }
+        };
+
+        $('#pdf').click(function () {
+            alert("ALO");
+            doc.fromHTML($('#table-izpitov').html(), 15, 15, {
+                'width': 170,
+                'elementHandlers': specialElementHandlers
+            });
+            doc.save('sample-file.pdf');
+        });
+        
+    </script>
+-->
 </head>
 <body>
 <section id="container">
@@ -50,7 +72,6 @@
                             <select class="btn btn-secondary dropdown-toggle m-left" id="myselect" name="searchVpisna">
                                 <?php
                                     echo "<option disabled selected value=''>"."Išči po imenu in priimku"."</option>";
-
                                     foreach ($namesAndSurnames as $key => $value){
                                         echo "<option value=".$value['vpisna_stevilka'].">".$value['ime']." ".$value['priimek']."</option>";
                                     }
@@ -66,6 +87,15 @@
                             </div>
                             <div id="tables" <?php if (!$resultFound){ echo 'style="display:none;"'; } ?>>
                                 <h2>Podatki študenta</h2>
+                                <form  action="<?= BASE_URL . "OsebniPodatkiStudenta/exportCSV" ?>" method="post">
+                                    <input type="hidden" name="searchVpisna" value="<?= $studData['0']['vpisna_stevilka'] ?>"/>
+                                    <input id="csv" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v CSV"/>
+                                </form>
+                                <form  action="<?= BASE_URL . "OsebniPodatkiStudenta/exportPDF" ?>" method="post">
+                                    <input type="hidden" name="searchVpisna" value="<?= $studData['0']['vpisna_stevilka'] ?>"/>
+                                    <input id="pdf" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v PDF"/>
+                                </form>
+
                                 <table id="table-student" class="table table-striped table-advance table-hover">
                                     <thead>
                                     <tr>
