@@ -467,7 +467,6 @@ class AdminController {
         //set column headers
         $fields = array('VpisnaStevilka','Ime', 'Priimek', 'NaslovStalnegaBivalisca', 'NaslovZaPrejemanjePoste','TelefonskaStevilka','NaslovElektronskePoste');
 
-        fputcsv($f, $fields, $delimiter);
 
         $naslovStalnegaBivalisca=null;
         $naslovPrejemanje=null;
@@ -483,18 +482,28 @@ class AdminController {
 
         $lineData = array($value['vpisna_stevilka'], $value['ime'], $value['priimek'], $naslovStalnegaBivalisca,$naslovPrejemanje, $value['telefonska_stevilka'], $value['email']);
 
-        fputcsv($f, $lineData, $delimiter);
+        $text = array("Izpis osebnih podatkov studenta");
+        fputcsv($f, $text, $delimiter);
+        for($i=0; $i<count($fields);$i++){
+            $add=array($fields[$i],$lineData[$i]);
+            fputcsv($f, $add, $delimiter);
+        }
 
         $fields = array();
         fputcsv($f, $fields, $delimiter);
+        $fields = array("Izpis podatkov o vpisih");
+        fputcsv($f, $fields, $delimiter);
         $fields = array('Letnik','NazivProgram', 'SifraPrograma', 'VrstaVpisa', 'NacinStudija');
 
-        fputcsv($f, $fields, $delimiter);
 
         foreach ($vpisData as $key => $value){
             $lineData = array($value['letnik'], $value['naziv_program'], $value['sifra_evs'], $value['opis_vpisa'],$value['opis_nacin']);
 
-            fputcsv($f, $lineData, $delimiter);
+        }
+
+        for($i=0; $i<count($fields);$i++){
+            $add=array($fields[$i],$lineData[$i]);
+            fputcsv($f, $add, $delimiter);
         }
 
 
