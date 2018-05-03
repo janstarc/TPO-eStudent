@@ -34,7 +34,7 @@ class AdminDB {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare(
-            "SELECT sl.stud_leto, l.letnik,  p.sifra_program, p.naziv_program, vr.opis_vpisa, n.opis_nacin
+            "SELECT sl.stud_leto, l.letnik,  p.sifra_program, p.sifra_evs,  p.naziv_program, vr.opis_vpisa, n.opis_nacin
                         FROM  student AS st
                         JOIN vpis AS v ON st.id_vpis = v.id_vpis
                         JOIN studijsko_leto AS sl ON v.id_stud_leto = sl.id_stud_leto

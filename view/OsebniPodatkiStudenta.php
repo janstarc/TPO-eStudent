@@ -73,7 +73,7 @@
                                 <?php
                                     echo "<option disabled selected value=''>"."Išči po imenu in priimku"."</option>";
                                     foreach ($namesAndSurnames as $key => $value){
-                                        echo "<option value=".$value['vpisna_stevilka'].">".$value['ime']." ".$value['priimek']."</option>";
+                                        echo "<option value=".$value['vpisna_stevilka'].">".$value['ime']." ".$value['priimek']."  (".$value['vpisna_stevilka'].")</option>";
                                     }
                                 ?>
                             </select>
@@ -154,6 +154,7 @@
                                     <th>#</th>
                                     <th>Letnik</th>
                                     <th>Študijski program</th>
+                                    <th>Šifra EVS</th>
                                     <th>Vrsta vpisa</th>
                                     <th>Način študija</th>
                                 </tr>
@@ -164,7 +165,8 @@
                                                 echo "<tr>"
                                                         ."<td>".$key."</td>"
                                                         ."<td>".$value['letnik']."</td>"
-                                                        ."<td>".$value['naziv_program']." (".$value['sifra_program'].")</td>"
+                                                        ."<td>".$value['naziv_program']."</td>"
+                                                        ."<td>".$value['sifra_evs']."</td>"
                                                         ."<td>".$value['opis_vpisa']."</td>"
                                                         ."<td>".$value['opis_nacin']."</td>"
                                                       ."</tr>";
