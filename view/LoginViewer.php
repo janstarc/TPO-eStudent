@@ -16,13 +16,13 @@
             <div class="container">
                 <div class="form-login">
                     <form action="<?= BASE_URL . $formAction ?>" method="post" class="">
-                        <h2 class="form-login-heading">sign in now</h2>
+                        <h2 class="form-login-heading">STUDIS - PRIJAVA</h2>
                         <div class="login-wrap">
                             <input type="text" class="form-control" name="email" placeholder="Email" required autofocus>
                             <br>
                             <input type="password" class="form-control" name="password" placeholder="Password" required>
                             <br>
-                            <button id="btn-login" class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
+                            <button id="btn-login" class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i>PRIJAVA</button>
                         </div>
                     </form>
                     <?php if(isset($status)): ?>
@@ -32,7 +32,7 @@
                         </div>
                     <?php endif; ?>
                     <form action="<?= BASE_URL . "forgottenPassword" ?>" method="get" class="">
-                        <button class="btn-xs btn-block btn-danger" type="submit">Forgotten password?</button>
+                        <button class="btn-xs btn-block btn-danger" type="submit">Pozabljeno geslo?</button>
                     </form>
                 </div>
             </div>

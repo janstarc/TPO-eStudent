@@ -58,14 +58,26 @@ class LoginController {
             "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "password" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-        
+
+        $cookieName = "failedLoginCntr";
+        $expiration = time()+30;                // 30 sec
+
+        if(isset($_COOKIE[$cookieName])){
+            $failCntr = $_COOKIE[$cookieName];
+            setcookie($cookieName, ++$failCntr, $expiration);
+        } else {
+            setcookie($cookieName, 0, $expiration);
+        }
+
         if (self::checkValues($data)) {
             $user = UserModel::getUser($data["email"], $data["password"]);
-            if ($user != null) {
+            if ($user != null && (!isset($_COOKIE[$cookieName]) || $_COOKIE[$cookieName] < 3)) {                // Pass & limit OK
                 User::login($user);
                 ViewHelper::redirect(BASE_URL);
-            } else {
-                self::loginForm("Failure", "Napaka, napacen email ali geslo. Poskusite znova.");
+            } else if ($user == null && (!isset($_COOKIE[$cookieName]) || $_COOKIE[$cookieName] < 3)){          // Wrong pass, login limit still ok
+                self::loginForm("Failure", "<b>Napaka</b> - napačen email ali geslo. Poskusite znova.");
+            } else if (isset($_COOKIE[$cookieName]) && $_COOKIE[$cookieName] >= 3) {                             // Over login limit
+                self::loginForm("Failure", "<b>Preveč zaporednih napačnih prijav</b> (".($_COOKIE[$cookieName]+1).")<br> Znova lahko poskusite čez 30 sekund");
             }
         } else {
             self::loginForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
