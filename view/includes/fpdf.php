@@ -1032,63 +1032,19 @@ function Output($dest='', $name='', $isUTF8=false)
 
     function BasicTable($header,$lineData)
     {
-    	$i=1;
-        foreach($header as $col){
-        	if($i==4 || $i==5){
-                $this->Cell(50,7,$col,1);
-			}else{
-                $this->Cell(33,7,$col,1);
-			}
-			$i=$i+1;
+
+    	for($i=0; $i<count($header);$i++){
+            $this->Cell(50, 7, $header[$i], 1);
+            $this->Cell(50, 7, $lineData[$i], 1);
+            $this->Ln();
 		}
 
-        $this->Ln();
-
-        $i=1;
-        foreach($lineData as $col){
-            if($i==4 || $i==5){
-                $this->Cell(50,7,$col,1);
-            }else{
-                $this->Cell(33,7,$col,1);
-            }
-            $i=$i+1;
-        }
 
         $this->Ln();
         $this->Ln();
-        $this->Ln();
-        $this->Ln();
+
     }
 
-    function BasicTable2($header,$lineData)
-    {
-        $i=1;
-        foreach($header as $col){
-            if($i==2 ){
-                $this->Cell(50,7,$col,1);
-            }else{
-                $this->Cell(33,7,$col,1);
-            }
-            $i=$i+1;
-        }
-
-        $this->Ln();
-
-        $i=1;
-        foreach($lineData as $col){
-            if($i==2 ){
-                $this->Cell(50,7,$col,1);
-            }else{
-                $this->Cell(33,7,$col,1);
-            }
-            $i=$i+1;
-        }
-
-        $this->Ln();
-        $this->Ln();
-        $this->Ln();
-        $this->Ln();
-    }
 
 
 /*******************************************************************************
