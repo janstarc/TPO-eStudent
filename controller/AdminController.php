@@ -492,7 +492,7 @@ class AdminController {
         fputcsv($f, $fields, $delimiter);
 
         foreach ($vpisData as $key => $value){
-            $lineData = array($value['letnik'], $value['naziv_program'], $value['sifra_program'], $value['opis_vpisa'],$value['opis_nacin']);
+            $lineData = array($value['letnik'], $value['naziv_program'], $value['sifra_evs'], $value['opis_vpisa'],$value['opis_nacin']);
 
             fputcsv($f, $lineData, $delimiter);
         }
@@ -534,12 +534,12 @@ class AdminController {
 
         $lineData2=null;
         foreach ($vpisData as $key => $value){
-            $lineData2 = array($value['letnik'], $value['naziv_program'], $value['sifra_program'], $value['opis_vpisa'],$value['opis_nacin']);
+            $lineData2 = array($value['letnik'], $value['naziv_program'], $value['sifra_evs'], $value['opis_vpisa'],$value['opis_nacin']);
         }
 
 
         $pdf = new FPDF();
-        $pdf->AddPage('L');
+        $pdf->AddPage();
         $pdf->SetFont('Arial','B',8);
         $pdf->Cell(40,10,'Izpis osebnih podatkov studenta');
         $pdf->Ln();
