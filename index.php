@@ -348,6 +348,12 @@ $urls = [
     },"/^zeton\/EMSOSearch$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::searchByEMSO();
         else ViewHelper::error405();
+    },"/^Zeton\/spremeni$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::spremeni();
+        else ViewHelper::error405();
+    },"/^zeton\/uredi$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::uredi();
+        else ViewHelper::error405();
     },"/^zeton\/dodaj$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::dodaj();
         else ViewHelper::error405();

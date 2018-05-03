@@ -41,6 +41,11 @@ class UserModel {
                 if($id_program != null){
                     $id_oseba = self::insertOseba($db, $value);
                     self::insertStudent($db, $value, $id_oseba, $id_program);
+
+                    //KODA: Pavlin -> dodajanje žetonov novim kandidatom
+                    self::insertZeton( $id_oseba, $id_program);
+
+                    //END: Pavlin
                 } else {
                     echo "Program '".$value['program']."' ne obstaja. Vnos od studenta '".$value['ime']." ".$value['priimek']."' naprej je bil prekinjen";
                 }
@@ -152,6 +157,8 @@ class UserModel {
         $statement->bindValue(":emso", $e1 . $e2);
         $statement->bindValue(":id_program", $id_program);
         $statement->execute();
+
+
     }
 
     public static function getAllStudents(){
@@ -226,5 +233,47 @@ class UserModel {
         // $params["new-password"]=password_hash($params["new-password"], PASSWORD_BCRYPT);
         $statement->bindParam(":password", $params["new-password"]);
         $statement->execute();
+    }
+
+
+
+    //KODA: Pavlin -> dodajanje žetonov novim kandidatom
+    public static function insertZeton($id_oseba, $id_program){
+
+        $db = DBInit::getInstance();
+        $letnik = 1;
+        $leto = 3;
+        $nacin = 1;
+        $oblika = 1;
+        $vrsta = 1;
+
+
+        $statement = $db->prepare("INSERT INTO `tpo`.`zeton`
+            (`ID_OSEBA`,
+            `ID_LETNIK`,
+            `ID_STUD_LETO`,
+            `ID_OBLIKA`,
+            `ID_VRSTAVPISA`,
+            `ID_NACIN`,
+            `ID_PROGRAM`)
+            VALUES
+            (:oseba,
+            :letnik,
+            :leto,
+            :oblika,
+            :vrstaVpisa,
+            :nacin,
+            :program); ");
+
+        $statement->bindParam(":oseba", $id_oseba);
+        $statement->bindParam(":letnik", $letnik);
+        $statement->bindParam(":leto", $leto);
+        $statement->bindParam(":oblika", $oblika);
+        $statement->bindParam(":vrstaVpisa", $vrsta);
+        $statement->bindParam(":nacin", $nacin);
+        $statement->bindParam(":program", $id_program);
+        $statement->execute();
+        return true;
+
     }
 }

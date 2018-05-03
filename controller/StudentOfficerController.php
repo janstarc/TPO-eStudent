@@ -28,7 +28,6 @@ class StudentOfficerController {
             "Aktivnost" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        var_dump($data["Aktivnost"]);
         if($data["tip"] == "d"){
 
             StudentOfficerDB::ChangeAktivnost($data["idZeton"],$data["Aktivnost"]);
@@ -43,11 +42,42 @@ class StudentOfficerController {
     public static function dodaj() {
         $data = filter_input_array(INPUT_POST, [
             "idZeton" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        StudentOfficerDB::dodajNov(StudentOfficerDB::ZetonData($data["idZeton"]));
+        ViewHelper::render("view/Zeton.php", [
+            "zetoni" => array()
+        ]);
+    }
+
+    public static function uredi() {
+        $data = filter_input_array(INPUT_POST, [
+            "idZeton" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+        ViewHelper::render("view/ZetonAdd.php", [
+            "id_zeton" => $data["idZeton"],
+            "zeton" => StudentOfficerDB::ZetonData($data["idZeton"]),
+            "all" => StudentOfficerDB::getAll()
+        ]);
+    }
+
+    public static function spremeni() {
+        $data = filter_input_array(INPUT_POST, [
+
+
+            "leto" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "letnik" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "program" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "Vrstavpisa" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "NacinStudija" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "OblikaStudija" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+            "id_zeton" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
 
         ]);
-
-        var_dump($data["idZeton"]);
-
+        StudentOfficerDB::spremeniZeton($data);
+        ViewHelper::render("view/Zeton.php", [
+            "zetoni" => array()
+        ]);
 
     }
 
