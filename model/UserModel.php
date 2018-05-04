@@ -31,7 +31,6 @@ class UserModel {
 
     public static function insertNewCandidate($candidateArray){
 
-
         // TODO Fix hardcoded stud_leto!
         $id_stud_leto = 3;
         $db = DBInit::getInstance();
@@ -269,7 +268,7 @@ class UserModel {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare(
-            "SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.geslo, k.vpisna_stevilka, p.naziv_program, p.id_program, p.sifra_evs, k.izkoriscen
+            "SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.geslo, k.vpisna_stevilka, k.izkoriscen, p.naziv_program, p.id_program, p.sifra_evs, k.izkoriscen
                         FROM kandidat k, program p, oseba o 
                         WHERE k.id_program = p.id_program
                         AND o.id_oseba = k.id_oseba"
@@ -293,8 +292,7 @@ class UserModel {
                         WHERE o.ime = :ime
                         AND o.priimek = :priimek
                         AND o.email = :email
-                        AND p.sifra_evs = :sifra_evs
-                        AND k.izkoriscen = 0"
+                        AND p.sifra_evs = :sifra_evs"
         );
 
         $statement->bindValue(":ime", $value['ime']);

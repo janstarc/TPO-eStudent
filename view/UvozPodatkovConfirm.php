@@ -36,6 +36,7 @@
                                 <th>Password</th>
                                 <th>Že v bazi</th>
                                 <th>Posodobitev</th>
+                                <th>Izkoriscen</th>
                                 <th>Tip duplikata</th>
                             </tr>
                             </thead>
@@ -43,7 +44,7 @@
                             <?php
                             foreach ($mainArray as $key => $value){
 
-                                if($value['duplikat'] == "NE" || $value['update'] == "DA"){
+                                if(($value['duplikat'] == "NE" || $value['update'] == "DA") && $value['izkoriscen'] == "NE"){
                                     echo "<tr>".
                                         "<td>".$key."</td>".
                                         "<td>".$value['ime']."</td>".
@@ -55,6 +56,7 @@
                                         "<td>".$value['password']."</td>".
                                         "<td>".$value['duplikat']."</td>".
                                         "<td>".$value['update']."</td>".
+                                        "<td>".$value['izkoriscen']."</td>".
                                         "<td>".$value['tipDuplikata']."</td>".
                                         "</tr>";
                                 } else {
@@ -70,12 +72,13 @@
                                         "<td><del>".$value['password']."</del></td>".
                                         "<td><strong>".$value['duplikat']."</strong></td>".
                                         "<td><strong>".$value['update']."</strong></td>".
+                                        "<td><strong>".$value['izkoriscen']."</strong></td>".
                                         "<td><strong>".$value['tipDuplikata']."</strong></td>".
                                         "</tr>";
                                 }
                             }
                                 if($duplikati == count($mainArray)){
-                                    echo "<br><br><strong>   Vnos vsebuje samo duplikate brez posodobitev. Vnos v bazo ni možen.</strong>";
+                                    echo "<br><br><strong>   Vnos vsebuje samo duplikate brez posodobitev ali samo že vpisane kandidate. Vnos v bazo ni možen.</strong>";
                                     $display = "hidden";
                                 }
                                 elseif($duplikati > 0) {

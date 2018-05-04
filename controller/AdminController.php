@@ -254,6 +254,7 @@ class AdminController {
                 if($valueMain['ime'] == $valueAll['ime'] && $valueMain['priimek'] == $valueAll['priimek'] && $valueMain['program'] == $valueAll['sifra_evs'] && $valueMain['email'] == $valueAll['email']){
                     $mainArray[$keyMain]['duplikat'] = "DA";
                     $mainArray[$keyMain]['tipDuplikata'] = "študent";
+                    $mainArray[$keyMain]['izkoriscen'] = "DA";
                 }
             }
         }
@@ -272,6 +273,7 @@ class AdminController {
                 if($valueMain['email'] == $valueAll['email']){
                     $mainArray[$keyMain]['duplikat'] = "DA";
                     $mainArray[$keyMain]['tipDuplikata'] = "kandidat";
+                    $mainArray[$keyMain]['izkoriscen'] = ($valueAll['izkoriscen'] == 1 ? "DA" : "NE");
 
                     // V primeru, da je kandidat duplikat --> Preverimo, ce je DUPLIKAT ali POSODOBITEV
                     $isUpdate = UserModel::isUpdate($valueMain);
@@ -310,6 +312,7 @@ class AdminController {
                 $temp['duplikat'] = "NE";
                 $temp['tipDuplikata'] = "/";
                 $temp['update'] = "NE";
+                $temp['izkoriscen'] = "NE";
 
                 array_push($mainArray, $temp);
             }
