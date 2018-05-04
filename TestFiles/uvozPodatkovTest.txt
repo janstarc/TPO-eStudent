@@ -1,2 +1,1 @@
-imeAAaaaaa                    priimekbbb                    1000479mailmailma                                                  
-ime2Dadddd                    priimek2ee                    1000477mailmailma                                                  
+testnoIme1                    testniPriimek                 1000479testmail1@mail.com

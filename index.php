@@ -375,7 +375,8 @@ foreach ($urls as $pattern => $controller) {
             $params[0] = $_SERVER["REQUEST_METHOD"];
             $controller(...$params);
         } catch (InvalidArgumentException $e) {
-            ViewHelper::error404();
+            //ViewHelper::error404();
+            echo $e;
         } catch (Exception $e){
             echo $e;
         }

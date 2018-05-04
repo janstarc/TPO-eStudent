@@ -29,8 +29,37 @@ class UserModel {
         }
     }
 
-    public static function insertNewStudent($studentArray)
-    {
+    public static function insertNewCandidate($candidateArray){
+
+
+        // TODO Fix hardcoded stud_leto!
+        $id_stud_leto = 3;
+        $db = DBInit::getInstance();
+
+        foreach ($candidateArray as $key => $value){
+
+            if($value['duplikat'] == "NE"){             // Vnasamo NOVEGA kandidata, ki ga se ni bilo v prejsnjih import datotekah
+
+                $id_program = self::getIdProgram($db, $value);
+
+                if($id_program != null){                // Preverimo, ce je program valid
+                    $id_oseba = self::insertOseba($db, $value);         // V oseba vstavi --> Ime, Priimek, email, username, geslo, vrsta_vloge, tel
+                    self::insertKandidat($db, $id_program, $id_oseba, $id_stud_leto, $value['vpisna']);   // V kandidat vstavi id_program, id_oseba, id_stud_leto, izkoriscen to 0
+                }
+
+            } else if ($value['duplikat'] == "DA" && $value['update'] == "DA"){         // Gre za posodobitev vnosa
+
+                $id_program = self::getIdProgram($db, $value);
+
+                if($id_program != null){                // Preverimo, ce je program valid
+                    self::updateKandidatData($db, $value);
+                }
+            }
+
+        }
+    }
+
+    public static function insertNewStudent($studentArray) {
         $db = DBInit::getInstance();
 
         foreach ($studentArray as $key => $value) {
@@ -92,6 +121,22 @@ class UserModel {
         return $result['COUNT(uporabnisko_ime)'];
     }
 
+    public static function insertKandidat($db, $id_program, $id_oseba, $id_stud_leto, $vpisna_stevilka){
+
+        $statement = $db->prepare("
+            INSERT INTO `kandidat`(`id_program`, `id_oseba`, `id_stud_leto`, `izkoriscen`, `vpisna_stevilka`)
+                VALUES (:id_program, :id_oseba, :id_stud_leto, 0, :vpisna_stevilka)
+        ");
+
+        $statement->bindValue(":id_program", $id_program);
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->bindValue(":id_stud_leto", $id_stud_leto);
+        $statement->bindValue(":vpisna_stevilka", $vpisna_stevilka);
+
+        $statement->execute();
+
+    }
+
     // TODO Remove randomly generated Telefonska Stevilka
     public static function insertOseba($db, $value){
 
@@ -121,6 +166,49 @@ class UserModel {
         return $result['id_oseba'];
     }
 
+    public static function updateKandidatData($db, $value){
+
+        //var_dump($value);
+        // Update table oseba
+        $statement = $db->prepare("
+            UPDATE oseba
+            SET ime = :ime,
+                priimek = :priimek
+            WHERE email = :email
+        ");
+
+        $statement->bindValue(":ime", $value['ime']);
+        $statement->bindValue(":priimek", $value['priimek']);
+        $statement->bindValue(":email", $value['email']);
+        $statement->execute();
+
+
+        // Get oseba id
+        $statement = $db->prepare("
+            SELECT id_oseba FROM oseba
+            WHERE email = :email
+        ");
+
+        $statement->bindValue(":email", $value['email']);
+        $statement->execute();
+        $result = $statement->fetch();
+        $id_oseba = $result['id_oseba'];
+
+        // Get program id
+        $id_program = self::getIdProgram($db, $value);
+
+        // Update kandidat
+        $statement = $db->prepare("
+            UPDATE kandidat
+            SET id_program = :id_program
+            WHERE id_oseba = :id_oseba
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->bindValue(":id_program", $id_program);
+        $statement->execute();
+    }
+
 
     public static function getIdProgram($db, $value){
 
@@ -135,7 +223,6 @@ class UserModel {
         $statement->bindValue(":sifra1", $value['program']);
         $statement->execute();
         $result = $statement -> fetch();
-        //var_dump($result);
 
         return $result['id_program'];
     }
@@ -157,8 +244,6 @@ class UserModel {
         $statement->bindValue(":emso", $e1 . $e2);
         $statement->bindValue(":id_program", $id_program);
         $statement->execute();
-
-
     }
 
     public static function getAllStudents(){
@@ -177,6 +262,52 @@ class UserModel {
         $result = $statement->fetchAll();
 
         return $result;
+    }
+
+    public static function getAllCandidates(){
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.geslo, k.vpisna_stevilka, p.naziv_program, p.id_program, p.sifra_evs, k.izkoriscen
+                        FROM kandidat k, program p, oseba o 
+                        WHERE k.id_program = p.id_program
+                        AND o.id_oseba = k.id_oseba"
+        );
+
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        return $result;
+    }
+
+    public static function isUpdate($value){
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT o.id_oseba
+                        FROM oseba AS o
+                        JOIN kandidat AS k ON k.id_oseba = o.id_oseba
+                        JOIN program AS p on p.id_program = k.id_program
+                        WHERE o.ime = :ime
+                        AND o.priimek = :priimek
+                        AND o.email = :email
+                        AND p.sifra_evs = :sifra_evs
+                        AND k.izkoriscen = 0"
+        );
+
+        $statement->bindValue(":ime", $value['ime']);
+        $statement->bindValue(":priimek", $value['priimek']);
+        $statement->bindValue(":email", $value['email']);
+        $statement->bindValue(":sifra_evs", $value['program']);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        //var_dump($result);
+
+        if(empty($result)) return 1;
+        return 0;
     }
     
     public static function checkEmail($email) {

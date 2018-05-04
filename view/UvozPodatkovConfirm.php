@@ -34,14 +34,16 @@
                                 <th>Vpisna</th>
                                 <th>Username</th>
                                 <th>Password</th>
-                                <th>Duplikat</th>
+                                <th>Že v bazi</th>
+                                <th>Posodobitev</th>
+                                <th>Tip duplikata</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
                             foreach ($mainArray as $key => $value){
 
-                                if($value['duplikat'] == "NE"){
+                                if($value['duplikat'] == "NE" || $value['update'] == "DA"){
                                     echo "<tr>".
                                         "<td>".$key."</td>".
                                         "<td>".$value['ime']."</td>".
@@ -52,6 +54,8 @@
                                         "<td>".$value['username']."</td>".
                                         "<td>".$value['password']."</td>".
                                         "<td>".$value['duplikat']."</td>".
+                                        "<td>".$value['update']."</td>".
+                                        "<td>".$value['tipDuplikata']."</td>".
                                         "</tr>";
                                 } else {
                                     $duplikati++;       // Counting nr. of duplicates - if all are duplicates, then disable insert button
@@ -65,11 +69,13 @@
                                         "<td><del>".$value['username']."</del></td>".
                                         "<td><del>".$value['password']."</del></td>".
                                         "<td><strong>".$value['duplikat']."</strong></td>".
+                                        "<td><strong>".$value['update']."</strong></td>".
+                                        "<td><strong>".$value['tipDuplikata']."</strong></td>".
                                         "</tr>";
                                 }
                             }
                                 if($duplikati == count($mainArray)){
-                                    echo "<br><br><strong>   Vnos vsebuje samo duplikate. Vnos v bazo ni možen.</strong>";
+                                    echo "<br><br><strong>   Vnos vsebuje samo duplikate brez posodobitev. Vnos v bazo ni možen.</strong>";
                                     $display = "hidden";
                                 }
                                 elseif($duplikati > 0) {

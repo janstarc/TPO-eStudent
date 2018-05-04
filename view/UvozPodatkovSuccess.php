@@ -16,35 +16,37 @@
                     <div class="content-panel">
                         <hr>
                         <h5>Vnos uspešen!</h5>
-                        <h4>Pregled študentov</h4>
+                        <h4>Pregled vseh kandidatov za vpis</h4>
                         <br>
                         <br>
                         <br>
                         <table id="table-subject" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Ime</th>
                                 <th>Priimek</th>
                                 <th>Email</th>
                                 <th>Uporabniško ime</th>
                                 <th>Vpisna</th>
+                                <th>Izkoriscen</th>
                                 <th>ID Program</th>
                                 <th>Naziv program</th>
-                                <th>Password</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
                             foreach ($result as $key => $value){
                                 echo "<tr>".
+                                    "<td>".($key+1)."</td>".
                                     "<td>".$value['ime']."</td>".
                                     "<td>".$value['priimek']."</td>".
                                     "<td>".$value['email']."</td>".
                                     "<td>".$value['uporabnisko_ime']."</td>".
                                     "<td>".$value['vpisna_stevilka']."</td>".
+                                    "<td>".$value['izkoriscen']."</td>".
                                     "<td>".$value['id_program']."</td>".
                                     "<td>".$value['naziv_program']."</td>".
-                                    "<td> Generated </td>".
                                     "</tr>";
                             }
                             ?>

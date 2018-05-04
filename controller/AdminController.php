@@ -187,7 +187,6 @@ class AdminController {
 
 
     // Render user form
-
     public static function UvozPodatkov(){
 
         if (User::isLoggedIn()){
@@ -201,7 +200,7 @@ class AdminController {
         }
     }
 
-    // Parse input asd put it to associative array
+    // Parse input and put it to associative array
     public static function parseInput(){
 
         $target_file = basename($_FILES["fileToUpload"]["name"]);
@@ -222,7 +221,15 @@ class AdminController {
                     if (is_array($mainArray)) {
 
                         $allStudents = UserModel::getAllStudents();
-                        $mainArray = self::findDuplicates($mainArray, $allStudents);
+                        $allCandidates = UserModel::getAllCandidates();
+                        //var_dump($allCandidates);
+
+                        // If duplicate student is found - do nothing
+                        $mainArray = self::findDuplicateStudents($mainArray, $allStudents);
+                        // If duplicate candidate is found - update
+                        $mainArray = self::findDuplicateCandidates($mainArray, $allCandidates);
+
+                        // TODO Change here!
                         $mainArray = self::generateVpisnaUnPass($mainArray);
 
                         // Renders user form to confirm the insert!
@@ -239,19 +246,44 @@ class AdminController {
         }
     }
 
-    public static function findDuplicates($mainArray, $allStudents){
+    public static function findDuplicateStudents($mainArray, $allStudents){
 
         foreach($mainArray as $keyMain => $valueMain){          // V mainArray vpisemo, ce je duplikat ali ne
 
             foreach ($allStudents as $keyAll => $valueAll){
                 if($valueMain['ime'] == $valueAll['ime'] && $valueMain['priimek'] == $valueAll['priimek'] && $valueMain['program'] == $valueAll['sifra_evs'] && $valueMain['email'] == $valueAll['email']){
                     $mainArray[$keyMain]['duplikat'] = "DA";
+                    $mainArray[$keyMain]['tipDuplikata'] = "študent";
                 }
             }
         }
 
         return $mainArray;
     }
+
+    // Duplicate candidate --> Ce se iz datoteke dvakrat uvaza istega kandidata - ima ze generiran un, pass,...
+        // MainArray je nasa import datoteka
+        // AllStudents so vsi kandidati v bazi
+    public static function findDuplicateCandidates($mainArray, $allCandidates){
+
+        foreach($mainArray as $keyMain => $valueMain){          // V mainArray vpisemo, ce je duplikat ali ne
+
+            foreach ($allCandidates as $keyAll => $valueAll){
+                if($valueMain['email'] == $valueAll['email']){
+                    $mainArray[$keyMain]['duplikat'] = "DA";
+                    $mainArray[$keyMain]['tipDuplikata'] = "kandidat";
+
+                    // V primeru, da je kandidat duplikat --> Preverimo, ce je DUPLIKAT ali POSODOBITEV
+                    $isUpdate = UserModel::isUpdate($valueMain);
+                    if($isUpdate == 0) $mainArray[$keyMain]['update'] = "NE";
+                    else $mainArray[$keyMain]['update'] = "DA";
+                }
+            }
+        }
+
+        return $mainArray;
+    }
+
 
     // Tokenizes input, removes empty lines from input
     public static function splitInput($toSplit){
@@ -276,6 +308,8 @@ class AdminController {
                 $temp['program'] = rtrim(substr($splitted[$i], 60,7));
                 $temp['email'] = rtrim(substr($splitted[$i], 67, 60));
                 $temp['duplikat'] = "NE";
+                $temp['tipDuplikata'] = "/";
+                $temp['update'] = "NE";
 
                 array_push($mainArray, $temp);
             }
@@ -332,11 +366,12 @@ class AdminController {
     }
 
     // Called from "UvozPodatkovConfirm.php" when user input is confirmed to be inserted
+            // Vstavimo KANDIDATA!
     public static function insertParsedData(){
 
         $data = $_SESSION['mainArray'];
-        UserModel::insertNewStudent($data);
-        $result = UserModel::getAllStudents();
+        UserModel::insertNewCandidate($data);
+        $result = UserModel::getAllCandidates();
         //var_dump($result);
         ViewHelper::render("view/UvozPodatkovSuccess.php", [
             "result" => $result,
