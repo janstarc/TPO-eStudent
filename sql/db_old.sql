@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gostitelj: 127.0.0.1
--- Čas nastanka: 05. maj 2018 ob 14.14
+-- Čas nastanka: 05. maj 2018 ob 00.44
 -- Različica strežnika: 10.1.31-MariaDB
 -- Različica PHP: 7.2.3
 
@@ -28,7 +28,6 @@ SET time_zone = "+00:00";
 -- Struktura tabele `del_predmetnika`
 --
 
-DROP TABLE IF EXISTS `del_predmetnika`;
 CREATE TABLE `del_predmetnika` (
   `ID_DELPREDMETNIKA` int(11) NOT NULL,
   `NAZIV_DELAPREDMETNIKA` char(50) COLLATE utf8_slovenian_ci NOT NULL,
@@ -54,7 +53,6 @@ INSERT INTO `del_predmetnika` (`ID_DELPREDMETNIKA`, `NAZIV_DELAPREDMETNIKA`, `SK
 -- Struktura tabele `drzava`
 --
 
-DROP TABLE IF EXISTS `drzava`;
 CREATE TABLE `drzava` (
   `ID_DRZAVA` int(11) NOT NULL,
   `DVOMESTNAKODA` char(2) COLLATE utf8_slovenian_ci NOT NULL,
@@ -326,7 +324,6 @@ INSERT INTO `drzava` (`ID_DRZAVA`, `DVOMESTNAKODA`, `TRIMESTNAKODA`, `ISONAZIV`,
 -- Struktura tabele `izpit`
 --
 
-DROP TABLE IF EXISTS `izpit`;
 CREATE TABLE `izpit` (
   `ID_IZPIT` int(11) NOT NULL,
   `ID_PRIJAVA` int(11) DEFAULT NULL,
@@ -340,7 +337,6 @@ CREATE TABLE `izpit` (
 -- Struktura tabele `izvedba_predmeta`
 --
 
-DROP TABLE IF EXISTS `izvedba_predmeta`;
 CREATE TABLE `izvedba_predmeta` (
   `ID_IZVEDBA` int(11) NOT NULL,
   `ID_STUD_LETO` int(11) NOT NULL,
@@ -366,7 +362,6 @@ INSERT INTO `izvedba_predmeta` (`ID_IZVEDBA`, `ID_STUD_LETO`, `ID_OSEBA1`, `ID_O
 -- Struktura tabele `kandidat`
 --
 
-DROP TABLE IF EXISTS `kandidat`;
 CREATE TABLE `kandidat` (
   `ID_KANDIDAT` int(11) NOT NULL,
   `ID_OSEBA` int(11) NOT NULL,
@@ -392,7 +387,6 @@ INSERT INTO `kandidat` (`ID_KANDIDAT`, `ID_OSEBA`, `ID_PROGRAM`, `ID_STUD_LETO`,
 -- Struktura tabele `letnik`
 --
 
-DROP TABLE IF EXISTS `letnik`;
 CREATE TABLE `letnik` (
   `ID_LETNIK` int(11) NOT NULL,
   `LETNIK` int(11) NOT NULL
@@ -416,7 +410,6 @@ INSERT INTO `letnik` (`ID_LETNIK`, `LETNIK`) VALUES
 -- Struktura tabele `nacin_studija`
 --
 
-DROP TABLE IF EXISTS `nacin_studija`;
 CREATE TABLE `nacin_studija` (
   `ID_NACIN` int(11) NOT NULL,
   `OPIS_NACIN` char(50) COLLATE utf8_slovenian_ci NOT NULL,
@@ -438,7 +431,6 @@ INSERT INTO `nacin_studija` (`ID_NACIN`, `OPIS_NACIN`, `ANG_OPIS_NACIN`, `AKTIVN
 -- Struktura tabele `naslov`
 --
 
-DROP TABLE IF EXISTS `naslov`;
 CREATE TABLE `naslov` (
   `ID_NASLOV` int(11) NOT NULL,
   `ID_POSTA` int(11) NOT NULL,
@@ -465,7 +457,6 @@ INSERT INTO `naslov` (`ID_NASLOV`, `ID_POSTA`, `ID_OBCINA`, `ID_DRZAVA`, `ID_OSE
 -- Struktura tabele `obcina`
 --
 
-DROP TABLE IF EXISTS `obcina`;
 CREATE TABLE `obcina` (
   `ID_OBCINA` int(11) NOT NULL,
   `IME_OBCINA` char(50) COLLATE utf8_slovenian_ci NOT NULL,
@@ -696,7 +687,6 @@ INSERT INTO `obcina` (`ID_OBCINA`, `IME_OBCINA`, `AKTIVNOST`) VALUES
 -- Struktura tabele `oblika_studija`
 --
 
-DROP TABLE IF EXISTS `oblika_studija`;
 CREATE TABLE `oblika_studija` (
   `ID_OBLIKA` int(11) NOT NULL,
   `NAZIV_OBLIKA` char(50) COLLATE utf8_slovenian_ci NOT NULL,
@@ -719,7 +709,6 @@ INSERT INTO `oblika_studija` (`ID_OBLIKA`, `NAZIV_OBLIKA`, `ANG_OPIS_OBLIKA`, `A
 -- Struktura tabele `oseba`
 --
 
-DROP TABLE IF EXISTS `oseba`;
 CREATE TABLE `oseba` (
   `ID_OSEBA` int(11) NOT NULL,
   `IME` char(50) COLLATE utf8_slovenian_ci NOT NULL,
@@ -746,7 +735,7 @@ INSERT INTO `oseba` (`ID_OSEBA`, `IME`, `PRIIMEK`, `EMAIL`, `UPORABNISKO_IME`, `
 (5, 'Admin', 'Admin', 'testA', 'testA', '123456', 'a', '123581321', NULL, NULL, NULL),
 (6, 'imeAAaaaaa', 'priimekbbb', 'mailmailma', 'ip4473', 'op4s0n', 's', '121882584', NULL, NULL, NULL),
 (7, 'ime2Dadddd', 'priimek2ee', 'mailmailma', 'ip9655', 'P7RB0B', 's', '129952906', NULL, NULL, NULL),
-(8, 'testnoIme2', 'testniPriimek', 'testmail1@mail.com', 'tt1738', 'KB0yQ7', 's', '124064579', NULL, NULL, NULL);
+(8, 'testnoIme1', 'testniPriimek', 'testmail1@mail.com', 'tt1738', 'KB0yQ7', 's', '124064579', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -754,7 +743,6 @@ INSERT INTO `oseba` (`ID_OSEBA`, `IME`, `PRIIMEK`, `EMAIL`, `UPORABNISKO_IME`, `
 -- Struktura tabele `posta`
 --
 
-DROP TABLE IF EXISTS `posta`;
 CREATE TABLE `posta` (
   `ID_POSTA` int(11) NOT NULL,
   `ST_POSTA` char(4) COLLATE utf8_slovenian_ci DEFAULT NULL,
@@ -776,7 +764,6 @@ INSERT INTO `posta` (`ID_POSTA`, `ST_POSTA`, `KRAJ`, `AKTIVNOST`) VALUES
 -- Struktura tabele `predmet`
 --
 
-DROP TABLE IF EXISTS `predmet`;
 CREATE TABLE `predmet` (
   `ID_PREDMET` int(11) NOT NULL,
   `IME_PREDMET` char(50) COLLATE utf8_slovenian_ci NOT NULL,
@@ -803,7 +790,6 @@ INSERT INTO `predmet` (`ID_PREDMET`, `IME_PREDMET`, `AKTIVNOST`) VALUES
 -- Struktura tabele `predmeti_studenta`
 --
 
-DROP TABLE IF EXISTS `predmeti_studenta`;
 CREATE TABLE `predmeti_studenta` (
   `ID_PREDMETISTUDENTA` int(11) NOT NULL,
   `ID_VPIS` int(11) NOT NULL,
@@ -817,7 +803,6 @@ CREATE TABLE `predmeti_studenta` (
 -- Struktura tabele `predmetnik`
 --
 
-DROP TABLE IF EXISTS `predmetnik`;
 CREATE TABLE `predmetnik` (
   `ID_PREDMETNIK` int(11) NOT NULL,
   `ID_PREDMET` int(11) NOT NULL,
@@ -848,7 +833,6 @@ INSERT INTO `predmetnik` (`ID_PREDMETNIK`, `ID_PREDMET`, `ID_DELPREDMETNIKA`, `I
 -- Struktura tabele `prijava`
 --
 
-DROP TABLE IF EXISTS `prijava`;
 CREATE TABLE `prijava` (
   `ID_PRIJAVA` int(11) NOT NULL,
   `ID_IZPIT` int(11) DEFAULT NULL,
@@ -868,7 +852,6 @@ CREATE TABLE `prijava` (
 -- Struktura tabele `program`
 --
 
-DROP TABLE IF EXISTS `program`;
 CREATE TABLE `program` (
   `ID_PROGRAM` int(11) NOT NULL,
   `ID_STOPNJA` int(11) NOT NULL,
@@ -911,7 +894,6 @@ INSERT INTO `program` (`ID_PROGRAM`, `ID_STOPNJA`, `SIFRA_PROGRAM`, `NAZIV_PROGR
 -- Struktura tabele `rok`
 --
 
-DROP TABLE IF EXISTS `rok`;
 CREATE TABLE `rok` (
   `ID_ROK` int(11) NOT NULL,
   `ID_IZVEDBA` int(11) NOT NULL,
@@ -926,7 +908,6 @@ CREATE TABLE `rok` (
 -- Struktura tabele `stopnja`
 --
 
-DROP TABLE IF EXISTS `stopnja`;
 CREATE TABLE `stopnja` (
   `ID_STOPNJA` int(11) NOT NULL,
   `NAZIV` char(50) COLLATE utf8_slovenian_ci NOT NULL,
@@ -954,7 +935,6 @@ INSERT INTO `stopnja` (`ID_STOPNJA`, `NAZIV`, `MOZEN_VPIS`, `SIFRA`) VALUES
 -- Struktura tabele `student`
 --
 
-DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `VPISNA_STEVILKA` int(11) NOT NULL,
   `ID_OSEBA` int(11) NOT NULL,
@@ -980,7 +960,6 @@ INSERT INTO `student` (`VPISNA_STEVILKA`, `ID_OSEBA`, `ID_KANDIDAT`, `ID_VPIS`, 
 -- Struktura tabele `studijsko_leto`
 --
 
-DROP TABLE IF EXISTS `studijsko_leto`;
 CREATE TABLE `studijsko_leto` (
   `ID_STUD_LETO` int(11) NOT NULL,
   `STUD_LETO` char(10) COLLATE utf8_slovenian_ci NOT NULL
@@ -1001,7 +980,6 @@ INSERT INTO `studijsko_leto` (`ID_STUD_LETO`, `STUD_LETO`) VALUES
 -- Struktura tabele `vpis`
 --
 
-DROP TABLE IF EXISTS `vpis`;
 CREATE TABLE `vpis` (
   `ID_VPIS` int(11) NOT NULL,
   `ID_PROGRAM` int(11) NOT NULL,
@@ -1028,7 +1006,6 @@ INSERT INTO `vpis` (`ID_VPIS`, `ID_PROGRAM`, `ID_NACIN`, `ID_STUD_LETO`, `ID_VRS
 -- Struktura tabele `vrsta_vpisa`
 --
 
-DROP TABLE IF EXISTS `vrsta_vpisa`;
 CREATE TABLE `vrsta_vpisa` (
   `ID_VRSTAVPISA` int(11) NOT NULL,
   `OPIS_VPISA` char(30) COLLATE utf8_slovenian_ci NOT NULL,
@@ -1050,7 +1027,6 @@ INSERT INTO `vrsta_vpisa` (`ID_VRSTAVPISA`, `OPIS_VPISA`, `AKTIVNOST`) VALUES
 -- Struktura tabele `zeton`
 --
 
-DROP TABLE IF EXISTS `zeton`;
 CREATE TABLE `zeton` (
   `ID_ZETON` int(11) NOT NULL,
   `ID_OSEBA` int(11) NOT NULL,

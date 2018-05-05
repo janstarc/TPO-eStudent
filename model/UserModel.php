@@ -54,7 +54,6 @@ class UserModel {
                     self::updateKandidatData($db, $value);
                 }
             }
-
         }
     }
 
@@ -211,12 +210,10 @@ class UserModel {
 
     public static function getIdProgram($db, $value){
 
-        // TODO Figure out if sifra_program OR sifra_evs is used in import text files!
         $statement = $db->prepare("
             SELECT id_program
             FROM program
-            WHERE sifra_program = :sifra1
-            OR sifra_evs = :sifra1
+            WHERE sifra_evs = :sifra1
         ");
 
         $statement->bindValue(":sifra1", $value['program']);
