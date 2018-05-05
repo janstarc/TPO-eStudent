@@ -75,7 +75,7 @@ class UserModel {
 
         $statement = $db->prepare("
            INSERT INTO `oseba`(`ime`, `priimek`, `email`, `uporabnisko_ime`, `geslo`, `vrsta_vloge`, `telefonska_stevilka`)
-                VALUES (:ime, :priimek, :email, :uporabnisko_ime, :geslo, 's', :telefonska_stevilka);
+                VALUES (:ime, :priimek, :email, :uporabnisko_ime, :geslo, 'k', :telefonska_stevilka);
         ");
 
         $statement->bindValue(":ime", $value['ime']);

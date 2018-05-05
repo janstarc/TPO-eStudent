@@ -199,9 +199,86 @@ class KandidatModel {
         $statement->execute();
     }
 
-    public static function getAllCandidates(){
+    public static function getCandidatesAll(){
 
-        
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT o.ime, o.priimek, o.email, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
+                    p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto, k.id_kandidat, v.vpis_id,
+                    n.ULICA, n.HISNA_STEVILKA, n.JE_ZAVROCANJE, n.JE_STALNI, po.ST_POSTA, po.KRAJ, d.TRIMESTNAKODA, d.ISONAZIV, d.SLOVENSKINAZIV
+            FROM oseba AS o 
+            JOIN kandidat AS k ON k.id_oseba = o.id_oseba
+            JOIN program AS p ON k.id_program = p.id_program
+            JOIN studijsko_leto AS s ON k.id_stud_leto = s.id_stud_leto
+            JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
+            JOIN naslov AS n ON n.ID_OSEBA = o.ID_OSEBA
+            JOIN posta AS po ON n.ID_POSTA = po.ID_POSTA
+            JOIN drzava AS d ON n.ID_DRZAVA = d.ID_DRZAVA
+            AND k.IZKORISCEN = 1
+            AND v.POTRJENOST_VPISA = 0
+        ");
+
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        return $result;
     }
 
+    public static function getVpisId($id_kandidat){
+
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT v.ID_VPIS
+            FROM vpis AS v 
+            JOIN kandidat AS k ON v.VPISNA_STEVILKA = k.VPISNA_STEVILKA
+            WHERE k.ID_KANDIDAT = :id_kandidat
+        ");
+
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        return $result['id_vpis'];
+    }
+
+    public static function potrdiVpisReferent($id_kandidat){
+
+        $db = DBInit::getInstance();
+
+        // Set potrjenost_vpisa to 1
+        $id_vpis = self::getVpisId($id_kandidat);
+        $statement = $db -> prepare("
+            UPDATE vpis
+            SET potrjenost_vpisa = 1
+            WHERE id_vpis = :id_vpis
+        ");
+
+        $statement->bindValue(":id_vpis", $id_vpis);
+        $statement->execute();
+
+        // Create new student
+        $kandidatData = self::getKandidatPodatki($id_kandidat);
+        $statement = $db -> prepare("
+            INSERT INTO `student` (`vpisna_stevilka`, `id_oseba`, `id_kandidat`, `id_vpis`, `emso`, `id_program`)
+            VALUES (:vpisna_stevilka, :id_oseba, :id_kandidat, :id_vpis, :emso, :id_program)
+        ");
+
+        $statement->bindValue(":vpisna_stevilka", $kandidatData['vpisna_stevilka']);
+        $statement->bindValue(":id_oseba", $kandidatData['id_oseba']);
+        $statement->bindValue(":id_kandidat", $kandidatData['id_kandidat']);
+        $statement->bindValue(":id_vpis", $id_vpis);
+        $statement->bindValue(":emso", $kandidatData['id_kandidat']);
+        $statement->bindValue(":id_program", $kandidatData['id_program']);
+        $statement->execute();
+
+        // Set vloga from k to s
+        $statement = $db -> prepare("
+            UPDATE oseba
+            SET vloga = 's'
+            WHERE id_oseba = :id_oseba
+        ");
+        $statement->bindValue(":id_oseba", $kandidatData['id_oseba']);
+        $statement->execute();
+    }
 }
