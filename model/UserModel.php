@@ -19,8 +19,7 @@ class UserModel {
         $statement->execute();
 
         $user = $statement->fetch();
-        // TODO Change if statement when password hashing is added!
-        //if (password_verify($password, $user["GESLO"])) {
+
         if($password == $user["GESLO"]){
             unset($user["GESLO"]);
             return $user;
@@ -57,68 +56,6 @@ class UserModel {
         }
     }
 
-    public static function insertNewStudent($studentArray) {
-        $db = DBInit::getInstance();
-
-        foreach ($studentArray as $key => $value) {
-
-            if($value['duplikat'] == "NE"){
-                $id_program = self::getIdProgram($db, $value);
-
-                if($id_program != null){
-                    $id_oseba = self::insertOseba($db, $value);
-                    self::insertStudent($db, $value, $id_oseba, $id_program);
-
-                    //KODA: Pavlin -> dodajanje žetonov novim kandidatom
-                    self::insertZeton( $id_oseba, $id_program);
-
-                    //END: Pavlin
-                } else {
-                    echo "Program '".$value['program']."' ne obstaja. Vnos od studenta '".$value['ime']." ".$value['priimek']."' naprej je bil prekinjen";
-                }
-            }
-
-            }
-
-            /*
-            $count = self::checkIfUserIsUnique($db, $value['username']);
-            if ($count != 0) {
-                echo "Duplikat vnosa! Uporabnik '" . $value['username'] . "' že obstaja!'";
-                return;
-            }
-            */
-            /*
-            $id_program = self::getIdProgram($db, $value);
-            if($id_program == null){
-                echo "Program '".$value['program']."' ne obstaja. Vnos od studenta '".$value['ime']." ".$value['priimek']."' naprej je bil prekinjen";
-                return;
-            }
-
-
-            // Insert new oseba
-            $id_oseba = self::insertOseba($db, $value);
-            // Insert new student
-            self::insertStudent($db, $value, $id_oseba, $id_program);
-            */
-
-
-
-    }
-
-
-    public static function checkIfUserIsUnique($db, $uporabnisko_ime){
-        $statement = $db->prepare("
-            SELECT COUNT(uporabnisko_ime) FROM oseba
-            WHERE uporabnisko_ime = :uporabnisko_ime;
-        ");
-
-        $statement->bindValue(":uporabnisko_ime", $uporabnisko_ime);
-        $statement->execute();
-        $result = $statement->fetch();
-
-        return $result['COUNT(uporabnisko_ime)'];
-    }
-
     public static function insertKandidat($db, $id_program, $id_oseba, $id_stud_leto, $vpisna_stevilka){
 
         $statement = $db->prepare("
@@ -132,10 +69,8 @@ class UserModel {
         $statement->bindValue(":vpisna_stevilka", $vpisna_stevilka);
 
         $statement->execute();
-
     }
 
-    // TODO Remove randomly generated Telefonska Stevilka
     public static function insertOseba($db, $value){
 
         $statement = $db->prepare("
@@ -148,7 +83,7 @@ class UserModel {
         $statement->bindValue(":email", $value['email']);
         $statement->bindValue(":uporabnisko_ime", $value['username']);
         $statement->bindValue(":geslo", $value['password']);
-        $statement->bindValue(":telefonska_stevilka", rand(120000000, 129999999));
+        $statement->bindValue(":telefonska_stevilka", "");
         $statement->execute();
 
         // Get ID from created oseba
@@ -166,7 +101,6 @@ class UserModel {
 
     public static function updateKandidatData($db, $value){
 
-        //var_dump($value);
         // Update table oseba
         $statement = $db->prepare("
             UPDATE oseba
@@ -181,7 +115,7 @@ class UserModel {
         $statement->execute();
 
 
-        // Get oseba id
+        // Get oseba id from email
         $statement = $db->prepare("
             SELECT id_oseba FROM oseba
             WHERE email = :email
@@ -207,7 +141,7 @@ class UserModel {
         $statement->execute();
     }
 
-
+    //  sifra_evs --> id_program
     public static function getIdProgram($db, $value){
 
         $statement = $db->prepare("
@@ -223,25 +157,7 @@ class UserModel {
         return $result['id_program'];
     }
 
-    // Add attributes to student with oseba_ID
-        // TODO Set ID_KANDIDAT, ID_VPIS and ID_PROGRAM back to NOT NULL!!!
-        // TODO Remove randomly generated EMSO
-    public static function insertStudent($db, $value, $id_oseba, $id_program){
-
-        $statement = $db->prepare("
-            INSERT INTO `student`(`id_oseba`, `vpisna_stevilka`, `id_program`, `emso`)
-              VALUES (:id_oseba, :vpisna_stevilka, :id_program, :emso);
-        ");
-
-        $statement->bindValue(":id_oseba", $id_oseba);
-        $statement->bindValue(":vpisna_stevilka", $value['vpisna']);
-        $e1 = rand(1000000, 9999999);
-        $e2 = rand(100000, 999999);
-        $statement->bindValue(":emso", $e1 . $e2);
-        $statement->bindValue(":id_program", $id_program);
-        $statement->execute();
-    }
-
+    // null --> all_students
     public static function getAllStudents(){
 
         $db = DBInit::getInstance();
@@ -260,6 +176,7 @@ class UserModel {
         return $result;
     }
 
+    // null --> all_candidates
     public static function getAllCandidates(){
 
         $db = DBInit::getInstance();
@@ -277,6 +194,7 @@ class UserModel {
         return $result;
     }
 
+    // ime, priimek, email, program --> 0/1 is update?
     public static function isUpdate($value){
 
         $db = DBInit::getInstance();
@@ -304,7 +222,8 @@ class UserModel {
         if(empty($result)) return 1;
         return 0;
     }
-    
+
+    // Check, if email exists in the DB
     public static function checkEmail($email) {
         $db = DBInit::getInstance();
         
@@ -364,6 +283,7 @@ class UserModel {
 
 
     //KODA: Pavlin -> dodajanje žetonov novim kandidatom
+    // TODO --> Ta funkcija se nikoli ne kliče! --> DELETE???
     public static function insertZeton($id_oseba, $id_program){
 
         $db = DBInit::getInstance();
@@ -402,4 +322,85 @@ class UserModel {
         return true;
 
     }
+
+    /*
+    public static function insertNewStudent($studentArray) {
+        $db = DBInit::getInstance();
+
+        foreach ($studentArray as $key => $value) {
+
+            if($value['duplikat'] == "NE"){
+                $id_program = self::getIdProgram($db, $value);
+
+                if($id_program != null){
+                    $id_oseba = self::insertOseba($db, $value);
+                    self::insertStudent($db, $value, $id_oseba, $id_program);
+
+                    //KODA: Pavlin -> dodajanje žetonov novim kandidatom
+                    self::insertZeton( $id_oseba, $id_program);
+
+                    //END: Pavlin
+                } else {
+                    echo "Program '".$value['program']."' ne obstaja. Vnos od studenta '".$value['ime']." ".$value['priimek']."' naprej je bil prekinjen";
+                }
+            }
+
+            }
+
+            $count = self::checkIfUserIsUnique($db, $value['username']);
+            if ($count != 0) {
+                echo "Duplikat vnosa! Uporabnik '" . $value['username'] . "' že obstaja!'";
+                return;
+            }
+
+            $id_program = self::getIdProgram($db, $value);
+            if($id_program == null){
+                echo "Program '".$value['program']."' ne obstaja. Vnos od studenta '".$value['ime']." ".$value['priimek']."' naprej je bil prekinjen";
+                return;
+            }
+
+            // Insert new oseba
+            $id_oseba = self::insertOseba($db, $value);
+            // Insert new student
+            self::insertStudent($db, $value, $id_oseba, $id_program);
+       }
+
+    */
+
+    /*
+    public static function checkIfUserIsUnique($db, $uporabnisko_ime){
+        $statement = $db->prepare("
+            SELECT COUNT(uporabnisko_ime) FROM oseba
+            WHERE uporabnisko_ime = :uporabnisko_ime;
+        ");
+
+        $statement->bindValue(":uporabnisko_ime", $uporabnisko_ime);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        return $result['COUNT(uporabnisko_ime)'];
+    }
+    */
+
+    // Add attributes to student with oseba_ID
+    // TODO Set ID_KANDIDAT, ID_VPIS and ID_PROGRAM back to NOT NULL!!!
+    // TODO Remove randomly generated EMSO
+
+    /*
+    public static function insertStudent($db, $value, $id_oseba, $id_program){
+
+        $statement = $db->prepare("
+            INSERT INTO `student`(`id_oseba`, `vpisna_stevilka`, `id_program`, `emso`)
+              VALUES (:id_oseba, :vpisna_stevilka, :id_program, :emso);
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->bindValue(":vpisna_stevilka", $value['vpisna']);
+        $e1 = rand(1000000, 9999999);
+        $e2 = rand(100000, 999999);
+        $statement->bindValue(":emso", $e1 . $e2);
+        $statement->bindValue(":id_program", $id_program);
+        $statement->execute();
+    }
+    */
 }
