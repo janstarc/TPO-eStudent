@@ -34,6 +34,10 @@ class LoginController {
             ViewHelper::render("view/DashboardViewer.php", [
                 "typeOfUser" => "student-officer"
             ]);
+        } else if (User::isLoggedInAsCandidate()){
+            ViewHelper::render("view/DashboardViewer.php", [
+                "typeOfUser" => "kandidat"
+            ]);
         }
     }
     

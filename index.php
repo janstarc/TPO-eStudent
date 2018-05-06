@@ -7,6 +7,7 @@ require_once("controller/AdminController.php");
 require_once("controller/StudentOfficerController.php");
 require_once("controller/ProfessorController.php");
 require_once("controller/StudentController.php");
+require_once("controller/KandidatController.php");
 require_once("controller/SifrantController.php");
 require_once("model/User.php");
 
@@ -46,7 +47,12 @@ $urls = [
         else if ($method == "GET") LoginController::resetPasswordForm();
         else ViewHelper::error405();
     },
-
+    
+    "/^vpis$/" => function ($method) {
+        if ($method == "GET") KandidatController::vpisForm();
+        else ViewHelper::error405();
+    },
+    
     "/^ElektronskiIndeks$/" => function ($method) {
         if ($method == "GET") StudentController::elektronskiIndeksForm();
         else ViewHelper::error405();

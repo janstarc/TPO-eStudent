@@ -1255,15 +1255,15 @@ INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VL
   (2,'testP', 'testP', '123456', 'p', 'An', 'Ban','030030030'),
   (3,'testR', 'testR', '123456', 'r', 'Ancka', 'Novak','050505050'),
   (4,'testS2', 'testS2', '123456', 's', 'Janezek', 'Novakovic','123581321'),
-  (5,'testA', 'testA', '123456', 'a', 'Admin', 'Admin','123581321');
+  (5,'testA', 'testA', '123456', 'a', 'Admin', 'Admin','123581321'),
+  (6,'testK', 'testK', '123456', 'k', 'kIme', 'kPriimek','123456789');
 # preverjanje login:
 # uporabnisko ime=testS  geslo='123456'
-# VRSTA_VLOGE: admin='a', referat='r', profesor='p' in student='s'
+# VRSTA_VLOGE: admin='a', referat='r', profesor='p', student='s' in kandidat='k'
 
 INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_LETO`, 
                               `IZKORISCEN`, `EMSO`, `VPISNA_STEVILKA`)VALUES
-  (1,3,1,2,1,2505996500532,63150000),
-  (2,3,4,2,1,0406996505123,63150001);
+  (1,3,6,2,1,2505996500532,63150000);
 
 
 INSERT INTO `tpo`.`PREDMET`

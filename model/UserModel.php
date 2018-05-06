@@ -27,6 +27,25 @@ class UserModel {
             return false;
         }
     }
+    
+    public static function getUserName($idOseba) {
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT UPORABNISKO_IME
+            FROM OSEBA
+            WHERE ID_OSEBA = :idOseba
+        ");
+        $statement->bindValue(":idOseba", $idOseba);
+        $statement->execute();
+
+        $user = $statement->fetch();
+
+        if($user != null){
+            return $user["UPORABNISKO_IME"];
+        } else {
+            return null;
+        }
+    }
 
     public static function insertNewCandidate($candidateArray){
 

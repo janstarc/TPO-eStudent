@@ -11,7 +11,7 @@
                     <section class="wrapper">
                         <div class="row">
                             <div class="col-xs-12 col-md-6">
-                                <p>Welcome</p>
+                                <h3>Welcome</h3>
                             </div>
                         </div>
                     </div>

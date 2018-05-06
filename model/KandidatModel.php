@@ -4,7 +4,6 @@ class KandidatModel {
 
     // email --> kandidat_id
     public static function getKandidatId($email){
-
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
@@ -16,13 +15,28 @@ class KandidatModel {
 
         $statement->bindValue(":email", $email);
         $statement->execute();
-        $result = $statement->fetchAll();
-        return $result;
+        $result = $statement->fetch();
+        return $result["ID_KANDIDAT"];
+    }
+    
+    // id_oseba --> kandidat_id
+    public static function getKandidatIdWithUserId($id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT ID_KANDIDAT
+            FROM kandidat
+            WHERE ID_OSEBA = :id_oseba
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result["ID_KANDIDAT"];
     }
 
     // id_stud_leto --> studijsko_leto
     public static function getStudijskoLeto($id_stud_leto){
-
         $db = DBInit::getInstance();
 
         $statement = $db ->prepare("
@@ -33,13 +47,12 @@ class KandidatModel {
 
         $statement->bindValue(":id_stud_leto", $id_stud_leto);
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetch();
         return $result;
     }
 
     // id_kandidat --> id_oseba
     public static function getOsebaId($id_kandidat){
-
         $db = DBInit::getInstance();
 
         $statement = $db ->prepare("
@@ -51,14 +64,12 @@ class KandidatModel {
 
         $statement->bindValue(":id_kandidat", $id_kandidat);
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetch();
         return $result;
     }
 
-
-    // Email --> Ime, priimek, email, telefon, program, stud_leto, vpisna, emso, naslov, hisna stevilka, je_stalni, je_zavrocanje
+    // id_kandidat --> Ime, priimek, email, telefon, program, stud_leto, vpisna, emso, naslov, hisna stevilka, je_stalni, je_zavrocanje
     public static function getKandidatPodatki($id_kandidat){
-
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
@@ -73,12 +84,11 @@ class KandidatModel {
 
         $statement->bindValue(":id_kandidat", $id_kandidat);
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetch();
         return $result;
     }
 
     public static function getKandidatNaslov($id_kandidat){
-
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
@@ -93,12 +103,11 @@ class KandidatModel {
 
         $statement->bindValue(":id_kandidat", $id_kandidat);
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetch();
         return $result;
     }
 
     public static function getKandidatPredmetnik($id_kandidat, $id_stud_leto){
-
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
@@ -115,12 +124,11 @@ class KandidatModel {
         $statement->bindValue(":id_kandidat", $id_kandidat);
         $statement->bindValue(":id_stud_leto", $id_stud_leto);
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetch();
         return $result;
     }
 
     public static function setTelefon($id_kandidat, $telefon){
-
         $oseba_id = self::getOsebaId($id_kandidat);
         $db = DBInit::getInstance();
 
@@ -136,7 +144,6 @@ class KandidatModel {
     }
 
     public static function setEmso($id_kandidat, $emso){
-
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
@@ -152,7 +159,6 @@ class KandidatModel {
 
     // Izbira vsega iz dropdown menijev --> Input je $data array, z id-ji
     public static function setNaslov($id_kandidat, $data){
-
         $id_oseba = self::getOsebaId($id_kandidat);
         $db = DBInit::getInstance();
 
@@ -173,7 +179,6 @@ class KandidatModel {
     }
 
     public static function potrdiVpisKandidat($id_kandidat){
-
         $db = DBInit::getInstance();
 
         // Set izkoriscen to 1
@@ -200,7 +205,6 @@ class KandidatModel {
     }
 
     public static function getCandidatesAll(){
-
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
@@ -226,7 +230,6 @@ class KandidatModel {
     }
 
     public static function getVpisId($id_kandidat){
-
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
@@ -243,7 +246,6 @@ class KandidatModel {
     }
 
     public static function potrdiVpisReferent($id_kandidat){
-
         $db = DBInit::getInstance();
 
         // Set potrjenost_vpisa to 1

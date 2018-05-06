@@ -23,6 +23,9 @@ class User {
 	public function isLoggedInAsStudent() {
 		return $_SESSION["user"]["VRSTA_VLOGE"]==="s";
 	}
+	public function isLoggedInAsCandidate() {
+		return $_SESSION["user"]["VRSTA_VLOGE"]==="k";
+	}
 	public function getId() {
 		return (int)$_SESSION["user"]["ID_OSEBA"];
 	}
