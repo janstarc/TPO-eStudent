@@ -262,7 +262,6 @@ $urls = [
     },
 
 
-
     "/^PostaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddPosta();
         else ViewHelper::error405();

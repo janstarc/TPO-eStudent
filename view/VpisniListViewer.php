@@ -36,19 +36,20 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="emso">EMŠO</label>
-                                        <input type="text" class="form-control" id="emso" name="emso" value="<?= $KandidatPodatki["emso"] ?>" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="vpisna_stevilka">Vpisna številka</label>
-                                        <input type="text" class="form-control" id="vpisna_stevilka" name="vpisna_stevilka" value="<?= $KandidatPodatki["vpisna_stevilka"] ?>" required disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="UPORABNISKO_IME">Uporabniško Ime</label>
-                                        <input type="text" class="form-control" id="word" name="UPORABNISKO_IME" value="<?= $userName ?>" required disabled>
+                                        <input type="number" class="form-control" id="emso" name="emso" value="<?= $KandidatPodatki["emso"] ?>" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="telefonska_stevilka">Telefon</label>
-                                        <input type="text" class="form-control" id="telefonska_stevilka" name="telefonska_stevilka" value="<?= $KandidatPodatki["telefonska_stevilka"] ?>" required>
+                                        <input type="number" class="form-control" id="telefonska_stevilka" name="telefonska_stevilka" value="<?= $KandidatPodatki["telefonska_stevilka"] ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="idSubcategory">Državljanstvo</label>
+                                        <select class="form-control" id="idSubcategory" name="idSubcategory" required>
+                                            <option selected disabled hidden></option>
+                                            <?php foreach ($drzave as $drzava): ?>
+                                                <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
@@ -61,6 +62,7 @@
                                         <label for="hisna_stevilka">Hišna številka</label>
                                         <input type="text" class="form-control" id="hisna_stevilka" name="hisna_stevilka" value="" required>
                                     </div>
+                                    <!--
                                     <div class="form-group">
                                         <label for="idSubcategory">Občina</label>
                                         <select class="form-control" id="idSubcategory" name="idSubcategory" required>
@@ -79,21 +81,13 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
+                                    -->
                                     <div class="form-group">
-                                        <label for="idSubcategory">Kraj</label>
+                                        <label for="idSubcategory">Kraj in poštna številka</label>
                                         <select class="form-control" id="idSubcategory" name="idSubcategory" required>
                                             <option selected disabled hidden></option>
                                             <?php foreach ($poste as $posta): ?>
-                                                <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"] ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="idSubcategory">Država</label>
-                                        <select class="form-control" id="idSubcategory" name="idSubcategory" required>
-                                            <option selected disabled hidden></option>
-                                            <?php foreach ($drzave as $drzava): ?>
-                                                <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                                <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -125,6 +119,14 @@
                                         <select class="form-control" id="idSubcategory" name="idSubcategory" required disabled>
                                             <option value=""><?= $stud_leto["STUD_LETO"] ?></option>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vpisna_stevilka">Vpisna številka</label>
+                                        <input type="text" class="form-control" id="vpisna_stevilka" name="vpisna_stevilka" value="<?= $KandidatPodatki["vpisna_stevilka"] ?>" required disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="UPORABNISKO_IME">Uporabniško Ime</label>
+                                        <input type="text" class="form-control" id="word" name="UPORABNISKO_IME" value="<?= $userName ?>" required disabled>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6 offset-md-3">
