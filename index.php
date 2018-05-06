@@ -50,6 +50,7 @@ $urls = [
     
     "/^vpis$/" => function ($method) {
         if ($method == "GET") KandidatController::vpisForm();
+        else if ($method == "POST") KandidatController::vpis();
         else ViewHelper::error405();
     },
     

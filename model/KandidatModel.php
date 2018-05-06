@@ -65,7 +65,7 @@ class KandidatModel {
         $statement->bindValue(":id_kandidat", $id_kandidat);
         $statement->execute();
         $result = $statement->fetch();
-        return $result;
+        return $result["ID_OSEBA"];
     }
 
     // id_kandidat --> Ime, priimek, email, telefon, program, stud_leto, vpisna, emso, naslov, hisna stevilka, je_stalni, je_zavrocanje
@@ -203,7 +203,23 @@ class KandidatModel {
         $statement->bindValue(":vpisna_stevilka", $kandidatData['vpisna_stevilka']);
         $statement->execute();
     }
+    
+    public static function jeVpisniListZeOddan($id_oseba){
+        $db = DBInit::getInstance();
 
+        $statement = $db ->prepare("
+            SELECT IZKORISCEN, POTRJENOST_VPISA
+            FROM kandidat AS k
+            JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
+            WHERE ID_OSEBA = :id_oseba
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result["IZKORISCEN"]==1 && $result["POTRJENOST_VPISA"]==0;
+    }
+    
     public static function getAllCandidates(){
         $db = DBInit::getInstance();
 
@@ -237,7 +253,7 @@ class KandidatModel {
 
         $statement->bindValue(":id_kandidat", $id_kandidat);
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetch();
 
         return $result['id_vpis'];
     }

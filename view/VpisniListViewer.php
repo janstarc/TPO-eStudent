@@ -3,6 +3,7 @@
 <html lang="en">
     <head>
         <?php include("view/includes/head.php"); ?>
+        <script type="text/javascript" src="<?= JS_URL . "vpisScript.js" ?>"></script>
     </head>
     <body>
         <section id="container">
@@ -32,7 +33,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="Email">Email</label>
-                                        <input type="text" class="form-control" id="Email" name="Email" value="<?= $KandidatPodatki["email"] ?>" required disabled>
+                                        <input type="text" class="form-control" id="Email" name="email" value="<?= $KandidatPodatki["email"] ?>" required disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="emso">EMŠO</label>
@@ -43,8 +44,8 @@
                                         <input type="number" class="form-control" id="telefonska_stevilka" name="telefonska_stevilka" value="<?= $KandidatPodatki["telefonska_stevilka"] ?>" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="idSubcategory">Državljanstvo</label>
-                                        <select class="form-control" id="idSubcategory" name="idSubcategory" required>
+                                        <label for="id_drzava">Državljanstvo</label>
+                                        <select class="form-control" id="id_drzava" name="id_drzava" required>
                                             <option selected disabled hidden></option>
                                             <?php foreach ($drzave as $drzava): ?>
                                                 <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
@@ -53,56 +54,53 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
-                                    <h3>Naslov</h3>
+                                    <h3>Stalni Naslov</h3>
                                     <div class="form-group">
                                         <label for="ulica">Ulica</label>
                                         <input type="text" class="form-control" id="ulica" name="ulica" value="" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="hisna_stevilka">Hišna številka</label>
-                                        <input type="text" class="form-control" id="hisna_stevilka" name="hisna_stevilka" value="" required>
-                                    </div>
-                                    <!--
-                                    <div class="form-group">
-                                        <label for="idSubcategory">Občina</label>
-                                        <select class="form-control" id="idSubcategory" name="idSubcategory" required>
-                                            <option selected disabled hidden></option>
-                                            <?php foreach ($obcine as $obcina): ?>
-                                                <option value="<?= $obcina["ID_OBCINA"] ?>"><?= $obcina["IME_OBCINA"] ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <input type="number" class="form-control" id="hisna_stevilka" name="hisna_stevilka" value="" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="idSubcategory">Poštna številka</label>
-                                        <select class="form-control" id="idSubcategory" name="idSubcategory" required>
-                                            <option selected disabled hidden></option>
-                                            <?php foreach ($poste as $posta): ?>
-                                                <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["ST_POSTA"] ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    -->
-                                    <div class="form-group">
-                                        <label for="idSubcategory">Kraj in poštna številka</label>
-                                        <select class="form-control" id="idSubcategory" name="idSubcategory" required>
+                                        <label for="id_posta">Kraj in poštna številka</label>
+                                        <select class="form-control" id="id_posta" name="id_posta" required>
                                             <option selected disabled hidden></option>
                                             <?php foreach ($poste as $posta): ?>
                                                 <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-5 offset-md-1">
-                                            <div class="form-group">
-                                                <input type="checkbox" class="form-check-input" id="je_stalni">
-                                                <label class="form-check-label" for="je_stalni">Ali je stalni?</label>
-                                            </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Ali je stalni naslov, tudi naslov za vročanje?</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" id="je_zavrocanje" value="je_zavrocanje" required>Da
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" id="ni_zavrocanje" value="ni_zavrocanje" >Ne
+                                        </label>
+                                    </div>
+                                    
+                                    <div id="naslov2">
+                                        <h3>Naslov za vročanje</h3>
+                                        <div class="form-group">
+                                            <label for="ulica2">Ulica</label>
+                                            <input type="text" class="form-control" id="ulica2" name="ulica2" value="" required>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="checkbox" class="form-check-input" id="je_zavrocanje">
-                                                <label class="form-check-label" for="je_zavrocanje">Ali je za vrocanje?</label>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="hisna_stevilka2">Hišna številka</label>
+                                            <input type="number" class="form-control" id="hisna_stevilka2" name="hisna_stevilka2" value="" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_posta2">Kraj in poštna številka</label>
+                                            <select class="form-control" id="id_posta2" name="id_posta2" required>
+                                                <option selected disabled hidden></option>
+                                                <?php foreach ($poste as $posta): ?>
+                                                    <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -110,13 +108,13 @@
                                     <h3>Podatki o vpisu</h3>
                                     <div class="form-group">
                                         <label for="id_naziv_program">Študijski program</label>
-                                        <select class="form-control" id="idSubcategory" name="idSubcategory" required disabled>
+                                        <select class="form-control" id="id_naziv_program" name="id_naziv_program" required disabled>
                                             <option value=""><?= $KandidatPodatki["naziv_program"] ?></option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="idSubcategory">Študijsko leto</label>
-                                        <select class="form-control" id="idSubcategory" name="idSubcategory" required disabled>
+                                        <label for="ID_STUD_LETO">Študijsko leto</label>
+                                        <select class="form-control" id="ID_STUD_LETO" name="ID_STUD_LETO" required disabled>
                                             <option value=""><?= $stud_leto["STUD_LETO"] ?></option>
                                         </select>
                                     </div>
@@ -130,7 +128,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6 offset-md-3">
-                                    <button id="btn" class="btn btn-theme btn-block" type="submit">Ustvari</button>
+                                    <button id="btn" class="btn btn-theme btn-block" type="submit">Oddaj</button>
                                 </div>
                             </div>
                         </form>
