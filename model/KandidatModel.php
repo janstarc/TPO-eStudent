@@ -3,7 +3,7 @@
 class KandidatModel {
 
     // email --> kandidat_id
-    public static function getKandidatId($email){
+    public static function getKandidatIdWithEmail($email){
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
@@ -52,7 +52,7 @@ class KandidatModel {
     }
 
     // id_kandidat --> id_oseba
-    public static function getOsebaId($id_kandidat){
+    public static function getOsebaIdWithKandidatId($id_kandidat){
         $db = DBInit::getInstance();
 
         $statement = $db ->prepare("
@@ -73,7 +73,7 @@ class KandidatModel {
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            SELECT o.ime, o.priimek, o.email, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
+            SELECT o.id_oseba, o.ime, o.priimek, o.email, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
                     p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto
             FROM oseba AS o 
             JOIN kandidat AS k ON k.id_oseba = o.id_oseba
@@ -129,12 +129,12 @@ class KandidatModel {
     }
 
     public static function setTelefon($id_kandidat, $telefon){
-        $oseba_id = self::getOsebaId($id_kandidat);
+        $oseba_id = self::getOsebaIdWithKandidatId($id_kandidat);
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
             UPDATE OSEBA
-            SET TELEFONSKA_STEVILKA = :telefon
+            SET TELEFONSKA_STEVILKA = :telefonska_stevilka
             WHERE ID_OSEBA = :oseba_id
         ");
 
@@ -147,7 +147,7 @@ class KandidatModel {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            UPDATE OSEBA
+            UPDATE KANDIDAT
             SET EMSO = :emso
             WHERE ID_KANDIDAT = :id_kandidat
         ");
@@ -159,17 +159,16 @@ class KandidatModel {
 
     // Izbira vsega iz dropdown menijev --> Input je $data array, z id-ji
     public static function setNaslov($id_kandidat, $data){
-        $id_oseba = self::getOsebaId($id_kandidat);
+        $id_oseba = self::getOsebaIdWithKandidatId($id_kandidat);
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            INSERT INTO `naslov` (`id_posta`, `id_drzava`, `id_obcina`, `id_oseba`, `je_zavrocanje`, `je_stalni`, `ulica`, `hisna_stevilka`)
-            VALUES (:id_posta, :id_drzava, :id_obcina, :id_oseba, :je_zavrocanje, :je_stalni, :ulica, :hisna_stevilka)
+            INSERT INTO `naslov` (`id_posta`, `id_drzava`, `id_oseba`, `je_zavrocanje`, `je_stalni`, `ulica`, `hisna_stevilka`)
+            VALUES (:id_posta, :id_drzava, :id_oseba, :je_zavrocanje, :je_stalni, :ulica, :hisna_stevilka)
         ");
 
         $statement->bindValue(":id_posta", $data['id_posta']);
         $statement->bindValue(":id_drzava", $data['id_drzava']);
-        $statement->bindValue(":id_obcina", $data['id_obcina']);
         $statement->bindValue(":id_oseba", $id_oseba);
         $statement->bindValue(":je_zavrocanje", $data['je_zavrocanje']);
         $statement->bindValue(":je_stalni", $data['je_stalni']);
@@ -189,6 +188,7 @@ class KandidatModel {
         ");
 
         $statement->bindValue(":id_kandidat", $id_kandidat);
+        $statement->execute();
 
         $kandidatData = self::getKandidatPodatki($id_kandidat);
 
@@ -204,23 +204,19 @@ class KandidatModel {
         $statement->execute();
     }
 
-    public static function getCandidatesAll(){
+    public static function getAllCandidates(){
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
             SELECT o.ime, o.priimek, o.email, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
-                    p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto, k.id_kandidat, v.vpis_id,
-                    n.ULICA, n.HISNA_STEVILKA, n.JE_ZAVROCANJE, n.JE_STALNI, po.ST_POSTA, po.KRAJ, d.TRIMESTNAKODA, d.ISONAZIV, d.SLOVENSKINAZIV
+                    p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto, k.id_kandidat, v.id_vpis
             FROM oseba AS o 
             JOIN kandidat AS k ON k.id_oseba = o.id_oseba
             JOIN program AS p ON k.id_program = p.id_program
             JOIN studijsko_leto AS s ON k.id_stud_leto = s.id_stud_leto
             JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
-            JOIN naslov AS n ON n.ID_OSEBA = o.ID_OSEBA
-            JOIN posta AS po ON n.ID_POSTA = po.ID_POSTA
-            JOIN drzava AS d ON n.ID_DRZAVA = d.ID_DRZAVA
             AND k.IZKORISCEN = 1
-            AND v.POTRJENOST_VPISA = 0
+            AND v.POTRJENOST_VPISA = 1
         ");
 
         $statement->execute();
@@ -239,6 +235,7 @@ class KandidatModel {
             WHERE k.ID_KANDIDAT = :id_kandidat
         ");
 
+        $statement->bindValue(":id_kandidat", $id_kandidat);
         $statement->execute();
         $result = $statement->fetchAll();
 
@@ -270,7 +267,7 @@ class KandidatModel {
         $statement->bindValue(":id_oseba", $kandidatData['id_oseba']);
         $statement->bindValue(":id_kandidat", $kandidatData['id_kandidat']);
         $statement->bindValue(":id_vpis", $id_vpis);
-        $statement->bindValue(":emso", $kandidatData['id_kandidat']);
+        $statement->bindValue(":emso", $kandidatData['emso']);
         $statement->bindValue(":id_program", $kandidatData['id_program']);
         $statement->execute();
 
