@@ -20,7 +20,6 @@
                         <?php endif; ?>
 
                         <form action="<?= BASE_URL . $formAction . "/" . $id ?>" method="post" class="form-horizontal">
-                            <input type="hidden" name="email" value="<?= $KandidatPodatki["email"] ?>" />
                             <div class="row">
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Osebni podatki</h3>
@@ -58,7 +57,9 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
-                                    <?php foreach ($naslove as $naslov): ?>
+                                    <?php
+                                        $i = 1;
+                                        foreach ($naslove as $naslov): ?>
                                         <?php if ($naslov["JE_ZAVROCANJE"]==1 && $naslov["JE_STALNI"]==1): ?>
                                             <h3>Stalni in tudi naslov za vrocanje</h3>
                                         <?php elseif ($naslov["JE_STALNI"]==1): ?>
@@ -70,16 +71,16 @@
                                         <?php endif; ?>
                                         
                                         <div class="form-group">
-                                            <label for="ulica">Ulica</label>
-                                            <input type="text" class="form-control" id="ulica" name="ulica" value="<?= $naslov["ULICA"] ?>" required>
+                                            <label for="ulica<?= $i ?>">Ulica</label>
+                                            <input type="text" class="form-control" id="ulica<?= $i ?>" name="ulica<?= $i ?>" value="<?= $naslov["ULICA"] ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="hisna_stevilka">Hišna številka</label>
-                                            <input type="number" class="form-control" id="hisna_stevilka" name="hisna_stevilka" value="<?= $naslov["HISNA_STEVILKA"] ?>" required>
+                                            <label for="hisna_stevilka<?= $i ?>">Hišna številka</label>
+                                            <input type="number" class="form-control" id="hisna_stevilka<?= $i ?>" name="hisna_stevilka<?= $i ?>" value="<?= $naslov["HISNA_STEVILKA"] ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="id_posta">Kraj in poštna številka</label>
-                                            <select class="form-control" id="id_posta" name="id_posta" required>
+                                            <label for="id_posta<?= $i ?>">Kraj in poštna številka</label>
+                                            <select class="form-control" id="id_posta<?= $i ?>" name="id_posta<?= $i ?>" required>
                                                 <?php foreach ($poste as $posta):
                                                     if ($naslov["ID_POSTA"] == $posta["ID_POSTA"]): ?>
                                                         <option selected value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
@@ -89,7 +90,10 @@
                                                 endforeach; ?>
                                             </select>
                                         </div>
-                                    <?php endforeach; ?>
+                                    <?php
+                                        $i=$i+1;
+                                        endforeach;
+                                    ?>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Podatki o vpisu</h3>
