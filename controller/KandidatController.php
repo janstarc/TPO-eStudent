@@ -123,16 +123,18 @@ class KandidatController {
                     $idKandidat = KandidatModel::getKandidatIdWithEmail($data["email"]);
                     KandidatModel::setEmso($idKandidat, $data["emso"]);
                     KandidatModel::setTelefon($idKandidat, $data["telefonska_stevilka"]);
-                    if (isset($_POST["je_zavrocanje"])) {
+                    if ($data2["optradio"]=="je_zavrocanje") {
                         KandidatModel::setNaslov($idKandidat, [
+                            "id_posta" => $data["id_posta"],
                             "id_drzava" => $data["id_drzava"],
                             "je_zavrocanje" => 1,
                             "je_stalni" => 1,
                             "ulica" => $data["ulica"],
                             "hisna_stevilka" => $data["hisna_stevilka"]
                         ]);
-                    } else if (isset($_POST["ni_zavrocanje"])) {
+                    } else if ($data2["optradio"]=="ni_zavrocanje") {
                         KandidatModel::setNaslov($idKandidat, [
+                            "id_posta" => $data["id_posta"],
                             "id_drzava" => $data["id_drzava"],
                             "je_zavrocanje" => 0,
                             "je_stalni" => 1,
@@ -140,6 +142,7 @@ class KandidatController {
                             "hisna_stevilka" => $data["hisna_stevilka"]
                         ]);
                         KandidatModel::setNaslov($idKandidat, [
+                            "id_posta" => $data["id_posta"],
                             "id_drzava" => $data["id_drzava2"],
                             "je_zavrocanje" => 1,
                             "je_stalni" => 0,
@@ -153,7 +156,6 @@ class KandidatController {
                         "message" => "Vpisni list ste uspesno oddali. Prosim pocakajte potrditev referenta."
                     ]);
                 } else {
-                    var_dump($data);
                     self::vpisForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
                 }
             } else {
