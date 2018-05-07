@@ -1,12 +1,69 @@
 <?php
 
 require_once("model/StudentOfficerDB.php");
+require_once("model/StudijskoLetoModel.php");
+require_once("model/StudijskiProgramModel.php");
+require_once("model/KandidatModel.php");
 require_once("model/UserModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
 
-
 class StudentOfficerController {
+    public static function kandidatiList($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                ViewHelper::render("view/Kandidati.php", [
+                    "pageTitle" => "Seznam vseh kandidatov",
+                    "allData" => KandidatModel::getAllCandidates(),
+                    "formAction" => "kandidati",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+    
+    public static function kandidatiPreglejVpisForm($id, $status = null, $message = null) {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsStudentOfficer()){
+                $KandidatPodatki = KandidatModel::getKandidatPodatki($id);
+                $stud_leto = KandidatModel::getStudijskoLeto($KandidatPodatki["id_stud_leto"]);
+                $obcine = ObcinaModel::getAll();
+                $poste = PostaModel::getAll();
+                $drzave = DrzavaModel::getAll();
+                $userName = UserModel::getUserName(User::getId());
+                
+                ViewHelper::render("view/VpisniListPotrditevViewer.php", [
+                    "pageTitle" => "Potrdi vpisni list izbranega kandidata",
+                    "formAction" => "kandidati",
+                    "id" => $id,
+                    "KandidatPodatki" => $KandidatPodatki,
+                    "stud_leto" => $stud_leto,
+                    "StudijskaLeta" => StudijskoLetoModel::getAll(),
+                    "StudijskiProgrami" => StudijskiProgramModel::getAll(),
+                    "obcine" => $obcine,
+                    "poste" => $poste,
+                    "drzave" => $drzave,
+                    "userName" => $userName,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+    
+    public static function kandidatiPotrdiVpisForm($id) {
+        var_dump($_POST);
+    }
+    
     public static function Zeton() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){

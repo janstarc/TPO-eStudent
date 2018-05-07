@@ -52,6 +52,13 @@ $urls = [
         if ($method == "GET") KandidatController::vpisForm();
         else if ($method == "POST") KandidatController::vpis();
         else ViewHelper::error405();
+    }, "/^kandidati$/" => function ($method) {
+        if ($method == "GET") StudentOfficerController::kandidatiList();
+        else ViewHelper::error405();
+    }, "/^kandidati\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::kandidatiPreglejVpisForm($id);
+        else if ($method == "POST") StudentOfficerController::kandidatiPotrdiVpisForm($id);
+        else ViewHelper::error405();
     },
     
     "/^ElektronskiIndeks$/" => function ($method) {

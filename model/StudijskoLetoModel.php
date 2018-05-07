@@ -21,4 +21,15 @@ class StudijskoLetoModel {
             throw new InvalidArgumentException("No record with Year $currentYear");
         }
     }
+    
+    public static function getAll() {
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT *
+            FROM STUDIJSKO_LETO
+        ");
+        $statement->execute();
+        $res = $statement->fetchAll();
+        return $res;
+    }
 }

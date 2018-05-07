@@ -40,7 +40,7 @@ class KandidatModel {
         $db = DBInit::getInstance();
 
         $statement = $db ->prepare("
-            SELECT s.STUD_LETO
+            SELECT STUD_LETO, ID_STUD_LETO
             FROM studijsko_leto AS s
             WHERE s.ID_STUD_LETO = :id_stud_leto
         ");
@@ -232,7 +232,7 @@ class KandidatModel {
             JOIN studijsko_leto AS s ON k.id_stud_leto = s.id_stud_leto
             JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
             AND k.IZKORISCEN = 1
-            AND v.POTRJENOST_VPISA = 1
+            AND v.POTRJENOST_VPISA = 0
         ");
 
         $statement->execute();
