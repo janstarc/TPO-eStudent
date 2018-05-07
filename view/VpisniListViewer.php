@@ -60,6 +60,7 @@
                                         <label for="ulica">Ulica</label>
                                         <input type="text" class="form-control" id="ulica" name="ulica" value="" required>
                                     </div>
+                                    <!-- Hisna stevilka je lahko tudi 1a, zato ne more biti samo number -->
                                     <div class="form-group">
                                         <label for="hisna_stevilka">Hišna številka</label>
                                         <input type="number" class="form-control" id="hisna_stevilka" name="hisna_stevilka" value="" required>
