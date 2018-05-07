@@ -48,6 +48,7 @@ class StudentOfficerController {
                     "obcine" => $obcine,
                     "poste" => $poste,
                     "drzave" => $drzave,
+                    "naslove" => KandidatModel::getKandidatVseNaslove($id),
                     "userName" => $userName,
                     "status" => $status,
                     "message" => $message

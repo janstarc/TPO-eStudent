@@ -47,63 +47,49 @@
                                     <div class="form-group">
                                         <label for="id_drzava">Državljanstvo</label>
                                         <select class="form-control" id="id_drzava" name="id_drzava" required>
-                                            <option selected  hidden></option>
-                                            <?php foreach ($drzave as $drzava): ?>
-                                                <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
-                                            <?php endforeach; ?>
+                                            <?php foreach ($drzave as $drzava):
+                                                if ($naslove[0]["ID_DRZAVA"] == $drzava["ID_DRZAVA"]): ?>
+                                                    <option selected value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                                <?php endif;
+                                            endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
-                                    <h3>Stalni Naslov</h3>
-                                    <div class="form-group">
-                                        <label for="ulica">Ulica</label>
-                                        <input type="text" class="form-control" id="ulica" name="ulica" value="" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="hisna_stevilka">Hišna številka</label>
-                                        <input type="number" class="form-control" id="hisna_stevilka" name="hisna_stevilka" value="" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="id_posta">Kraj in poštna številka</label>
-                                        <select class="form-control" id="id_posta" name="id_posta" required>
-                                            <option selected  hidden></option>
-                                            <?php foreach ($poste as $posta): ?>
-                                                <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label>Ali je stalni naslov, tudi naslov za vročanje?</label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optradio" id="je_zavrocanje" value="je_zavrocanje" required>Da
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optradio" id="ni_zavrocanje" value="ni_zavrocanje" >Ne
-                                        </label>
-                                    </div>
-                                    
-                                    <div id="naslov2">
-                                        <h3>Naslov za vročanje</h3>
+                                    <?php foreach ($naslove as $naslov): ?>
+                                        <?php if ($naslov["JE_ZAVROCANJE"]==1 && $naslov["JE_STALNI"]==1): ?>
+                                            <h3>Stalni in tudi naslov za vrocanje</h3>
+                                        <?php elseif ($naslov["JE_STALNI"]==1): ?>
+                                            <h3>Stalni naslov</h3>
+                                        <?php elseif ($naslov["JE_ZAVROCANJE"]==1): ?>
+                                            <h3>Naslov za vrocanje</h3>
+                                        <?php else: ?>
+                                            <h3>Zacasni naslov</h3>
+                                        <?php endif; ?>
+                                        
                                         <div class="form-group">
-                                            <label for="ulica2">Ulica</label>
-                                            <input type="text" class="form-control" id="ulica2" name="ulica2" value="" required>
+                                            <label for="ulica">Ulica</label>
+                                            <input type="text" class="form-control" id="ulica" name="ulica" value="<?= $naslov["ULICA"] ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="hisna_stevilka2">Hišna številka</label>
-                                            <input type="number" class="form-control" id="hisna_stevilka2" name="hisna_stevilka2" value="" required>
+                                            <label for="hisna_stevilka">Hišna številka</label>
+                                            <input type="number" class="form-control" id="hisna_stevilka" name="hisna_stevilka" value="<?= $naslov["HISNA_STEVILKA"] ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="id_posta2">Kraj in poštna številka</label>
-                                            <select class="form-control" id="id_posta2" name="id_posta2" required>
-                                                <option selected  hidden></option>
-                                                <?php foreach ($poste as $posta): ?>
-                                                    <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
-                                                <?php endforeach; ?>
+                                            <label for="id_posta">Kraj in poštna številka</label>
+                                            <select class="form-control" id="id_posta" name="id_posta" required>
+                                                <?php foreach ($poste as $posta):
+                                                    if ($naslov["ID_POSTA"] == $posta["ID_POSTA"]): ?>
+                                                        <option selected value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
+                                                    <?php else: ?>
+                                                        <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
+                                                    <?php endif;
+                                                endforeach; ?>
                                             </select>
                                         </div>
-                                    </div>
+                                    <?php endforeach; ?>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Podatki o vpisu</h3>

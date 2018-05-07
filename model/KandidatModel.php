@@ -106,6 +106,25 @@ class KandidatModel {
         $result = $statement->fetch();
         return $result;
     }
+    
+    public static function getKandidatVseNaslove($id_kandidat){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT n.ID_POSTA, n.ULICA, n.HISNA_STEVILKA, n.JE_ZAVROCANJE, n.JE_STALNI, p.ST_POSTA, p.KRAJ, d.TRIMESTNAKODA, d.ISONAZIV, d.SLOVENSKINAZIV
+            FROM naslov AS n
+            JOIN posta AS p ON n.ID_POSTA = p.ID_POSTA
+            JOIN drzava AS d ON n.ID_DRZAVA = d.ID_DRZAVA
+            JOIN oseba AS o ON n.ID_OSEBA = o.ID_OSEBA
+            JOIN kandidat AS k ON k.ID_OSEBA = o.ID_OSEBA
+            WHERE k.ID_KANDIDAT = :id_kandidat
+        ");
+
+        $statement->bindValue(":id_kandidat", $id_kandidat);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        return $result;
+    }
 
     public static function getKandidatPredmetnik($id_kandidat, $id_stud_leto){
         $db = DBInit::getInstance();
