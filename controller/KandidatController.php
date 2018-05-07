@@ -142,8 +142,8 @@ class KandidatController {
                             "hisna_stevilka" => $data["hisna_stevilka"]
                         ]);
                         KandidatModel::setNaslov($idKandidat, [
-                            "id_posta" => $data["id_posta"],
-                            "id_drzava" => $data["id_drzava2"],
+                            "id_posta" => $data["id_posta2"],
+                            "id_drzava" => $data["id_drzava"],
                             "je_zavrocanje" => 1,
                             "je_stalni" => 0,
                             "ulica" => $data["ulica2"],
