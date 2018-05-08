@@ -4,6 +4,7 @@ require_once("model/KandidatModel.php");
 require_once("model/ObcinaModel.php");
 require_once("model/PostaModel.php");
 require_once("model/DrzavaModel.php");
+require_once("model/PredmetModel.php");
 require_once("model/UserModel.php");
 require_once("model/User.php");
 require_once("includes/Validation.php");
@@ -26,7 +27,12 @@ class KandidatController {
                     $poste = PostaModel::getAll();
                     $drzave = DrzavaModel::getAll();
                     $userName = UserModel::getUserName(User::getId());
-                    
+                    $predmeti = PredmetModel::getAll([
+                        "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+                        "ID_PROGRAM" => $KandidatPodatki["id_program"],
+                        "ID_LETNIK" => 1
+                    ]);
+
                     ViewHelper::render("view/VpisniListViewer.php", [
                         "pageTitle" => "Vpisni list",
                         "formAction" => "vpis",
@@ -36,6 +42,7 @@ class KandidatController {
                         "poste" => $poste,
                         "drzave" => $drzave,
                         "userName" => $userName,
+                        "predmeti" => $predmeti,
                         "status" => $status,
                         "message" => $message
                     ]);

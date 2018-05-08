@@ -1728,10 +1728,9 @@ INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VL
 
 INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_LETO`, 
                               `IZKORISCEN`, `EMSO`, `VPISNA_STEVILKA`)VALUES
-  (1,3,1,2,1,2505996500532,63150000),
-  (2,3,4,2,1,0406996505123,63150001),
-  (3,3,6,2,1,2505996500532,63150002);
-
+  (1,11,1,2,1,2505996500532,63150000),
+  (2,11,4,2,1,0406996505123,63150001),
+  (3,11,6,2,1,2505996500532,63150002);
 
 INSERT INTO `tpo`.`PREDMET`
 (`ID_PREDMET`, `IME_PREDMET`, `AKTIVNOST`)
@@ -1743,7 +1742,17 @@ VALUES
   (5,'OM', 1),
   (6,'P1', 1),
   (7,'PPJ', 1),
-  (8,'Sport', 1);
+  (8,'Sport', 1),
+  
+  (9,'OMA', 1),
+  (10,'DS', 1),
+  (11,'ODV', 1),
+  (12,'FIZ', 1),
+  (13,'P2', 1),
+  (14,'LA', 1),
+  (15,'ARS', 1),
+  (16,'RK', 1),
+  (17,'OIS', 1);
 
 INSERT INTO `tpo`.`del_predmetnika`
 (`ID_DELPREDMETNIKA`, `NAZIV_DELAPREDMETNIKA`, `SKUPNOSTEVILOKT`, `TIP`, `AKTIVNOST`)
@@ -1757,14 +1766,24 @@ VALUES
 INSERT INTO `tpo`.`predmetnik`
 (`ID_PREDMETNIK`, `ID_PREDMET`, `ID_DELPREDMETNIKA`, `ID_LETNIK`, `ID_STUD_LETO`, `ID_PROGRAM`, `AKTIVNOST`)
 VALUES
-  (1, 1, 1, 3, 2, 3, 1),
-  (2, 2, 1, 3, 2, 3, 1),
-  (3, 3, 1, 3, 2, 3, 1),
-  (4, 4, 3, 3, 2, 3, 1),
-  (5, 5, 2, 3, 2, 3, 1),
-  (6, 6, 3, 1, 2, 3, 1),
-  (7, 7, 4, 3, 2, 3, 1),
-  (8, 8, 5, 3, 2, 3, 1);
+  (1, 1, 1, 3, 2, 11, 1),
+  (2, 2, 1, 3, 2, 11, 1),
+  (3, 3, 1, 3, 2, 11, 1),
+  (4, 4, 3, 3, 2, 11, 1),
+  (5, 5, 2, 3, 2, 11, 1),
+  (6, 6, 3, 1, 2, 11, 1),
+  (7, 7, 4, 3, 2, 11, 1),
+  (8, 8, 5, 3, 2, 11, 1),
+  
+  (9, 9, 3, 1, 2, 11, 1),
+  (10, 10, 3, 1, 2, 11, 1),
+  (11, 11, 3, 1, 2, 11, 1),
+  (12, 12, 3, 1, 2, 11, 1),
+  (13, 13, 3, 1, 2, 11, 1),
+  (14, 14, 3, 1, 2, 11, 1),
+  (15, 15, 3, 1, 2, 11, 1),
+  (16, 16, 3, 1, 2, 11, 1),
+  (17, 17, 3, 1, 2, 11, 1);
 
 INSERT INTO `tpo`.`IZVEDBA_PREDMETA`
 (`ID_IZVEDBA`, `ID_STUD_LETO`, `ID_OSEBA1`, `ID_OSEBA2`, `ID_OSEBA3`, `ID_PREDMET`)
