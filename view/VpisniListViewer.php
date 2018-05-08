@@ -129,6 +129,36 @@
                                         <input type="text" class="form-control" id="word" name="UPORABNISKO_IME" value="<?= $userName ?>" required disabled>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 offset-md-3">
+                                    <h3>Tvoji predmetnik</h3>
+                                    <table id="table-subject" class="table table-striped table-advance table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Ime predmeta</th>
+                                            <th>St. KKT</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        foreach($predmeti as $predmet): ?>
+                                            <tr>
+                                                <td><?php echo $predmet['IME_PREDMET']; ?></td>
+                                                <td><?php echo $predmet['ST_KREDITNIH_TOCK']; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                        <tr>
+                                            <td>Skupno st. KKT</td>
+                                            <td>60</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-xs-12 col-md-6 offset-md-3">
                                     <button id="btn" class="btn btn-theme btn-block" type="submit">Oddaj</button>
                                 </div>
