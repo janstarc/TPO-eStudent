@@ -358,6 +358,36 @@ class KandidatModel {
         $statement->bindValue(":id_oseba", $kandidatData['id_oseba']);
         $statement->execute();
 
+    }
 
+    // Funkcijo klicati SAMO KO JE STUDENT ZE KREIRAN!
+    public static function getVpisnaFromKandidatId($id_kandidat){
+
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare("
+            SELECT VPISNA_STEVILKA
+            FROM student
+            WHERE ID_KANDIDAT = :id_kandidat
+        ");
+
+        $statement->bindValue(":id_kandidat", $id_kandidat);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result['VPISNA_STEVILKA'];
+    }
+
+    public static function insertPredmetiKandidat($id_vpis, $predmeti, $id_stud_leto){
+        $db = DBInit::getInstance();
+
+        foreach ($predmeti as $key => $value){
+            $statement = $db -> prepare("
+            INSERT INTO predmeti_studenta (ID_VPIS, ID_PREDMET, ID_STUD_LETO)
+            VALUES (:id_vpis, :id_predmet, :id_stud_leto)
+            ");
+            $statement->bindValue(":id_vpis", $id_vpis);
+            $statement->bindValue(":id_predmet", $value['ID_PREDMET']);
+            $statement->bindValue(":id_stud_leto", $id_stud_leto);
+            $statement->execute();
+        }
     }
 }

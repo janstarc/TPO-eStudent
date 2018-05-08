@@ -36,6 +36,11 @@ class StudentOfficerController {
                 $poste = PostaModel::getAll();
                 $drzave = DrzavaModel::getAll();
                 $userName = UserModel::getUserName(User::getId());
+                $predmeti = PredmetModel::getAll([
+                    "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+                    "ID_PROGRAM" => $KandidatPodatki["id_program"],
+                    "ID_LETNIK" => 1
+                ]);
                 
                 ViewHelper::render("view/VpisniListPotrditevViewer.php", [
                     "pageTitle" => "Potrdi vpisni list izbranega kandidata",
@@ -50,6 +55,7 @@ class StudentOfficerController {
                     "drzave" => $drzave,
                     "naslove" => KandidatModel::getKandidatVseNaslove($id),
                     "userName" => $userName,
+                    "predmeti" => $predmeti,
                     "status" => $status,
                     "message" => $message
                 ]);
@@ -95,14 +101,23 @@ class StudentOfficerController {
             array('id_naslov' => $data['id_naslov1'], 'ulica' => $data['ulica1'], 'hisna_stevilka' => $data['hisna_stevilka1'],
                     'id_posta' => $data['id_posta1'], 'id_drzava' => $data['id_drzava'], 'je_zavrocanje' => 1, 'je_stalni' => 1));
 
-        
         KandidatModel::updateImeInPriimek($id, $data['Ime'], $data['Priimek']);
         KandidatModel::updateEmso($id, $data['emso']);
         KandidatModel::updateTelefon($id, $data['telefonska_stevilka']);
         KandidatModel::updateNaslovi($id, $nasloviArr);
         KandidatModel::potrdiVpisReferent($id);
 
-        self::kandidatiList("Success", "Uspešno potrjen vpis");
+        $KandidatPodatki = KandidatModel::getKandidatPodatki($id);
+        $predmeti = PredmetModel::getAll([
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
+            "ID_LETNIK" => 1
+        ]);
+        //var_dump($predmeti);
+
+        $id_vpis = KandidatModel::getVpisId($id);
+        KandidatModel::insertPredmetiKandidat($id_vpis, $predmeti, $KandidatPodatki["id_stud_leto"]);
+        //self::kandidatiList("Success", "Vpis za študenta ".$data['ime']." ".$data['priimek']." uspešno potrjen!");
     }
     
     public static function Zeton() {

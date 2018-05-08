@@ -132,10 +132,40 @@
                                         <input type="text" class="form-control" id="word" name="UPORABNISKO_IME" value="<?= $userName ?>" required disabled>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-md-6 offset-md-3">
-                                    <button id="btn" class="btn btn-theme btn-block" type="submit">Potrdi</button>
-                                </div>
                             </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-6 offset-md-3">
+                                        <h3>Predmetnik študenta</h3>
+                                        <table id="table-subject" class="table table-striped table-advance table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Ime predmeta</th>
+                                                <th>St. KT</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            foreach($predmeti as $predmet): ?>
+                                                <tr>
+                                                    <td><?php echo $predmet['IME_PREDMET']; ?></td>
+                                                    <td><?php echo $predmet['ST_KREDITNIH_TOCK']; ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                            <tr>
+                                                <td><b>Skupno st. KKT</b></td>
+                                                <td><b>60</b></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-6 offset-md-3">
+                                        <button id="btn" class="btn btn-theme btn-block" type="submit">Potrdi</button>
+                                    </div>
+                                </div>
                         </form>
                     </div>
                 </section>
