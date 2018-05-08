@@ -149,6 +149,10 @@
                                                 <td><?php echo $predmet['ST_KREDITNIH_TOCK']; ?></td>
                                             </tr>
                                         <?php endforeach; ?>
+                                        <tr>
+                                            <td>Skupno st. KKT</td>
+                                            <td>60</td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
