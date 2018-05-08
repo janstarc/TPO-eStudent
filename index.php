@@ -379,7 +379,14 @@ $urls = [
     },"/^OsebniPodatkiStudenta\/exportPDF$/" => function($method) {
         if ($method == "POST") AdminController::exportPDF();
         else ViewHelper::error405();
+    },
+
+    "/^VnosOceneProf\/" => function($method) {
+        if($method == "GET") ProfesorController::vnosOcenProf();
+        else ViewHelper::error405();
     }
+
+
 ];
 
 foreach ($urls as $pattern => $controller) {
