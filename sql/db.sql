@@ -1813,8 +1813,8 @@ VALUES
 
 INSERT INTO `tpo`.`vpis`(`ID_VPIS`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_VRSTAVPISA`,
                          `ID_OBLIKA`,`ID_LETNIK`,`POTRJENOST_VPISA`,`VPISNA_STEVILKA`)VALUES
-  (1,3,1,2,1,1,1,1,63150000),
-  (2,3,1,2,1,1,1,1,63150001);
+  (1,11,1,2,1,1,1,1,63150000),
+  (2,11,1,2,1,1,1,1,63150001);
 
 INSERT INTO `tpo`.`student`
 (`VPISNA_STEVILKA`,`ID_OSEBA`,`ID_KANDIDAT`,`ID_VPIS`,`EMSO`,`ID_PROGRAM`,
@@ -1824,8 +1824,10 @@ INSERT INTO `tpo`.`student`
 
 INSERT INTO `tpo`.`naslov`(`ID_NASLOV`, `ID_POSTA`,`ID_OBCINA`,`ID_DRZAVA`,`ID_OSEBA`,
                            `JE_ZAVROCANJE`,`JE_STALNI`,`ULICA`,`HISNA_STEVILKA`)VALUES
-  (1,1,1,4,1,1,0,'naslovzavrocanje',13),
-  (2,1,1,8,1,0,1,'stalninaslov',12);
+  (1,1,1,705,1,1,0,'naslovzavrocanje',13),
+  (2,1,1,705,1,0,1,'stalninaslov',12),
+  (3,2,1,705,4,0,1,'zaVrocanje Ulica',12),
+  (4,2,1,705,4,0,1,'stalna Ulica',12);
 
 
 INSERT INTO  `tpo`.`zeton`
@@ -1842,4 +1844,3 @@ VALUES
 (3,2,"2018-09-25", "12:00:00", 1),
 (4,3,"2018-01-12", "12:00:00", 1);
 
->>>>>>> Stashed changes

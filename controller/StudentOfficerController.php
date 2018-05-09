@@ -89,34 +89,31 @@ class StudentOfficerController {
     public static function studentVpisPreglejForm($id, $status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
-                $KandidatPodatki = KandidatModel::getStudentPodatki($id);
-                $stud_leto = KandidatModel::getStudijskoLeto($KandidatPodatki["id_stud_leto"]);
+
+                $studentPodatki = KandidatModel::getStudentPodatki($id);
+                $stud_leto = KandidatModel::getStudijskoLeto($studentPodatki["id_stud_leto"]);
                 $obcine = ObcinaModel::getAll();
                 $poste = PostaModel::getAll();
                 $drzave = DrzavaModel::getAll();
                 $userName = UserModel::getUserName(User::getId());
-
-
-                // TODO HARDCODED VALUES!!!!!!!!!
                 $predmeti = PredmetModel::getAll([
-                    "ID_STUD_LETO" => 2,
-                    "ID_PROGRAM" => 11,
+                    "ID_STUD_LETO" => $studentPodatki['id_stud_leto'],
+                    "ID_PROGRAM" => $studentPodatki['id_program'],
                     "ID_LETNIK" => 1
                 ]);
-
 
                 ViewHelper::render("view/StudentPregledVpisa.php", [
                     "pageTitle" => "Pregled izpitnega lista študenta",
                     "formAction" => "studenti",
                     "id" => $id,
-                    "KandidatPodatki" => $KandidatPodatki,
+                    "KandidatPodatki" => $studentPodatki,
                     "stud_leto" => $stud_leto,
                     "StudijskaLeta" => StudijskoLetoModel::getAll(),
                     "StudijskiProgrami" => StudijskiProgramModel::getAll(),
                     "obcine" => $obcine,
                     "poste" => $poste,
                     "drzave" => $drzave,
-                    "naslove" => KandidatModel::getKandidatVseNaslove($id),
+                    "naslove" => KandidatModel::getOsebaVseNaslove($id),
                     "userName" => $userName,
                     "predmeti" => $predmeti,
                     "status" => $status,
