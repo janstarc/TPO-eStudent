@@ -13,8 +13,27 @@ class StudentOfficerController {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
                 ViewHelper::render("view/Kandidati.php", [
-                    "pageTitle" => "Seznam vseh kandidatov",
+                    "pageTitle" => "Seznam vseh kandidatov (2018/19)",
                     "allData" => KandidatModel::getAllCandidates(),
+                    "formAction" => "kandidati",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+
+    public static function vpisaniStudentiList($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                ViewHelper::render("view/Studenti.php", [
+                    "pageTitle" => "Seznam vpisanih študentov (2017/18)",
+                    "allData" => KandidatModel::getAllVpisaniStudenti(),
                     "formAction" => "kandidati",
                     "status" => $status,
                     "message" => $message
@@ -45,6 +64,50 @@ class StudentOfficerController {
                 ViewHelper::render("view/VpisniListPotrditevViewer.php", [
                     "pageTitle" => "Potrdi vpisni list izbranega kandidata",
                     "formAction" => "kandidati",
+                    "id" => $id,
+                    "KandidatPodatki" => $KandidatPodatki,
+                    "stud_leto" => $stud_leto,
+                    "StudijskaLeta" => StudijskoLetoModel::getAll(),
+                    "StudijskiProgrami" => StudijskiProgramModel::getAll(),
+                    "obcine" => $obcine,
+                    "poste" => $poste,
+                    "drzave" => $drzave,
+                    "naslove" => KandidatModel::getKandidatVseNaslove($id),
+                    "userName" => $userName,
+                    "predmeti" => $predmeti,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function studentVpisPreglejForm($id, $status = null, $message = null) {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsStudentOfficer()){
+                $KandidatPodatki = KandidatModel::getStudentPodatki($id);
+                $stud_leto = KandidatModel::getStudijskoLeto($KandidatPodatki["id_stud_leto"]);
+                $obcine = ObcinaModel::getAll();
+                $poste = PostaModel::getAll();
+                $drzave = DrzavaModel::getAll();
+                $userName = UserModel::getUserName(User::getId());
+
+
+                // TODO HARDCODED VALUES!!!!!!!!!
+                $predmeti = PredmetModel::getAll([
+                    "ID_STUD_LETO" => 2,
+                    "ID_PROGRAM" => 11,
+                    "ID_LETNIK" => 1
+                ]);
+
+
+                ViewHelper::render("view/StudentPregledVpisa.php", [
+                    "pageTitle" => "Pregled izpitnega lista študenta",
+                    "formAction" => "studenti",
                     "id" => $id,
                     "KandidatPodatki" => $KandidatPodatki,
                     "stud_leto" => $stud_leto,

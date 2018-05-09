@@ -26,6 +26,11 @@
                 </a>
             </li>
             <li class="mt">
+                <a href="<?= BASE_URL . "vpisaniStudenti" ?>">
+                    <span>Pregled vpisanih študentov</span>
+                </a>
+            </li>
+            <li class="mt">
                 <a href="<?= BASE_URL . "izpitniRok/referent" ?>">
                     <span>Izpitni Rok</span>
                 </a>

@@ -15,8 +15,6 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="content-panel">
-                                <h4>Študijski smer: Napisi smer</h4>
-                                <hr>
                                 <p>
                                     <label><strong>Išči izpit po predmetu</strong>:<input id="isci-predmet-input" type="search" /></label>
                                     <button id="isci-predmet-gumb" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-search"></span> Išči</button>

@@ -36,7 +36,22 @@ class ProfesorController {
     public static function VnosOcenForm() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
-                ViewHelper::render("view/VnosOcen.php", []);
+
+                // Get izpiti for profesor
+                $id_oseba = User::getId();
+                $predmetiProfesorja = ProfesorDB::getPredmetiProfesorja($id_oseba);
+                //var_dump($predmetiProfesorja);
+
+                // Get izpitni roki za vse izpite profesorja
+                $izpitniRokiProfesorja = ProfesorDB::getIzpitniRokiProfesorja($id_oseba);
+                //var_dump($izpitniRokiProfesorja);
+
+                // Prikaži obrazec za vnos
+
+                ViewHelper::render("view/VnosOcen.php", [
+                    "predmeti" => $predmetiProfesorja,
+                    "izpitniRoki" => $izpitniRokiProfesorja
+                ]);
             }else{
                 ViewHelper::error403();
             }

@@ -299,19 +299,44 @@ class ProfesorDB {
         $statement->execute();
         $result=$statement->fetch();
 
-        //$len=count($result);
-       // var_dump($result);
-      /*  for($i=count($result);$i>=0;$i--){
-
-            if($result[$i]==null){
-                unset($result[$i]);
-                //$len=count($result);
-            }
-        }*/
-
-
         return $result;
 
+    }
+
+    public static function getPredmetiProfesorja($id_oseba){
+
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT DISTINCT ip.ID_PREDMET, p.IME_PREDMET
+            FROM izvedba_predmeta AS ip
+            JOIN predmet AS p ON ip.ID_PREDMET = p.ID_PREDMET
+            WHERE ip.ID_OSEBA1 = :id_oseba
+            OR ip.ID_OSEBA2 = :id_oseba
+            OR ip.ID_OSEBA3 = :id_oseba
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
+    public static function getIzpitniRokiProfesorja($id_oseba){
+
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare("
+            SELECT ip.ID_PREDMET, r.ID_ROK, r.ID_IZVEDBA, r.DATUM_ROKA, r.CAS_ROKA
+            FROM rok AS r
+            JOIN izvedba_predmeta AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
+            WHERE ip.ID_STUD_LETO = 2
+            AND (ip.ID_OSEBA1 = :id_oseba
+            OR ip.ID_OSEBA2 = :id_oseba
+            OR ip.ID_OSEBA3 = :id_oseba)
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->execute();
+        return $statement->fetchAll();
     }
 
 
