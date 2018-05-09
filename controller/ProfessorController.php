@@ -248,9 +248,6 @@ class ProfesorController {
         }
     }
     
-    
-
-
 
     public static function VzdrzevanjePredmetnika() {
         if (User::isLoggedIn()){
@@ -305,6 +302,11 @@ class ProfesorController {
 
         ProfesorDB::addIzvedbaPredmet($idPredmet,$studLeto,$ucitelj,$ucitelj2,$ucitelj3);
         ViewHelper::render("view/Vzdrzevanjepredmetnika.php", []);
+    }
+
+    public static function vnosOcenProf(){
+
+        ViewHelper::render("view/VnosOcenProf", []);
     }
 
 

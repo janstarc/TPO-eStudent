@@ -128,10 +128,10 @@ class KandidatController {
                 
                 if (Validation::checkValues($data)) {
                     $idKandidat = KandidatModel::getKandidatIdWithEmail($data["email"]);
-                    KandidatModel::setEmso($idKandidat, $data["emso"]);
-                    KandidatModel::setTelefon($idKandidat, $data["telefonska_stevilka"]);
+                    KandidatModel::updateEmso($idKandidat, $data["emso"]);
+                    KandidatModel::updateTelefon($idKandidat, $data["telefonska_stevilka"]);
                     if ($data2["optradio"]=="je_zavrocanje") {
-                        KandidatModel::setNaslov($idKandidat, [
+                        KandidatModel::insertNaslov($idKandidat, [
                             "id_posta" => $data["id_posta"],
                             "id_drzava" => $data["id_drzava"],
                             "je_zavrocanje" => 1,
@@ -140,7 +140,7 @@ class KandidatController {
                             "hisna_stevilka" => $data["hisna_stevilka"]
                         ]);
                     } else if ($data2["optradio"]=="ni_zavrocanje") {
-                        KandidatModel::setNaslov($idKandidat, [
+                        KandidatModel::insertNaslov($idKandidat, [
                             "id_posta" => $data["id_posta"],
                             "id_drzava" => $data["id_drzava"],
                             "je_zavrocanje" => 0,
@@ -148,7 +148,7 @@ class KandidatController {
                             "ulica" => $data["ulica"],
                             "hisna_stevilka" => $data["hisna_stevilka"]
                         ]);
-                        KandidatModel::setNaslov($idKandidat, [
+                        KandidatModel::insertNaslov($idKandidat, [
                             "id_posta" => $data["id_posta2"],
                             "id_drzava" => $data["id_drzava"],
                             "je_zavrocanje" => 1,

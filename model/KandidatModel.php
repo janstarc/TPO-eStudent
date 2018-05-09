@@ -74,7 +74,7 @@ class KandidatModel {
 
         $statement = $db -> prepare("
             SELECT o.id_oseba, o.ime, o.priimek, o.email, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
-                    p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto
+                    p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto, k.ID_KANDIDAT
             FROM oseba AS o 
             JOIN kandidat AS k ON k.id_oseba = o.id_oseba
             JOIN program AS p ON k.id_program = p.id_program
@@ -87,12 +87,12 @@ class KandidatModel {
         $result = $statement->fetch();
         return $result;
     }
-
+    /*
     public static function getKandidatNaslov($id_kandidat){
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            SELECT n.ULICA, n.HISNA_STEVILKA, n.JE_ZAVROCANJE, n.JE_STALNI, p.ST_POSTA, p.KRAJ, d.TRIMESTNAKODA, d.ISONAZIV, d.SLOVENSKINAZIV
+            SELECT n.ID_NASLOV, n.ULICA, n.HISNA_STEVILKA, n.JE_ZAVROCANJE, n.JE_STALNI, p.ST_POSTA, p.KRAJ, d.TRIMESTNAKODA, d.ISONAZIV, d.SLOVENSKINAZIV
             FROM naslov AS n
             JOIN posta AS p ON n.ID_POSTA = p.ID_POSTA
             JOIN drzava AS d ON n.ID_DRZAVA = d.ID_DRZAVA
@@ -106,12 +106,13 @@ class KandidatModel {
         $result = $statement->fetch();
         return $result;
     }
+    */
     
     public static function getKandidatVseNaslove($id_kandidat){
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            SELECT n.ID_POSTA, n.ULICA, n.HISNA_STEVILKA, n.JE_ZAVROCANJE, n.JE_STALNI, p.ST_POSTA, p.KRAJ, d.TRIMESTNAKODA, d.ISONAZIV, d.SLOVENSKINAZIV
+            SELECT n.ID_NASLOV, n.ID_POSTA, n.ULICA, n.HISNA_STEVILKA, n.JE_ZAVROCANJE, n.JE_STALNI, p.ST_POSTA, p.KRAJ, d.TRIMESTNAKODA, d.ISONAZIV, d.SLOVENSKINAZIV
             FROM naslov AS n
             JOIN posta AS p ON n.ID_POSTA = p.ID_POSTA
             JOIN drzava AS d ON n.ID_DRZAVA = d.ID_DRZAVA
@@ -147,8 +148,26 @@ class KandidatModel {
         return $result;
     }
 
-    public static function setTelefon($id_kandidat, $telefon){
-        $oseba_id = self::getOsebaIdWithKandidatId($id_kandidat);
+    public static function updateImeInPriimek($id_kandidat, $ime, $priimek){
+
+        $id_oseba = self::getOsebaIdWithKandidatId($id_kandidat);
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            UPDATE OSEBA
+            SET IME = :ime, PRIIMEK = :priimek
+            WHERE ID_OSEBA = :id_oseba
+        ");
+
+        $statement->bindValue(":ime", $ime);
+        $statement->bindValue(":priimek", $priimek);
+        $statement->bindValue(":id_oseba", $id_oseba);
+
+        $statement->execute();
+    }
+
+    public static function updateTelefon($id_kandidat, $telefon){
+        $id_oseba = self::getOsebaIdWithKandidatId($id_kandidat);
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
@@ -158,11 +177,11 @@ class KandidatModel {
         ");
 
         $statement->bindValue(":telefonska_stevilka", $telefon);
-        $statement->bindValue(":oseba_id", $oseba_id);
+        $statement->bindValue(":oseba_id", $id_oseba);
         $statement->execute();
     }
 
-    public static function setEmso($id_kandidat, $emso){
+    public static function updateEmso($id_kandidat, $emso){
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
@@ -176,8 +195,32 @@ class KandidatModel {
         $statement->execute();
     }
 
+    public static function updateNaslovi($id_kandidat, $data){
+        $id_oseba = self::getOsebaIdWithKandidatId($id_kandidat);
+        $db = DBInit::getInstance();
+
+        foreach ($data as $key => $value)
+        $statement = $db -> prepare("
+            UPDATE naslov
+            SET id_posta = :id_posta, id_drzava = :id_drzava, id_oseba = :id_oseba, je_zavrocanje = :je_zavrocanje, je_stalni = :je_stalni, ulica = :ulica, hisna_stevilka = :hisna_stevilka
+            WHERE ID_NASLOV = :id_naslov
+        ");
+
+        $statement->bindValue(":id_posta", $value['id_posta']);
+        $statement->bindValue(":id_drzava", $value['id_drzava']);
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->bindValue(":je_zavrocanje", $value['je_zavrocanje']);
+        $statement->bindValue(":je_stalni", $value['je_stalni']);
+        $statement->bindValue(":ulica", $value['ulica']);
+        $statement->bindValue(":hisna_stevilka", $value['hisna_stevilka']);
+        $statement->bindValue(":id_naslov", $value['id_naslov']);
+        $statement->execute();
+    }
+
+
+
     // Izbira vsega iz dropdown menijev --> Input je $data array, z id-ji
-    public static function setNaslov($id_kandidat, $data){
+    public static function insertNaslov($id_kandidat, $data){
         $id_oseba = self::getOsebaIdWithKandidatId($id_kandidat);
         $db = DBInit::getInstance();
 
@@ -274,7 +317,7 @@ class KandidatModel {
         $statement->execute();
         $result = $statement->fetch();
 
-        return $result['id_vpis'];
+        return $result['ID_VPIS'];
     }
 
     public static function potrdiVpisReferent($id_kandidat){
@@ -300,7 +343,7 @@ class KandidatModel {
 
         $statement->bindValue(":vpisna_stevilka", $kandidatData['vpisna_stevilka']);
         $statement->bindValue(":id_oseba", $kandidatData['id_oseba']);
-        $statement->bindValue(":id_kandidat", $kandidatData['id_kandidat']);
+        $statement->bindValue(":id_kandidat", $id_kandidat);
         $statement->bindValue(":id_vpis", $id_vpis);
         $statement->bindValue(":emso", $kandidatData['emso']);
         $statement->bindValue(":id_program", $kandidatData['id_program']);
@@ -309,10 +352,42 @@ class KandidatModel {
         // Set vloga from k to s
         $statement = $db -> prepare("
             UPDATE oseba
-            SET vloga = 's'
+            SET VRSTA_VLOGE = 's'
             WHERE id_oseba = :id_oseba
         ");
         $statement->bindValue(":id_oseba", $kandidatData['id_oseba']);
         $statement->execute();
+
+    }
+
+    // Funkcijo klicati SAMO KO JE STUDENT ZE KREIRAN!
+    public static function getVpisnaFromKandidatId($id_kandidat){
+
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare("
+            SELECT VPISNA_STEVILKA
+            FROM student
+            WHERE ID_KANDIDAT = :id_kandidat
+        ");
+
+        $statement->bindValue(":id_kandidat", $id_kandidat);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result['VPISNA_STEVILKA'];
+    }
+
+    public static function insertPredmetiKandidat($id_vpis, $predmeti, $id_stud_leto){
+        $db = DBInit::getInstance();
+
+        foreach ($predmeti as $key => $value){
+            $statement = $db -> prepare("
+            INSERT INTO predmeti_studenta (ID_VPIS, ID_PREDMET, ID_STUD_LETO)
+            VALUES (:id_vpis, :id_predmet, :id_stud_leto)
+            ");
+            $statement->bindValue(":id_vpis", $id_vpis);
+            $statement->bindValue(":id_predmet", $value['ID_PREDMET']);
+            $statement->bindValue(":id_stud_leto", $id_stud_leto);
+            $statement->execute();
+        }
     }
 }
