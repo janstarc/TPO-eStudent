@@ -12,7 +12,8 @@ class StudentOfficerDB
                 z.ID_LETNIK = l.ID_LETNIK and z.ID_STUD_LETO = s.ID_STUD_LETO and z.ID_OSEBA = o.ID_OSEBA and 
                 z.ID_NACIN = n.ID_NACIN and z.ID_VRSTAVPISA = vrs.ID_VRSTAVPISA and z.ID_PROGRAM = prog.ID_PROGRAM
                 and z.ID_OBLIKA = obl.ID_OBLIKA
-                ORDER BY l.LETNIK desc       ");
+                ORDER BY l.LETNIK desc
+        ");
 
         $statement->bindParam(":emso", $emso);
         $statement->execute();
@@ -90,26 +91,29 @@ class StudentOfficerDB
     public static function ZetonData($id){
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("SELECT * FROM ZETON 
-          where ID_ZETON = :id ");
+        $statement = $db->prepare("
+            SELECT * FROM ZETON 
+            where ID_ZETON = :id
+        ");
 
         $statement->bindParam(":id", $id);
         $statement->execute();
-        return $statement->fetchAll()[0];
-
+        return $statement->fetch();
     }
     public static function spremeniZeton($data){
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("UPDATE `tpo`.`zeton`
-SET
-`ID_LETNIK` = :letnik,
-`ID_STUD_LETO` = :leto,
-`ID_OBLIKA` = :oblika,
-`ID_VRSTAVPISA` = :vrsta,
-`ID_NACIN` =:nacin,
-`ID_PROGRAM` = :program
-WHERE `ID_ZETON` = :idZeton;");
+        $statement = $db->prepare("
+            UPDATE `tpo`.`zeton`
+            SET
+                `ID_LETNIK` = :letnik,
+                `ID_STUD_LETO` = :leto,
+                `ID_OBLIKA` = :oblika,
+                `ID_VRSTAVPISA` = :vrsta,
+                `ID_NACIN` =:nacin,
+                `ID_PROGRAM` = :program
+            WHERE `ID_ZETON` = :idZeton;
+        ");
 
         $statement->bindParam(":letnik", $data['letnik']);
         $statement->bindParam(":leto", $data['leto']);
@@ -125,12 +129,31 @@ WHERE `ID_ZETON` = :idZeton;");
 
     }
 
+    public static function isUnique($ID_LETNIK) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT * 
+            FROM zeton 
+            WHERE ID_LETNIK = :ID_LETNIK
+        ");
+        $statement->bindValue(":ID_LETNIK", $ID_LETNIK + 1);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        if ($result == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public static function dodajNov($data){
         $db = DBInit::getInstance();
         $letnik =$data['ID_LETNIK']+1;
         $leto = $data['ID_STUD_LETO']+1;
 
-        $statement = $db->prepare("INSERT INTO `tpo`.`zeton`
+        $statement = $db->prepare("
+            INSERT INTO `tpo`.`zeton`
             (`ID_OSEBA`,
             `ID_LETNIK`,
             `ID_STUD_LETO`,

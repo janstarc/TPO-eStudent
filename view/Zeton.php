@@ -7,10 +7,7 @@ if(!empty($zetoni)) $resultFound = true;
 
 <html lang="en">
 <head>
-    <?php include("view/includes/head.php");
-
-
-    ?>
+    <?php include("view/includes/head.php"); ?>
 </head>
 <body>
 <section id="container">
@@ -27,6 +24,14 @@ if(!empty($zetoni)) $resultFound = true;
                             <input type="text" placeholder="IŠČI OSEBO PO VPISNI ŠTEVILKI" name="searchEMSO">
                             <button type="submit">Išči</button>
                         </form>
+                        <?php if(isset($status)): ?>
+                            <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <?= $message ?>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <?php if(!empty($zetoni)): ?>
                         <br>
                         <br>
                         <hr>
@@ -100,6 +105,7 @@ if(!empty($zetoni)) $resultFound = true;
                                     <td>
                                         <?php if($n==1) : ?>
                                         <form action="<?= BASE_URL . "zeton/dodaj" ?>" method="post">
+                                             <input type="hidden" name="LETNIK" value=<?=  $value["LETNIK"] ?> />
                                              <input type="hidden" name="idZeton" value=<?=  $value["ID_ZETON"] ?> />
                                              <input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />
                                         </form>
@@ -127,7 +133,7 @@ if(!empty($zetoni)) $resultFound = true;
                                 </form>
                             </div>
                         </table>
-
+                        <?php endif; ?>
 
                     </div>
                 </div>

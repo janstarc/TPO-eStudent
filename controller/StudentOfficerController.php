@@ -120,11 +120,13 @@ class StudentOfficerController {
         //self::kandidatiList("Success", "Vpis za študenta ".$data['ime']." ".$data['priimek']." uspešno potrjen!");
     }
     
-    public static function Zeton() {
+    public static function Zeton($status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
                 ViewHelper::render("view/Zeton.php", [
-                    "zetoni" => array()
+                    "zetoni" => array(),
+                    "status" => $status,
+                    "message" => $message
                 ]);
             }else{
                 ViewHelper::error403();
@@ -155,11 +157,18 @@ class StudentOfficerController {
     public static function dodaj() {
         $data = filter_input_array(INPUT_POST, [
             "idZeton" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "LETNIK" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-        StudentOfficerDB::dodajNov(StudentOfficerDB::ZetonData($data["idZeton"]));
-        ViewHelper::render("view/Zeton.php", [
-            "zetoni" => array()
-        ]);
+        if($data["LETNIK"] != 3){ 
+            if(StudentOfficerDB::isUnique($data["idZeton"])){
+                StudentOfficerDB::dodajNov(StudentOfficerDB::ZetonData($data["idZeton"]));
+                self::Zeton("Success", "Uspesno ste dodali nov zeton.");
+            }else{
+                self::Zeton("Failure", "Napaka, zeton za nasljednji letnik ze obstaja.");
+            }
+        }else{
+            self::Zeton("Failure", "Napaka, ne morete ustvariti zeton za nasljednji, zeton je za zadni letnik.");
+        }
     }
 
     public static function uredi() {
