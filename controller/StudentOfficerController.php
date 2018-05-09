@@ -201,7 +201,7 @@ class StudentOfficerController {
 
 
         $dataForAverage=StudentOfficerDB::izracunPovprecje($data["searchVpisna"]);
-        var_dump($dataForAverage);
+        //var_dump($dataForAverage);
     }
 
 }
