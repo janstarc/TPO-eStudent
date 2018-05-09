@@ -3,6 +3,23 @@
 require_once "DBInit.php";
 
 class RokModel {
+    public static function isUnique(array $params) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT * 
+            FROM ROK 
+            WHERE ID_IZVEDBA = :ID_IZVEDBA AND DATUM_ROKA = :DATUM_ROKA AND CAS_ROKA = :CAS_ROKA
+        ");
+        $statement->bindParam(":ID_IZVEDBA", $params["ID_IZVEDBA"]);
+        $statement->bindParam(":DATUM_ROKA", $params["DATUM_ROKA"]);
+        $statement->bindParam(":CAS_ROKA", $params["CAS_ROKA"]);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        return ($result == null);
+    }
+    
     public static function insert($idIzvedbaPredmeta, $date, $time) {
         $db = DBInit::getInstance();
 
@@ -34,13 +51,7 @@ class RokModel {
         $statement->bindParam(":idUser", $idUser, PDO::PARAM_INT);
         $statement->bindParam(":idCurrentYear", $idCurrentYear, PDO::PARAM_INT);
         $statement->execute();
-        $IzvedbaPredmeta = $statement->fetchAll();
-
-        if ($IzvedbaPredmeta != null) {
-            return $IzvedbaPredmeta;
-        } else {
-            throw new InvalidArgumentException("No record with User id $idUser");
-        }
+        return $statement->fetchAll();
     }
     
     public static function get($idRok) {

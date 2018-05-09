@@ -13,11 +13,13 @@
 
                         <div class="col-md-12">
                             <div class="content-panel">
-                                <hr>
-                                <h4>Vnos izpitnega roka</h4>
-                                <br>
-                                <br>
-                                <br>
+                                <h2><?= $pageTitle ?></h2>
+                                <?php if(isset($status)): ?>
+                                    <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <?= $message ?>
+                                    </div>
+                                <?php endif; ?>
                                 <table id="table-subject" class="table table-striped table-advance table-hover">
                                     <thead>
                                     <tr>

@@ -45,14 +45,17 @@ class ProfesorController {
         }
     }
     
-    public static function izpitniRokForm() {
+    public static function izpitniRokForm($status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
                 $IdYear =  StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
                 $IdIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByProfesor(User::getId(), $IdYear);
                 ViewHelper::render("view/IzpitniRokProfesorAdd.php", [
+                    "pageTitle" => "Ustvari izpitni rok",
                     "IdIzvedbaPredmeta" => $IdIzvedbaPredmeta,
-                    "formAction" => "izpitniRok/profesor/add"
+                    "formAction" => "izpitniRok/profesor/add",
+                    "status" => $status,
+                    "message" => $message
                 ]);
             }else{
                 ViewHelper::error403();
@@ -73,55 +76,58 @@ class ProfesorController {
             "DATUM_ROKA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "CAS_ROKA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-        // check all needed validations
-        list($y, $m, $d) = explode('-', $data["DATUM_ROKA"]);
-        if (!checkdate($m, $d, $y)) {
-            $data["DATUM_ROKA"]=false;
+        if (!self::checkValues($data)) {
+            self::izpitniRokForm("Failure", "You have entered an invalid value. Please try again.");
         } else {
-            date_default_timezone_set('Europe/Ljubljana');
-            $weekDay = date('w', strtotime($data["DATUM_ROKA"]));
-            if ($weekDay == 0 || $weekDay == 6) {
-                $data["DATUM_ROKA"]=false;
-//                var_dump("izbor-1");
+            list($y, $m, $d) = explode('-', $data["DATUM_ROKA"]);
+            if (!checkdate($m, $d, $y)) {
+                self::izpitniRokForm("Failure", "You have entered an invalid date. Please try again.");
+            } else {
+                date_default_timezone_set('Europe/Ljubljana');
+                $weekDay = date('w', strtotime($data["DATUM_ROKA"]));
+                if ($weekDay == 0 || $weekDay == 6) {
+                    self::izpitniRokForm("Failure", "The entered date cannot be a saturday or sunday. Please try again.");
+                } else {
+                    $holidays = array("01-01", "02-01", "08-02", "02-04", "27-04", "01-05", "02-05", "25-06", "15-08", "31-10", "01-11", "25-12", "26-12");
+                    if (in_array($d . "-" . $m, $holidays)) {
+                        self::izpitniRokForm("Failure", "The entered date cannot be a holiday. Please try again.");
+                    } else {
+                        if (strtotime(date("Y-m-d")) >= strtotime($data["DATUM_ROKA"])) {
+                            self::izpitniRokForm("Failure", "The entered date cannot be in the past. Please try again.");
+                        } else {
+                            if ($data["CAS_ROKA"]{0} == '2' && $data["CAS_ROKA"]{1} > '3') {
+                                self::izpitniRokForm("Failure", "You have entered an invalid time value. Please try again.");
+                            } else {
+                                if (!RokModel::isUnique($data)) {
+                                    self::izpitniRokForm("Failure", "Napaka, rok ze obstaja. Poskusite znova.");
+                                } else {
+                                    RokModel::insert($data["ID_IZVEDBA"], $data["DATUM_ROKA"], $data["CAS_ROKA"]);
+                                    self::izpitniRokAllForm("Success", "Uspesno ste ustvarili novi rok.");
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            $holidays = array("01-01", "02-01", "08-02", "02-04", "27-04", "01-05", "02-05", "25-06", "15-08", "31-10", "01-11", "25-12", "26-12");
-            if (in_array($d . "-" . $m, $holidays)) {
-                $data["DATUM_ROKA"]=false;
-//                var_dump("izbor-2");
-            }
-            if (strtotime(date("Y-m-d")) >= strtotime($data["DATUM_ROKA"])) {
-                $data["DATUM_ROKA"]=false;
-//                var_dump("izbor-3");
-            }
-        }
-        if ($data["CAS_ROKA"]{0} == '2' && $data["CAS_ROKA"]{1} > '3') {
-            $data["CAS_ROKA"]=false;
-        }
-        
-        if (self::checkValues($data)) {
-            // TODO: check for duplicates before inserting
-            RokModel::insert($data["ID_IZVEDBA"], $data["DATUM_ROKA"], $data["CAS_ROKA"]);
-            ViewHelper::redirect(BASE_URL . "izpitniRok/profesor");
-        } else {
-            $IdYear =  StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
-            $IdIzvedbaPredmeta = IzvedbaPredmetaModel::getIdIzvedbaPredmetaByProfesor(User::getId(), $IdYear);
-            ViewHelper::render("view/IzpitniRokProfesorAdd.php", [
-                "IdIzvedbaPredmeta" => $IdIzvedbaPredmeta,
-                "status" => "Failure",
-                "message" => "You have entered an invalid value. Please try again.",
-                "formAction" => "izpitniRok/profesor/add"
-            ]);
         }
     }
     
-    public static function izpitniRokAllForm() {
+    public static function izpitniRokAllForm($status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
                 $IdYear =  StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
                 $roki = RokModel::getAll(User::getId(), $IdYear);
+                if (empty($roki)) {
+                    $status = "Info";
+                    $message = "Ni podatkov v podatkovna baza. Ustvarite vsaj enega.";
+                }
+                
                 ViewHelper::render("view/IzpitniRokProfesorAll.php", [
+                    "pageTitle" => "Seznam vse roke",
                     "roki" => $roki,
-                    "formAction" => "izpitniRok/profesor/"
+                    "formAction" => "izpitniRok/profesor/",
+                    "status" => $status,
+                    "message" => $message
                 ]);
             }else{
                 ViewHelper::error403();
