@@ -5,7 +5,6 @@ require_once "DBInit.php";
 class PredmetModel {
     public static function getAll($data) {
 
-        var_dump($data);
         $db = DBInit::getInstance();
         $statement = $db->prepare("
             SELECT PREDMET.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK
