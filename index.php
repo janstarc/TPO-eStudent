@@ -59,8 +59,15 @@ $urls = [
         if ($method == "GET") StudentOfficerController::kandidatiPreglejVpisForm($id);
         else if ($method == "POST") StudentOfficerController::kandidatiPotrdiVpisForm($id);
         else ViewHelper::error405();
+    }, "/^vpisaniStudenti/" => function ($method) {
+        if ($method == "GET") StudentOfficerController::vpisaniStudentiList();
+        else ViewHelper::error405();
+    },"/^studenti\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::studentVpisPreglejForm($id);
+        //else if ($method == "POST") StudentOfficerController::kandidatiPotrdiVpisForm($id);
+        else ViewHelper::error405();
     },
-    
+
     "/^ElektronskiIndeks$/" => function ($method) {
         if ($method == "GET") StudentController::elektronskiIndeksForm();
         else ViewHelper::error405();

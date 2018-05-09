@@ -87,6 +87,30 @@ class KandidatModel {
         $result = $statement->fetch();
         return $result;
     }
+
+    public static function getStudentPodatki($id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
+                    p.st_semestrov, sl.stud_leto, s.vpisna_stevilka, s.emso, z.id_stud_leto, z.ID_ZETON, z.ID_VRSTAVPISA, z.ID_OBLIKA, z.ID_LETNIK, z.ID_NACIN
+            FROM oseba AS o 
+            JOIN student AS s ON s.ID_OSEBA = o.ID_OSEBA
+            JOIN zeton AS z ON o.ID_OSEBA = z.ID_OSEBA
+            JOIN program AS p ON z.ID_PROGRAM = p.ID_PROGRAM
+            JOIN studijsko_leto AS sl ON z.ID_STUD_LETO = sl.ID_STUD_LETO
+            WHERE o.ID_OSEBA = :id_oseba
+            AND z.AKTIVNOST = 1
+            AND z.IZKORISCEN = 0
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result;
+    }
+
+
     /*
     public static function getKandidatNaslov($id_kandidat){
         $db = DBInit::getInstance();
@@ -122,6 +146,24 @@ class KandidatModel {
         ");
 
         $statement->bindValue(":id_kandidat", $id_kandidat);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        return $result;
+    }
+
+    public static function getOsebaVseNaslove($id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT n.ID_NASLOV, n.ID_POSTA, n.ULICA, n.HISNA_STEVILKA, n.JE_ZAVROCANJE, n.JE_STALNI, p.ST_POSTA, p.KRAJ, d.TRIMESTNAKODA, d.ISONAZIV, d.SLOVENSKINAZIV
+            FROM naslov AS n
+            JOIN posta AS p ON n.ID_POSTA = p.ID_POSTA
+            JOIN drzava AS d ON n.ID_DRZAVA = d.ID_DRZAVA
+            JOIN oseba AS o ON n.ID_OSEBA = o.ID_OSEBA
+            WHERE o.ID_OSEBA = :id_oseba
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
         $statement->execute();
         $result = $statement->fetchAll();
         return $result;
@@ -295,6 +337,27 @@ class KandidatModel {
             JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
             AND k.IZKORISCEN = 1
             AND v.POTRJENOST_VPISA = 0
+        ");
+
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        return $result;
+    }
+
+    public static function getAllVpisaniStudenti(){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT o.id_oseba, o.ime, o.priimek, o.email, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
+                    p.st_semestrov, s.stud_leto, st.vpisna_stevilka, st.emso, v.id_stud_leto, v.id_vpis
+            FROM oseba AS o 
+            JOIN kandidat AS k ON k.id_oseba = o.id_oseba
+            JOIN program AS p ON k.id_program = p.id_program
+            JOIN studijsko_leto AS s ON k.id_stud_leto = s.id_stud_leto
+            JOIN student AS st ON st.ID_OSEBA = o.ID_OSEBA
+            JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
+            WHERE v.ID_STUD_LETO = 2
         ");
 
         $statement->execute();
