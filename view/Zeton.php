@@ -1,3 +1,8 @@
+<?php
+$resultFound = false;
+if(!empty($zetoni)) $resultFound = true;
+?>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -54,7 +59,6 @@
 
                             <?php
                             $n =0;
-
                             foreach($zetoni as $key=>$value):
 
                                 $n+=1;
@@ -76,7 +80,6 @@
                                     <td><?php echo $value['SIFRA_EVS']; ?></td>
                                     <td><?php echo $izkoriscen; ?></td>
 
-
                                     <td><?php echo $aktivnost; ?></td>
 
                                     <td>
@@ -95,10 +98,12 @@
                                         </form>
                                     </td>
                                     <td>
+                                        <?php if($n==1) : ?>
                                         <form action="<?= BASE_URL . "zeton/dodaj" ?>" method="post">
                                              <input type="hidden" name="idZeton" value=<?=  $value["ID_ZETON"] ?> />
                                              <input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />
                                         </form>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <form action="<?= BASE_URL . "zeton/uredi" ?>" method="post">
@@ -108,9 +113,21 @@
                                     </td>
 
                                 </tr>
+
                             <?php endforeach; ?>
+
                             </tbody>
+                            <div  <?php if ($resultFound){ echo 'style="display:none;"'; } ?>>
+                                <p></p>
+                            </div>
+                            <div  <?php if (!$resultFound){ echo 'style="display:none;"'; } ?>>
+                                <form  action="<?= BASE_URL . "zeton/povprecje" ?>" method="post">
+                                    <input type="hidden" name="searchVpisna" value="<?= $zetoni['0']['VPISNA_STEVILKA'] ?>"/>
+                                    <input id="povprecje" class="btn btn-primary btn-sm"  type="submit" value="Prikazi povprecje"/>
+                                </form>
+                            </div>
                         </table>
+
 
                     </div>
                 </div>

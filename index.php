@@ -379,10 +379,10 @@ $urls = [
     },"/^OsebniPodatkiStudenta\/exportPDF$/" => function($method) {
         if ($method == "POST") AdminController::exportPDF();
         else ViewHelper::error405();
-    },
-
-    "/^VnosOceneProf\/" => function($method) {
+    }, "/^VnosOceneProf\/" => function($method) {
         if($method == "GET") ProfesorController::vnosOcenProf();
+    },"/^zeton\/povprecje$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::povprecje();
         else ViewHelper::error405();
     }
 

@@ -5,17 +5,19 @@ class StudentOfficerDB
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-                SELECT DISTINCT *, z.aktivnost as ACT
+                SELECT DISTINCT *, z.aktivnost AS ACT
                 FROM  OSEBA as o,LETNIK as l, STUDIJSKO_LETO as s, STUDENT as st, ZETON as z, NACIN_STUDIJA as n, 
                 OBLIKA_STUDIJA as obl, PROGRAM as prog, VRSTA_VPISA as vrs
                 WHERE st.VPISNA_STEVILKA = :emso and st.ID_OSEBA = o.ID_OSEBA and 
                 z.ID_LETNIK = l.ID_LETNIK and z.ID_STUD_LETO = s.ID_STUD_LETO and z.ID_OSEBA = o.ID_OSEBA and 
                 z.ID_NACIN = n.ID_NACIN and z.ID_VRSTAVPISA = vrs.ID_VRSTAVPISA and z.ID_PROGRAM = prog.ID_PROGRAM
                 and z.ID_OBLIKA = obl.ID_OBLIKA
-                ORDER BY z.ID_STUD_LETO desc       ");
+                ORDER BY l.LETNIK desc       ");
 
         $statement->bindParam(":emso", $emso);
         $statement->execute();
+
+
         $results = $statement->fetchAll();
         if ($results != null) {
             return $results;
@@ -155,5 +157,29 @@ WHERE `ID_ZETON` = :idZeton;");
         $statement->execute();
         return true;
 
+    }
+
+
+
+    public static function izracunPovprecje($vpisna){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                SELECT DISTINCT *
+                FROM  OSEBA as o, STUDENT as s,VPIS as v, PREDMETI_STUDENTA as ps , PRIJAVA as p, IZPIT as i
+                WHERE s.VPISNA_STEVILKA = :vpisna and s.ID_OSEBA = o.ID_OSEBA and 
+                s.VPISNA_STEVILKA=v.VPISNA_STEVILKA and v.ID_VPIS=ps.ID_VPIS and ps.ID_PREDMETISTUDENTA=p.ID_PREDMETISTUDENTA 
+                and p.ID_PRIJAVA=i.ID_PRIJAVA
+                 ");
+
+        $statement->bindParam(":vpisna", $vpisna);
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        if ($results != null) {
+            return $results;
+        } else {
+            throw new InvalidArgumentException("No subject with $vpisna");
+        }
     }
 }

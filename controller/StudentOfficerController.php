@@ -194,4 +194,14 @@ class StudentOfficerController {
 
     }
 
+    public static function povprecje(){
+        $data = filter_input_array(INPUT_POST, [
+            "searchVpisna" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+
+        $dataForAverage=StudentOfficerDB::izracunPovprecje($data["searchVpisna"]);
+        var_dump($dataForAverage);
+    }
+
 }

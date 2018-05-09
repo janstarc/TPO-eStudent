@@ -693,6 +693,13 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_slovenian_ci;
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_zeton_oseba_letnik`
+  UNIQUE (`ID_OSEBA`,`ID_LETNIK`))
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 3
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_RELATIONSHIP_7` ON `tpo`.`zeton` (`ID_OSEBA` ASC);
 
