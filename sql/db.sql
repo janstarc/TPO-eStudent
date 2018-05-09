@@ -608,6 +608,8 @@ CREATE TABLE IF NOT EXISTS `tpo`.`student` (
   `ID_VPIS` INT(11) NULL DEFAULT NULL,
   `EMSO` CHAR(20) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NULL DEFAULT NULL,
   `ID_PROGRAM` INT(11) NULL DEFAULT NULL,
+  `VSOTA_OPRAVLJENIH_KREDITNIH_TOCK` INT(11) NOT NULL DEFAULT 0,
+  `POVPRECNA_OCENA_OPRAVLJENIH_IZPITOV` FLOAT NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`VPISNA_STEVILKA`),
   CONSTRAINT `FK_INHERITANCE_3`
     FOREIGN KEY (`ID_OSEBA`)
@@ -945,7 +947,7 @@ INSERT INTO `drzava` (`ID_DRZAVA`, `DVOMESTNAKODA`, `TRIMESTNAKODA`, `ISONAZIV`,
   (798, 'TV', 'TUV', 'Tuvalu', 'Tuvalu', NULL, 1),
   (800, 'UG', 'UGA', 'Uganda', 'Uganda', NULL, 1),
   (804, 'UA', 'UKR', 'Ukraine', 'Ukrajina', NULL, 1),
-  (807, 'MK', 'MKD', 'Macedonia, the former Yugoslav Republic of', 'Makedonija', NULL, 1),
+  (807, 'MK', 'MKD', 'Macedonia', 'Makedonija', NULL, 1),
   (818, 'EG', 'EGY', 'Egypt', 'Egipt', NULL, 1),
   (826, 'GB', 'GBR', 'United Kingdom', 'Velika Britanija', NULL, 1),
   (831, 'GG', 'GGY', 'Guernsey', 'Otok Guernsey', NULL, 1),
@@ -1181,10 +1183,7 @@ INSERT INTO `tpo`.`letnik`
 (`ID_LETNIK`, `LETNIK`)VALUES
   (1,1),
   (2,2),
-  (3,3),
-  (4,4),
-  (5,5),
-  (6,6);
+  (3,3);
 
 INSERT INTO `tpo`.`posta`(`ID_POSTA`, `ST_POSTA`,`KRAJ`,`AKTIVNOST`) VALUES
 (1, 8341, 'Adlešiči', 1),
@@ -1735,33 +1734,50 @@ INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_L
 INSERT INTO `tpo`.`PREDMET`
 (`ID_PREDMET`, `IME_PREDMET`, `AKTIVNOST`)
 VALUES
-  (1,'TPO', 1),
-  (2,'PRPO', 1),
-  (3,'SP', 1),
-  (4,'EP', 1),
-  (5,'OM', 1),
-  (6,'P1', 1),
-  (7,'PPJ', 1),
-  (8,'Sport', 1),
+  (6,'P1', 1),      (13,'P2', 1),       (9,'OMA', 1),       (10,'DS', 1),       (11,'ODV', 1),
+  (12,'FIZ', 1),    (14,'LA', 1),       (15,'ARS', 1),      (16,'RK', 1),       (17,'OIS', 1),
   
-  (9,'OMA', 1),
-  (10,'DS', 1),
-  (11,'ODV', 1),
-  (12,'FIZ', 1),
-  (13,'P2', 1),
-  (14,'LA', 1),
-  (15,'ARS', 1),
-  (16,'RK', 1),
-  (17,'OIS', 1);
+  (18,'APS1', 1),   (19,'APS2', 1),  (20,'OPB', 1),     (21,'VS', 1),
+  (22,'IRZ', 1),     (23,'TIS', 1),    (24,'OS', 1),       (25,'ORS', 1),
+  
+  (26,'MM', 1),     (27,'RT', 1),      (7,'PPJ', 1),
+  
+  (4,'EP', 1),       (5,'OiM', 1),      (28,'PI', 1),
+  
+  (1,'TPO', 1),     (2,'PRPO', 1),    (3,'SP', 1),
+  
+  (29,'TUP', 1),    (30,'RIS', 1),     (31,'PUI', 1),
+  
+  (32,'KP', 1),     (33,'BMO', 1),     (34,'MRO', 1),
+  
+  (35,'ZZRS', 1), (36,'DN', 1),       (37,'PS', 1),
+  
+  (39,'SPO', 1),   (40,'RZHP', 1),   (38,'Prevajalniki', 1),
+  
+  (41,'RIS', 1),    (42,'IS', 1),       (43,'UZ', 1),
+  
+  (44,'OO', 1),     (45,'MS', 1),     (46,'RGTI', 1),
+  
+  (47,'OUI', 1),    (48,'EiP', 1),     (49,'Diplomski seminar', 1),
+  
+  (8,'Sport', 1),   (50,'AJ-A', 1),    (51,'AJ-B', 1),    (52,'AJ-C', 1);
 
 INSERT INTO `tpo`.`del_predmetnika`
 (`ID_DELPREDMETNIKA`, `NAZIV_DELAPREDMETNIKA`, `SKUPNOSTEVILOKT`, `TIP`, `AKTIVNOST`)
 VALUES
-  (1, "Razvoj programske opreme", 18, 'm', 1),
-  (2, "Informacijski sistemi", 18, 'm', 1),
   (3, "Obvezni predmet", 6, 'o', 1),
   (4, "Strokovni izbirni predmet", 6, 'st', 1),
-  (5, "Splosno izbirni predmet", 6, 'sp', 1);
+  (5, "Splosno izbirni predmet", 6, 'sp', 1),
+  
+  (1, "Razvoj programske opreme", 18, 'm', 1),
+  (2, "Informacijski sistemi", 18, 'm', 1),
+  (6, "Obvladovanje informatike", 18, 'm', 1),
+  (7, "Razvoj programske opreme", 18, 'm', 1),
+  (8, "Računalniška omrežja", 18, 'm', 1),
+  (9, "Računalniški sistemi", 18, 'm', 1),
+  (10, "Algoritmi in sistemski programi", 18, 'm', 1),
+  (11, "Umetna inteligenca", 18, 'm', 1),
+  (12, "Medijske tehnologije", 18, 'm', 1);
 
 INSERT INTO `tpo`.`predmetnik`
 (`ID_PREDMETNIK`, `ID_PREDMET`, `ID_DELPREDMETNIKA`, `ID_LETNIK`, `ID_STUD_LETO`, `ID_PROGRAM`, `AKTIVNOST`)
@@ -1799,10 +1815,10 @@ INSERT INTO `tpo`.`vpis`(`ID_VPIS`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_VR
   (2,3,1,2,1,1,1,1,63150001);
 
 INSERT INTO `tpo`.`student`
-(`VPISNA_STEVILKA`,`ID_OSEBA`,`ID_KANDIDAT`,
- `ID_VPIS`,`EMSO`,`ID_PROGRAM`)VALUES
-  (63150000,1,1,1,2505996500532,3),
-  (63150001,4,2,2,1234567891234,3);
+(`VPISNA_STEVILKA`,`ID_OSEBA`,`ID_KANDIDAT`,`ID_VPIS`,`EMSO`,`ID_PROGRAM`,
+ `VSOTA_OPRAVLJENIH_KREDITNIH_TOCK`,`POVPRECNA_OCENA_OPRAVLJENIH_IZPITOV`)VALUES
+  (63150000,1,1,1,2505996500532,3,60,10),
+  (63150001,4,2,2,1234567891234,3,120,6);
 
 INSERT INTO `tpo`.`naslov`(`ID_NASLOV`, `ID_POSTA`,`ID_OBCINA`,`ID_DRZAVA`,`ID_OSEBA`,
                            `JE_ZAVROCANJE`,`JE_STALNI`,`ULICA`,`HISNA_STEVILKA`)VALUES
