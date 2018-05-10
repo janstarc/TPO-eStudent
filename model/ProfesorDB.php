@@ -1,7 +1,8 @@
 <?php
 require_once "DBInit.php";
 
-class ProfesorDB {
+class ProfesorDB
+{
 
     public static function addPredmet($name)
     {
@@ -24,8 +25,10 @@ class ProfesorDB {
         $statement->execute();
         return $statement->fetchColumn();
     }
+
     public static function getIDucitelj($ime, $priimek)
-    {$db = DBInit::getInstance();
+    {
+        $db = DBInit::getInstance();
 
         // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
         $statement = $db->prepare(
@@ -36,11 +39,12 @@ class ProfesorDB {
         $statement->bindParam(":ime", $ime);
         $statement->bindParam(":priimek", $priimek);
         $statement->execute();
-     return $statement->fetchColumn();
+        return $statement->fetchColumn();
     }
 
     public static function getStudLeto($leto)
-    {$db = DBInit::getInstance();
+    {
+        $db = DBInit::getInstance();
 
         // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
         $statement = $db->prepare(
@@ -51,7 +55,8 @@ class ProfesorDB {
         $statement->execute();
         return $statement->fetchColumn();
     }
-    public static function addIzvedbaPredmet($idPredmet,$studLeto,$ucitelj,$ucitelj2,$ucitelj3)
+
+    public static function addIzvedbaPredmet($idPredmet, $studLeto, $ucitelj, $ucitelj2, $ucitelj3)
     {
 
         $db = DBInit::getInstance();
@@ -78,7 +83,8 @@ class ProfesorDB {
         return $statement->fetch();
     }
 
-    public static function getPredmeti(){
+    public static function getPredmeti()
+    {
         $db = DBInit::getInstance();
         // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
         $statement = $db->prepare(
@@ -88,7 +94,9 @@ class ProfesorDB {
         return $statement->fetchAll();
 
     }
-    public static function getPredmetIme($id){
+
+    public static function getPredmetIme($id)
+    {
         $db = DBInit::getInstance();
         // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
         $statement = $db->prepare(
@@ -101,9 +109,10 @@ class ProfesorDB {
         return $statement->fetchColumn();
     }
 
-    public static function getUcitelj1($id){
+    public static function getUcitelj1($id)
+    {
         $db = DBInit::getInstance();
-        echo("<script>console.log('DATA: : ', ".$id.");</script>");
+        echo("<script>console.log('DATA: : ', " . $id . ");</script>");
         // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
         $statement = $db->prepare(
             "SELECT IME, PRIIMEK FROM ucitelj
@@ -114,19 +123,9 @@ class ProfesorDB {
         $statement->execute();
         return $statement->fetchColumn();
     }
-    public static function getUcitelj2($id){
-        $db = DBInit::getInstance();
-        // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
-        $statement = $db->prepare(
-            "SELECT IME, PRIIMEK FROM ucitelj
-            WHERE ID_UCITELJ = :id
-            "
-        );
-        $statement->bindParam(":id", $id);
-        $statement->execute();
-        return $statement->fetchColumn();
-    }
-    public static function getUcitelj3($id){
+
+    public static function getUcitelj2($id)
+    {
         $db = DBInit::getInstance();
         // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
         $statement = $db->prepare(
@@ -139,12 +138,27 @@ class ProfesorDB {
         return $statement->fetchColumn();
     }
 
-    public static function getAllProfessors(){
-        $db=DBInit::getInstance();
+    public static function getUcitelj3($id)
+    {
+        $db = DBInit::getInstance();
+        // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
+        $statement = $db->prepare(
+            "SELECT IME, PRIIMEK FROM ucitelj
+            WHERE ID_UCITELJ = :id
+            "
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
 
-        $statement=$db->prepare("
+    public static function getAllProfessors()
+    {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
             SELECT o.IME, o.PRIIMEK , o.EMAIL, o.TELEFONSKA_STEVILKA
-            FROM OSEBA as o
+            FROM OSEBA AS o
             WHERE o.VRSTA_VLOGE='p'
         ");
 
@@ -153,13 +167,14 @@ class ProfesorDB {
 
     }
 
-    public static function getOneIzvajalec($id) {
+    public static function getOneIzvajalec($id)
+    {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare(
             "
             SELECT DISTINCT o.ID_OSEBA, o.IME, o.PRIIMEK, o.EMAIL, o.TELEFONSKA_STEVILKA
-            FROM OSEBA as o
+            FROM OSEBA AS o
             WHERE o.ID_OSEBA=:id"
         );
         $statement->bindParam(":id", $id);
@@ -173,17 +188,18 @@ class ProfesorDB {
         }
     }
 
-    public static function IzvajalecEdit($ime, $priimek, $email, $tel,$id_predmet){
-      /*  var_dump($ime);
-        var_dump($priimek);
-        var_dump($email);
-        var_dump($tel);*/
+    public static function IzvajalecEdit($ime, $priimek, $email, $tel, $id_predmet)
+    {
+        /*  var_dump($ime);
+          var_dump($priimek);
+          var_dump($email);
+          var_dump($tel);*/
         $db = DBInit::getInstance();
 
-       for($i=0; $i<count($ime);$i++){
+        for ($i = 0; $i < count($ime); $i++) {
 
 
-            $statement=$db->prepare("
+            $statement = $db->prepare("
              SELECT ID_OSEBA 
              FROM OSEBA   
              WHERE IME=:ime AND PRIIMEK=:priimek AND EMAIL=:email AND TELEFONSKA_STEVILKA=:tel
@@ -195,42 +211,42 @@ class ProfesorDB {
             $statement->bindValue(":tel", $tel[$i]);
             $statement->execute();
 
-            $result=$statement->fetch();
-          //  var_dump($result);
-            if($result==null) {
+            $result = $statement->fetch();
+            //  var_dump($result);
+            if ($result == null) {
                 echo "ERROR11111!";
                 return;
             }
 
-            $id=$result["ID_OSEBA"];
+            $id = $result["ID_OSEBA"];
 
-            if($i==0){
-                $statement = $db -> prepare(
+            if ($i == 0) {
+                $statement = $db->prepare(
                     "UPDATE IZVEDBA_PREDMETA 
                       SET
                      ID_OSEBA1 = :id 
-                    where  ID_PREDMET = :id_predmet"
+                    WHERE  ID_PREDMET = :id_predmet"
                 );
                 //var_dump($id_predmet);
                 $statement->bindValue(":id", $id);
                 $statement->bindValue(":id_predmet", $id_predmet);
                 $statement->execute();
-            }else if($i==1){
-                $statement = $db -> prepare(
+            } else if ($i == 1) {
+                $statement = $db->prepare(
                     "UPDATE IZVEDBA_PREDMETA 
                       SET
                      ID_OSEBA2 = :id
-                    where  ID_PREDMET = :id_predmet"
+                    WHERE  ID_PREDMET = :id_predmet"
                 );
                 $statement->bindValue(":id", $id);
                 $statement->bindValue(":id_predmet", $id_predmet);
                 $statement->execute();
-            }else  {
-                $statement = $db -> prepare(
+            } else {
+                $statement = $db->prepare(
                     "UPDATE IZVEDBA_PREDMETA 
                       SET
                      ID_OSEBA3 = :id
-                    where  ID_PREDMET = :id_predmet"
+                    WHERE  ID_PREDMET = :id_predmet"
                 );
                 $statement->bindValue(":id", $id);
                 $statement->bindValue(":id_predmet", $id_predmet);
@@ -238,23 +254,23 @@ class ProfesorDB {
             }
 
 
-           /* $statement = $db -> prepare(
-                "UPDATE OSEBA 
-                SET
-            IME = :ime,
-            PRIIMEK = :priimek, 
-            EMAIL = :email,
-            TELEFONSKA_STEVILKA = :tel
-            where  ID_OSEBA = :id;"
-            );
-            echo "ALOOOO".$id.$ime[$i].$priimek[$i].$email[$i].$tel[$i];
-            $statement->bindValue(":id", $id);
-           $statement->bindValue(":ime", $ime[$i]);
-           $statement->bindValue(":priimek", $priimek[$i]);
-           $statement->bindValue(":email", $email[$i]);
-           $statement->bindValue(":tel", $tel[$i]);
-            $statement->execute();
-            echo "bteh4eh46j";*/
+            /* $statement = $db -> prepare(
+                 "UPDATE OSEBA
+                 SET
+             IME = :ime,
+             PRIIMEK = :priimek,
+             EMAIL = :email,
+             TELEFONSKA_STEVILKA = :tel
+             where  ID_OSEBA = :id;"
+             );
+             echo "ALOOOO".$id.$ime[$i].$priimek[$i].$email[$i].$tel[$i];
+             $statement->bindValue(":id", $id);
+            $statement->bindValue(":ime", $ime[$i]);
+            $statement->bindValue(":priimek", $priimek[$i]);
+            $statement->bindValue(":email", $email[$i]);
+            $statement->bindValue(":tel", $tel[$i]);
+             $statement->execute();
+             echo "bteh4eh46j";*/
         }
 
         return true;
@@ -262,11 +278,12 @@ class ProfesorDB {
 
     }
 
-    public static function IzvajalecAdd($ime, $priimek,$email,$geslo,$telefon){
+    public static function IzvajalecAdd($ime, $priimek, $email, $geslo, $telefon)
+    {
         $db = DBInit::getInstance();
 
 
-        $statement = $db -> prepare(
+        $statement = $db->prepare(
             "INSERT INTO OSEBA
         (IME,PRIIMEK,EMAIL,GESLO,VRSTA_VLOGE,TELEFONSKA_STEVILKA)
         VALUES(:ime,:priimek,:email,:geslo,'p',:telefon);"
@@ -285,11 +302,12 @@ class ProfesorDB {
     }
 
 
-    public  static  function getSubjectProfessors($id_subject){
+    public static function getSubjectProfessors($id_subject)
+    {
         $db = DBInit::getInstance();
 
 
-        $statement = $db -> prepare(
+        $statement = $db->prepare(
             "SELECT ID_OSEBA1,ID_OSEBA2, ID_OSEBA3
             FROM IZVEDBA_PREDMETA 
             WHERE ID_PREDMET=:id_subject
@@ -297,17 +315,18 @@ class ProfesorDB {
         );
         $statement->bindValue(":id_subject", $id_subject);
         $statement->execute();
-        $result=$statement->fetch();
+        $result = $statement->fetch();
 
         return $result;
 
     }
 
-    public static function getPredmetiProfesorja($id_oseba){
+    public static function getPredmetiProfesorja($id_oseba)
+    {
 
         $db = DBInit::getInstance();
 
-        $statement = $db -> prepare("
+        $statement = $db->prepare("
             SELECT DISTINCT ip.ID_PREDMET, p.IME_PREDMET
             FROM izvedba_predmeta AS ip
             JOIN predmet AS p ON ip.ID_PREDMET = p.ID_PREDMET
@@ -321,10 +340,11 @@ class ProfesorDB {
         return $statement->fetchAll();
     }
 
-    public static function getIzpitniRokiProfesorja($id_oseba){
+    public static function getIzpitniRokiProfesorja($id_oseba)
+    {
 
         $db = DBInit::getInstance();
-        $statement = $db -> prepare("
+        $statement = $db->prepare("
             SELECT ip.ID_PREDMET, r.ID_ROK, r.ID_IZVEDBA, r.DATUM_ROKA, r.CAS_ROKA
             FROM rok AS r
             JOIN izvedba_predmeta AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
@@ -339,7 +359,8 @@ class ProfesorDB {
         return $statement->fetchAll();
     }
 
-    public static function getPrijavljeniNaIzpit($id_rok){
+    public static function getPrijavljeniNaIzpit($id_rok)
+    {
 
         $db = DBInit::getInstance();
         $statement = $db->prepare("
@@ -353,6 +374,87 @@ class ProfesorDB {
         $statement->bindValue(":id_rok", $id_rok);
         $statement->execute();
         return $statement->fetchAll();
+    }
+
+    public static function getLeta()
+    {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                SELECT DISTINCT *
+                FROM  studijsko_leto");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+
+    }
+
+    public static function getPredmeti1($leto)
+    {
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                    SELECT DISTINCT *
+                    FROM  izvedba_predmeta i, predmet p
+                    WHERE ID_STUD_LETO = :leto AND p.ID_PREDMET = i.ID_PREDMET AND p.ID_PREDMET = 1");
+        $statement->bindParam(":leto", $leto);
+        $statement->execute();
+
+        return $statement->fetchAll();
+
+    }
+
+    public static function getPredmet($id)
+    {
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                    SELECT DISTINCT *
+                    FROM  predmet 
+                    WHERE ID_PREDMET = :id");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+
+        return $statement->fetchAll()[0];
+
+    }
+
+    public static function getVpisani($predmet, $leto)
+    {
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+                    SELECT DISTINCT *
+                    FROM  predmeti_studenta p, student s , oseba o, vrsta_vpisa vv, vpis v 
+                    WHERE ID_PREDMET = :predmet AND p.ID_STUD_LETO = :leto AND
+                    p.VPISNA_STEVILKA = s.VPISNA_STEVILKA AND s.ID_OSEBA = o.ID_OSEBA AND 
+                    v.VPISNA_STEVILKA = s.VPISNA_STEVILKA AND vv.ID_VRSTAVPISA = v.ID_VRSTAVPISA
+                    ORDER BY PRIIMEK ASC
+                    ");
+        $statement->bindParam(":predmet", $predmet);
+        $statement->bindParam(":leto", $leto);
+        $statement->execute();
+
+        return $statement->fetchAll();
+
+    }
+
+    public static function getLeto($id)
+    {
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                    SELECT STUD_LETO
+                    FROM  studijsko_leto 
+                    WHERE ID_STUD_LETO = :id");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+
+        return $statement->fetchColumn();
+
     }
 }
 

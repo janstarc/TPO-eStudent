@@ -389,7 +389,45 @@ $urls = [
     },"/^OsebniPodatkiStudenta\/exportPDF$/" => function($method) {
         if ($method == "POST") AdminController::exportPDF();
         else ViewHelper::error405();
-    }, "/^VnosOceneProf\/" => function($method) {
+    },
+
+
+    "/^vpisVPredmet\/exportCSV$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportCSV();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/exportPDF$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportPDF();
+        else ViewHelper::error405();
+    },"/^vpisVPRedmet$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::vpisVPredmet();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/predmeti$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::vpisVPredmetPredmeti();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/vpisani$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::vpisVPredmetVpisani();
+        else ViewHelper::error405();
+    },
+
+
+    "/^vpisPredmet\/exportCSV$/" => function($method) {
+        if ($method == "POST") ProfesorController::exportCSV();
+        else ViewHelper::error405();
+    },"/^vpisPredmet\/exportPDF$/" => function($method) {
+        if ($method == "POST") ProfesorController::exportPDF();
+        else ViewHelper::error405();
+    },"/^vpisPRedmet$/" => function($method) {
+        if ($method == "GET")ProfesorController::vpisVPredmet();
+        else ViewHelper::error405();
+    },"/^vpisPredmet\/predmeti$/" => function($method) {
+        if ($method == "POST") ProfesorController::vpisVPredmetPredmeti();
+        else ViewHelper::error405();
+    },"/^vpisPredmet\/vpisani$/" => function($method) {
+        if ($method == "POST") ProfesorController::vpisVPredmetVpisani();
+        else ViewHelper::error405();
+    }
+
+    , "/^VnosOceneProf\/" => function($method) {
         if($method == "GET") ProfesorController::vnosOcenProf();
     },"/^zeton\/povprecje$/" => function($method) {
         if ($method == "POST") StudentOfficerController::povprecje();

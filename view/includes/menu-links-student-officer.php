@@ -31,6 +31,11 @@
                 </a>
             </li>
             <li class="mt">
+                <a href="<?= BASE_URL . "vpisVPRedmet/" ?>">
+                    <span>Seznam vpisanih v predmet</span>
+                </a>
+            </li>
+            <li class="mt">
                 <a href="<?= BASE_URL . "izpitniRok/referent" ?>">
                     <span>Izpitni Rok</span>
                 </a>
