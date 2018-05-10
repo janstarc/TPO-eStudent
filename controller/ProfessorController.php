@@ -32,10 +32,12 @@ class ProfesorController {
                     "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
                 ]);
 
-
+                $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
 
                 ViewHelper::render("view/VnosOcenPoStudentih.php", [
-
+                    "id_predmet" => $data["id_predmet"],
+                    "id_rok" => $data["id_rok"],
+                    "prijavljeniStudenti" => $prijavljeniStudenti
                 ]);
                 /*
                 ViewHelper::render("view/VpisniListPotrditevViewer.php", [
@@ -264,6 +266,7 @@ class ProfesorController {
     }
     
     public static function toggleizpitniRokActivated() {
+
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
                 $data = filter_input_array(INPUT_POST, [
