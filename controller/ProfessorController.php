@@ -276,12 +276,10 @@ class ProfesorController {
                 ]);
                 if (self::checkValues($data)) {
                     RokModel::toogleActivated($data['activateId']);
+                    self::izpitniRokAllForm("Success", "Uspesno ste spremenili aktivnost izbranega roka.");
                     ViewHelper::redirect(BASE_URL . "izpitniRok/profesor");
                 } else {
-                    ViewHelper::render("view/DisplayMessageViewer.php", [
-                        "status" => "Failure",
-                        "message" => "Error toogling activity of the exam."
-                    ]);
+                    self::izpitniRokAllForm("Failure", "Error toogling activity of the exam.");
                 }
             }else{
                 ViewHelper::error403();
