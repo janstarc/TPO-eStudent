@@ -1,6 +1,7 @@
 <?php
 
 require_once("model/UserModel.php");
+require_once("model/DataForExportModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
 
@@ -29,21 +30,18 @@ class StudentController {
         }
     }
 
-    public static function exportPDF(){
-        var_dump("OOOOOOJJJ");
-        $studentId = KandidatModel::getKandidatIdWithUserId(User::getId());
-        var_dump($studentId);
+    public static function exportPDF($id){
+        $studentId = KandidatModel::getKandidatIdWithUserId($id);
         $studData = KandidatModel::getKandidatPodatki($studentId);
+        $emso=DataForExportModel::getEmso($studentId);
 
-        //var_dump($studData);
-/*
-        vo vpisData treba da bidat podatoci za vpis
-        $vpisData = AdminDB::getEnrollmentDetails($data["searchVpisna"]);
+        $header = array('Ime', 'Priimek', 'Email', 'EMSO','Telefon','Drzavljanstvo');
+        $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $emso, $studData['telefonska_stevilka'],"Slovenija");
 
-        $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon','Drzavljanstvo');
-        $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $studData['emso'], $studData['telefonska_stevilka'],$studData['SLOVENSKINAZIV']);
 
-        foreach ($studData as $key => $value) {
+
+
+      /*  foreach ($studData as $key => $value) {
             if($value['je_stalni'] == 1 ){
                 $naslovStalnegaBivalisca= $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj'];
             }
@@ -61,22 +59,19 @@ class StudentController {
         foreach ($vpisData as $key => $value){
             $lineData2 = array($value['letnik'], $value['naziv_program'], $value['sifra_evs'], $value['opis_vpisa'],$value['opis_nacin']);
         }
-
-
+*/
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->SetFont('Arial','B',8);
         $pdf->Cell(40,10,'Izpis osebnih podatkov studenta');
         $pdf->Ln();
         $pdf->BasicTable($header,$lineData);
-        $pdf->Cell(40,10,'Izpis podatkov o vpisih');
         $pdf->Ln();
-        $pdf->BasicTable($header2,$lineData2);
         $pdf->Output('I','data.pdf');
 
         $filename="data.pdf";
         header('Content-Type: application/pdf');
-        header('Content-Disposition: attachment; filename="' . $filename . '";');*/
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
     }
 
 

@@ -66,8 +66,8 @@ $urls = [
         if ($method == "GET") StudentOfficerController::studentVpisPreglejForm($id);
         //else if ($method == "POST") StudentOfficerController::kandidatiPotrdiVpisForm($id);
         else ViewHelper::error405();
-    },"/^studenti\/(\d+)\/exportPDF$/" => function($method) {
-        if ($method == "POST") StudentController::exportPDF();
+    },"/^studenti\/(\d+)\/exportPDF$/" => function($method,$id) {
+        if ($method == "POST") StudentController::exportPDF($id);
     },
 
     "/^ElektronskiIndeks$/" => function ($method) {
