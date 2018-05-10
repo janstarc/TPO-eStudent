@@ -38,8 +38,7 @@
                                             <td><?php echo $rok['DATUM_ROKA']; ?></td>
                                             <td><?php echo $rok['CAS_ROKA']; ?></td>
                                             <td>
-                                                <form action="<?= BASE_URL . $formAction . "edit" ?>" method="post">
-                                                    <input type="hidden" name="urediId" value="<?= $rok['ID_ROK'] ?>" />
+                                                <form action="<?= BASE_URL . $formAction . "edit/" . $rok["ID_ROK"] ?>" method="get">
                                                     <input class="btn btn-primary btn-sm" type="submit" value="Uredi" />
                                                 </form>
                                             </td>

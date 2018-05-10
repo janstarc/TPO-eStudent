@@ -121,14 +121,13 @@ $urls = [
         if ($method == "GET") ProfesorController::izpitniRokForm();
         else if ($method == "POST") ProfesorController::VnosIzpitnegaRoka();
         else ViewHelper::error405();
-    }, "/^izpitniRok\/profesor\/edit$/" => function ($method) {
-        if ($method == "POST") ProfesorController::izpitniRokEditForm();
-        else ViewHelper::error405();
-    }, "/^izpitniRok\/profesor\/edit2$/" => function ($method) {
-        if ($method == "POST") ProfesorController::SpremembaIzpitnegaRoka();
+    }, "/^izpitniRok\/profesor\/edit\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") ProfesorController::izpitniRokEditForm($id);
+        else if ($method == "POST") ProfesorController::SpremembaIzpitnegaRoka($id);
         else ViewHelper::error405();
     }, "/^izpitniRok\/profesor\/toogleActivated$/" => function ($method) {
         if ($method == "POST") ProfesorController::toggleizpitniRokActivated();
+        else if ($method == "GET") ViewHelper::redirect(BASE_URL . "izpitniRok/profesor");
         else ViewHelper::error405();
     }, "/^izpitniRok\/referent\/add$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::izpitniRokForm();

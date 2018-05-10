@@ -20,6 +20,24 @@ class RokModel {
         return ($result == null);
     }
     
+    public static function isUniqueIfAlreadyCreated(array $params) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT * 
+            FROM ROK 
+            WHERE ID_IZVEDBA = :ID_IZVEDBA AND DATUM_ROKA = :DATUM_ROKA AND CAS_ROKA = :CAS_ROKA AND ID_ROK != :ID_ROK
+        ");
+        $statement->bindParam(":ID_IZVEDBA", $params["ID_IZVEDBA"]);
+        $statement->bindParam(":DATUM_ROKA", $params["DATUM_ROKA"]);
+        $statement->bindParam(":CAS_ROKA", $params["CAS_ROKA"]);
+        $statement->bindParam(":ID_ROK", $params["ID_ROK"]);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        return ($result == null);
+    }
+    
     public static function insert($idIzvedbaPredmeta, $date, $time) {
         $db = DBInit::getInstance();
 
