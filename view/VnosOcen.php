@@ -47,27 +47,33 @@
             <section id="main-content">
                 <section class="wrapper">
                     <br>
-                    <h3>Izberi predmet in rok izpita</h3>
-                    <div class="form-group">
-                        <label for="id_drzava">Predmet</label>
-                        <select class="form-control" id="id_predmet" name="id_predmet" required>
-                            <option selected disabled hidden></option>
-                            <?php foreach ($predmeti as $key => $value): ?>
-                                <option value="<?= $value["ID_PREDMET"] ?>"><?= $value["IME_PREDMET"]." (ID=".$value["ID_PREDMET"].")" ?></option>
-                            <?php endforeach; ?>
-                        </select>
+                     <form action="<?= BASE_URL . "VnosOcenDve" ?>" method="post" class="form-horizontal">
+                        <h3>Izberi predmet in rok izpita</h3>
+                        <div class="form-group">
+                            <label for="id_drzava">Predmet</label>
+                            <select class="form-control" id="id_predmet" name="id_predmet" required>
+                                <option selected disabled hidden></option>
+                                <?php foreach ($predmeti as $key => $value): ?>
+                                    <option value="<?= $value["ID_PREDMET"] ?>"><?= $value["IME_PREDMET"]." (ID=".$value["ID_PREDMET"].")" ?></option>
+                                <?php endforeach; ?>
+                            </select>
 
-                    </div>
-                    <div class="form-group">
-                        <label for="id_drzava">Izpitni rok</label>
-                        <select class="form-control" id="id_rok" name="id_rok" required>
-                            <!--<option selected disabled hidden></option>-->
-                            <?php //foreach ($izpitniRoki as $key => $value): ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_drzava">Izpitni rok</label>
+                            <select class="form-control" id="id_rok" name="id_rok" required>
+                                <!--<option selected disabled hidden></option>-->
+                                <?php //foreach ($izpitniRoki as $key => $value): ?>
 
-                            <?php //endforeach; ?>
-                        </select>
-                    </div>
-
+                                <?php //endforeach; ?>
+                            </select>
+                        </div>
+                         <div class="row">
+                             <div class="col-xs-12 col-md-6 offset-md-3">
+                                 <button id="btn" class="btn btn-theme btn-block" type="submit">Potrdi</button>
+                             </div>
+                         </div>
+                    </form>
                     <div class="row mt">
                         <div class="col-lg-12">
                             <div class="content-panel">

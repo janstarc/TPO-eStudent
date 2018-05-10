@@ -20,6 +20,49 @@ class ProfesorController {
             ViewHelper::error401();
         }
     }
+
+    //public static function vnosOcenPoStudentih($id_predmet, $id_rok){
+    public static function vnosOcenPoStudentih(){
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
+
+                $data = filter_input_array(INPUT_POST, [
+                    "id_predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+                ]);
+
+
+
+                ViewHelper::render("view/VnosOcenPoStudentih.php", [
+
+                ]);
+                /*
+                ViewHelper::render("view/VpisniListPotrditevViewer.php", [
+                    "pageTitle" => "Potrdi vpisni list izbranega kandidata",
+                    "formAction" => "kandidati",
+                    "id" => $id,
+                    "KandidatPodatki" => $KandidatPodatki,
+                    "stud_leto" => $stud_leto,
+                    "StudijskaLeta" => StudijskoLetoModel::getAll(),
+                    "StudijskiProgrami" => StudijskiProgramModel::getAll(),
+                    "obcine" => $obcine,
+                    "poste" => $poste,
+                    "drzave" => $drzave,
+                    "naslove" => KandidatModel::getKandidatVseNaslove($id),
+                    "userName" => $userName,
+                    "predmeti" => $predmeti,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+                */
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+          ViewHelper::error401();
+        }
+    }
     
     public static function VnosIzpitovForm() {
         if (User::isLoggedIn()){
@@ -33,7 +76,7 @@ class ProfesorController {
         }
     }
 
-    public static function VnosOcenForm() {
+    public static function vnosOcenForm() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
 
