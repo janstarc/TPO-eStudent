@@ -130,4 +130,19 @@ class RokModel {
         $statement2->bindParam(":is_activated", $is_activated);
         $statement2->execute();
     }
+    
+    public static function isActivated($id) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT AKTIVNOST 
+            FROM ROK 
+            WHERE ID_ROK = :ID_ROK
+        ");
+        $statement->bindParam(":ID_ROK", $id);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        return ($result["AKTIVNOST"] == 1);
+    }
 }
