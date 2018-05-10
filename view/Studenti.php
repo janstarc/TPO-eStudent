@@ -1,5 +1,5 @@
 <?php
-    echo $formAction = "studenti";
+    $formAction = "studenti";
 ?>
 
 <!DOCTYPE html>

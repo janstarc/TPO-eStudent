@@ -339,6 +339,20 @@ class ProfesorDB {
         return $statement->fetchAll();
     }
 
+    public static function getPrijavljeniNaIzpit($id_rok){
 
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT p.ID_PRIJAVA, p.VPISNA_STEVILKA, o.IME, o.PRIIMEK
+            FROM prijava AS p
+            JOIN student AS s ON p.VPISNA_STEVILKA = s.VPISNA_STEVILKA
+            JOIN oseba AS o ON s.ID_OSEBA = o.ID_OSEBA
+            WHERE p.ID_ROK = :id_rok
+        ");
+
+        $statement->bindValue(":id_rok", $id_rok);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 }
 

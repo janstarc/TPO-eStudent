@@ -99,7 +99,7 @@ class StudentOfficerController {
                 $predmeti = PredmetModel::getAll([
                     "ID_STUD_LETO" => $studentPodatki['id_stud_leto'],
                     "ID_PROGRAM" => $studentPodatki['id_program'],
-                    "ID_LETNIK" => 1
+                    "ID_LETNIK" => $studentPodatki['ID_LETNIK']
                 ]);
 
                 ViewHelper::render("view/StudentPregledVpisa.php", [
@@ -141,7 +141,6 @@ class StudentOfficerController {
     */
     public static function kandidatiPotrdiVpisForm($id) {
 
-
         $data = filter_input_array(INPUT_POST, [
             "Ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "Priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
@@ -173,7 +172,6 @@ class StudentOfficerController {
             "ID_PROGRAM" => $KandidatPodatki["id_program"],
             "ID_LETNIK" => 1
         ]);
-        //var_dump($predmeti);
 
         $id_vpis = KandidatModel::getVpisId($id);
         KandidatModel::insertPredmetiKandidat($id_vpis, $predmeti, $KandidatPodatki["id_stud_leto"]);

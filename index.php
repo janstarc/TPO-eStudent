@@ -83,7 +83,12 @@ $urls = [
         if ($method == "GET") ProfesorController::VnosIzpitovForm();
         else ViewHelper::error405();
     }, "/^VnosOcen$/" => function ($method) {
-        if ($method == "GET") ProfesorController::VnosOcenForm();
+        if ($method == "GET") ProfesorController::vnosOcenForm();
+        //else if ($method == "POST") ProfesorController::vnosOcenPoStudentih();
+        else ViewHelper::error405();
+    }, "/^VnosOcenDve$/" => function ($method) {
+        if ($method == "POST") ProfesorController::vnosOcenPoStudentih();
+        //else if ($method == "POST")
         else ViewHelper::error405();
     }, "/^OsebniPodatkiStudenta$/" => function ($method) {
         if ($method == "GET") AdminController::pregledOsebnihPodatkovStudenta();
@@ -91,16 +96,13 @@ $urls = [
     }, "/^OsebniPodatkiStudenta\/vpisnaSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchByVpisna();
         else ViewHelper::error405();
-
-    },
-    "/^PodatkiIzvajalcev$/" => function ($method) {
+    }, "/^PodatkiIzvajalcev$/" => function ($method) {
         if ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
         else ViewHelper::error405();
     }, "/^PodatkiIzvajalcev\/subjectSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchBySubject();
         else ViewHelper::error405();
 
-        
     }, "/^PodatkiIzvajalcev\/edit$/" => function ($method) {
         if ($method == "POST") AdminController::editIzvajalec();
         else ViewHelper::error405();
