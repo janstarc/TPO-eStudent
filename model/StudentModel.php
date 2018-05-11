@@ -2,7 +2,22 @@
 
 class StudentModel{
 
-    // To check, ce sploh lahko vidi obrazec za vpis
+    public static function getAllStudentsByStudLeto($idStudLeto) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT s.ID_OSEBA, o.IME, o.PRIIMEK, s.VPISNA_STEVILKA, v.ID_LETNIK, s.VSOTA_OPRAVLJENIH_KREDITNIH_TOCK, s.POVPRECNA_OCENA_OPRAVLJENIH_IZPITOV
+            FROM STUDENT as s
+            JOIN VPIS as v ON s.VPISNA_STEVILKA = v.VPISNA_STEVILKA
+            JOIN OSEBA as o ON s.ID_OSEBA = o.ID_OSEBA
+            WHERE v.ID_STUD_LETO = :idStudLeto
+        ");
+        $statement->bindParam(":idStudLeto", $idStudLeto, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
+        // To check, ce sploh lahko vidi obrazec za vpis
     public static function imaStudentAktivenZeton($id_oseba){
 
         $db = DBInit::getInstance();

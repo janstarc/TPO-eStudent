@@ -1,6 +1,7 @@
 <?php
 
 require_once("model/StudentOfficerDB.php");
+require_once("model/StudentModel.php");
 require_once("model/StudijskoLetoModel.php");
 require_once("model/StudijskiProgramModel.php");
 require_once("model/KandidatModel.php");
@@ -177,7 +178,43 @@ class StudentOfficerController {
         KandidatModel::insertPredmetiKandidat($id_vpis, $predmeti, $KandidatPodatki["id_stud_leto"]);
         //self::kandidatiList("Success", "Vpis za študenta ".$data['ime']." ".$data['priimek']." uspešno potrjen!");
     }
-    
+
+    public static function ZetonForm1($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                ViewHelper::render("view/ZetonChooseStudLetoViewer.php", [
+                    "pageTitle" => "Seznam vseh studijske leta",
+                    "allData" => StudijskoLetoModel::getAll(),
+                    "formAction" => "zetoni",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function ZetonForm2($id, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                ViewHelper::render("view/ZetonChooseStudent.php", [
+                    "pageTitle" => "Seznam vseh studijske leta",
+                    "allData" => StudentModel::getAllStudentsByStudLeto($id),
+                    "formAction" => "zetoni",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
     public static function Zeton($status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
@@ -193,6 +230,7 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
+
     public static function searchByEMSO() {
         $data = filter_input_array(INPUT_POST, [
             "searchEMSO" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],

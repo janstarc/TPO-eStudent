@@ -102,7 +102,6 @@ $urls = [
     }, "/^PodatkiIzvajalcev\/subjectSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchBySubject();
         else ViewHelper::error405();
-
     }, "/^PodatkiIzvajalcev\/edit$/" => function ($method) {
         if ($method == "POST") AdminController::editIzvajalec();
         else ViewHelper::error405();
@@ -116,7 +115,6 @@ $urls = [
         if ($method == "POST") AdminController::addIzvajalec();
         else ViewHelper::error405();
     },
-
 
     "/^izpitniRok\/profesor$/" => function ($method) {
         if ($method == "GET") ProfesorController::izpitniRokAllForm();
@@ -173,7 +171,58 @@ $urls = [
         else ViewHelper::error405();
     },
 
+    "/^UvozPodatkov$/" => function($method){
+        if ($method == "GET") AdminController::uvozPodatkov();
+        else ViewHelper::error405();
+    }, "/^UvozPodatkov\/parse$/" => function($method) {
+        if ($method == "POST") AdminController::parseInput();
+        else ViewHelper::error405();
+    }, "/^UvozPodatkov\/insert$/" => function($method) {
+        if ($method == "POST") AdminController::insertParsedData();
+        else ViewHelper::error405();
+    },
 
+
+    "/^zetoni$/" => function ($method) {
+        if ($method == "GET") StudentOfficerController::zetonForm1();
+        else ViewHelper::error405();
+    }, "/^zetoni\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::ZetonForm2($id);
+        else ViewHelper::error405();
+    },
+
+    "/^zeton\/EMSOSearch$/" => function ($method) {
+    if ($method == "POST") StudentOfficerController::searchByEMSO();
+    else ViewHelper::error405();
+    }, "/^Zeton\/spremeni$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::spremeni();
+        else ViewHelper::error405();
+    }, "/^zeton\/uredi$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::uredi();
+        else ViewHelper::error405();
+    }, "/^zeton\/dodaj$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::dodaj();
+        else ViewHelper::error405();
+    }, "/^zeton$/" => function ($method) {
+        if ($method == "GET") StudentOfficerController::zeton();
+        else ViewHelper::error405();
+    },
+
+    "/^OsebniPodatkiStudenta\/exportCSV$/" => function($method) {
+        if ($method == "POST") AdminController::exportCSV();
+        else ViewHelper::error405();
+    }, "/^OsebniPodatkiStudenta\/exportPDF$/" => function($method) {
+        if ($method == "POST") AdminController::exportPDF();
+        else ViewHelper::error405();
+    }, "/^VnosOceneProf\/" => function($method) {
+        if($method == "GET") ProfesorController::vnosOcenProf();
+    }, "/^zeton\/povprecje$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::povprecje();
+        else ViewHelper::error405();
+    },
+
+
+    // SIFRANTI, add code above
     "/^DrzavaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddDrzava();
         else ViewHelper::error405();
@@ -186,7 +235,7 @@ $urls = [
     }, "/^DrzavaAll\/editForm$/" => function ($method) {
         if ($method == "POST") SifrantController::editFormDrzava();
         else ViewHelper::error405();
-}   ,"/^DrzavaAll\/edit$/" => function ($method) {
+    }   ,"/^DrzavaAll\/edit$/" => function ($method) {
         if ($method == "POST") SifrantController::editDrzava();
         else ViewHelper::error405();
     }, "/^DrzavaAll\/toogleActivated$/" => function ($method) {
@@ -357,46 +406,7 @@ $urls = [
     },"/^VrstaVpisaAll\/toogleActivated$/" => function ($method) {
         if ($method == "POST") SifrantController::toogleActivatedVrstaVpisa();
         else ViewHelper::error405();
-    },
-
-    "/^UvozPodatkov$/" => function($method){
-        if ($method == "GET") AdminController::uvozPodatkov();
-        else ViewHelper::error405();
-    }, "/^UvozPodatkov\/parse$/" => function($method) {
-        if ($method == "POST") AdminController::parseInput();
-        else ViewHelper::error405();
-    }, "/^UvozPodatkov\/insert$/" => function($method) {
-        if ($method == "POST") AdminController::insertParsedData();
-        else ViewHelper::error405();
-    },"/^zeton\/EMSOSearch$/" => function ($method) {
-        if ($method == "POST") StudentOfficerController::searchByEMSO();
-        else ViewHelper::error405();
-    },"/^Zeton\/spremeni$/" => function ($method) {
-        if ($method == "POST") StudentOfficerController::spremeni();
-        else ViewHelper::error405();
-    },"/^zeton\/uredi$/" => function ($method) {
-        if ($method == "POST") StudentOfficerController::uredi();
-        else ViewHelper::error405();
-    },"/^zeton\/dodaj$/" => function ($method) {
-        if ($method == "POST") StudentOfficerController::dodaj();
-        else ViewHelper::error405();
-    },"/^zeton$/" => function ($method) {
-        if ($method == "GET") StudentOfficerController::zeton();
-        else ViewHelper::error405();
-    },"/^OsebniPodatkiStudenta\/exportCSV$/" => function($method) {
-        if ($method == "POST") AdminController::exportCSV();
-        else ViewHelper::error405();
-    },"/^OsebniPodatkiStudenta\/exportPDF$/" => function($method) {
-        if ($method == "POST") AdminController::exportPDF();
-        else ViewHelper::error405();
-    }, "/^VnosOceneProf\/" => function($method) {
-        if($method == "GET") ProfesorController::vnosOcenProf();
-    },"/^zeton\/povprecje$/" => function($method) {
-        if ($method == "POST") StudentOfficerController::povprecje();
-        else ViewHelper::error405();
-    },
-
-
+    }
 ];
 
 foreach ($urls as $pattern => $controller) {
