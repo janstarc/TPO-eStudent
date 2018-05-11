@@ -131,11 +131,28 @@ $urls = [
         if ($method == "POST") ProfesorController::toggleizpitniRokActivated();
         else if ($method == "GET") ViewHelper::redirect(BASE_URL . "izpitniRok/profesor");
         else ViewHelper::error405();
-    }, "/^izpitniRok\/referent\/add$/" => function ($method) {
-        if ($method == "GET") StudentOfficerController::izpitniRokForm();
+    },
+
+    "/^izpitniRok\/referent\/chooseProfesor$/" => function ($method) {
+        if ($method == "GET") StudentOfficerController::chooseProfesor();
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/referent\/chooseProfesor\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::izpitniRokAllForm($id);
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/referent\/chooseProfesor\/(\d+)\/add$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::izpitniRokForm($id);
+        else if ($method == "POST") StudentOfficerController::VnosIzpitnegaRoka($id);
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/referent\/chooseProfesor\/(\d+)\/edit\/(\d+)$/" => function ($method, $id1, $id2) {
+        if ($method == "GET") StudentOfficerController::izpitniRokEditForm($id1, $id2);
+        else if ($method == "POST") StudentOfficerController::SpremembaIzpitnegaRoka($id1, $id2);
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/referent\/chooseProfesor\/(\d+)\/toogleActivated$/" => function ($method, $id) {
+        if ($method == "POST") StudentOfficerController::toggleizpitniRokActivated($id);
+        else if ($method == "GET") ViewHelper::redirect(BASE_URL . "izpitniRok/referent/chooseProfesor/ " . $id);
         else ViewHelper::error405();
     },
-    
+
     "/^dodajPredmet$/" => function ($method) {
         if ($method == "POST") AdminController::addInPredmetnik();
         else ViewHelper::error405();

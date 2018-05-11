@@ -157,7 +157,7 @@ class ProfesorDB
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            SELECT o.IME, o.PRIIMEK , o.EMAIL, o.TELEFONSKA_STEVILKA
+            SELECT o.ID_OSEBA, o.IME, o.PRIIMEK , o.EMAIL, o.TELEFONSKA_STEVILKA
             FROM OSEBA AS o
             WHERE o.VRSTA_VLOGE='p'
         ");
