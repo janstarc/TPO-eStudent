@@ -1,6 +1,6 @@
 <?php
 
-require_once "Mail.php"; // Pear Mail Library
+//require_once "Mail.php"; // Pear Mail Library
 require_once("model/UserModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");

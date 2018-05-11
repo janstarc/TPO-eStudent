@@ -33,6 +33,11 @@
                 </a>
             </li>
             <li class="mt">
+                <a href="<?= BASE_URL . "vpisPRedmet/" ?>">
+                    <span>Seznam vpisanih v predmet</span>
+                </a>
+            </li>
+            <li class="mt">
                 <a href="<?= BASE_URL . "VnosOcen" ?>">
                     <span>VnosOcen</span>
                 </a>

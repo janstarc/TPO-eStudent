@@ -182,7 +182,6 @@ $urls = [
         else ViewHelper::error405();
     },
 
-
     "/^zetoni$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::zetonForm1();
         else ViewHelper::error405();
@@ -206,6 +205,9 @@ $urls = [
     }, "/^zeton$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::zeton();
         else ViewHelper::error405();
+    }, "/^zeton\/povprecje$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::povprecje();
+        else ViewHelper::error405();
     },
 
     "/^OsebniPodatkiStudenta\/exportCSV$/" => function($method) {
@@ -216,9 +218,6 @@ $urls = [
         else ViewHelper::error405();
     }, "/^VnosOceneProf\/" => function($method) {
         if($method == "GET") ProfesorController::vnosOcenProf();
-    }, "/^zeton\/povprecje$/" => function($method) {
-        if ($method == "POST") StudentOfficerController::povprecje();
-        else ViewHelper::error405();
     },
 
 
@@ -243,7 +242,6 @@ $urls = [
         else ViewHelper::error405();
     },
 
-
     "/^LetnikAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddLetnik();
         else ViewHelper::error405();
@@ -260,9 +258,6 @@ $urls = [
         if ($method == "POST") SifrantController::editLetnik();
         else ViewHelper::error405();
     },
-
-
-
 
     "/^NacinStudijaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddNacinStudija();
@@ -284,8 +279,6 @@ $urls = [
         else ViewHelper::error405();
     },
 
-
-
     "/^ObcinaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddObcina();
         else ViewHelper::error405();
@@ -305,8 +298,6 @@ $urls = [
         if ($method == "POST") SifrantController::toogleActivatedObcina();
         else ViewHelper::error405();
     },
-
-
 
     "/^OblikaStudijaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddOblikaStudija();
@@ -328,7 +319,6 @@ $urls = [
         else ViewHelper::error405();
     },
 
-
     "/^PostaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddPosta();
         else ViewHelper::error405();
@@ -348,7 +338,6 @@ $urls = [
         if ($method == "POST") SifrantController::toogleActivatedPosta();
         else ViewHelper::error405();
     },
-
 
     "/^PredmetAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddPredmet();
@@ -386,7 +375,6 @@ $urls = [
         if ($method == "POST") SifrantController::editStudijskoLeto();
         else ViewHelper::error405();
     },
-
 
     "/^VrstaVpisaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddVrstaVpisa();

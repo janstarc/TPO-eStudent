@@ -205,4 +205,79 @@ class StudentOfficerDB
             throw new InvalidArgumentException("No subject with $vpisna");
         }
     }
+
+    public static function getLeta(){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                SELECT DISTINCT *
+                FROM  studijsko_leto");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+
+    }
+
+    public static function getPredmeti($leto){
+
+            $db = DBInit::getInstance();
+
+            $statement = $db->prepare("
+                    SELECT DISTINCT *
+                    FROM  izvedba_predmeta i, predmet p 
+                    WHERE ID_STUD_LETO = :leto and p.ID_PREDMET = i.ID_PREDMET");
+            $statement->bindParam(":leto", $leto);
+            $statement->execute();
+
+            return $statement->fetchAll();
+
+    }
+
+    public static function getPredmet($id){
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                    SELECT DISTINCT *
+                    FROM  predmet 
+                    WHERE ID_PREDMET = :id");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+
+        return $statement->fetchAll()[0];
+
+    }
+
+    public static function getVpisani($predmet, $leto ){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+                    SELECT DISTINCT *
+                    FROM  predmeti_studenta p, student s , oseba o, vrsta_vpisa vv, vpis v 
+                    WHERE ID_PREDMET = :predmet and p.ID_STUD_LETO = :leto and
+                    p.VPISNA_STEVILKA = s.VPISNA_STEVILKA and s.ID_OSEBA = o.ID_OSEBA AND 
+                    v.VPISNA_STEVILKA = s.VPISNA_STEVILKA and vv.ID_VRSTAVPISA = v.ID_VRSTAVPISA
+                    ORDER BY PRIIMEK ASC
+                    ");
+        $statement->bindParam(":predmet", $predmet);
+        $statement->bindParam(":leto", $leto);
+        $statement->execute();
+
+        return $statement->fetchAll();
+
+    }
+    public static function getLeto($id){
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                    SELECT STUD_LETO
+                    FROM  studijsko_leto 
+                    WHERE ID_STUD_LETO = :id");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+
+        return $statement->fetchColumn();
+
+    }
 }
