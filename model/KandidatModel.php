@@ -73,7 +73,7 @@ class KandidatModel {
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            SELECT o.id_oseba, o.ime, o.priimek, o.email, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
+            SELECT o.id_oseba, o.ime, o.priimek, o.email,o.uporabnisko_ime, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
                     p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto, k.ID_KANDIDAT
             FROM oseba AS o 
             JOIN kandidat AS k ON k.id_oseba = o.id_oseba

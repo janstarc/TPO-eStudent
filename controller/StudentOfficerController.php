@@ -313,7 +313,7 @@ class StudentOfficerController {
                 ]);
 
                 ViewHelper::render("view/StudentPregledVpisa.php", [
-                    "pageTitle" => "Pregled izpitnega lista študenta",
+                    "pageTitle" => "Pregled vpisnega lista študenta",
                     "formAction" => "studenti",
                     "id" => $id,
                     "KandidatPodatki" => $studentPodatki,

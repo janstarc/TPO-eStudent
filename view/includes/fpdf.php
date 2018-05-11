@@ -1030,21 +1030,57 @@ function Output($dest='', $name='', $isUTF8=false)
 	return '';
 }
 
-    function BasicTable($header,$lineData)
+    function BasicTable3($header,$lineData,$header1,$naslov)
     {
+    	for($i=0; $i<count($header1);$i++){
+        	$this->Cell(50, 7, $header[$i], 0);
+            $this->Cell(50, 7, $lineData[$i], 0);
+            if($i==0 || $i==2){
+                $this->Cell(17,7,$header1[$i],0,0,'C');
+                $this->Cell(65,7,$naslov[$i],0,0,'C');
+                $this->Ln();
+			}else{
+                $this->Cell(30,7,$header1[$i],0,0,'C');
+                $this->Cell(60,7,$naslov[$i],0,0,'C');
+                $this->Ln();
+			}
 
-    	for($i=0; $i<count($header);$i++){
-            $this->Cell(50, 7, $header[$i], 1);
-            $this->Cell(50, 7, $lineData[$i], 1);
+		}
+
+		for($i=count($header1);$i<count($header);$i++){
+            $this->Cell(50, 7, $header[$i], 0);
+            $this->Cell(50, 7, $lineData[$i], 0);
             $this->Ln();
 		}
 
-
-        $this->Ln();
-        $this->Ln();
-
     }
 
+    function BasicTable2($header,$imena,$lineData,$sifre,$izvajalec)
+    {
+        for($i=0; $i<count($header);$i++) {
+            $this->Cell(30, 7, $header[$i], 0);
+
+        }
+        $this->Ln();
+
+        for($i=0; $i<count($imena);$i++) {
+            $this->Cell(30, 7, $imena[$i], 0);
+            $this->Cell(30, 7, $sifre[$i], 0);
+            $this->Cell(30, 7, $lineData[$i], 0);
+            $this->Cell(30, 7, $izvajalec[$i], 0);
+        	$this->Ln();
+        }
+    }
+
+
+    function BasicTable($header,$lineData){
+        for($i=0; $i<count($header);$i++) {
+        	$this->Cell(50, 7, $header[$i], 1);
+            $this->Cell(50, 7, $lineData[$i], 1);
+            $this->Ln();
+        }
+
+	}
 
 
 /*******************************************************************************
