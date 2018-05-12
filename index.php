@@ -273,7 +273,7 @@ $urls = [
     },"/^vpisVPredmet\/vpisani$/" => function($method) {
         if ($method == "POST") StudentOfficerController::vpisVPredmetVpisani();
         else ViewHelper::error405();
-    }
+    },
 
 
     // SIFRANTI, add code above
