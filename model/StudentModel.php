@@ -396,4 +396,26 @@ class StudentModel{
         $statement->bindValue(":id_program", $studentData['id_program']);
         $statement->execute();
     }
+
+    public static function getStudentPodatki($id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
+                    p.st_semestrov, sl.stud_leto, s.vpisna_stevilka, s.emso, v.id_stud_leto, v.ID_VRSTAVPISA, v.ID_OBLIKA, v.ID_LETNIK, v.ID_NACIN
+            FROM oseba AS o 
+            JOIN student AS s ON s.ID_OSEBA = o.ID_OSEBA
+            JOIN vpis AS v ON v.VPISNA_STEVILKA = s.VPISNA_STEVILKA
+            JOIN program AS p ON v.ID_PROGRAM = p.ID_PROGRAM
+            JOIN studijsko_leto AS sl ON v.ID_STUD_LETO = sl.ID_STUD_LETO
+            WHERE o.ID_OSEBA = :id_oseba
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result;
+    }
+
+
 }

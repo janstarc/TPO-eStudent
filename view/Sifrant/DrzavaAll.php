@@ -3,6 +3,49 @@
 <html lang="en">
 <head>
     <?php include("view/includes/head.php"); ?>
+    <script>
+        $(document).ready( function () {
+
+            jQuery.fn.dataTableExt.oSort["slo-desc"] = function (x, y) {
+                return sloCompare(y,x);
+            };
+
+            jQuery.fn.dataTableExt.oSort["slo-asc"] = function (x, y) {
+                return sloCompare(x,y);
+            };
+
+            var oTable = $("#table-drzave").dataTable({
+                "aoColumns": [{
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType": "slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": false
+                }, {
+                    "sClass": "center",
+                    "bSortable": false
+                }, {
+                    "sClass": "center",
+                    "bSortable": false
+                }, ]
+            });
+        } );
+
+
+    </script>
 </head>
 <body>
 <section id="container">
@@ -17,7 +60,7 @@
                         <br>
                         <br>
                         <br>
-                        <table id="table-subject" class="table table-striped table-advance table-hover">
+                        <table id="table-drzave" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
                                 <th>Dvomestna koda</th>

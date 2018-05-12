@@ -17,6 +17,8 @@ define("PROJECT_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php"));
 define("IMAGES_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/images/");
 define("CSS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/css/");
 define("JS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/js/");
+define("DATATABLES_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/dataTables/");
+define("JSHINT_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/JSHint/dist/");
 
 define("CURRENT_YEAR", "2017/18");
 
@@ -56,7 +58,7 @@ $urls = [
         if ($method == "GET") StudentOfficerController::kandidatiList();
         else ViewHelper::error405();
     }, "/^kandidati\/(\d+)$/" => function ($method, $id) {
-        if ($method == "GET") StudentOfficerController::kandidatiPreglejVpisForm($id);
+        if ($method == "GET") StudentOfficerController::kandidatPreglejVpisForm($id);
         else if ($method == "POST") StudentOfficerController::kandidatiPotrdiVpisForm($id);
         else ViewHelper::error405();
     }, "/^vpisaniStudenti/" => function ($method) {

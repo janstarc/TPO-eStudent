@@ -258,7 +258,7 @@ class StudentOfficerController {
         }
     }
     
-    public static function kandidatiPreglejVpisForm($id, $status = null, $message = null) {
+    public static function kandidatPreglejVpisForm($id, $status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
                 $KandidatPodatki = KandidatModel::getKandidatPodatki($id);
@@ -302,8 +302,8 @@ class StudentOfficerController {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
 
-                $studentPodatki = KandidatModel::getStudentPodatki($id);
-                $stud_leto = KandidatModel::getStudijskoLeto($studentPodatki["id_stud_leto"]);
+                $studentPodatki = StudentModel::getStudentPodatki($id);
+                $stud_leto = StudentModel::getStudijskoLeto($studentPodatki["id_stud_leto"]);
                 $obcine = ObcinaModel::getAll();
                 $poste = PostaModel::getAll();
                 $drzave = DrzavaModel::getAll();

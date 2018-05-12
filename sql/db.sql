@@ -1750,10 +1750,11 @@ INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VL
 # uporabnisko ime=testS  geslo='123456'
 # VRSTA_VLOGE: admin='a', referat='r', profesor='p', student='s' in kandidat='k'
 
-INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_LETO`,
-                             `IZKORISCEN`, `EMSO`, `VPISNA_STEVILKA`)VALUES
+
+# Inserti preko import fila
+INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_LETO`, `IZKORISCEN`, `EMSO`, `VPISNA_STEVILKA`) VALUES
   (1,11,1,2,1,2505996500532,63150000),
-  (2,11,4,2,1,0406996505123,63150001),
+  (2,11,4,2,1,1234567891234,63150001),
   (3,11,6,2,1,2505996500532,63150002);
 
 INSERT INTO `tpo`.`PREDMET`
