@@ -9,11 +9,10 @@ class RokModel {
         $statement = $db->prepare("
             SELECT * 
             FROM ROK 
-            WHERE ID_IZVEDBA = :ID_IZVEDBA AND DATUM_ROKA = :DATUM_ROKA AND CAS_ROKA = :CAS_ROKA
+            WHERE ID_IZVEDBA = :ID_IZVEDBA AND DATUM_ROKA = :DATUM_ROKA
         ");
         $statement->bindParam(":ID_IZVEDBA", $params["ID_IZVEDBA"]);
         $statement->bindParam(":DATUM_ROKA", $params["DATUM_ROKA"]);
-        $statement->bindParam(":CAS_ROKA", $params["CAS_ROKA"]);
         $statement->execute();
         $result = $statement->fetch();
 
@@ -26,11 +25,10 @@ class RokModel {
         $statement = $db->prepare("
             SELECT * 
             FROM ROK 
-            WHERE ID_IZVEDBA = :ID_IZVEDBA AND DATUM_ROKA = :DATUM_ROKA AND CAS_ROKA = :CAS_ROKA AND ID_ROK != :ID_ROK
+            WHERE ID_IZVEDBA = :ID_IZVEDBA AND DATUM_ROKA = :DATUM_ROKA AND ID_ROK != :ID_ROK
         ");
         $statement->bindParam(":ID_IZVEDBA", $params["ID_IZVEDBA"]);
         $statement->bindParam(":DATUM_ROKA", $params["DATUM_ROKA"]);
-        $statement->bindParam(":CAS_ROKA", $params["CAS_ROKA"]);
         $statement->bindParam(":ID_ROK", $params["ID_ROK"]);
         $statement->execute();
         $result = $statement->fetch();
@@ -65,6 +63,7 @@ class RokModel {
                     ID_OSEBA1 = :idUser OR ID_OSEBA2 = :idUser OR ID_OSEBA3 = :idUser
                 )
                 AND p.AKTIVNOST = 1
+            ORDER BY DATUM_ROKA, CAS_ROKA
         ");
         $statement->bindParam(":idUser", $idUser, PDO::PARAM_INT);
         $statement->bindParam(":idCurrentYear", $idCurrentYear, PDO::PARAM_INT);

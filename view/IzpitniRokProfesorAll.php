@@ -3,6 +3,7 @@
 <html lang="en">
     <head>
         <?php include("view/includes/head.php"); ?>
+        <script type="text/javascript" src="<?= JS_URL . "rokScript.js" ?>"></script>
     </head>
     <body>
         <section id="container">
@@ -31,11 +32,16 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                    foreach($roki as $rok): ?>
+                                    <?php $i = 1; foreach($roki as $rok): ?>
                                         <tr>
+                                            <td><?php echo $i; ?></td>
                                             <td><?php echo $rok['IME_PREDMET']; ?></td>
-                                            <td><?php echo $rok['DATUM_ROKA']; ?></td>
+                                            <td>
+                                                <?php
+                                                    list($y, $m, $d) = explode('-', $rok["DATUM_ROKA"]);
+                                                    echo $d."-".$m."-".$y;
+                                                ?>
+                                            </td>
                                             <td><?php echo $rok['CAS_ROKA']; ?></td>
                                             <td>
                                                 <form action="<?= BASE_URL . $formAction . "edit/" . $rok["ID_ROK"] ?>" method="get">
@@ -53,7 +59,7 @@
                                                 </form>
                                             </td>
                                         </tr>
-                                    <?php endforeach; ?>
+                                    <?php $i = $i + 1; endforeach; ?>
                                     </tbody>
                                 </table>
 

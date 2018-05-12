@@ -152,7 +152,7 @@ $urls = [
         else ViewHelper::error405();
     }, "/^izpitniRok\/referent\/chooseProfesor\/(\d+)\/toogleActivated$/" => function ($method, $id) {
         if ($method == "POST") StudentOfficerController::toggleizpitniRokActivated($id);
-        else if ($method == "GET") ViewHelper::redirect(BASE_URL . "izpitniRok/referent/chooseProfesor/ " . $id);
+        else if ($method == "GET") ViewHelper::redirect(BASE_URL . "izpitniRok/referent/chooseProfesor/" . $id);
         else ViewHelper::error405();
     },
 

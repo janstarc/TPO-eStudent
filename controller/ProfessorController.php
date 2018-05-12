@@ -139,7 +139,8 @@ class ProfesorController {
         if (!self::checkValues($data)) {
             self::izpitniRokForm("Failure", "You have entered an invalid value. Please try again.");
         } else {
-            list($y, $m, $d) = explode('-', $data["DATUM_ROKA"]);
+            list($d, $m, $y) = explode('-', $data["DATUM_ROKA"]);
+            $data["DATUM_ROKA"] = $y."-".$m."-".$d;
             if (!checkdate($m, $d, $y)) {
                 self::izpitniRokForm("Failure", "You have entered an invalid date. Please try again.");
             } else {
@@ -159,7 +160,7 @@ class ProfesorController {
                                 self::izpitniRokForm("Failure", "You have entered an invalid time value. Please try again.");
                             } else {
                                 if (!RokModel::isUnique($data)) {
-                                    self::izpitniRokForm("Failure", "Napaka, rok ze obstaja. Poskusite znova.");
+                                    self::izpitniRokForm("Failure", "Napaka, rok na ta datum ze obstaja. Poskusite znova.");
                                 } else {
                                     RokModel::insert($data["ID_IZVEDBA"], $data["DATUM_ROKA"], $data["CAS_ROKA"]);
                                     self::izpitniRokAllForm("Success", "Uspesno ste ustvarili novi rok.");
@@ -231,7 +232,8 @@ class ProfesorController {
         if (!self::checkValues($data)) {
             self::izpitniRokEditForm($id, "Failure", "You have entered an invalid value. Please try again.");
         } else {
-            list($y, $m, $d) = explode('-', $data["DATUM_ROKA"]);
+            list($d, $m, $y) = explode('-', $data["DATUM_ROKA"]);
+            $data["DATUM_ROKA"] = $y."-".$m."-".$d;
             if (!checkdate($m, $d, $y)) {
                 self::izpitniRokEditForm($id, "Failure", "You have entered an invalid date. Please try again.");
             } else {
@@ -252,7 +254,7 @@ class ProfesorController {
                             } else {
                                 $data["ID_ROK"]=$id;
                                 if (!RokModel::isUniqueIfAlreadyCreated($data)) {
-                                    self::izpitniRokEditForm($id, "Failure", "Napaka, rok ze obstaja. Poskusite znova.");
+                                    self::izpitniRokEditForm($id, "Failure", "Napaka, rok na ta datum ze obstaja. Poskusite znova.");
                                 } else {
                                     RokModel::update($id, $data["ID_IZVEDBA"], $data["DATUM_ROKA"], $data["CAS_ROKA"]);
                                     self::izpitniRokAllForm("Success", "Uspesno ste spremenili izbrani rok.");

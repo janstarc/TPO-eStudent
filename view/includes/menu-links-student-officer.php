@@ -36,7 +36,7 @@
                 </a>
             </li>
             <li class="mt">
-                <a href="<?= BASE_URL . "izpitniRok/referent" ?>">
+                <a href="<?= BASE_URL . "izpitniRok/referent/chooseProfesor" ?>">
                     <span>Izpitni Rok</span>
                 </a>
             </li>

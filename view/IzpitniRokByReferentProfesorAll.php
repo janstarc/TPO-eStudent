@@ -6,14 +6,21 @@
     </head>
     <body>
         <section id="container">
-            <?php include("view/includes/menu-links-professor.php"); ?>
+            <?php include("view/includes/menu-links-student-officer.php"); ?>
             <section id="main-content">
                 <section class="wrapper">
                     <div class="row">
 
                         <div class="col-md-12">
                             <div class="content-panel">
-                                <h2><?= $pageTitle ?></h2>
+                                <div class="row">
+                                    <h2><?= $pageTitle ?></h2>
+                                    <form action="<?= BASE_URL . $formAction . $idOseba . "/add/" ?>" method="get">
+                                        <div class="col-xs-12 col-md-6">
+                                            <input class="btn btn-primary btn-sm" type="submit" value="Ustvari nov" />
+                                        </div>
+                                    </form>
+                                </div>
                                 <?php if(isset($status)): ?>
                                     <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -23,6 +30,7 @@
                                 <table id="table-subject" class="table table-striped table-advance table-hover">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Predmet</th>
                                         <th>Datum</th>
                                         <th>Cas</th>
@@ -31,11 +39,16 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                    foreach($roki as $rok): ?>
+                                    <?php $i = 1; foreach($roki as $rok): ?>
                                         <tr>
+                                            <td><?php echo $i; ?></td>
                                             <td><?php echo $rok['IME_PREDMET']; ?></td>
-                                            <td><?php echo $rok['DATUM_ROKA']; ?></td>
+                                            <td>
+                                                <?php
+                                                    list($y, $m, $d) = explode('-', $rok["DATUM_ROKA"]);
+                                                    echo $d."-".$m."-".$y;
+                                                ?>
+                                            </td>
                                             <td><?php echo $rok['CAS_ROKA']; ?></td>
                                             <td>
                                                 <form action="<?= BASE_URL . $formAction . $idOseba . "/edit/" . $rok["ID_ROK"] ?>" method="get">
@@ -53,7 +66,7 @@
                                                 </form>
                                             </td>
                                         </tr>
-                                    <?php endforeach; ?>
+                                    <?php $i = $i + 1; endforeach; ?>
                                     </tbody>
                                 </table>
 

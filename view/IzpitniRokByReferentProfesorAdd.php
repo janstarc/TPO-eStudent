@@ -6,7 +6,7 @@
     </head>
     <body>
         <section id="container">
-            <?php include("view/includes/menu-links-professor.php"); ?>
+            <?php include("view/includes/menu-links-student-officer.php"); ?>
                 <section id="main-content">
                     <section class="wrapper">
                         <div class="row">
@@ -20,7 +20,7 @@
                                 <?php endif; ?>
                                 <form action="<?= BASE_URL . $formAction ?>" method="post" class="form-horizontal">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="DATUM_ROKA" placeholder="Datum: vnesi kot YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required autofocus>
+                                        <input type="text" class="form-control" name="DATUM_ROKA" placeholder="Datum: vnesi kot DD-MM-YYYY" pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" required autofocus>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="CAS_ROKA" placeholder="Cas: vnesi kot HH:MM:SS" pattern="[0-2][0-9]:[0-5][0-9]:[0-5][0-9]" required>
