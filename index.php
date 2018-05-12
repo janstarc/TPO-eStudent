@@ -275,7 +275,6 @@ $urls = [
         else ViewHelper::error405();
     },
 
-
     // SIFRANTI, add code above
     "/^DrzavaAdd$/" => function ($method) {
         if ($method == "GET") SifrantController::getAddDrzava();
