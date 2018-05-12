@@ -33,10 +33,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`del_predmetnika` (
   `TIP` CHAR(2) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   `AKTIVNOST` INT(11) NOT NULL,
   PRIMARY KEY (`ID_DELPREDMETNIKA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 6
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -53,10 +53,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`drzava` (
   `OPOMBA` CHAR(200) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NULL DEFAULT NULL,
   `AKTIVNOST` INT(11) NOT NULL,
   PRIMARY KEY (`ID_DRZAVA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 895
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 895
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -70,10 +70,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`predmet` (
   `AKTIVNOST` INT(11) NOT NULL,
   `ST_KREDITNIH_TOCK` INT(11) NOT NULL DEFAULT '6',
   PRIMARY KEY (`ID_PREDMET`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 9
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 9
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -85,10 +85,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`studijsko_leto` (
   `ID_STUD_LETO` INT(11) NOT NULL AUTO_INCREMENT,
   `STUD_LETO` CHAR(10) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   PRIMARY KEY (`ID_STUD_LETO`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 6
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -109,10 +109,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`oseba` (
   `resetPwExpiration` INT(11) NULL DEFAULT NULL,
   `resetPwUsed` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`ID_OSEBA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 7
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 7
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -129,24 +129,24 @@ CREATE TABLE IF NOT EXISTS `tpo`.`izvedba_predmeta` (
   `ID_PREDMET` INT(11) NOT NULL,
   PRIMARY KEY (`ID_IZVEDBA`),
   CONSTRAINT `FK_RELATIONSHIP_18`
-    FOREIGN KEY (`ID_PREDMET`)
-    REFERENCES `tpo`.`predmet` (`ID_PREDMET`),
+  FOREIGN KEY (`ID_PREDMET`)
+  REFERENCES `tpo`.`predmet` (`ID_PREDMET`),
   CONSTRAINT `FK_RELATIONSHIP_19`
-    FOREIGN KEY (`ID_STUD_LETO`)
-    REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`),
+  FOREIGN KEY (`ID_STUD_LETO`)
+  REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`),
   CONSTRAINT `Je_UCITELJ1`
-    FOREIGN KEY (`ID_OSEBA1`)
-    REFERENCES `tpo`.`oseba` (`ID_OSEBA`),
+  FOREIGN KEY (`ID_OSEBA1`)
+  REFERENCES `tpo`.`oseba` (`ID_OSEBA`),
   CONSTRAINT `Je_UCITELJ2`
-    FOREIGN KEY (`ID_OSEBA2`)
-    REFERENCES `tpo`.`oseba` (`ID_OSEBA`),
+  FOREIGN KEY (`ID_OSEBA2`)
+  REFERENCES `tpo`.`oseba` (`ID_OSEBA`),
   CONSTRAINT `Je_UCITELJ3`
-    FOREIGN KEY (`ID_OSEBA3`)
-    REFERENCES `tpo`.`oseba` (`ID_OSEBA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 5
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  FOREIGN KEY (`ID_OSEBA3`)
+  REFERENCES `tpo`.`oseba` (`ID_OSEBA`))
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 5
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_RELATIONSHIP_18` ON `tpo`.`izvedba_predmeta` (`ID_PREDMET` ASC);
 
@@ -172,11 +172,11 @@ CREATE TABLE IF NOT EXISTS `tpo`.`rok` (
   `AKTIVNOST` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`ID_ROK`),
   CONSTRAINT `FK_RELATIONSHIP_25`
-    FOREIGN KEY (`ID_IZVEDBA`)
-    REFERENCES `tpo`.`izvedba_predmeta` (`ID_IZVEDBA`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  FOREIGN KEY (`ID_IZVEDBA`)
+  REFERENCES `tpo`.`izvedba_predmeta` (`ID_IZVEDBA`))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_RELATIONSHIP_25` ON `tpo`.`rok` (`ID_IZVEDBA` ASC);
 
@@ -192,10 +192,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`oblika_studija` (
   `ANG_OPIS_OBLIKA` CHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NULL DEFAULT NULL,
   `AKTIVNOST` INT(11) NOT NULL,
   PRIMARY KEY (`ID_OBLIKA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -207,10 +207,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`letnik` (
   `ID_LETNIK` INT(11) NOT NULL AUTO_INCREMENT,
   `LETNIK` INT(11) NOT NULL,
   PRIMARY KEY (`ID_LETNIK`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 7
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 7
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -224,10 +224,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`stopnja` (
   `MOZEN_VPIS` INT(11) NOT NULL,
   `SIFRA` CHAR(10) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   PRIMARY KEY (`ID_STOPNJA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 9
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 9
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -245,12 +245,12 @@ CREATE TABLE IF NOT EXISTS `tpo`.`program` (
   `AKTIVNOST` INT(11) NOT NULL,
   PRIMARY KEY (`ID_PROGRAM`),
   CONSTRAINT `FK_STOPNJA`
-    FOREIGN KEY (`ID_STOPNJA`)
-    REFERENCES `tpo`.`stopnja` (`ID_STOPNJA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 21
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  FOREIGN KEY (`ID_STOPNJA`)
+  REFERENCES `tpo`.`stopnja` (`ID_STOPNJA`))
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 21
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_STOPNJA_idx` ON `tpo`.`program` (`ID_STOPNJA` ASC);
 
@@ -265,10 +265,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`vrsta_vpisa` (
   `OPIS_VPISA` CHAR(30) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   `AKTIVNOST` INT(11) NOT NULL,
   PRIMARY KEY (`ID_VRSTAVPISA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -282,10 +282,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`nacin_studija` (
   `ANG_OPIS_NACIN` CHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NULL DEFAULT NULL,
   `AKTIVNOST` INT(11) NOT NULL,
   PRIMARY KEY (`ID_NACIN`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -305,27 +305,27 @@ CREATE TABLE IF NOT EXISTS `tpo`.`vpis` (
   `VPISNA_STEVILKA` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`ID_VPIS`),
   CONSTRAINT `FK_RELATIONSHIP_10`
-    FOREIGN KEY (`ID_OBLIKA`)
-    REFERENCES `tpo`.`oblika_studija` (`ID_OBLIKA`),
+  FOREIGN KEY (`ID_OBLIKA`)
+  REFERENCES `tpo`.`oblika_studija` (`ID_OBLIKA`),
   CONSTRAINT `FK_RELATIONSHIP_11`
-    FOREIGN KEY (`ID_LETNIK`)
-    REFERENCES `tpo`.`letnik` (`ID_LETNIK`),
+  FOREIGN KEY (`ID_LETNIK`)
+  REFERENCES `tpo`.`letnik` (`ID_LETNIK`),
   CONSTRAINT `FK_RELATIONSHIP_12`
-    FOREIGN KEY (`ID_PROGRAM`)
-    REFERENCES `tpo`.`program` (`ID_PROGRAM`),
+  FOREIGN KEY (`ID_PROGRAM`)
+  REFERENCES `tpo`.`program` (`ID_PROGRAM`),
   CONSTRAINT `FK_RELATIONSHIP_16`
-    FOREIGN KEY (`ID_STUD_LETO`)
-    REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`),
+  FOREIGN KEY (`ID_STUD_LETO`)
+  REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`),
   CONSTRAINT `FK_RELATIONSHIP_8`
-    FOREIGN KEY (`ID_VRSTAVPISA`)
-    REFERENCES `tpo`.`vrsta_vpisa` (`ID_VRSTAVPISA`),
+  FOREIGN KEY (`ID_VRSTAVPISA`)
+  REFERENCES `tpo`.`vrsta_vpisa` (`ID_VRSTAVPISA`),
   CONSTRAINT `FK_RELATIONSHIP_9`
-    FOREIGN KEY (`ID_NACIN`)
-    REFERENCES `tpo`.`nacin_studija` (`ID_NACIN`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  FOREIGN KEY (`ID_NACIN`)
+  REFERENCES `tpo`.`nacin_studija` (`ID_NACIN`))
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 3
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_RELATIONSHIP_10` ON `tpo`.`vpis` (`ID_OBLIKA` ASC);
 
@@ -350,21 +350,22 @@ CREATE TABLE IF NOT EXISTS `tpo`.`predmeti_studenta` (
   `VPISNA_STEVILKA` INT(11) NOT NULL,
   `ID_PREDMET` INT(11) NOT NULL,
   `ID_STUD_LETO` INT(11) NOT NULL,
+  `OCENA` INT(11) NOT NULL DEFAULT -1,
   PRIMARY KEY (`ID_PREDMETISTUDENTA`),
   CONSTRAINT `FK_RELATIONSHIP_23`
-    FOREIGN KEY (`VPISNA_STEVILKA`)
-    REFERENCES `tpo`.`student` (`VPISNA_STEVILKA`),
+  FOREIGN KEY (`VPISNA_STEVILKA`)
+  REFERENCES `tpo`.`student` (`VPISNA_STEVILKA`),
   CONSTRAINT `FK_RELATIONSHIP_24`
-    FOREIGN KEY (`ID_PREDMET`)
-    REFERENCES `tpo`.`predmet` (`ID_PREDMET`),
+  FOREIGN KEY (`ID_PREDMET`)
+  REFERENCES `tpo`.`predmet` (`ID_PREDMET`),
   CONSTRAINT `FK_STUD_LETO_2`
-    FOREIGN KEY (`ID_STUD_LETO`)
-    REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`)
+  FOREIGN KEY (`ID_STUD_LETO`)
+  REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_RELATIONSHIP_23` ON `tpo`.`predmeti_studenta` (`VPISNA_STEVILKA` ASC);
 
@@ -391,17 +392,17 @@ CREATE TABLE IF NOT EXISTS `tpo`.`prijava` (
   `DATUM_ROKA` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`ID_PRIJAVA`),
   CONSTRAINT `FK_RELATIONSHIP_26`
-    FOREIGN KEY (`ID_ROK`)
-    REFERENCES `tpo`.`rok` (`ID_ROK`),
+  FOREIGN KEY (`ID_ROK`)
+  REFERENCES `tpo`.`rok` (`ID_ROK`),
   CONSTRAINT `FK_RELATIONSHIP_27`
-    FOREIGN KEY (`ID_PREDMETISTUDENTA`)
-    REFERENCES `tpo`.`predmeti_studenta` (`ID_PREDMETISTUDENTA`),
+  FOREIGN KEY (`ID_PREDMETISTUDENTA`)
+  REFERENCES `tpo`.`predmeti_studenta` (`ID_PREDMETISTUDENTA`),
   CONSTRAINT `FK_RELATIONSHIP_29`
-    FOREIGN KEY (`ID_IZPIT`)
-    REFERENCES `tpo`.`izpit` (`ID_IZPIT`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  FOREIGN KEY (`ID_IZPIT`)
+  REFERENCES `tpo`.`izpit` (`ID_IZPIT`))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_RELATIONSHIP_26` ON `tpo`.`prijava` (`ID_ROK` ASC);
 
@@ -417,18 +418,13 @@ DROP TABLE IF EXISTS `tpo`.`izpit` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`izpit` (
   `ID_IZPIT` INT(11) NOT NULL AUTO_INCREMENT,
-  `ID_PRIJAVA` INT(11) NULL DEFAULT NULL,
   `OCENA_IZPITA` INT(11) NULL DEFAULT NULL,
   `AKTIVNOST` INT(11) NOT NULL,
-  PRIMARY KEY (`ID_IZPIT`),
-  CONSTRAINT `FK_RELATIONSHIP_28`
-    FOREIGN KEY (`ID_PRIJAVA`)
-    REFERENCES `tpo`.`prijava` (`ID_PRIJAVA`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  PRIMARY KEY (`ID_IZPIT`))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
-CREATE INDEX `FK_RELATIONSHIP_28` ON `tpo`.`izpit` (`ID_PRIJAVA` ASC);
 
 
 -- -----------------------------------------------------
@@ -446,24 +442,24 @@ CREATE TABLE IF NOT EXISTS `tpo`.`kandidat` (
   `VPISNA_STEVILKA` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`ID_KANDIDAT`),
   CONSTRAINT `FK_OSEBAID`
-    FOREIGN KEY (`ID_OSEBA`)
-    REFERENCES `tpo`.`oseba` (`ID_OSEBA`)
+  FOREIGN KEY (`ID_OSEBA`)
+  REFERENCES `tpo`.`oseba` (`ID_OSEBA`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_PROGRAM_2`
-    FOREIGN KEY (`ID_PROGRAM`)
-    REFERENCES `tpo`.`program` (`ID_PROGRAM`)
+  FOREIGN KEY (`ID_PROGRAM`)
+  REFERENCES `tpo`.`program` (`ID_PROGRAM`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_STUDLETOID`
-    FOREIGN KEY (`ID_STUD_LETO`)
-    REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`)
+  FOREIGN KEY (`ID_STUD_LETO`)
+  REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_PROGRAM_idx` ON `tpo`.`kandidat` (`ID_PROGRAM` ASC);
 
@@ -483,10 +479,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`posta` (
   `KRAJ` CHAR(30) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   `AKTIVNOST` INT(11) NOT NULL,
   PRIMARY KEY (`ID_POSTA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 470
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 470
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -499,10 +495,10 @@ CREATE TABLE IF NOT EXISTS `tpo`.`obcina` (
   `IME_OBCINA` CHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   `AKTIVNOST` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`ID_OBCINA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 214
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 214
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 
 -- -----------------------------------------------------
@@ -522,21 +518,21 @@ CREATE TABLE IF NOT EXISTS `tpo`.`naslov` (
   `HISNA_STEVILKA` CHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NULL DEFAULT NULL,
   PRIMARY KEY (`ID_NASLOV`),
   CONSTRAINT `FK_RELATIONSHIP_30`
-    FOREIGN KEY (`ID_POSTA`)
-    REFERENCES `tpo`.`posta` (`ID_POSTA`),
+  FOREIGN KEY (`ID_POSTA`)
+  REFERENCES `tpo`.`posta` (`ID_POSTA`),
   CONSTRAINT `FK_RELATIONSHIP_31`
-    FOREIGN KEY (`ID_OBCINA`)
-    REFERENCES `tpo`.`obcina` (`ID_OBCINA`),
+  FOREIGN KEY (`ID_OBCINA`)
+  REFERENCES `tpo`.`obcina` (`ID_OBCINA`),
   CONSTRAINT `FK_RELATIONSHIP_32`
-    FOREIGN KEY (`ID_OSEBA`)
-    REFERENCES `tpo`.`oseba` (`ID_OSEBA`),
+  FOREIGN KEY (`ID_OSEBA`)
+  REFERENCES `tpo`.`oseba` (`ID_OSEBA`),
   CONSTRAINT `FK_RELATIONSHIP_33`
-    FOREIGN KEY (`ID_DRZAVA`)
-    REFERENCES `tpo`.`drzava` (`ID_DRZAVA`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  FOREIGN KEY (`ID_DRZAVA`)
+  REFERENCES `tpo`.`drzava` (`ID_DRZAVA`))
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 3
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_RELATIONSHIP_30` ON `tpo`.`naslov` (`ID_POSTA` ASC);
 
@@ -562,28 +558,28 @@ CREATE TABLE IF NOT EXISTS `tpo`.`predmetnik` (
   `AKTIVNOST` INT(11) NOT NULL,
   PRIMARY KEY (`ID_PREDMETNIK`),
   CONSTRAINT `FK_DELPREDMETNIKA`
-    FOREIGN KEY (`ID_DELPREDMETNIKA`)
-    REFERENCES `tpo`.`del_predmetnika` (`ID_DELPREDMETNIKA`)
+  FOREIGN KEY (`ID_DELPREDMETNIKA`)
+  REFERENCES `tpo`.`del_predmetnika` (`ID_DELPREDMETNIKA`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_PREDMET`
-    FOREIGN KEY (`ID_PREDMET`)
-    REFERENCES `tpo`.`predmet` (`ID_PREDMET`)
+  FOREIGN KEY (`ID_PREDMET`)
+  REFERENCES `tpo`.`predmet` (`ID_PREDMET`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_RELATIONSHIP_13`
-    FOREIGN KEY (`ID_PROGRAM`)
-    REFERENCES `tpo`.`program` (`ID_PROGRAM`),
+  FOREIGN KEY (`ID_PROGRAM`)
+  REFERENCES `tpo`.`program` (`ID_PROGRAM`),
   CONSTRAINT `FK_RELATIONSHIP_14`
-    FOREIGN KEY (`ID_LETNIK`)
-    REFERENCES `tpo`.`letnik` (`ID_LETNIK`),
+  FOREIGN KEY (`ID_LETNIK`)
+  REFERENCES `tpo`.`letnik` (`ID_LETNIK`),
   CONSTRAINT `FK_RELATIONSHIP_17`
-    FOREIGN KEY (`ID_STUD_LETO`)
-    REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 9
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  FOREIGN KEY (`ID_STUD_LETO`)
+  REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`))
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 9
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_RELATIONSHIP_13` ON `tpo`.`predmetnik` (`ID_PROGRAM` ASC);
 
@@ -612,22 +608,22 @@ CREATE TABLE IF NOT EXISTS `tpo`.`student` (
   `POVPRECNA_OCENA_OPRAVLJENIH_IZPITOV` FLOAT NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`VPISNA_STEVILKA`),
   CONSTRAINT `FK_INHERITANCE_3`
-    FOREIGN KEY (`ID_OSEBA`)
-    REFERENCES `tpo`.`oseba` (`ID_OSEBA`),
+  FOREIGN KEY (`ID_OSEBA`)
+  REFERENCES `tpo`.`oseba` (`ID_OSEBA`),
   CONSTRAINT `FK_PROGRAM_1`
-    FOREIGN KEY (`ID_PROGRAM`)
-    REFERENCES `tpo`.`program` (`ID_PROGRAM`)
+  FOREIGN KEY (`ID_PROGRAM`)
+  REFERENCES `tpo`.`program` (`ID_PROGRAM`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_RELATIONSHIP_5`
-    FOREIGN KEY (`ID_KANDIDAT`)
-    REFERENCES `tpo`.`kandidat` (`ID_KANDIDAT`),
+  FOREIGN KEY (`ID_KANDIDAT`)
+  REFERENCES `tpo`.`kandidat` (`ID_KANDIDAT`),
   CONSTRAINT `FK_RELATIONSHIP_6`
-    FOREIGN KEY (`ID_VPIS`)
-    REFERENCES `tpo`.`vpis` (`ID_VPIS`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_slovenian_ci;
+  FOREIGN KEY (`ID_VPIS`)
+  REFERENCES `tpo`.`vpis` (`ID_VPIS`))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8
+  COLLATE = utf8_slovenian_ci;
 
 CREATE INDEX `FK_INHERITANCE_3` ON `tpo`.`student` (`ID_OSEBA` ASC);
 
@@ -657,40 +653,39 @@ CREATE TABLE IF NOT EXISTS `tpo`.`zeton` (
   `PROSTA_IZBIRNOST` INT(11) NULL DEFAULT '0',
   PRIMARY KEY (`ID_ZETON`),
   CONSTRAINT `FK_LETNIK_1`
-    FOREIGN KEY (`ID_LETNIK`)
-    REFERENCES `tpo`.`letnik` (`ID_LETNIK`)
+  FOREIGN KEY (`ID_LETNIK`)
+  REFERENCES `tpo`.`letnik` (`ID_LETNIK`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_RELATIONSHIP_7`
-    FOREIGN KEY (`ID_OSEBA`)
-    REFERENCES `tpo`.`student` (`ID_OSEBA`),
+  FOREIGN KEY (`ID_OSEBA`)
+  REFERENCES `tpo`.`student` (`ID_OSEBA`),
   CONSTRAINT `FK_STUD_LETO_1`
-    FOREIGN KEY (`ID_STUD_LETO`)
-    REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`)
+  FOREIGN KEY (`ID_STUD_LETO`)
+  REFERENCES `tpo`.`studijsko_leto` (`ID_STUD_LETO`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_zeton_nacin_studija1`
-    FOREIGN KEY (`ID_NACIN`)
-    REFERENCES `tpo`.`nacin_studija` (`ID_NACIN`)
+  FOREIGN KEY (`ID_NACIN`)
+  REFERENCES `tpo`.`nacin_studija` (`ID_NACIN`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_zeton_oblika_studija1`
-    FOREIGN KEY (`ID_OBLIKA`)
-    REFERENCES `tpo`.`oblika_studija` (`ID_OBLIKA`)
+  FOREIGN KEY (`ID_OBLIKA`)
+  REFERENCES `tpo`.`oblika_studija` (`ID_OBLIKA`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_zeton_program1`
-    FOREIGN KEY (`ID_PROGRAM`)
-    REFERENCES `tpo`.`program` (`ID_PROGRAM`)
+  FOREIGN KEY (`ID_PROGRAM`)
+  REFERENCES `tpo`.`program` (`ID_PROGRAM`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_zeton_vrsta_vpisa1`
-    FOREIGN KEY (`ID_VRSTAVPISA`)
-    REFERENCES `tpo`.`vrsta_vpisa` (`ID_VRSTAVPISA`)
+  FOREIGN KEY (`ID_VRSTAVPISA`)
+  REFERENCES `tpo`.`vrsta_vpisa` (`ID_VRSTAVPISA`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_zeton_oseba_letnik`
-  UNIQUE (`ID_OSEBA`,`ID_LETNIK`))
+    ON UPDATE NO ACTION
+  )
   ENGINE = InnoDB
   AUTO_INCREMENT = 3
   DEFAULT CHARACTER SET = utf8
@@ -1188,475 +1183,475 @@ INSERT INTO `tpo`.`letnik`
   (3,3);
 
 INSERT INTO `tpo`.`posta`(`ID_POSTA`, `ST_POSTA`,`KRAJ`,`AKTIVNOST`) VALUES
-(1, 8341, 'Adlešiči', 1),
-(2, 5270, 'Ajdovščina', 1),
-(3, 6280, 'Ankaran/Ancarano', 1),
-(4, 9253, 'Apače', 1),
-(5, 8253, 'Artiče', 1),
-(6, 4275, 'Begunje na Gorenjskem', 1),
-(7, 1382, 'Begunje pri Cerknici', 1),
-(8, 9231, 'Beltinci', 1),
-(9, 2234, 'Benedikt', 1),
-(10, 2345, 'Bistrica ob Dravi', 1),
-(11, 3256, 'Bistrica ob Sotli', 1),
-(12, 8259, 'Bizeljsko', 1),
-(13, 1223, 'Blagovica', 1),
-(14, 8283, 'Blanca', 1),
-(15, 4260, 'Bled', 1),
-(16, 4273, 'Blejska Dobrava', 1),
-(17, 9265, 'Bodonci', 1),
-(18, 9222, 'Bogojina', 1),
-(19, 4263, 'Bohinjska Bela', 1),
-(20, 4264, 'Bohinjska Bistrica', 1),
-(21, 4265, 'Bohinjsko jezero', 1),
-(22, 1353, 'Borovnica', 1),
-(23, 8294, 'Boštanj', 1),
-(24, 5230, 'Bovec', 1),
-(25, 5295, 'Branik', 1),
-(26, 3314, 'Braslovče', 1),
-(27, 5223, 'Breginj', 1),
-(28, 8280, 'Brestanica', 1),
-(29, 2354, 'Bresternica', 1),
-(30, 4243, 'Brezje', 1),
-(31, 1351, 'Brezovica pri Ljubljani', 1),
-(32, 8250, 'Brežice', 1),
-(33, 4210, 'Brnik - Aerodrom', 1),
-(34, 8321, 'Brusnice', 1),
-(35, 3255, 'Buče', 1),
-(36, 8276, 'Bučka', 1),
-(37, 9261, 'Cankova', 1),
-(38, 3000, 'Celje', 1),
-(39, 4207, 'Cerklje na Gorenjskem', 1),
-(40, 8263, 'Cerklje ob Krki', 1),
-(41, 1380, 'Cerknica', 1),
-(42, 5282, 'Cerkno', 1),
-(43, 2236, 'Cerkvenjak', 1),
-(44, 2215, 'Ceršak', 1),
-(45, 2326, 'Cirkovce', 1),
-(46, 2282, 'Cirkulane', 1),
-(47, 5273, 'Col', 1),
-(48, 8251, 'Čatež ob Savi', 1),
-(49, 1413, 'Čemšenik', 1),
-(50, 5253, 'Čepovan', 1),
-(51, 9232, 'Črenšovci', 1),
-(52, 2393, 'Črna na Koroškem', 1),
-(53, 6275, 'Črni Kal', 1),
-(54, 5274, 'Črni Vrh nad Idrijo', 1),
-(55, 5262, 'Črniče', 1),
-(56, 8340, 'Črnomelj', 1),
-(57, 6271, 'Dekani', 1),
-(58, 5210, 'Deskle', 1),
-(59, 2253, 'Destrnik', 1),
-(60, 6215, 'Divača', 1),
-(61, 1233, 'Dob', 1),
-(62, 3224, 'Dobje pri Planini', 1),
-(63, 8257, 'Dobova', 1),
-(64, 1423, 'Dobovec', 1),
-(65, 5263, 'Dobravlje', 1),
-(66, 3204, 'Dobrna', 1),
-(67, 8211, 'Dobrnič', 1),
-(68, 1356, 'Dobrova', 1),
-(69, 9223, 'Dobrovnik/Dobronak', 1),
-(70, 5212, 'Dobrovo v Brdih', 1),
-(71, 1431, 'Dol pri Hrastniku', 1),
-(72, 1262, 'Dol pri Ljubljani', 1),
-(73, 1273, 'Dole pri Litiji', 1),
-(74, 1331, 'Dolenja vas', 1),
-(75, 8350, 'Dolenjske Toplice', 1),
-(76, 1230, 'Domžale', 1),
-(77, 2252, 'Dornava', 1),
-(78, 5294, 'Dornberk', 1),
-(79, 1319, 'Draga', 1),
-(80, 8343, 'Dragatuš', 1),
-(81, 3222, 'Dramlje', 1),
-(82, 2370, 'Dravograd', 1),
-(83, 4203, 'Duplje', 1),
-(84, 6221, 'Dutovlje', 1),
-(85, 8361, 'Dvor', 1),
-(86, 2343, 'Fala', 1),
-(87, 9208, 'Fokovci', 1),
-(88, 2313, 'Fram', 1),
-(89, 3213, 'Frankolovo', 1),
-(90, 1274, 'Gabrovka', 1),
-(91, 8254, 'Globoko', 1),
-(92, 5275, 'Godovič', 1),
-(93, 4204, 'Golnik', 1),
-(94, 3303, 'Gomilsko', 1),
-(95, 4224, 'Gorenja vas', 1),
-(96, 3263, 'Gorica pri Slivnici', 1),
-(97, 2272, 'Gorišnica', 1),
-(98, 9250, 'Gornja Radgona', 1),
-(99, 3342, 'Gornji Grad', 1),
-(100, 4282, 'Gozd Martuljek', 1),
-(101, 6272, 'Gračišče', 1),
-(102, 9264, 'Grad', 1),
-(103, 8332, 'Gradac', 1),
-(104, 1384, 'Grahovo', 1),
-(105, 5242, 'Grahovo ob Bači', 1),
-(106, 5251, 'Grgar', 1),
-(107, 3302, 'Griže', 1),
-(108, 3231, 'Grobelno', 1),
-(109, 1290, 'Grosuplje', 1),
-(110, 2288, 'Hajdina', 1),
-(111, 8362, 'Hinje', 1),
-(112, 2311, 'Hoče', 1),
-(113, 9205, 'Hodoš/Hodos', 1),
-(114, 1354, 'Horjul', 1),
-(115, 1372, 'Hotedršica', 1),
-(116, 1430, 'Hrastnik', 1),
-(117, 6225, 'Hruševje', 1),
-(118, 4276, 'Hrušica', 1),
-(119, 5280, 'Idrija', 1),
-(120, 1292, 'Ig', 1),
-(121, 6250, 'Ilirska Bistrica', 1),
-(122, 6251, 'Ilirska Bistrica-Trnovo', 1),
-(123, 1295, 'Ivančna Gorica', 1),
-(124, 2259, 'Ivanjkovci', 1),
-(125, 1411, 'Izlake', 1),
-(126, 6310, 'Izola/Isola', 1),
-(127, 2222, 'Jakobski Dol', 1),
-(128, 2221, 'Jarenina', 1),
-(129, 6254, 'Jelšane', 1),
-(130, 4270, 'Jesenice', 1),
-(131, 8261, 'Jesenice na Dolenjskem', 1),
-(132, 3273, 'Jurklošter', 1),
-(133, 2223, 'Jurovski Dol', 1),
-(134, 2256, 'Juršinci', 1),
-(135, 5214, 'Kal nad Kanalom', 1),
-(136, 3233, 'Kalobje', 1),
-(137, 4246, 'Kamna Gorica', 1),
-(138, 2351, 'Kamnica', 1),
-(139, 1241, 'Kamnik', 1),
-(140, 5213, 'Kanal', 1),
-(141, 8258, 'Kapele', 1),
-(142, 2362, 'Kapla', 1),
-(143, 2325, 'Kidričevo', 1),
-(144, 1412, 'Kisovec', 1),
-(145, 6253, 'Knežak', 1),
-(146, 5222, 'Kobarid', 1),
-(147, 9227, 'Kobilje', 1),
-(148, 1330, 'Kočevje', 1),
-(149, 1338, 'Kočevska Reka', 1),
-(150, 2276, 'Kog', 1),
-(151, 5211, 'Kojsko', 1),
-(152, 6223, 'Komen', 1),
-(153, 1218, 'Komenda', 1),
-(154, 6000, 'Koper/Capodistria', 1),
-(155, 8282, 'Koprivnica', 1),
-(156, 5296, 'Kostanjevica na Krasu', 1),
-(157, 8311, 'Kostanjevica na Krki', 1),
-(158, 1336, 'Kostel', 1),
-(159, 6256, 'Košana', 1),
-(160, 2394, 'Kotlje', 1),
-(161, 6240, 'Kozina', 1),
-(162, 3260, 'Kozje', 1),
-(163, 4000, 'Kranj', 1),
-(164, 4280, 'Kranjska Gora', 1),
-(165, 1281, 'Kresnice', 1),
-(166, 4294, 'Križe', 1),
-(167, 9206, 'Križevci', 1),
-(168, 9242, 'Križevci pri Ljutomeru', 1),
-(169, 1301, 'Krka', 1),
-(170, 8296, 'Krmelj', 1),
-(171, 4245, 'Kropa', 1),
-(172, 8262, 'Krška vas', 1),
-(173, 8270, 'Krško', 1),
-(174, 9263, 'Kuzma', 1),
-(175, 2318, 'Laporje', 1),
-(176, 3270, 'Laško', 1),
-(177, 1219, 'Laze v Tuhinju', 1),
-(178, 2230, 'Lenart v Slovenskih goricah', 1),
-(179, 9220, 'Lendava/Lendva', 1),
-(180, 4248, 'Lesce', 1),
-(181, 3261, 'Lesično', 1),
-(182, 8273, 'Leskovec pri Krškem', 1),
-(183, 2372, 'Libeliče', 1),
-(184, 2341, 'Limbuš', 1),
-(185, 1270, 'Litija', 1),
-(186, 3202, 'Ljubečna', 1),
-(187, 1000, 'Ljubljana', 1),
-(188, 1231, 'Ljubljana - Črnuče', 1),
-(189, 1261, 'Ljubljana - Dobrunje', 1),
-(190, 1260, 'Ljubljana - Polje', 1),
-(191, 1210, 'Ljubljana - Šentvid', 1),
-(192, 1211, 'Ljubljana - Šmartno', 1),
-(193, 3333, 'Ljubno ob Savinji', 1),
-(194, 9240, 'Ljutomer', 1),
-(195, 3215, 'Loče', 1),
-(196, 5231, 'Log pod Mangartom', 1),
-(197, 1358, 'Log pri Brezovici', 1),
-(198, 1370, 'Logatec', 1),
-(199, 1371, 'Logatec', 1),
-(200, 1434, 'Loka pri Zidanem Mostu', 1),
-(201, 3223, 'Loka pri Žusmu', 1),
-(202, 6219, 'Lokev', 1),
-(203, 1318, 'Loški Potok', 1),
-(204, 2324, 'Lovrenc na Dravskem polju', 1),
-(205, 2344, 'Lovrenc na Pohorju', 1),
-(206, 3334, 'Luče', 1),
-(207, 1225, 'Lukovica', 1),
-(208, 9202, 'Mačkovci', 1),
-(209, 2322, 'Majšperk', 1),
-(210, 2321, 'Makole', 1),
-(211, 9243, 'Mala Nedelja', 1),
-(212, 2229, 'Malečnik', 1),
-(213, 6273, 'Marezige', 1),
-(214, 2000, 'Maribor', 1),
-(215, 2206, 'Marjeta na Dravskem polju', 1),
-(216, 2281, 'Markovci', 1),
-(217, 9221, 'Martjanci', 1),
-(218, 6242, 'Materija', 1),
-(219, 4211, 'Mavčiče', 1),
-(220, 1215, 'Medvode', 1),
-(221, 1234, 'Mengeš', 1),
-(222, 8330, 'Metlika', 1),
-(223, 2392, 'Mežica', 1),
-(224, 2204, 'Miklavž na Dravskem polju', 1),
-(225, 2275, 'Miklavž pri Ormožu', 1),
-(226, 5291, 'Miren', 1),
-(227, 8233, 'Mirna', 1),
-(228, 8216, 'Mirna Peč', 1),
-(229, 2382, 'Mislinja', 1),
-(230, 4281, 'Mojstrana', 1),
-(231, 8230, 'Mokronog', 1),
-(232, 1251, 'Moravče', 1),
-(233, 9226, 'Moravske Toplice', 1),
-(234, 5216, 'Most na Soči', 1),
-(235, 1221, 'Motnik', 1),
-(236, 3330, 'Mozirje', 1),
-(237, 9000, 'Murska Sobota', 1),
-(238, 2366, 'Muta', 1),
-(239, 4202, 'Naklo', 1),
-(240, 3331, 'Nazarje', 1),
-(241, 1357, 'Notranje Gorice', 1),
-(242, 3203, 'Nova Cerkev', 1),
-(243, 5000, 'Nova Gorica', 1),
-(244, 1385, 'Nova vas', 1),
-(245, 8000, 'Novo mesto', 1),
-(246, 6243, 'Obrov', 1),
-(247, 9233, 'Odranci', 1),
-(248, 2317, 'Oplotnica', 1),
-(249, 2312, 'Orehova vas', 1),
-(250, 2270, 'Ormož', 1),
-(251, 1316, 'Ortnek', 1),
-(252, 1337, 'Osilnica', 1),
-(253, 8222, 'Otočec', 1),
-(254, 2361, 'Ožbalt', 1),
-(255, 2231, 'Pernica', 1),
-(256, 2211, 'Pesnica pri Mariboru', 1),
-(257, 9203, 'Petrovci', 1),
-(258, 3301, 'Petrovče', 1),
-(259, 6330, 'Piran/Pirano', 1),
-(260, 8255, 'Pišece', 1),
-(261, 6257, 'Pivka', 1),
-(262, 6232, 'Planina', 1),
-(263, 3225, 'Planina pri Sevnici', 1),
-(264, 6276, 'Pobegi', 1),
-(265, 8312, 'Podbočje', 1),
-(266, 5243, 'Podbrdo', 1),
-(267, 3254, 'Podčetrtek', 1),
-(268, 2273, 'Podgorci', 1),
-(269, 6216, 'Podgorje', 1),
-(270, 2381, 'Podgorje pri Slovenj Gradcu', 1),
-(271, 6244, 'Podgrad', 1),
-(272, 1414, 'Podkum', 1),
-(273, 2286, 'Podlehnik', 1),
-(274, 5272, 'Podnanos', 1),
-(275, 4244, 'Podnart', 1),
-(276, 3241, 'Podplat', 1),
-(277, 3257, 'Podsreda', 1),
-(278, 2363, 'Podvelka', 1),
-(279, 2208, 'Pohorje', 1),
-(280, 2257, 'Polenšak', 1),
-(281, 1355, 'Polhov Gradec', 1),
-(282, 4223, 'Poljane nad Škofjo Loko', 1),
-(283, 2319, 'Poljčane', 1),
-(284, 1272, 'Polšnik', 1),
-(285, 3313, 'Polzela', 1),
-(286, 3232, 'Ponikva', 1),
-(287, 6320, 'Portorož/Portorose', 1),
-(288, 6230, 'Postojna', 1),
-(289, 2331, 'Pragersko', 1),
-(290, 3312, 'Prebold', 1),
-(291, 4205, 'Preddvor', 1),
-(292, 6255, 'Prem', 1),
-(293, 1352, 'Preserje', 1),
-(294, 6258, 'Prestranek', 1),
-(295, 2391, 'Prevalje', 1),
-(296, 3262, 'Prevorje', 1),
-(297, 1276, 'Primskovo', 1),
-(298, 3253, 'Pristava pri Mestinju', 1),
-(299, 9207, 'Prosenjakovci/Partosfalva', 1),
-(300, 5297, 'Prvačina', 1),
-(301, 2250, 'Ptuj', 1),
-(302, 2323, 'Ptujska Gora', 1),
-(303, 9201, 'Puconci', 1),
-(304, 2327, 'Rače', 1),
-(305, 1433, 'Radeče', 1),
-(306, 9252, 'Radenci', 1),
-(307, 2360, 'Radlje ob Dravi', 1),
-(308, 1235, 'Radomlje', 1),
-(309, 4240, 'Radovljica', 1),
-(310, 8274, 'Raka', 1),
-(311, 1381, 'Rakek', 1),
-(312, 4283, 'Rateče - Planica', 1),
-(313, 2390, 'Ravne na Koroškem', 1),
-(314, 9246, 'Razkrižje', 1),
-(315, 3332, 'Rečica ob Savinji', 1),
-(316, 5292, 'Renče', 1),
-(317, 1310, 'Ribnica', 1),
-(318, 2364, 'Ribnica na Pohorju', 1),
-(319, 3272, 'Rimske Toplice', 1),
-(320, 1314, 'Rob', 1),
-(321, 5215, 'Ročinj', 1),
-(322, 3250, 'Rogaška Slatina', 1),
-(323, 9262, 'Rogašovci', 1),
-(324, 3252, 'Rogatec', 1),
-(325, 1373, 'Rovte', 1),
-(326, 2342, 'Ruše', 1),
-(327, 1282, 'Sava', 1),
-(328, 6333, 'Sečovlje/Sicciole', 1),
-(329, 4227, 'Selca', 1),
-(330, 2352, 'Selnica ob Dravi', 1),
-(331, 8333, 'Semič', 1),
-(332, 8281, 'Senovo', 1),
-(333, 6224, 'Senožeče', 1),
-(334, 8290, 'Sevnica', 1),
-(335, 6210, 'Sežana', 1),
-(336, 2214, 'Sladki Vrh', 1),
-(337, 5283, 'Slap ob Idrijci', 1),
-(338, 2380, 'Slovenj Gradec', 1),
-(339, 2310, 'Slovenska Bistrica', 1),
-(340, 3210, 'Slovenske Konjice', 1),
-(341, 1216, 'Smlednik', 1),
-(342, 5232, 'Soča', 1),
-(343, 1317, 'Sodražica', 1),
-(344, 3335, 'Solčava', 1),
-(345, 5250, 'Solkan', 1),
-(346, 4229, 'Sorica', 1),
-(347, 4225, 'Sovodenj', 1),
-(348, 5281, 'Spodnja Idrija', 1),
-(349, 2241, 'Spodnji Duplek', 1),
-(350, 9245, 'Spodnji Ivanjci', 1),
-(351, 2277, 'Središče ob Dravi', 1),
-(352, 4267, 'Srednja vas v Bohinju', 1),
-(353, 8256, 'Sromlje', 1),
-(354, 5224, 'Srpenica', 1),
-(355, 1242, 'Stahovica', 1),
-(356, 1332, 'Stara Cerkev', 1),
-(357, 8342, 'Stari trg ob Kolpi', 1),
-(358, 1386, 'Stari trg pri Ložu', 1),
-(359, 2205, 'Starše', 1),
-(360, 2289, 'Stoperce', 1),
-(361, 8322, 'Stopiče', 1),
-(362, 3206, 'Stranice', 1),
-(363, 8351, 'Straža', 1),
-(364, 1313, 'Struge', 1),
-(365, 8293, 'Studenec', 1),
-(366, 8331, 'Suhor', 1),
-(367, 2233, 'Sv. Ana v Slovenskih goricah', 1),
-(368, 2235, 'Sv. Trojica v Slovenskih goricah', 1),
-(369, 2353, 'Sveti Duh na Ostrem Vrhu', 1),
-(370, 9244, 'Sveti Jurij ob Ščavnici', 1),
-(371, 3264, 'Sveti Štefan', 1),
-(372, 2258, 'Sveti Tomaž', 1),
-(373, 9204, 'Šalovci', 1),
-(374, 5261, 'Šempas', 1),
-(375, 5290, 'Šempeter pri Gorici', 1),
-(376, 3311, 'Šempeter v Savinjski dolini', 1),
-(377, 4208, 'Šenčur', 1),
-(378, 2212, 'Šentilj v Slovenskih goricah', 1),
-(379, 8297, 'Šentjanž', 1),
-(380, 2373, 'Šentjanž pri Dravogradu', 1),
-(381, 8310, 'Šentjernej', 1),
-(382, 3230, 'Šentjur', 1),
-(383, 3271, 'Šentrupert', 1),
-(384, 8232, 'Šentrupert', 1),
-(385, 1296, 'Šentvid pri Stični', 1),
-(386, 8275, 'Škocjan', 1),
-(387, 6281, 'Škofije', 1),
-(388, 4220, 'Škofja Loka', 1),
-(389, 3211, 'Škofja vas', 1),
-(390, 1291, 'Škofljica', 1),
-(391, 6274, 'Šmarje', 1),
-(392, 1293, 'Šmarje - Sap', 1),
-(393, 3240, 'Šmarje pri Jelšah', 1),
-(394, 8220, 'Šmarješke Toplice', 1),
-(395, 2315, 'Šmartno na Pohorju', 1),
-(396, 3341, 'Šmartno ob Dreti', 1),
-(397, 3327, 'Šmartno ob Paki', 1),
-(398, 1275, 'Šmartno pri Litiji', 1),
-(399, 2383, 'Šmartno pri Slovenj Gradcu', 1),
-(400, 3201, 'Šmartno v Rožni dolini', 1),
-(401, 3325, 'Šoštanj', 1),
-(402, 6222, 'Štanjel', 1),
-(403, 3220, 'Štore', 1),
-(404, 3304, 'Tabor', 1),
-(405, 3221, 'Teharje', 1),
-(406, 9251, 'Tišina', 1),
-(407, 5220, 'Tolmin', 1),
-(408, 3326, 'Topolšica', 1),
-(409, 2371, 'Trbonje', 1),
-(410, 1420, 'Trbovlje', 1),
-(411, 8231, 'Trebelno', 1),
-(412, 8210, 'Trebnje', 1),
-(413, 5252, 'Trnovo pri Gorici', 1),
-(414, 2254, 'Trnovska vas', 1),
-(415, 1222, 'Trojane', 1),
-(416, 1236, 'Trzin', 1),
-(417, 4290, 'Tržič', 1),
-(418, 8295, 'Tržišče', 1),
-(419, 1311, 'Turjak', 1),
-(420, 9224, 'Turnišče', 1),
-(421, 8323, 'Uršna sela', 1),
-(422, 1252, 'Vače', 1),
-(423, 3320, 'Velenje', 1),
-(424, 8212, 'Velika Loka', 1),
-(425, 2274, 'Velika Nedelja', 1),
-(426, 9225, 'Velika Polana', 1),
-(427, 1315, 'Velike Lašče', 1),
-(428, 8213, 'Veliki Gaber', 1),
-(429, 9241, 'Veržej', 1),
-(430, 1312, 'Videm - Dobrepolje', 1),
-(431, 2284, 'Videm pri Ptuju', 1),
-(432, 8344, 'Vinica', 1),
-(433, 5271, 'Vipava', 1),
-(434, 4212, 'Visoko', 1),
-(435, 1294, 'Višnja Gora', 1),
-(436, 3205, 'Vitanje', 1),
-(437, 2255, 'Vitomarci', 1),
-(438, 1217, 'Vodice', 1),
-(439, 3212, 'Vojnik', 1),
-(440, 5293, 'Volčja Draga', 1),
-(441, 2232, 'Voličina', 1),
-(442, 3305, 'Vransko', 1),
-(443, 6217, 'Vremski Britof', 1),
-(444, 1360, 'Vrhnika', 1),
-(445, 2365, 'Vuhred', 1),
-(446, 2367, 'Vuzenica', 1),
-(447, 8292, 'Zabukovje', 1),
-(448, 1410, 'Zagorje ob Savi', 1),
-(449, 1303, 'Zagradec', 1),
-(450, 2283, 'Zavrč', 1),
-(451, 8272, 'Zdole', 1),
-(452, 4201, 'Zgornja Besnica', 1),
-(453, 2242, 'Zgornja Korena', 1),
-(454, 2201, 'Zgornja Kungota', 1),
-(455, 2316, 'Zgornja Ložnica', 1),
-(456, 2314, 'Zgornja Polskava', 1),
-(457, 2213, 'Zgornja Velka', 1),
-(458, 4247, 'Zgornje Gorje', 1),
-(459, 4206, 'Zgornje Jezersko', 1),
-(460, 2285, 'Zgornji Leskovec', 1),
-(461, 1432, 'Zidani Most', 1),
-(462, 3214, 'Zreče', 1),
-(463, 4209, 'Žabnica', 1),
-(464, 3310, 'Žalec', 1),
-(465, 4228, 'Železniki', 1),
-(466, 2287, 'Žetale', 1),
-(467, 4226, 'Žiri', 1),
-(468, 4274, 'Žirovnica', 1),
-(469, 8360, 'Žužemberk', 1);
+  (1, 8341, 'Adlešiči', 1),
+  (2, 5270, 'Ajdovščina', 1),
+  (3, 6280, 'Ankaran/Ancarano', 1),
+  (4, 9253, 'Apače', 1),
+  (5, 8253, 'Artiče', 1),
+  (6, 4275, 'Begunje na Gorenjskem', 1),
+  (7, 1382, 'Begunje pri Cerknici', 1),
+  (8, 9231, 'Beltinci', 1),
+  (9, 2234, 'Benedikt', 1),
+  (10, 2345, 'Bistrica ob Dravi', 1),
+  (11, 3256, 'Bistrica ob Sotli', 1),
+  (12, 8259, 'Bizeljsko', 1),
+  (13, 1223, 'Blagovica', 1),
+  (14, 8283, 'Blanca', 1),
+  (15, 4260, 'Bled', 1),
+  (16, 4273, 'Blejska Dobrava', 1),
+  (17, 9265, 'Bodonci', 1),
+  (18, 9222, 'Bogojina', 1),
+  (19, 4263, 'Bohinjska Bela', 1),
+  (20, 4264, 'Bohinjska Bistrica', 1),
+  (21, 4265, 'Bohinjsko jezero', 1),
+  (22, 1353, 'Borovnica', 1),
+  (23, 8294, 'Boštanj', 1),
+  (24, 5230, 'Bovec', 1),
+  (25, 5295, 'Branik', 1),
+  (26, 3314, 'Braslovče', 1),
+  (27, 5223, 'Breginj', 1),
+  (28, 8280, 'Brestanica', 1),
+  (29, 2354, 'Bresternica', 1),
+  (30, 4243, 'Brezje', 1),
+  (31, 1351, 'Brezovica pri Ljubljani', 1),
+  (32, 8250, 'Brežice', 1),
+  (33, 4210, 'Brnik - Aerodrom', 1),
+  (34, 8321, 'Brusnice', 1),
+  (35, 3255, 'Buče', 1),
+  (36, 8276, 'Bučka', 1),
+  (37, 9261, 'Cankova', 1),
+  (38, 3000, 'Celje', 1),
+  (39, 4207, 'Cerklje na Gorenjskem', 1),
+  (40, 8263, 'Cerklje ob Krki', 1),
+  (41, 1380, 'Cerknica', 1),
+  (42, 5282, 'Cerkno', 1),
+  (43, 2236, 'Cerkvenjak', 1),
+  (44, 2215, 'Ceršak', 1),
+  (45, 2326, 'Cirkovce', 1),
+  (46, 2282, 'Cirkulane', 1),
+  (47, 5273, 'Col', 1),
+  (48, 8251, 'Čatež ob Savi', 1),
+  (49, 1413, 'Čemšenik', 1),
+  (50, 5253, 'Čepovan', 1),
+  (51, 9232, 'Črenšovci', 1),
+  (52, 2393, 'Črna na Koroškem', 1),
+  (53, 6275, 'Črni Kal', 1),
+  (54, 5274, 'Črni Vrh nad Idrijo', 1),
+  (55, 5262, 'Črniče', 1),
+  (56, 8340, 'Črnomelj', 1),
+  (57, 6271, 'Dekani', 1),
+  (58, 5210, 'Deskle', 1),
+  (59, 2253, 'Destrnik', 1),
+  (60, 6215, 'Divača', 1),
+  (61, 1233, 'Dob', 1),
+  (62, 3224, 'Dobje pri Planini', 1),
+  (63, 8257, 'Dobova', 1),
+  (64, 1423, 'Dobovec', 1),
+  (65, 5263, 'Dobravlje', 1),
+  (66, 3204, 'Dobrna', 1),
+  (67, 8211, 'Dobrnič', 1),
+  (68, 1356, 'Dobrova', 1),
+  (69, 9223, 'Dobrovnik/Dobronak', 1),
+  (70, 5212, 'Dobrovo v Brdih', 1),
+  (71, 1431, 'Dol pri Hrastniku', 1),
+  (72, 1262, 'Dol pri Ljubljani', 1),
+  (73, 1273, 'Dole pri Litiji', 1),
+  (74, 1331, 'Dolenja vas', 1),
+  (75, 8350, 'Dolenjske Toplice', 1),
+  (76, 1230, 'Domžale', 1),
+  (77, 2252, 'Dornava', 1),
+  (78, 5294, 'Dornberk', 1),
+  (79, 1319, 'Draga', 1),
+  (80, 8343, 'Dragatuš', 1),
+  (81, 3222, 'Dramlje', 1),
+  (82, 2370, 'Dravograd', 1),
+  (83, 4203, 'Duplje', 1),
+  (84, 6221, 'Dutovlje', 1),
+  (85, 8361, 'Dvor', 1),
+  (86, 2343, 'Fala', 1),
+  (87, 9208, 'Fokovci', 1),
+  (88, 2313, 'Fram', 1),
+  (89, 3213, 'Frankolovo', 1),
+  (90, 1274, 'Gabrovka', 1),
+  (91, 8254, 'Globoko', 1),
+  (92, 5275, 'Godovič', 1),
+  (93, 4204, 'Golnik', 1),
+  (94, 3303, 'Gomilsko', 1),
+  (95, 4224, 'Gorenja vas', 1),
+  (96, 3263, 'Gorica pri Slivnici', 1),
+  (97, 2272, 'Gorišnica', 1),
+  (98, 9250, 'Gornja Radgona', 1),
+  (99, 3342, 'Gornji Grad', 1),
+  (100, 4282, 'Gozd Martuljek', 1),
+  (101, 6272, 'Gračišče', 1),
+  (102, 9264, 'Grad', 1),
+  (103, 8332, 'Gradac', 1),
+  (104, 1384, 'Grahovo', 1),
+  (105, 5242, 'Grahovo ob Bači', 1),
+  (106, 5251, 'Grgar', 1),
+  (107, 3302, 'Griže', 1),
+  (108, 3231, 'Grobelno', 1),
+  (109, 1290, 'Grosuplje', 1),
+  (110, 2288, 'Hajdina', 1),
+  (111, 8362, 'Hinje', 1),
+  (112, 2311, 'Hoče', 1),
+  (113, 9205, 'Hodoš/Hodos', 1),
+  (114, 1354, 'Horjul', 1),
+  (115, 1372, 'Hotedršica', 1),
+  (116, 1430, 'Hrastnik', 1),
+  (117, 6225, 'Hruševje', 1),
+  (118, 4276, 'Hrušica', 1),
+  (119, 5280, 'Idrija', 1),
+  (120, 1292, 'Ig', 1),
+  (121, 6250, 'Ilirska Bistrica', 1),
+  (122, 6251, 'Ilirska Bistrica-Trnovo', 1),
+  (123, 1295, 'Ivančna Gorica', 1),
+  (124, 2259, 'Ivanjkovci', 1),
+  (125, 1411, 'Izlake', 1),
+  (126, 6310, 'Izola/Isola', 1),
+  (127, 2222, 'Jakobski Dol', 1),
+  (128, 2221, 'Jarenina', 1),
+  (129, 6254, 'Jelšane', 1),
+  (130, 4270, 'Jesenice', 1),
+  (131, 8261, 'Jesenice na Dolenjskem', 1),
+  (132, 3273, 'Jurklošter', 1),
+  (133, 2223, 'Jurovski Dol', 1),
+  (134, 2256, 'Juršinci', 1),
+  (135, 5214, 'Kal nad Kanalom', 1),
+  (136, 3233, 'Kalobje', 1),
+  (137, 4246, 'Kamna Gorica', 1),
+  (138, 2351, 'Kamnica', 1),
+  (139, 1241, 'Kamnik', 1),
+  (140, 5213, 'Kanal', 1),
+  (141, 8258, 'Kapele', 1),
+  (142, 2362, 'Kapla', 1),
+  (143, 2325, 'Kidričevo', 1),
+  (144, 1412, 'Kisovec', 1),
+  (145, 6253, 'Knežak', 1),
+  (146, 5222, 'Kobarid', 1),
+  (147, 9227, 'Kobilje', 1),
+  (148, 1330, 'Kočevje', 1),
+  (149, 1338, 'Kočevska Reka', 1),
+  (150, 2276, 'Kog', 1),
+  (151, 5211, 'Kojsko', 1),
+  (152, 6223, 'Komen', 1),
+  (153, 1218, 'Komenda', 1),
+  (154, 6000, 'Koper/Capodistria', 1),
+  (155, 8282, 'Koprivnica', 1),
+  (156, 5296, 'Kostanjevica na Krasu', 1),
+  (157, 8311, 'Kostanjevica na Krki', 1),
+  (158, 1336, 'Kostel', 1),
+  (159, 6256, 'Košana', 1),
+  (160, 2394, 'Kotlje', 1),
+  (161, 6240, 'Kozina', 1),
+  (162, 3260, 'Kozje', 1),
+  (163, 4000, 'Kranj', 1),
+  (164, 4280, 'Kranjska Gora', 1),
+  (165, 1281, 'Kresnice', 1),
+  (166, 4294, 'Križe', 1),
+  (167, 9206, 'Križevci', 1),
+  (168, 9242, 'Križevci pri Ljutomeru', 1),
+  (169, 1301, 'Krka', 1),
+  (170, 8296, 'Krmelj', 1),
+  (171, 4245, 'Kropa', 1),
+  (172, 8262, 'Krška vas', 1),
+  (173, 8270, 'Krško', 1),
+  (174, 9263, 'Kuzma', 1),
+  (175, 2318, 'Laporje', 1),
+  (176, 3270, 'Laško', 1),
+  (177, 1219, 'Laze v Tuhinju', 1),
+  (178, 2230, 'Lenart v Slovenskih goricah', 1),
+  (179, 9220, 'Lendava/Lendva', 1),
+  (180, 4248, 'Lesce', 1),
+  (181, 3261, 'Lesično', 1),
+  (182, 8273, 'Leskovec pri Krškem', 1),
+  (183, 2372, 'Libeliče', 1),
+  (184, 2341, 'Limbuš', 1),
+  (185, 1270, 'Litija', 1),
+  (186, 3202, 'Ljubečna', 1),
+  (187, 1000, 'Ljubljana', 1),
+  (188, 1231, 'Ljubljana - Črnuče', 1),
+  (189, 1261, 'Ljubljana - Dobrunje', 1),
+  (190, 1260, 'Ljubljana - Polje', 1),
+  (191, 1210, 'Ljubljana - Šentvid', 1),
+  (192, 1211, 'Ljubljana - Šmartno', 1),
+  (193, 3333, 'Ljubno ob Savinji', 1),
+  (194, 9240, 'Ljutomer', 1),
+  (195, 3215, 'Loče', 1),
+  (196, 5231, 'Log pod Mangartom', 1),
+  (197, 1358, 'Log pri Brezovici', 1),
+  (198, 1370, 'Logatec', 1),
+  (199, 1371, 'Logatec', 1),
+  (200, 1434, 'Loka pri Zidanem Mostu', 1),
+  (201, 3223, 'Loka pri Žusmu', 1),
+  (202, 6219, 'Lokev', 1),
+  (203, 1318, 'Loški Potok', 1),
+  (204, 2324, 'Lovrenc na Dravskem polju', 1),
+  (205, 2344, 'Lovrenc na Pohorju', 1),
+  (206, 3334, 'Luče', 1),
+  (207, 1225, 'Lukovica', 1),
+  (208, 9202, 'Mačkovci', 1),
+  (209, 2322, 'Majšperk', 1),
+  (210, 2321, 'Makole', 1),
+  (211, 9243, 'Mala Nedelja', 1),
+  (212, 2229, 'Malečnik', 1),
+  (213, 6273, 'Marezige', 1),
+  (214, 2000, 'Maribor', 1),
+  (215, 2206, 'Marjeta na Dravskem polju', 1),
+  (216, 2281, 'Markovci', 1),
+  (217, 9221, 'Martjanci', 1),
+  (218, 6242, 'Materija', 1),
+  (219, 4211, 'Mavčiče', 1),
+  (220, 1215, 'Medvode', 1),
+  (221, 1234, 'Mengeš', 1),
+  (222, 8330, 'Metlika', 1),
+  (223, 2392, 'Mežica', 1),
+  (224, 2204, 'Miklavž na Dravskem polju', 1),
+  (225, 2275, 'Miklavž pri Ormožu', 1),
+  (226, 5291, 'Miren', 1),
+  (227, 8233, 'Mirna', 1),
+  (228, 8216, 'Mirna Peč', 1),
+  (229, 2382, 'Mislinja', 1),
+  (230, 4281, 'Mojstrana', 1),
+  (231, 8230, 'Mokronog', 1),
+  (232, 1251, 'Moravče', 1),
+  (233, 9226, 'Moravske Toplice', 1),
+  (234, 5216, 'Most na Soči', 1),
+  (235, 1221, 'Motnik', 1),
+  (236, 3330, 'Mozirje', 1),
+  (237, 9000, 'Murska Sobota', 1),
+  (238, 2366, 'Muta', 1),
+  (239, 4202, 'Naklo', 1),
+  (240, 3331, 'Nazarje', 1),
+  (241, 1357, 'Notranje Gorice', 1),
+  (242, 3203, 'Nova Cerkev', 1),
+  (243, 5000, 'Nova Gorica', 1),
+  (244, 1385, 'Nova vas', 1),
+  (245, 8000, 'Novo mesto', 1),
+  (246, 6243, 'Obrov', 1),
+  (247, 9233, 'Odranci', 1),
+  (248, 2317, 'Oplotnica', 1),
+  (249, 2312, 'Orehova vas', 1),
+  (250, 2270, 'Ormož', 1),
+  (251, 1316, 'Ortnek', 1),
+  (252, 1337, 'Osilnica', 1),
+  (253, 8222, 'Otočec', 1),
+  (254, 2361, 'Ožbalt', 1),
+  (255, 2231, 'Pernica', 1),
+  (256, 2211, 'Pesnica pri Mariboru', 1),
+  (257, 9203, 'Petrovci', 1),
+  (258, 3301, 'Petrovče', 1),
+  (259, 6330, 'Piran/Pirano', 1),
+  (260, 8255, 'Pišece', 1),
+  (261, 6257, 'Pivka', 1),
+  (262, 6232, 'Planina', 1),
+  (263, 3225, 'Planina pri Sevnici', 1),
+  (264, 6276, 'Pobegi', 1),
+  (265, 8312, 'Podbočje', 1),
+  (266, 5243, 'Podbrdo', 1),
+  (267, 3254, 'Podčetrtek', 1),
+  (268, 2273, 'Podgorci', 1),
+  (269, 6216, 'Podgorje', 1),
+  (270, 2381, 'Podgorje pri Slovenj Gradcu', 1),
+  (271, 6244, 'Podgrad', 1),
+  (272, 1414, 'Podkum', 1),
+  (273, 2286, 'Podlehnik', 1),
+  (274, 5272, 'Podnanos', 1),
+  (275, 4244, 'Podnart', 1),
+  (276, 3241, 'Podplat', 1),
+  (277, 3257, 'Podsreda', 1),
+  (278, 2363, 'Podvelka', 1),
+  (279, 2208, 'Pohorje', 1),
+  (280, 2257, 'Polenšak', 1),
+  (281, 1355, 'Polhov Gradec', 1),
+  (282, 4223, 'Poljane nad Škofjo Loko', 1),
+  (283, 2319, 'Poljčane', 1),
+  (284, 1272, 'Polšnik', 1),
+  (285, 3313, 'Polzela', 1),
+  (286, 3232, 'Ponikva', 1),
+  (287, 6320, 'Portorož/Portorose', 1),
+  (288, 6230, 'Postojna', 1),
+  (289, 2331, 'Pragersko', 1),
+  (290, 3312, 'Prebold', 1),
+  (291, 4205, 'Preddvor', 1),
+  (292, 6255, 'Prem', 1),
+  (293, 1352, 'Preserje', 1),
+  (294, 6258, 'Prestranek', 1),
+  (295, 2391, 'Prevalje', 1),
+  (296, 3262, 'Prevorje', 1),
+  (297, 1276, 'Primskovo', 1),
+  (298, 3253, 'Pristava pri Mestinju', 1),
+  (299, 9207, 'Prosenjakovci/Partosfalva', 1),
+  (300, 5297, 'Prvačina', 1),
+  (301, 2250, 'Ptuj', 1),
+  (302, 2323, 'Ptujska Gora', 1),
+  (303, 9201, 'Puconci', 1),
+  (304, 2327, 'Rače', 1),
+  (305, 1433, 'Radeče', 1),
+  (306, 9252, 'Radenci', 1),
+  (307, 2360, 'Radlje ob Dravi', 1),
+  (308, 1235, 'Radomlje', 1),
+  (309, 4240, 'Radovljica', 1),
+  (310, 8274, 'Raka', 1),
+  (311, 1381, 'Rakek', 1),
+  (312, 4283, 'Rateče - Planica', 1),
+  (313, 2390, 'Ravne na Koroškem', 1),
+  (314, 9246, 'Razkrižje', 1),
+  (315, 3332, 'Rečica ob Savinji', 1),
+  (316, 5292, 'Renče', 1),
+  (317, 1310, 'Ribnica', 1),
+  (318, 2364, 'Ribnica na Pohorju', 1),
+  (319, 3272, 'Rimske Toplice', 1),
+  (320, 1314, 'Rob', 1),
+  (321, 5215, 'Ročinj', 1),
+  (322, 3250, 'Rogaška Slatina', 1),
+  (323, 9262, 'Rogašovci', 1),
+  (324, 3252, 'Rogatec', 1),
+  (325, 1373, 'Rovte', 1),
+  (326, 2342, 'Ruše', 1),
+  (327, 1282, 'Sava', 1),
+  (328, 6333, 'Sečovlje/Sicciole', 1),
+  (329, 4227, 'Selca', 1),
+  (330, 2352, 'Selnica ob Dravi', 1),
+  (331, 8333, 'Semič', 1),
+  (332, 8281, 'Senovo', 1),
+  (333, 6224, 'Senožeče', 1),
+  (334, 8290, 'Sevnica', 1),
+  (335, 6210, 'Sežana', 1),
+  (336, 2214, 'Sladki Vrh', 1),
+  (337, 5283, 'Slap ob Idrijci', 1),
+  (338, 2380, 'Slovenj Gradec', 1),
+  (339, 2310, 'Slovenska Bistrica', 1),
+  (340, 3210, 'Slovenske Konjice', 1),
+  (341, 1216, 'Smlednik', 1),
+  (342, 5232, 'Soča', 1),
+  (343, 1317, 'Sodražica', 1),
+  (344, 3335, 'Solčava', 1),
+  (345, 5250, 'Solkan', 1),
+  (346, 4229, 'Sorica', 1),
+  (347, 4225, 'Sovodenj', 1),
+  (348, 5281, 'Spodnja Idrija', 1),
+  (349, 2241, 'Spodnji Duplek', 1),
+  (350, 9245, 'Spodnji Ivanjci', 1),
+  (351, 2277, 'Središče ob Dravi', 1),
+  (352, 4267, 'Srednja vas v Bohinju', 1),
+  (353, 8256, 'Sromlje', 1),
+  (354, 5224, 'Srpenica', 1),
+  (355, 1242, 'Stahovica', 1),
+  (356, 1332, 'Stara Cerkev', 1),
+  (357, 8342, 'Stari trg ob Kolpi', 1),
+  (358, 1386, 'Stari trg pri Ložu', 1),
+  (359, 2205, 'Starše', 1),
+  (360, 2289, 'Stoperce', 1),
+  (361, 8322, 'Stopiče', 1),
+  (362, 3206, 'Stranice', 1),
+  (363, 8351, 'Straža', 1),
+  (364, 1313, 'Struge', 1),
+  (365, 8293, 'Studenec', 1),
+  (366, 8331, 'Suhor', 1),
+  (367, 2233, 'Sv. Ana v Slovenskih goricah', 1),
+  (368, 2235, 'Sv. Trojica v Slovenskih goricah', 1),
+  (369, 2353, 'Sveti Duh na Ostrem Vrhu', 1),
+  (370, 9244, 'Sveti Jurij ob Ščavnici', 1),
+  (371, 3264, 'Sveti Štefan', 1),
+  (372, 2258, 'Sveti Tomaž', 1),
+  (373, 9204, 'Šalovci', 1),
+  (374, 5261, 'Šempas', 1),
+  (375, 5290, 'Šempeter pri Gorici', 1),
+  (376, 3311, 'Šempeter v Savinjski dolini', 1),
+  (377, 4208, 'Šenčur', 1),
+  (378, 2212, 'Šentilj v Slovenskih goricah', 1),
+  (379, 8297, 'Šentjanž', 1),
+  (380, 2373, 'Šentjanž pri Dravogradu', 1),
+  (381, 8310, 'Šentjernej', 1),
+  (382, 3230, 'Šentjur', 1),
+  (383, 3271, 'Šentrupert', 1),
+  (384, 8232, 'Šentrupert', 1),
+  (385, 1296, 'Šentvid pri Stični', 1),
+  (386, 8275, 'Škocjan', 1),
+  (387, 6281, 'Škofije', 1),
+  (388, 4220, 'Škofja Loka', 1),
+  (389, 3211, 'Škofja vas', 1),
+  (390, 1291, 'Škofljica', 1),
+  (391, 6274, 'Šmarje', 1),
+  (392, 1293, 'Šmarje - Sap', 1),
+  (393, 3240, 'Šmarje pri Jelšah', 1),
+  (394, 8220, 'Šmarješke Toplice', 1),
+  (395, 2315, 'Šmartno na Pohorju', 1),
+  (396, 3341, 'Šmartno ob Dreti', 1),
+  (397, 3327, 'Šmartno ob Paki', 1),
+  (398, 1275, 'Šmartno pri Litiji', 1),
+  (399, 2383, 'Šmartno pri Slovenj Gradcu', 1),
+  (400, 3201, 'Šmartno v Rožni dolini', 1),
+  (401, 3325, 'Šoštanj', 1),
+  (402, 6222, 'Štanjel', 1),
+  (403, 3220, 'Štore', 1),
+  (404, 3304, 'Tabor', 1),
+  (405, 3221, 'Teharje', 1),
+  (406, 9251, 'Tišina', 1),
+  (407, 5220, 'Tolmin', 1),
+  (408, 3326, 'Topolšica', 1),
+  (409, 2371, 'Trbonje', 1),
+  (410, 1420, 'Trbovlje', 1),
+  (411, 8231, 'Trebelno', 1),
+  (412, 8210, 'Trebnje', 1),
+  (413, 5252, 'Trnovo pri Gorici', 1),
+  (414, 2254, 'Trnovska vas', 1),
+  (415, 1222, 'Trojane', 1),
+  (416, 1236, 'Trzin', 1),
+  (417, 4290, 'Tržič', 1),
+  (418, 8295, 'Tržišče', 1),
+  (419, 1311, 'Turjak', 1),
+  (420, 9224, 'Turnišče', 1),
+  (421, 8323, 'Uršna sela', 1),
+  (422, 1252, 'Vače', 1),
+  (423, 3320, 'Velenje', 1),
+  (424, 8212, 'Velika Loka', 1),
+  (425, 2274, 'Velika Nedelja', 1),
+  (426, 9225, 'Velika Polana', 1),
+  (427, 1315, 'Velike Lašče', 1),
+  (428, 8213, 'Veliki Gaber', 1),
+  (429, 9241, 'Veržej', 1),
+  (430, 1312, 'Videm - Dobrepolje', 1),
+  (431, 2284, 'Videm pri Ptuju', 1),
+  (432, 8344, 'Vinica', 1),
+  (433, 5271, 'Vipava', 1),
+  (434, 4212, 'Visoko', 1),
+  (435, 1294, 'Višnja Gora', 1),
+  (436, 3205, 'Vitanje', 1),
+  (437, 2255, 'Vitomarci', 1),
+  (438, 1217, 'Vodice', 1),
+  (439, 3212, 'Vojnik', 1),
+  (440, 5293, 'Volčja Draga', 1),
+  (441, 2232, 'Voličina', 1),
+  (442, 3305, 'Vransko', 1),
+  (443, 6217, 'Vremski Britof', 1),
+  (444, 1360, 'Vrhnika', 1),
+  (445, 2365, 'Vuhred', 1),
+  (446, 2367, 'Vuzenica', 1),
+  (447, 8292, 'Zabukovje', 1),
+  (448, 1410, 'Zagorje ob Savi', 1),
+  (449, 1303, 'Zagradec', 1),
+  (450, 2283, 'Zavrč', 1),
+  (451, 8272, 'Zdole', 1),
+  (452, 4201, 'Zgornja Besnica', 1),
+  (453, 2242, 'Zgornja Korena', 1),
+  (454, 2201, 'Zgornja Kungota', 1),
+  (455, 2316, 'Zgornja Ložnica', 1),
+  (456, 2314, 'Zgornja Polskava', 1),
+  (457, 2213, 'Zgornja Velka', 1),
+  (458, 4247, 'Zgornje Gorje', 1),
+  (459, 4206, 'Zgornje Jezersko', 1),
+  (460, 2285, 'Zgornji Leskovec', 1),
+  (461, 1432, 'Zidani Most', 1),
+  (462, 3214, 'Zreče', 1),
+  (463, 4209, 'Žabnica', 1),
+  (464, 3310, 'Žalec', 1),
+  (465, 4228, 'Železniki', 1),
+  (466, 2287, 'Žetale', 1),
+  (467, 4226, 'Žiri', 1),
+  (468, 4274, 'Žirovnica', 1),
+  (469, 8360, 'Žužemberk', 1);
 
 INSERT INTO `tpo`.`nacin_studija`
 (`ID_NACIN`,`OPIS_NACIN`,`ANG_OPIS_NACIN`,`AKTIVNOST`)VALUES
@@ -1714,21 +1709,49 @@ INSERT INTO `tpo`.`studijsko_leto`(`ID_STUD_LETO`, `STUD_LETO`)VALUES
   (2,"2017/18"),
   (3,"2018/19"),
   (4,"2019/20"),
-  (5,"2020/21");
+  (5,"2020/21"),
+  (6,"2021/22"),
+  (7,"2022/23"),
+  (8,"2023/24");
 
 INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`,`TELEFONSKA_STEVILKA`)VALUES
-  (1,'testS', 'testS', '123456', 's', 'Janez', 'Novak','040040040'),
+
+  (1,'testS', 'testS', '123456', 's', '1Janez', 'Novak','040040040'),
   (2,'testP', 'testP', '123456', 'p', 'An', 'Ban','030030030'),
   (3,'testR', 'testR', '123456', 'r', 'Ancka', 'Novak','050505050'),
-  (4,'testS2', 'testS2', '123456', 's', 'Janezek', 'Novakovic','123581321'),
+  (4,'testS2', 'testS2', '123456', 's', '1Janezek', 'Novakovic','123581321'),
   (5,'testA', 'testA', '123456', 'a', 'Admin', 'Admin','123581321'),
-  (6,'testK', 'testK', '123456', 'k', 'kIme', 'kPriimek','123456789');
+  (6,'testK', 'testK', '123456', 'k', 'kIme', 'kPriimek','123456789'),
+  (7,'Luka', 'LukaS', '123456', 's', '1PonavljalecLuka', 'An','04004001'),
+  (8,'Miha', 'MihaS', '123456', 's', '1MihanNad8,5', 'Ban','040040042'),
+  (9,'Maja', 'MajaS', '123456', 's', '1MajaPavzer', 'Cankar','040040043'),
+  (10,'Špela', 'ŠpelaS', '123456', 's', '2ŠpelaNad8,5', 'Čopkič','040040044'),
+  (11,'Sara', 'SaraS', '123456', 's', '2SaraPonavljalec', 'Dragovan','040040045'),
+  (12,'Nik', 'NikS', '123456', 's', '2NikPavzer', 'Engelj','040040046'),
+  (13,'Marko', 'MarkoP', '123456', 'p', 'Marko', 'Poženel','040040040'),
+  (14,'Luka', 'LukaP', '123456', 'p', 'Luka', 'Fuerst','040040040'),
+
+  (15,'Jan', 'JanS', '123456', 's', '4JanAbsolvent', 'Ferlič','040040045'),
+  (16,'Mojca', 'MojcaS', '123456', 's', '2MojcaPogojnoNaprej', 'Golaž','040040045'),
+  (17,'Nino', 'NinoS', '123456', 's', '3NinoPogojnoNaprej', 'Hovelja','040040045'),
+  (18,'Jože', 'JožeS', '123456', 's', '1JožePonavljalecNaredl7', 'Indijanec','040040045'),
+  (19,'Klemen', 'KlemenS', '123456', 's', '2KlemenPonavljalecNaredl4', 'Klemen','040040045'),
+  (20,'Tadej', 'TadejS', '123456', 's', '2TadejZamenjalProgram', 'Lindič','040040045'),
+  (21,'Jure', 'JureS', '123456', 's', 'Jure', 'Mohar','040040045'),
+  (22,'Anja', 'AnjaS', '123456', 's', 'Anja', 'Novak','040040045'),
+  (23,'Svit', 'SvitS', '123456', 's', 'Svit', 'Oblak','040040045'),
+  (24,'David', 'DavidS', '123456', 's', 'David', 'Pahor','040040045'),
+  (25,'Martin', 'MartinS', '123456', 's', 'Martin', 'Rešetič','040040045'),
+  (26,'Manca', 'MancaS', '123456', 's', 'Manca', 'Srečko','040040045'),
+  (27,'Tjaša', 'TjašaS', '123456', 's', 'Tjaša', 'Šenica','040040045'),
+  (28,'Benjamin', 'Benjamin', '123456', 's', 'Testen', 'Dragovan','040040045');
+# absolvent, pogojnoNaprej, PonavljalecNaredl7, zamenjalProgram
 # preverjanje login:
 # uporabnisko ime=testS  geslo='123456'
 # VRSTA_VLOGE: admin='a', referat='r', profesor='p', student='s' in kandidat='k'
 
-INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_LETO`, 
-                              `IZKORISCEN`, `EMSO`, `VPISNA_STEVILKA`)VALUES
+INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_LETO`,
+                             `IZKORISCEN`, `EMSO`, `VPISNA_STEVILKA`)VALUES
   (1,11,1,2,1,2505996500532,63150000),
   (2,11,4,2,1,0406996505123,63150001),
   (3,11,6,2,1,2505996500532,63150002);
@@ -1736,33 +1759,73 @@ INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_L
 INSERT INTO `tpo`.`PREDMET`
 (`ID_PREDMET`, `IME_PREDMET`, `AKTIVNOST`)
 VALUES
-  (6,'P1', 1),      (13,'P2', 1),       (9,'OMA', 1),       (10,'DS', 1),       (11,'ODV', 1),
-  (12,'FIZ', 1),    (14,'LA', 1),       (15,'ARS', 1),      (16,'RK', 1),       (17,'OIS', 1),
-  
-  (18,'APS1', 1),   (19,'APS2', 1),  (20,'OPB', 1),     (21,'VS', 1),
-  (22,'IRZ', 1),     (23,'TIS', 1),    (24,'OS', 1),       (25,'ORS', 1),
-  
-  (26,'MM', 1),     (27,'RT', 1),      (7,'PPJ', 1),
-  
-  (4,'EP', 1),       (5,'OiM', 1),      (28,'PI', 1),
-  
-  (1,'TPO', 1),     (2,'PRPO', 1),    (3,'SP', 1),
-  
-  (29,'TUP', 1),    (30,'RIS', 1),     (31,'PUI', 1),
-  
-  (32,'KP', 1),     (33,'BMO', 1),     (34,'MRO', 1),
-  
-  (35,'ZZRS', 1), (36,'DN', 1),       (37,'PS', 1),
-  
-  (39,'SPO', 1),   (40,'RZHP', 1),   (38,'Prevajalniki', 1),
-  
-  (41,'RIS', 1),    (42,'IS', 1),       (43,'UZ', 1),
-  
-  (44,'OO', 1),     (45,'MS', 1),     (46,'RGTI', 1),
-  
-  (47,'OUI', 1),    (48,'EiP', 1),     (49,'Diplomski seminar', 1),
-  
-  (8,'Sport', 1),   (50,'AJ-A', 1),    (51,'AJ-B', 1),    (52,'AJ-C', 1);
+
+  (1,'Tehnologija Programske Opreme', 1),
+  (2,'Postopki Razvoja Programke Opreme', 1),
+  (3,'Spletno Progrmiranje', 1),
+
+  (4,'Elektronsko Poslovanje', 1),
+  (5,'Organizacija in Management', 1),
+  (6,'Programiranje 1', 1),
+  (7,'Principi Programskih Jezikov', 1),
+
+  (8,'Sport', 1),
+
+  (9,'Osnove Matematične Analize', 1),
+  (10,'Diskretne Strukture', 1),
+  (11,'Osnove Digitalnih Vezji', 1),
+  (12,'Fizika', 1),
+  (13,'Programiranje 2', 1),
+  (14,'Linearna Algebra', 1),
+  (15,'Arhitekrura Računalniških Sistemov', 1),
+  (16,'Računalniške Komunikacije', 1),
+  (17,'Osnove Informacijskih Sistemov', 1),
+
+  (18,'Algoritmi in Podatkovne Strukture 1', 1),
+  (19,'Algoritmi in Podatkovne Strukture 2', 1),
+  (20,'Osnove Podatkovnih Baz', 1),
+  (21,'Verjetnost in Statistika', 1),
+  (22,'Izračunljivost in Računska Zahtevnost', 1),
+  (23,'Teorija Informacij in Sistemov', 1),
+  (24,'Opreacijski Sistemi', 1),
+  (25,'Organizacija Računalniških Sistemov', 1),
+  (26,'Multi Medija', 1),
+  (27,'Računalniške Tehnologije', 1),
+
+  (28,'PI', 1),
+
+  (29,'Tehnologija Upravljanja Podatkov', 1),
+  (30,'Razvoj Informacijskih Sistemov', 1),
+  (31,'Planiranje in Upravljanje Informatike', 1),
+
+  (32,'KP', 1),
+  (33,'BMO', 1),
+  (34,'MRO', 1),
+
+  (35,'ZZRS', 1),
+  (36,'DN', 1),
+  (37,'PS', 1),
+
+  (39,'SPO', 1),
+  (40,'RZHP', 1),
+  (38,'Prevajalniki', 1),
+
+  (41,'Razvoj Inteligentnih Sistemov', 1),
+  (42,'Inteligentni Sistemi', 1),
+  (43,'Umetno Zaznavanje', 1),
+
+  (44,'Osnove Oblikovanja', 1),
+  (45,'MS', 1),
+  (46,'RGTI', 1),
+
+  (47,'Osnove Umetne Inteligence', 1),
+  (48,'Ekonomika in Podjetništvo ', 1),
+  (49,'Diplomski seminar', 1),
+
+
+  (50,'AJ-A', 1),
+  (51,'AJ-B', 1),
+  (52,'AJ-C', 1);
 
 INSERT INTO `tpo`.`del_predmetnika`
 (`ID_DELPREDMETNIKA`, `NAZIV_DELAPREDMETNIKA`, `SKUPNOSTEVILOKT`, `TIP`, `AKTIVNOST`)
@@ -1770,7 +1833,7 @@ VALUES
   (3, "Obvezni predmet", 6, 'o', 1),
   (4, "Strokovni izbirni predmet", 6, 'st', 1),
   (5, "Splosno izbirni predmet", 6, 'sp', 1),
-  
+
   (1, "Razvoj programske opreme", 18, 'm', 1),
   (2, "Informacijski sistemi", 18, 'm', 1),
   (6, "Obvladovanje informatike", 18, 'm', 1),
@@ -1792,7 +1855,7 @@ VALUES
   (6, 6, 3, 1, 2, 11, 1),
   (7, 7, 4, 3, 2, 11, 1),
   (8, 8, 5, 3, 2, 11, 1),
-  
+
   (9, 9, 3, 1, 2, 11, 1),
   (10, 10, 3, 1, 2, 11, 1),
   (11, 11, 3, 1, 2, 11, 1),
@@ -1801,26 +1864,102 @@ VALUES
   (14, 14, 3, 1, 2, 11, 1),
   (15, 15, 3, 1, 2, 11, 1),
   (16, 16, 3, 1, 2, 11, 1),
-  (17, 17, 3, 1, 2, 11, 1);
+  (17, 17, 3, 1, 2, 11, 1),
+
+
+  (18, 18, 3, 2, 2, 11, 1),
+  (19, 19, 3, 2, 2, 11, 1),
+  (20, 20, 3, 2, 2, 11, 1),
+  (21, 21, 3, 2, 2, 11, 1),
+  (22, 22, 3, 2, 2, 11, 1),
+  (23, 23, 3, 2, 2, 11, 1),
+  (24, 24, 3, 2, 2, 11, 1),
+  (25, 25, 3, 2, 2, 11, 1),
+
+
+  (26, 26, 3, 2, 2, 11, 1),
+  (27, 27, 3, 2, 2, 11, 1),
+  (28, 7, 3, 2, 2, 11, 1),
+
+
+
+  (29, 25, 3, 2, 2, 11, 1);
 
 INSERT INTO `tpo`.`IZVEDBA_PREDMETA`
 (`ID_IZVEDBA`, `ID_STUD_LETO`, `ID_OSEBA1`, `ID_OSEBA2`, `ID_OSEBA3`, `ID_PREDMET`)
 VALUES
-  (1, 1, 2, NULL, NULL, 1),
-  (2, 2, 2, NULL, NULL, 1),
-  (3, 3, 2, NULL, NULL, 1),
-  (4, 2, 2, NULL, NULL, 2);
+  (1, 1, 2, 13, 14, 1),
+  (2, 1, 2, NULL, NULL, 6),
+  (3, 1, 13, 14, NULL, 4),
+  (4, 1, 14, NULL, NULL, 12),
+
+
+  (5, 2, 2, 13, 14, 1),
+  (6, 2, 2, NULL, NULL, 6),
+  (7, 2, 13, 14, NULL, 4),
+  (8, 2, 14, NULL, NULL, 12),
+
+
+  (9, 3, 2, 13, 14, 1),
+  (10, 3, 2, NULL, NULL, 6),
+  (11, 3, 13, 14, NULL, 4),
+  (12, 3, 14, NULL, NULL, 12);
 
 INSERT INTO `tpo`.`vpis`(`ID_VPIS`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_VRSTAVPISA`,
                          `ID_OBLIKA`,`ID_LETNIK`,`POTRJENOST_VPISA`,`VPISNA_STEVILKA`)VALUES
   (1,11,1,2,1,1,1,1,63150000),
-  (2,11,1,2,1,1,1,1,63150001);
+  (2,11,1,2,1,1,1,1,63150001),
+  (3,11,1,2,1,1,1,1,63150002),
+  (4,11,1,2,1,1,1,1,63150003),
+  #(5,11,1,2,1,1,1,1,63150004),
+
+  (6,11,1,2,1,1,2,1,63150005),
+  (7,11,1,2,1,1,2,1,63150006),
+  #(8,11,1,2,1,1,2,1,63150007),
+
+
+  (9,11,1,2,1,1,3,1,63150008),
+  (10,11,1,2,1,1,2,1,63150009),
+  (11,11,1,2,1,1,3,1,63150010),
+  (12,11,1,2,1,1,1,1,63150011),
+  (13,11,1,2,1,1,2,1,63150012),
+  (14,11,1,2,1,1,2,1,63150013),
+
+  (15,11,1,2,1,1,2,1,63150014),
+  (16,11,1,2,1,1,2,1,63150015),
+  (17,11,1,2,1,1,2,1,63150016),
+  (18,11,1,2,1,1,2,1,63150017),
+  (19,11,1,2,1,1,2,1,63150018),
+  (20,11,1,2,1,1,2,1,63150019),
+  (21,11,1,2,1,1,2,1,63150020);
 
 INSERT INTO `tpo`.`student`
 (`VPISNA_STEVILKA`,`ID_OSEBA`,`ID_KANDIDAT`,`ID_VPIS`,`EMSO`,`ID_PROGRAM`,
  `VSOTA_OPRAVLJENIH_KREDITNIH_TOCK`,`POVPRECNA_OCENA_OPRAVLJENIH_IZPITOV`)VALUES
-  (63150000,1,1,1,2505996500532,3,60,10),
-  (63150001,4,2,2,1234567891234,3,120,6);
+
+  (63150000,1,1,1,2505996500510,11,60,10),
+  (63150001,4,2,2,1234567891211,11,60,6),
+  (63150002,7,2,2,1234567891212,11,36,6),
+  (63150003,8,2,2,1234567891213,11,60,10),
+  (63150004,9,2,2,1234567891214,11,12,7),
+  (63150005,10,2,2,1234567891215,11,120,9.33),
+  (63150006,11,2,2,1234567891216,11,100,8.20),
+  (63150007,12,2,2,1234567891217,11,66,7.3),
+  (63150008,15,2,2,1234567891218,11,180,6),
+  (63150009,16,2,2,1234567891219,11,54,7.7),
+  (63150010,17,2,2,1234567891220,11,114,8),
+  (63150011,18,2,2,1234567891221,11,42,7),
+  (63150012,19,2,2,1234567891222,11,24,6),
+  (63150013,20,2,2,1234567891223,12,120,6),
+  (63150014,21,2,2,1234567891224,11,120,6),
+  (63150015,22,2,2,1234567891225,11,120,6),
+  (63150021,23,2,2,1234567891226,11,120,6),
+  (63150016,24,2,2,1234567891227,11,120,6),
+  (63150017,25,2,2,1234567891228,11,120,6),
+  (63150018,26,2,2,1234567891229,11,120,6),
+  (63150019,27,2,2,12345678912330,11,120,6),
+  (63150020,28,2,2,12345678912331,11,120,6);
+
 
 INSERT INTO `tpo`.`naslov`(`ID_NASLOV`, `ID_POSTA`,`ID_OBCINA`,`ID_DRZAVA`,`ID_OSEBA`,
                            `JE_ZAVROCANJE`,`JE_STALNI`,`ULICA`,`HISNA_STEVILKA`)VALUES
@@ -1832,21 +1971,225 @@ INSERT INTO `tpo`.`naslov`(`ID_NASLOV`, `ID_POSTA`,`ID_OBCINA`,`ID_DRZAVA`,`ID_O
 
 INSERT INTO  `tpo`.`zeton`
 (`ID_OSEBA`, `ID_LETNIK`, `ID_STUD_LETO`, `ID_OBLIKA`, `ID_NACIN`, `ID_VRSTAVPISA`, `ID_PROGRAM`,`IZKORISCEN`, `AKTIVNOST`)
-VALUES(1,1,1,1,1,1,3,1,0),
-  (1,2,2,1,1,1,3,1,0),
-  (1,3,3,1,1,1,3,0,1);
+VALUES
+  (1,1,1,1,1,1,3,0,1),
+  (4,1,1,1,1,1,3,0,1),
+  (7,1,1,1,1,2,3,1,0),
+  (8,1,1,1,1,1,3,1,0),
+  (10,1,1,1,1,1,3,1,0),
+  (11,2,1,1,1,1,3,1,0),
+
+
+  (15,2,1,1,1,1,3,1,0),
+  (16,3,1,1,1,2,3,1,0),
+  (17,1,1,1,1,2,3,1,0),
+  (18,2,1,1,1,1,3,1,0),
+  (19,2,1,1,1,1,3,1,0),
+  (20,2,1,1,1,1,3,1,0),
+  (21,2,1,1,1,1,3,1,0),
+  (22,2,1,1,1,1,3,1,0),
+  (23,2,1,1,1,1,3,1,0),
+  (24,2,1,1,1,1,3,1,0),
+  (25,2,1,1,1,1,3,1,0),
+  (26,2,1,1,1,1,3,1,0),
+  (27,2,1,1,1,1,3,1,0),
+  (28,2,1,1,1,1,3,1,0);
 
 INSERT INTO tpo.rok
 (ID_ROK, ID_IZVEDBA, DATUM_ROKA, CAS_ROKA, AKTIVNOST)
 VALUES
-(1,2,"2018-01-13", "10:00:00", 1),
-(2,2,"2018-01-25", "11:00:00", 1),
-(3,2,"2018-09-25", "12:00:00", 1),
-(4,3,"2018-01-12", "12:00:00", 1);
+  (1,2,"2018-01-13", "10:00:00", 1),
+  (2,2,"2018-01-25", "11:00:00", 1),
+  (3,2,"2018-09-25", "12:00:00", 1),
+  (4,3,"2018-01-12", "12:00:00", 1);
 
 
 
 INSERT INTO `predmeti_studenta`
-(`ID_PREDMETISTUDENTA`, `VPISNA_STEVILKA`, `ID_PREDMET`, `ID_STUD_LETO`)
-VALUES (1,63150000, 1,1),(2,63150000, 1,2),(3,63150000, 2,1),(4,63150001, 1,1)
+( `VPISNA_STEVILKA`, `ID_PREDMET`, `ID_STUD_LETO`,`OCENA`)
+VALUES
+  (63150000, 6,2 ,6),
+  (63150000, 9,2 ,6),
+  (63150000, 10,2,6),
+  (63150000, 11,2,6),
+  (63150000, 12,2,6),
+  (63150000, 13,2,6),
+  (63150000, 14,2,6),
+  (63150000, 15,2,6),
+  (63150000, 16,2,6),
+  (63150000, 17,2,6),
 
+
+  (63150001, 6,2 ,8),
+  (63150001, 9,2 ,8),
+  (63150001, 10,2,8),
+  (63150001, 11,2,8),
+  (63150001, 12,2,8),
+  (63150001, 13,2,8),
+  (63150001, 14,2,8),
+  (63150001, 15,2,8),
+  (63150001, 16,2,8),
+  (63150001, 17,2,8),
+
+
+
+  (63150002, 6,2 ,7),
+  (63150002, 9,2 ,7),
+  (63150002, 10,2,5),
+  (63150002, 11,2,7),
+  (63150002, 12,2,7),
+  (63150002, 13,2,7),
+  (63150002, 14,2,5),
+  (63150002, 15,2,7),
+  (63150002, 16,2,7),
+  (63150002, 17,2,5),
+
+
+
+  (63150003, 6,2 ,10),
+  (63150003, 9,2 ,10),
+  (63150003, 10,2,10),
+  (63150003, 11,2,10),
+  (63150003, 12,2,10),
+  (63150003, 13,2,10),
+  (63150003, 14,2,10),
+  (63150003, 15,2,10),
+  (63150003, 16,2,10),
+  (63150003, 17,2,10),
+
+
+
+  (63150004, 6,2 ,9),
+  (63150004, 9,2 ,9),
+  (63150004, 10,2,9),
+  (63150004, 11,2,9),
+  (63150004, 12,2,9),
+  (63150004, 13,2,9),
+  (63150004, 14,2,9),
+  (63150004, 15,2,9),
+  (63150004, 16,2,9),
+  (63150004, 17,2,9),
+
+
+
+  (63150011, 6,2 ,7),
+  (63150011, 9,2 ,7),
+  (63150011, 10,2,7),
+  (63150011, 11,2,7),
+  (63150011, 12,2,7),
+  (63150011, 13,2,-1),
+  (63150011, 14,2,7),
+  (63150011, 15,2,5),
+  (63150011, 16,2,7),
+  (63150011, 17,2,5),
+
+
+  (63150005, 18,2,10),
+
+  (63150006, 18,2,7),
+  (63150007, 18,2,7),
+  (63150012, 18,2,5),
+  (63150013, 18,2,7),
+  (63150014, 18,2,7),
+  (63150015, 18,2,7),
+  (63150016, 18,2,7),
+  (63150017, 18,2,7),
+  (63150018, 18,2,7),
+  (63150019, 18,2,7),
+  (63150020, 18,2,7),
+  (63150005, 19,2,7),
+  (63150006, 19,2,-1),
+  (63150007, 19,2,7),
+  (63150012, 19,2,5),
+  (63150013, 19,2,7),
+  (63150014, 19,2,7),
+  (63150015, 19,2,7),
+  (63150016, 19,2,7),
+  (63150017, 19,2,7),
+  (63150018, 19,2,7),
+  (63150019, 19,2,7),
+  (63150020, 19,2,7),
+  (63150005, 20,2,7),
+  (63150006, 20,2,7),
+  (63150007, 20,2,7),
+  (63150012, 20,2,7),
+  (63150013, 20,2,7),
+  (63150014, 20,2,7),
+  (63150015, 20,2,7),
+  (63150016, 20,2,7),
+  (63150017, 20,2,7),
+  (63150018, 20,2,7),
+  (63150019, 20,2,7),
+  (63150020, 20,2,7),
+  (63150005, 21,2,7),
+  (63150006, 21,2,7),
+  (63150007, 21,2,7),
+  (63150012, 21,2,7),
+  (63150013, 21,2,7),
+  (63150014, 21,2,7),
+  (63150015, 21,2,7),
+  (63150016, 21,2,7),
+  (63150017, 21,2,7),
+  (63150018, 21,2,7),
+  (63150019, 21,2,7),
+  (63150020, 21,2,7),
+  (63150005, 22,2,7),
+  (63150006, 22,2,7),
+  (63150007, 22,2,7),
+  (63150012, 22,2,7),
+  (63150013, 22,2,7),
+  (63150014, 22,2,7),
+  (63150015, 22,2,7),
+  (63150016, 22,2,7),
+  (63150017, 22,2,7),
+  (63150018, 22,2,7),
+  (63150019, 22,2,7),
+  (63150020, 22,2,7),
+  (63150005, 23,2,7),
+  (63150006, 23,2,7),
+  (63150007, 23,2,7),
+  (63150012, 23,2,5),
+  (63150013, 23,2,7),
+  (63150014, 23,2,7),
+  (63150015, 23,2,7),
+  (63150016, 23,2,7),
+  (63150017, 23,2,7),
+  (63150018, 23,2,7),
+  (63150019, 23,2,7),
+  (63150020, 23,2,7),
+  (63150005, 24,2,7),
+  (63150006, 24,2,7),
+  (63150007, 24,2,7),
+  (63150012, 24,2,5),
+  (63150013, 24,2,7),
+  (63150014, 24,2,7),
+  (63150015, 24,2,7),
+  (63150016, 24,2,7),
+  (63150017, 24,2,7),
+  (63150018, 24,2,7),
+  (63150019, 24,2,7),
+  (63150020, 24,2,7),
+  (63150005, 25,2,7),
+  (63150006, 25,2,7),
+  (63150007, 25,2,7),
+  (63150012, 25,2,5),
+  (63150013, 25,2,7),
+  (63150014, 25,2,7),
+  (63150015, 25,2,7),
+  (63150016, 25,2,7),
+  (63150017, 25,2,7),
+  (63150018, 25,2,7),
+  (63150019, 25,2,7),
+  (63150020, 25,2,7),
+  (63150005, 26,2,7),
+  (63150006, 26,2,5),
+  (63150007, 26,2,7),
+  (63150012, 26,2,5),
+  (63150013, 26,2,7),
+  (63150014, 26,2,7),
+  (63150015, 26,2,7),
+  (63150016, 26,2,7),
+  (63150017, 26,2,7),
+  (63150018, 26,2,7),
+  (63150019, 26,2,7),
+  (63150020, 26,2,7);

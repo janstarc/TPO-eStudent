@@ -6,17 +6,17 @@
 </head>
 <body>
 <section id="container">
-    <?php include("view/includes/menu-links-student-officer.php");
-    ?>
+    <?php include("view/includes/menu-links-student-officer.php"); ?>
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
-                <div class="col-xs-12 col-md-6">
-
+                <div class="col-xs-12 col-md-6 offset-md-3">
                     <h3>Urejanje žetona </h3>
 
-                    <form class="example"  action="<?= BASE_URL . "Zeton/spremeni" ?>" method="post">
-                        <input type="hidden" name="id_zeton" value="<?= $id_zeton ?>" />
+                    <form class="example"  action="<?= BASE_URL . "zetoni/spremeni" ?>" method="post">
+                        <input type="hidden" name="IdZeton" value="<?= $id ?>" />
+                        <input type="hidden" name="IdOseba" value="<?= $idOseba ?>" />
+
                         <div >
                             <select name="leto">
                                 <?php
@@ -104,10 +104,8 @@
                                 ?>
                             </select>
                             <div>
-                                <button id="btn" class="btn btn-theme btn-block" type="submit">
-                                    Spremeni </button>
+                                <button id="btn" class="btn btn-theme btn-block" type="submit">Spremeni </button>
                             </div>
-                    </form>
                 </div>
             </div>
         </section>
@@ -115,3 +113,4 @@
 </section>
 </body>
 </html>
+

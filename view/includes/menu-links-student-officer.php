@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li class="mt">
-                <a href="<?= BASE_URL . "zeton" ?>">
+                <a href="<?= BASE_URL . "zetoni" ?>">
                     <span>Žeton</span>
                 </a>
             </li>

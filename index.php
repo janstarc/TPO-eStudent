@@ -208,12 +208,30 @@ $urls = [
     }, "/^zetoni\/(\d+)$/" => function ($method, $id) {
         if ($method == "GET") StudentOfficerController::ZetonForm2($id);
         else ViewHelper::error405();
+    }, "/^zetoni\/prikaz\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::ZetonForm3($id);
+        else ViewHelper::error405();
+    }, "/^zetoni\/toogleActivated$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::toogleActivated();
+        else ViewHelper::error405();
+    }, "/^zetoni\/uredi\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::ZetonForm4($id);
+        else ViewHelper::error405();
+    }, "/^zetoni\/spremeni$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::ZetonForm5();
+        else ViewHelper::error405();
+    }, "/^zetoni\/add$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::ZetonForm6();
+        else ViewHelper::error405();
+    }, "/^zetoni\/renew/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::ZetonForm7();
+        else ViewHelper::error405();
     },
 
     "/^zeton\/EMSOSearch$/" => function ($method) {
     if ($method == "POST") StudentOfficerController::searchByEMSO();
     else ViewHelper::error405();
-    }, "/^Zeton\/spremeni$/" => function ($method) {
+    }, "/^Zetoni\/spremeni$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::spremeni();
         else ViewHelper::error405();
     }, "/^zeton\/uredi$/" => function ($method) {
@@ -221,9 +239,6 @@ $urls = [
         else ViewHelper::error405();
     }, "/^zeton\/dodaj$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::dodaj();
-        else ViewHelper::error405();
-    }, "/^zeton$/" => function ($method) {
-        if ($method == "GET") StudentOfficerController::zeton();
         else ViewHelper::error405();
     }, "/^zeton\/povprecje$/" => function($method) {
         if ($method == "POST") StudentOfficerController::povprecje();
@@ -413,6 +428,23 @@ $urls = [
         else ViewHelper::error405();
     },"/^VrstaVpisaAll\/toogleActivated$/" => function ($method) {
         if ($method == "POST") SifrantController::toogleActivatedVrstaVpisa();
+        else ViewHelper::error405();
+    },
+
+        "/^vpisVPredmet\/exportCSV$/" => function($method) {
+            if ($method == "POST") StudentOfficerController::exportCSV();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/exportPDF$/" => function($method) {
+                if ($method == "POST") StudentOfficerController::exportPDF();
+       else ViewHelper::error405();
+    },"/^vpisVPRedmet$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::vpisVPredmet();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/predmeti$/" => function($method) {
+               if ($method == "POST") StudentOfficerController::vpisVPredmetPredmeti();
+       else ViewHelper::error405();
+    },"/^vpisVPredmet\/vpisani$/" => function($method) {
+                if ($method == "POST") StudentOfficerController::vpisVPredmetVpisani();
         else ViewHelper::error405();
     }
 ];

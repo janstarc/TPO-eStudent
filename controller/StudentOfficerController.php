@@ -392,7 +392,7 @@ class StudentOfficerController {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
                 ViewHelper::render("view/ZetonChooseStudLetoViewer.php", [
-                    "pageTitle" => "Seznam vseh studijske leta",
+                    "pageTitle" => "Seznam vseh študijskih let",
                     "allData" => StudijskoLetoModel::getAll(),
                     "formAction" => "zetoni",
                     "status" => $status,
@@ -409,10 +409,55 @@ class StudentOfficerController {
     public static function ZetonForm2($id, $status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
+                $data = StudentModel::getAllStudentsByStudLeto($id);
+
+                foreach ($data as &$value) {
+                    $pogoj = StudentOfficerDB::PreveriOcene($value['VPISNA_STEVILKA']);
+
+                    if ($pogoj == 1){
+                        $value['pogoj1'] = 1;
+                        $value['pogoj2'] = 0;
+                    }
+                    elseif ($pogoj == 2){
+                        $value['pogoj1'] = 0;
+                        $value['pogoj2'] = 1;
+
+                    }
+                    else{
+                        $value['pogoj1'] = 0;
+                        $value['pogoj2'] = 0;
+                    }
+                    if($value['ID_LETNIK'] == "3" and $pogoj == 1){
+                        $value['pogoj1'] = 0;
+                        $value['pogoj2'] = 0;
+                    }
+                   $value['pogoj'] = StudentOfficerDB::PreveriOcene($value['VPISNA_STEVILKA']);
+                }
+
                 ViewHelper::render("view/ZetonChooseStudent.php", [
-                    "pageTitle" => "Seznam vseh studijske leta",
-                    "allData" => StudentModel::getAllStudentsByStudLeto($id),
-                    "formAction" => "zetoni",
+                    "pageTitle" => "Seznam vseh študentov",
+                    "allData" => $data,
+                    "formAction" => "zetoni/prikaz",
+                    "status" => $status,
+                    "message" => $message,
+                    "id" => $id
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function ZetonForm3($id, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                ViewHelper::render("view/ZetonShow.php", [
+                    "id" => $id,
+                    "pageTitle" => "Seznam vseh žetonov",
+                    "allData" => StudentOfficerDB::getZetoni($id),
+                    "formAction" => "zetoni/prikaz",
                     "status" => $status,
                     "message" => $message
                 ]);
@@ -422,6 +467,117 @@ class StudentOfficerController {
         } else {
             ViewHelper::error401();
         }
+    }
+
+    public static function ZetonForm4($id, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                ViewHelper::render("view/ZetonEdit.php", [
+                    "id" => $id,
+                    "idOseba" => StudentOfficerDB::getOseba($id),
+                    "pageTitle" => "Urejanje žetona",
+                    "zeton" => StudentOfficerDB::ZetonData($id),
+                    "all" => StudentOfficerDB::getAll(),
+                    "formAction" => "zetoni/prikaz",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+    public static function ZetonForm5( $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = filter_input_array(INPUT_POST, [
+                    "IdZeton" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "IdOseba" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "leto" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "letnik" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "program" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "Vrstavpisa" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "NacinStudija" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "OblikaStudija" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+
+                ]);
+                echo("<script>console.log('data: : ');</script>");
+                StudentOfficerDB::spremeniZeton($data);
+                self::ZetonForm3($data['IdOseba'],1, "Žeton je bil uspešno spremenjen");
+            } else {
+                ViewHelper::error403();
+
+
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+    public static function toogleActivated(){
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = filter_input_array(INPUT_POST, [
+                    "IdZeton" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "IdOseba" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+                ]);
+
+                StudentOfficerDB::ToogleActivate($data["IdZeton"]);
+                ViewHelper::redirect(BASE_URL . "zetoni/prikaz/".$data["IdOseba"]);
+
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+
+    }
+
+
+
+
+    public static function ZetonForm6(){
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = filter_input_array(INPUT_POST, [
+                    "IdOseba" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "Leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+                ]);
+
+                StudentOfficerDB::dodajNov($data["IdOseba"]);
+                echo("<script>console.log('data: : );</script>");
+                ViewHelper::redirect(BASE_URL . "zetoni/".$data["Leto"]);
+
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+
+    }
+    public static function ZetonForm7(){
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = filter_input_array(INPUT_POST, [
+                    "IdOseba" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "Leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+                ]);
+
+                StudentOfficerDB::dodajNov1($data["IdOseba"]);
+                ViewHelper::redirect(BASE_URL . "zetoni/".$data["Leto"]);
+
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+
     }
 
     public static function Zeton($status = null, $message = null) {
@@ -480,7 +636,7 @@ class StudentOfficerController {
         $data = filter_input_array(INPUT_POST, [
             "idZeton" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
         ]);
-        ViewHelper::render("view/ZetonAdd.php", [
+        ViewHelper::render("view/ZetonEdit.php", [
             "id_zeton" => $data["idZeton"],
             "zeton" => StudentOfficerDB::ZetonData($data["idZeton"]),
             "all" => StudentOfficerDB::getAll()
