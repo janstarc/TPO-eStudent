@@ -61,7 +61,7 @@ $urls = [
         if ($method == "GET") StudentOfficerController::kandidatPreglejVpisForm($id);
         else if ($method == "POST") StudentOfficerController::kandidatiPotrdiVpisForm($id);
         else ViewHelper::error405();
-    }, "/^vpisaniStudenti/" => function ($method) {
+    }, "/^vpisaniStudenti$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::vpisaniStudentiList();
         else ViewHelper::error405();
     },"/^studenti\/(\d+)$/" => function ($method, $id) {
@@ -161,7 +161,7 @@ $urls = [
     "/^dodajPredmet$/" => function ($method) {
         if ($method == "POST") AdminController::addInPredmetnik();
         else ViewHelper::error405();
-    },"/^spremeniPredmetnik/" => function ($method) {
+    },"/^spremeniPredmetnik$/" => function ($method) {
         if ($method == "POST") AdminController::spremeniPredmetnik();
         else ViewHelper::error405();
     }, "/^predmet$/" => function ($method) {
@@ -170,7 +170,7 @@ $urls = [
     },"/^Vzdrzevanjepredmetnika$/" => function ($method) {
         if ($method == "GET") AdminController::VzdrzevanjePredmetnika();
         else ViewHelper::error405();
-    }, "/^dodajPredmet\/toogleActivated/" => function ($method) {
+    }, "/^dodajPredmet\/toogleActivated$/" => function ($method) {
         if ($method == "POST") AdminController::toogleActivated();
         else ViewHelper::error405();
     },"/^DelPredmetnikaAdd$/" => function ($method) {
@@ -225,7 +225,7 @@ $urls = [
     }, "/^zetoni\/add$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::ZetonForm6();
         else ViewHelper::error405();
-    }, "/^zetoni\/renew/" => function ($method) {
+    }, "/^zetoni\/renew$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::ZetonForm7();
         else ViewHelper::error405();
     },
@@ -253,9 +253,27 @@ $urls = [
     }, "/^OsebniPodatkiStudenta\/exportPDF$/" => function($method) {
         if ($method == "POST") AdminController::exportPDF();
         else ViewHelper::error405();
-    }, "/^VnosOceneProf\/" => function($method) {
+    }, "/^VnosOceneProf$/" => function($method) {
         if($method == "GET") ProfesorController::vnosOcenProf();
+        else ViewHelper::error405();
     },
+    
+    "/^vpisVPredmet\/exportCSV$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportCSV();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/exportPDF$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportPDF();
+       else ViewHelper::error405();
+    },"/^vpisVPRedmet$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::vpisVPredmet();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/predmeti$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::vpisVPredmetPredmeti();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/vpisani$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::vpisVPredmetVpisani();
+        else ViewHelper::error405();
+    }
 
 
     // SIFRANTI, add code above
@@ -431,24 +449,8 @@ $urls = [
     },"/^VrstaVpisaAll\/toogleActivated$/" => function ($method) {
         if ($method == "POST") SifrantController::toogleActivatedVrstaVpisa();
         else ViewHelper::error405();
-    },
-
-        "/^vpisVPredmet\/exportCSV$/" => function($method) {
-            if ($method == "POST") StudentOfficerController::exportCSV();
-        else ViewHelper::error405();
-    },"/^vpisVPredmet\/exportPDF$/" => function($method) {
-                if ($method == "POST") StudentOfficerController::exportPDF();
-       else ViewHelper::error405();
-    },"/^vpisVPRedmet$/" => function($method) {
-        if ($method == "GET") StudentOfficerController::vpisVPredmet();
-        else ViewHelper::error405();
-    },"/^vpisVPredmet\/predmeti$/" => function($method) {
-               if ($method == "POST") StudentOfficerController::vpisVPredmetPredmeti();
-       else ViewHelper::error405();
-    },"/^vpisVPredmet\/vpisani$/" => function($method) {
-                if ($method == "POST") StudentOfficerController::vpisVPredmetVpisani();
-        else ViewHelper::error405();
     }
+    // add code above Sifranti
 ];
 
 foreach ($urls as $pattern => $controller) {
