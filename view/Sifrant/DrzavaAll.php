@@ -6,6 +6,7 @@
     <script>
         $(document).ready( function () {
 
+            // Override default sorta s custom sortom
             jQuery.fn.dataTableExt.oSort["slo-desc"] = function (x, y) {
                 return sloCompare(y,x);
             };
@@ -14,8 +15,12 @@
                 return sloCompare(x,y);
             };
 
-            var oTable = $("#table-drzave").dataTable({
+            var oTable = $("#table-drzave").DataTable({
+                // Custom definicije za vsak stolpec
                 "aoColumns": [{
+                    "sClass": "center",
+                    "bSortable": false
+                }, {
                     "sClass": "center",
                     "bSortable": true,
                     "sType":"slo"
@@ -40,8 +45,18 @@
                 }, {
                     "sClass": "center",
                     "bSortable": false
-                }, ]
+                } ],
+                // Ordering v prvem stolpcu
+                "order": [[ 1, 'asc' ]]
             });
+
+            // Dinamicni ordering, ko se spremeni sort parameter
+            oTable.on( 'order.dt search.dt', function () {
+                oTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                } );
+            } ).draw();
+
         } );
 
 
@@ -63,6 +78,7 @@
                         <table id="table-drzave" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Dvomestna koda</th>
                                 <th>Trimestna koda</th>
                                 <th>ISO naziv</th>
@@ -77,6 +93,7 @@
                             // var_dump($all);
                             foreach($all as $key=>$value): ?>
                                 <tr>
+                                    <td></td>
                                     <td><?php echo $value['DVOMESTNAKODA']; ?></td>
                                     <td><?php echo $value['TRIMESTNAKODA']; ?></td>
                                     <td><?php echo $value['ISONAZIV']; ?></td>
