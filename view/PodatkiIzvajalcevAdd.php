@@ -11,6 +11,9 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-xs-12 col-md-6">
+                    <br>
+                    <h3>Dodajanje novega izvajalca</h3>
+                    <br>
                     <form  action="<?= BASE_URL . "PodatkiIzvajalcev/dodaj" ?>" method="post" class="form-horizontal">
                         <div class="form-group">
                             <input type="text" class="form-control" name="ime" placeholder="Ime izvajalca" required autofocus>

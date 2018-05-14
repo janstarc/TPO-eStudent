@@ -11,9 +11,12 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-xs-12 col-md-6">
+                    <br>
+                    <h3>Vnos novega študijskega leta</h3>
+                    <br>
                     <form  action="<?= BASE_URL . "StudijskoLetoAdd/dodaj" ?>" method="post" class="form-horizontal">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="stud_leto" placeholder="Studijsko leto" required autofocus>
+                            <input type="text" class="form-control" name="stud_leto" placeholder="Studijsko leto (npr. 2018/19)" required autofocus>
                         </div>
 
                         <button id="btn" class="btn btn-theme btn-block" type="submit">Ustvari</button>

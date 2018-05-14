@@ -59,10 +59,16 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Prikaz vseh oblik studij</h4>
+                        <h4>Prikaz vseh oblik studija</h4>
                         <br>
                         <br>
                         <br>
+                        <?php if(isset($status)): ?>
+                            <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <?= $message ?>
+                            </div>
+                        <?php endif; ?>
                         <table id="table-oblikaStudija" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>

@@ -11,6 +11,9 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-xs-12 col-md-6">
+                    <br>
+                    <h3>Vnos nove oblike študija</h3>
+                    <br>
                     <form  action="<?= BASE_URL . "OblikaStudijaAdd/dodaj" ?>" method="post" class="form-horizontal">
                         <div class="form-group">
                             <input type="text" class="form-control" name="opis" placeholder="Naziv" required autofocus>

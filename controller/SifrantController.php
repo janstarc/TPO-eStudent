@@ -29,7 +29,7 @@ class SifrantController
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                 //  var_dump( SifrantDB::DelPredmetnikaGet());
-                ViewHelper::render("view/Sifrant/DelPredmetnikaAdd.php", [
+                    ViewHelper::render("view/Sifrant/DelPredmetnikaAdd.php", [
                 ]);
             }else{
                 ViewHelper::error403();
@@ -39,7 +39,7 @@ class SifrantController
         }
     }
 
-    public static function addDelPredmetnika() {
+    public static function addDelPredmetnika($status = null, $message = null) {
         $data = filter_input_array(INPUT_POST, [
             "naziv_delpredmetnika" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "st_Kt" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS] ,
@@ -49,9 +49,20 @@ class SifrantController
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::DelPredmetnikaAdd($data["naziv_delpredmetnika"],$data["st_Kt"],$data["tip"]);
-                ViewHelper::render("view/Sifrant/DelPredmetnikaAdd.php", [
-                ]);
+                if(!SifrantDB::isDuplicateDelPredmetnika($data["naziv_delpredmetnika"],$data["st_Kt"],$data["tip"])){
+                    SifrantDB::DelPredmetnikaAdd($data["naziv_delpredmetnika"],$data["st_Kt"],$data["tip"]);
+                    ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
+                        "all" => SifrantDB::DelPredmetnikaGet(),
+                        "status" => "Success",
+                        "message" => "Dodajanje uspešno"
+                    ]);
+                } else {
+                    ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
+                        "all" => SifrantDB::DelPredmetnikaGet(),
+                        "status" => "Failure",
+                        "message" => "Dodajanje neuspešno - duplikat"
+                    ]);
+                }
             }else{
                 ViewHelper::error403();
             }
@@ -70,7 +81,6 @@ class SifrantController
             if (User::isLoggedInAsAdmin()){
                    ViewHelper::render("view/Sifrant/DelPredmetnikaEdit.php", [
                     "getId" => SifrantDB::getOneDelPredmetnika($data["urediId"])
-
                 ]);
             }else{
                 ViewHelper::error403();
@@ -89,11 +99,21 @@ class SifrantController
             "st_Kt" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "tip" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-       //     echo "Edit del predmetnika";
-           // var_dump($data);
-            SifrantDB::DelPredmetnikaEdit($data["urediId"], $data["naziv_delpredmetnika"], $data["st_Kt"], $data["tip"]);
-            ViewHelper::redirect(BASE_URL . "DelPredmetnikaAll");
 
+        if(!SifrantDB::isDuplicateDelPredmetnika($data["naziv_delpredmetnika"],$data["st_Kt"],$data["tip"])){
+            SifrantDB::DelPredmetnikaEdit($data["urediId"], $data["naziv_delpredmetnika"], $data["st_Kt"], $data["tip"]);
+            ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
+                "all" => SifrantDB::DelPredmetnikaGet(),
+                "status" => "Success",
+                "message" => "Sprememba uspešna"
+            ]);
+        } else {
+            ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
+                "all" => SifrantDB::DelPredmetnikaGet(),
+                "status" => "Failure",
+                "message" => "Sprememba neuspešna - duplikat"
+            ]);
+        }
     }
 
     public static function toogleActivatedDelPredmetnika(){
@@ -158,10 +178,23 @@ class SifrantController
 
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
+
+                if(!SifrantDB::isDuplicateAddDrzava($data["dvomestnakoda"],$data["trimestnakoda"],$data["isonaziv"],$data["slonaziv"])){
+                    SifrantDB::DrzavaAdd($data["dvomestnakoda"],$data["trimestnakoda"],$data["isonaziv"],$data["slonaziv"],$data["opomba"]);
+                    ViewHelper::render("view/Sifrant/DrzavaAll.php", [
+                        "all" => SifrantDB::DrzavaGet(),
+                        "status" => "Success",
+                        "message" => "Dodajanje uspešno"
+                    ]);
+                } else {
+                    ViewHelper::render("view/Sifrant/DrzavaAll.php", [
+                        "all" => SifrantDB::DrzavaGet(),
+                        "status" => "Failure",
+                        "message" => "Dodajanje neuspešno - duplikat"
+                    ]);
+                }
                 // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::DrzavaAdd($data["dvomestnakoda"],$data["trimestnakoda"],$data["isonaziv"],$data["slonaziv"],$data["opomba"]);
-                ViewHelper::render("view/Sifrant/DrzavaAdd.php", [
-                ]);
+
             }else{
                 ViewHelper::error403();
             }
@@ -200,9 +233,21 @@ class SifrantController
             "opomba" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
        // var_dump($data);
-        SifrantDB::DrzavaEdit($data["urediId"],$data["dvomestnakoda"],$data["trimestnakoda"],$data["isonaziv"],$data["slonaziv"],$data["opomba"]);
-        ViewHelper::redirect(BASE_URL . "DrzavaAll");
 
+        if(!SifrantDB::isDuplicateEditDrzava($data["dvomestnakoda"],$data["trimestnakoda"],$data["isonaziv"],$data["slonaziv"],$data["urediId"])){
+            SifrantDB::DrzavaEdit($data["urediId"],$data["dvomestnakoda"],$data["trimestnakoda"],$data["isonaziv"],$data["slonaziv"],$data["opomba"]);
+            ViewHelper::render("view/Sifrant/DrzavaAll.php", [
+                "all" => SifrantDB::DrzavaGet(),
+                "status" => "Success",
+                "message" => "Sprememba uspešna"
+            ]);
+        } else {
+            ViewHelper::render("view/Sifrant/DrzavaAll.php", [
+                "all" => SifrantDB::DrzavaGet(),
+                "status" => "Failure",
+                "message" => "Sprememba neuspešna - duplikat"
+            ]);
+        }
     }
 
     public static function toogleActivatedDrzava(){
@@ -264,9 +309,20 @@ class SifrantController
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::LetnikAdd($data["letnik"]);
-                ViewHelper::render("view/Sifrant/LetnikAdd.php", [
-                ]);
+                if(!SifrantDB::isDuplicateLetnik($data["letnik"])){
+                    SifrantDB::LetnikAdd($data["letnik"]);
+                    ViewHelper::render("view/Sifrant/LetnikAll.php", [
+                        "all" => SifrantDB::LetnikGet(),
+                        "status" => "Success",
+                        "message" => "Sprememba uspešna"
+                    ]);
+                } else {
+                    ViewHelper::render("view/Sifrant/LetnikAll.php", [
+                        "all" => SifrantDB::LetnikGet(),
+                        "status" => "Failure",
+                        "message" => "Sprememba neuspešna - duplikat"
+                    ]);
+                }
             }else{
                 ViewHelper::error403();
             }
@@ -302,9 +358,21 @@ class SifrantController
 
         ]);
         // var_dump($data);
-        SifrantDB::LetnikEdit($data["urediId"],$data["letnik"]);
-        ViewHelper::redirect(BASE_URL . "LetnikAll");
 
+        if(!SifrantDB::isDuplicateLetnik($data["letnik"])){
+            SifrantDB::LetnikEdit($data["urediId"],$data["letnik"]);
+            ViewHelper::render("view/Sifrant/LetnikAll.php", [
+                "all" => SifrantDB::LetnikGet(),
+                "status" => "Success",
+                "message" => "Sprememba uspešna"
+            ]);
+        } else {
+            ViewHelper::render("view/Sifrant/LetnikAll.php", [
+                "all" => SifrantDB::LetnikGet(),
+                "status" => "Failure",
+                "message" => "Sprememba neuspešna - duplikat"
+            ]);
+        }
     }
 
     /************************************************************************************/
@@ -348,9 +416,20 @@ class SifrantController
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::NacinStudijaAdd($data["opis"],$data["angopis"]);
-                ViewHelper::render("view/Sifrant/NacinStudijaAdd.php", [
-                ]);
+                if(!SifrantDB::isDuplicateAddNacinStudija($data["opis"],$data["angopis"])){
+                    SifrantDB::NacinStudijaAdd($data["opis"],$data["angopis"]);
+                    ViewHelper::render("view/Sifrant/NacinStudijaAll.php", [
+                        "all" => SifrantDB::NacinStudijaGet(),
+                        "status" => "Success",
+                        "message" => "Sprememba uspešna"
+                    ]);
+                } else {
+                    ViewHelper::render("view/Sifrant/NacinStudijaAll.php", [
+                        "all" => SifrantDB::NacinStudijaGet(),
+                        "status" => "Failure",
+                        "message" => "Sprememba neuspešna - Duplikat"
+                    ]);
+                }
             }else{
                 ViewHelper::error403();
             }
@@ -387,9 +466,22 @@ class SifrantController
             "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
         // var_dump($data);
-        SifrantDB::NacinStudijaEdit($data["urediId"],$data["opis"],$data["angopis"]);
-        ViewHelper::redirect(BASE_URL . "NacinStudijaAll");
 
+        if(!SifrantDB::isDuplicateEditNacinStudija($data["opis"],$data["angopis"], $data["urediId"])){
+
+            SifrantDB::NacinStudijaEdit($data["urediId"],$data["opis"],$data["angopis"]);
+            ViewHelper::render("view/Sifrant/NacinStudijaAll.php", [
+                "all" => SifrantDB::NacinStudijaGet(),
+                "status" => "Success",
+                "message" => "Sprememba uspešna"
+            ]);
+        } else {
+            ViewHelper::render("view/Sifrant/NacinStudijaAll.php", [
+                "all" => SifrantDB::NacinStudijaGet(),
+                "status" => "Failure",
+                "message" => "Sprememba neuspešna - Duplikat"
+            ]);
+        }
     }
 
     public static function toogleActivatedNacinStudija(){
@@ -453,9 +545,22 @@ class SifrantController
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::ObcinaAdd($data["ime"]);
-                ViewHelper::render("view/Sifrant/ObcinaAdd.php", [
-                ]);
+
+                if(!SifrantDB::isDuplicateObcina($data["ime"])){
+
+                    SifrantDB::ObcinaAdd($data["ime"]);
+                    ViewHelper::render("view/Sifrant/ObcinaAll.php", [
+                        "all" => SifrantDB::ObcinaGet(),
+                        "status" => "Success",
+                        "message" => "Sprememba uspešna"
+                    ]);
+                } else {
+                    ViewHelper::render("view/Sifrant/ObcinaAll.php", [
+                        "all" => SifrantDB::ObcinaGet(),
+                        "status" => "Failure",
+                        "message" => "Sprememba neuspešna - Duplikat"
+                    ]);
+                }
             }else{
                 ViewHelper::error403();
             }
@@ -490,10 +595,22 @@ class SifrantController
             "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-        // var_dump($data);
-        SifrantDB::ObcinaEdit($data["urediId"],$data["ime"]);
-        ViewHelper::redirect(BASE_URL . "ObcinaAll");
 
+        if(!SifrantDB::isDuplicateObcina($data["ime"])){
+
+            SifrantDB::ObcinaEdit($data["urediId"],$data["ime"]);
+            ViewHelper::render("view/Sifrant/ObcinaAll.php", [
+                "all" => SifrantDB::ObcinaGet(),
+                "status" => "Success",
+                "message" => "Sprememba uspešna"
+            ]);
+        } else {
+            ViewHelper::render("view/Sifrant/ObcinaAll.php", [
+                "all" => SifrantDB::ObcinaGet(),
+                "status" => "Failure",
+                "message" => "Sprememba neuspešna - Duplikat"
+            ]);
+        }
     }
 
     public static function toogleActivatedObcina(){
@@ -560,9 +677,21 @@ class SifrantController
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::OblikaStudijaAdd($data["opis"],$data["angopis"]);
-                ViewHelper::render("view/Sifrant/OblikaStudijaAdd.php", [
-                ]);
+
+                if(!SifrantDB::isDuplicateOblikaStudija($data["opis"],$data["angopis"])){
+                    SifrantDB::OblikaStudijaAdd($data["opis"],$data["angopis"]);
+                    ViewHelper::render("view/Sifrant/OblikaStudijaAll.php", [
+                        "all" => SifrantDB::OblikaStudijaGet(),
+                        "status" => "Success",
+                        "message" => "Sprememba uspešna - Duplikat"
+                    ]);
+                } else {
+                    ViewHelper::render("view/Sifrant/OblikaStudijaAll.php", [
+                        "all" => SifrantDB::OblikaStudijaGet(),
+                        "status" => "Failure",
+                        "message" => "Sprememba neuspešna - Duplikat"
+                    ]);
+                }
             }else{
                 ViewHelper::error403();
             }
@@ -599,9 +728,21 @@ class SifrantController
             "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
         // var_dump($data);
-        SifrantDB::OblikaStudijaEdit($data["urediId"],$data["opis"],$data["angopis"]);
-        ViewHelper::redirect(BASE_URL . "OblikaStudijaAll");
 
+        if(!SifrantDB::isDuplicateOblikaStudija($data["opis"],$data["angopis"])){
+            SifrantDB::OblikaStudijaEdit($data["urediId"],$data["opis"],$data["angopis"]);
+            ViewHelper::render("view/Sifrant/OblikaStudijaAll.php", [
+                "all" => SifrantDB::OblikaStudijaGet(),
+                "status" => "Success",
+                "message" => "Sprememba uspešna"
+            ]);
+        } else {
+            ViewHelper::render("view/Sifrant/OblikaStudijaAll.php", [
+                "all" => SifrantDB::OblikaStudijaGet(),
+                "status" => "Failure",
+                "message" => "Sprememba neuspešna - Duplikat"
+            ]);
+        }
     }
 
     public static function toogleActivatedOblikaStudija(){

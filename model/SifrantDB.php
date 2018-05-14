@@ -8,6 +8,26 @@
 
 class SifrantDB
 {
+    public static function isDuplicateDelPredmetnika($naziv, $kt, $tip){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "SELECT NAZIV_DELAPREDMETNIKA,SKUPNOSTEVILOKT,TIP,AKTIVNOST
+                        FROM del_predmetnika
+                        WHERE NAZIV_DELAPREDMETNIKA = :naziv
+                        AND SKUPNOSTEVILOKT = :kt
+                        AND TIP = :tip
+                      "
+        );
+        $statement->bindValue(":naziv", $naziv);
+        $statement->bindValue(":kt", $kt);
+        $statement->bindValue(":tip", $tip);
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        if(empty($result)) return false;
+        return true;
+    }
+
     public static function DelPredmetnikaAdd($naziv, $kt, $tip){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
@@ -21,6 +41,55 @@ class SifrantDB
         $statement->execute();
         return true;
     }
+
+    public static function isDuplicateAddDrzava($dk, $tk, $iso, $slo){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "SELECT DVOMESTNAKODA, TRIMESTNAKODA, ISONAZIV, SLOVENSKINAZIV, OPOMBA, AKTIVNOST
+                        FROM drzava
+                        WHERE DVOMESTNAKODA = :dk
+                        OR TRIMESTNAKODA = :tk
+                        OR ISONAZIV = :iso
+                        OR SLOVENSKINAZIV = :slo"
+        );
+
+        $statement->bindValue(":dk", $dk);
+        $statement->bindValue(":tk", $tk);
+        $statement->bindValue(":iso", $iso);
+        $statement->bindValue(":slo", $slo);
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        if(empty($result)) return false;
+        return true;
+    }
+
+    public static function isDuplicateEditDrzava($dk, $tk, $iso, $slo, $id){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "SELECT DVOMESTNAKODA, TRIMESTNAKODA, ISONAZIV, SLOVENSKINAZIV, OPOMBA, AKTIVNOST
+                        FROM drzava
+                        WHERE (DVOMESTNAKODA = :dk
+                        OR TRIMESTNAKODA = :tk
+                        OR ISONAZIV = :iso
+                        OR SLOVENSKINAZIV = :slo)
+                        AND ID_DRZAVA != :id"
+        );
+
+        $statement->bindValue(":dk", $dk);
+        $statement->bindValue(":tk", $tk);
+        $statement->bindValue(":iso", $iso);
+        $statement->bindValue(":slo", $slo);
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        if(empty($result)) return false;
+        return true;
+    }
+
     public static function DrzavaAdd($dk, $tk, $iso, $slo, $opo){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
@@ -37,6 +106,7 @@ class SifrantDB
         return true;
 
     }
+
     public static function LetnikAdd($letnik){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
@@ -48,6 +118,59 @@ class SifrantDB
         $statement->execute();
         return true;
     }
+
+    public static function isDuplicateLetnik($letnik){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "SELECT LETNIK
+                        FROM letnik
+                        WHERE LETNIK = :letnik"
+        );
+        $statement->bindValue(":letnik", $letnik);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        if(empty($result)) return false;
+        return true;
+    }
+
+
+
+    public static function isDuplicateAddNacinStudija($opis, $angopis){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "SELECT OPIS_NACIN, ANG_OPIS_NACIN
+                       FROM nacin_studija
+                       WHERE OPIS_NACIN = :opis
+                       OR ANG_OPIS_NACIN = :angopis"
+        );
+        $statement->bindValue(":opis", $opis);
+        $statement->bindValue(":angopis", $angopis);
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        if(empty($result)) return false;
+        return true;
+    }
+
+    public static function isDuplicateEditNacinStudija($opis, $angopis, $id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "SELECT OPIS_NACIN, ANG_OPIS_NACIN, ID_NACIN
+                       FROM nacin_studija
+                       WHERE (OPIS_NACIN = :opis
+                       OR ANG_OPIS_NACIN = :angopis)
+                       AND ID_NACIN != :nacin"
+        );
+        $statement->bindValue(":opis", $opis);
+        $statement->bindValue(":angopis", $angopis);
+        $statement->bindValue(":nacin", $id);
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        if(empty($result)) return false;
+        return true;
+    }
+
     public static function NacinStudijaAdd($opis, $angopis){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
@@ -61,6 +184,22 @@ class SifrantDB
         $statement->execute();
         return true;
     }
+
+    public static function isDuplicateObcina($ime){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "SELECT IME_OBCINA
+                        FROM obcina
+                        WHERE IME_OBCINA = :ime"
+        );
+        $statement->bindValue(":ime", $ime);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        if(empty($result)) return false;
+        return true;
+    }
+
+
     public static function ObcinaAdd($ime){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
@@ -84,6 +223,24 @@ class SifrantDB
         $statement->bindValue(":ang", $ang);
 
         $statement->execute();
+        return true;
+    }
+
+    public static function isDuplicateOblikaStudija($naziv,$ang){
+
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "SELECT NAZIV_OBLIKA, ANG_OPIS_OBLIKA
+                        FROM oblika_studija
+                        WHERE NAZIV_OBLIKA = :naziv
+                        AND ANG_OPIS_OBLIKA = :ang"
+        );
+        $statement->bindValue(":naziv", $naziv);
+        $statement->bindValue(":ang", $ang);
+
+        $statement->execute();
+        $result = $statement->fetchAll();
+        if(empty($result)) return false;
         return true;
     }
     public static function PostaAdd($stevilka, $kt){

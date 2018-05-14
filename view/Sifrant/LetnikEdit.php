@@ -11,6 +11,9 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-xs-12 col-md-6">
+                    <br>
+                        <h3>Urejanje letnika</h3>
+                    <br>
                     <form  action="<?= BASE_URL . "LetnikAll/edit" ?>" method="post" class="form-horizontal">
                         <input type="hidden" name="urediId" value="<?= $getId["ID_LETNIK"] ?>"  />
                         <div class="form-group">

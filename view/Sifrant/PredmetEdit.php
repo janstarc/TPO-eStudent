@@ -11,6 +11,9 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-xs-12 col-md-6">
+                    <br>
+                    <h3>Urejanje predemta</h3>
+                    <br>
                     <form  action="<?= BASE_URL . "PredmetAll/edit" ?>" method="post" class="form-horizontal">
                         <input type="hidden" name="urediId" value="<?= $getId["ID_PREDMET"] ?>"  />
                         <div class="form-group">

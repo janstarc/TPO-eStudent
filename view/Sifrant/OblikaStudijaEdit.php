@@ -11,6 +11,9 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-xs-12 col-md-6">
+                    <br>
+                    <h3>Urejanje oblike študija</h3>
+                    <br>
                     <form  action="<?= BASE_URL . "OblikaStudijaAll/edit" ?>" method="post" class="form-horizontal">
                         <input type="hidden" name="urediId" value="<?= $getId["ID_OBLIKA"] ?>"  />
                         <div class="form-group">
