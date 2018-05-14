@@ -228,11 +228,22 @@ $urls = [
     }, "/^zetoni\/renew$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::ZetonForm7();
         else ViewHelper::error405();
-    },"/^vpisVPRedmet$/" => function($method) {
+
+
+    },"/^vpisPredmet$/" => function($method) {
         if ($method == "GET") StudentOfficerController::VpisaniForm1();
         else ViewHelper::error405();
-    }, "/^leto\/(\d+)$/" => function ($method, $id) {
+    }, "/^vpisPredmet\/leto\/(\d+)$/" => function ($method, $id) {
         if ($method == "GET") StudentOfficerController::VpisaniForm2($id);
+        else ViewHelper::error405();
+    }, "/^vpisPredmet\/predmet\/(\d+)\/(\d+)$/" => function ($method, $id, $id2) {
+        if ($method == "GET") StudentOfficerController::VpisaniForm3($id, $id2);
+        else ViewHelper::error405();
+    },"/^VpisaniPrikaz\/exportCSV$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportCSV();
+        else ViewHelper::error405();
+    }, "/^VpisaniPrikaz\/exportPDF$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportPDF();
         else ViewHelper::error405();
     },
 
@@ -265,22 +276,7 @@ $urls = [
         else ViewHelper::error405();
     },
     
-    "/^vpisVPredmet\/exportCSV$/" => function($method) {
-        if ($method == "POST") StudentOfficerController::exportCSV();
-        else ViewHelper::error405();
-    },"/^vpisVPredmet\/exportPDF$/" => function($method) {
-        if ($method == "POST") StudentOfficerController::exportPDF();
-       else ViewHelper::error405();
-    },"/^vpisVPRedmet$/" => function($method) {
-        if ($method == "GET") StudentOfficerController::VpisaniForm1();
-        else ViewHelper::error405();
-    },"/^vpisVPredmet\/predmeti$/" => function($method) {
-        if ($method == "POST") StudentOfficerController::vpisVPredmetPredmeti();
-        else ViewHelper::error405();
-    },"/^vpisVPredmet\/vpisani$/" => function($method) {
-        if ($method == "POST") StudentOfficerController::vpisVPredmetVpisani();
-        else ViewHelper::error405();
-    },
+
 
     // SIFRANTI, add code above
     "/^DrzavaAdd$/" => function ($method) {
@@ -475,3 +471,19 @@ foreach ($urls as $pattern => $controller) {
 }
 
 ViewHelper::error404();
+/*"/^vpisVPredmet\/exportCSV$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportCSV();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/exportPDF$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportPDF();
+       else ViewHelper::error405();
+    },"/^vpisVPRedmet$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::VpisaniForm1();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/predmeti$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::vpisVPredmetPredmeti();
+        else ViewHelper::error405();
+    },"/^vpisVPredmet\/vpisani$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::vpisVPredmetVpisani();
+        else ViewHelper::error405();
+    },*/

@@ -34,6 +34,7 @@
                                 <th>Oblika študija</th>
                                 <th>Vrsta vpisa</th>
                                 <th>Program</th>
+                                <th>Prosta izbirnost</th>
                                 <th>Izkoriščen</th>
                                 <th>Veljavnost</th>
                                 <th>Spremeni veljavnost</th>
@@ -46,8 +47,6 @@
 
                             $n =0;
 
-
-
                             foreach($allData as $data):
 
                                 $n+=1;
@@ -55,6 +54,10 @@
                                 if($aktivnost == 1) $aktivnost = "Aktiven" ; else $aktivnost = "Neaktiven" ;
                                 $izkoriscen = $data["IZKORISCEN"];
                                 if ($izkoriscen == 1) $izkoriscen = "Da"; else $izkoriscen = "Ne";
+
+                                $izbirnost = $data['PROSTA_IZBIRNOST'];
+                                if ($izbirnost == 1) $izbirnost = "Da"; else $izbirnost = "Ne";
+
                                 ?>
                                 <tr>
                                     <td><?php echo $n ; ?></td>
@@ -66,6 +69,7 @@
                                     <td><?php echo $data['NAZIV_OBLIKA'] ; ?></td>
                                     <td><?php echo $data['OPIS_VPISA']; ?></td>
                                     <td><?php echo $data['SIFRA_EVS']; ?></td>
+                                    <td><?php echo $izbirnost ?></td>
                                     <td><?php echo $izkoriscen; ?></td>
 
                                     <td><?php echo $aktivnost; ?></td>

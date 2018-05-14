@@ -43,7 +43,7 @@
             <div  <?php if ($predmeti == null){ echo 'style="display:none;"' ; } ?>  class="row">
                 <div  class="col-xs-12 col-md-6">
                     <h3>Izberite predmet </h3>
-                    <form class="example"  action="<?= BASE_URL . "vpisPredmet/vpisani" ?>" method="post">
+                    <form class="example"  action="<?= BASE_URL . "vpisPredmet/vpisani2" ?>" method="post">
                         <table id="table-izpitov" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
@@ -63,7 +63,7 @@
                                 <td><?= $izvedba?></td>
 
                                 <td>
-                                    <form class=example  action="<?= BASE_URL . "vpisPredmet/vpisani" ?>" method='post'>
+                                    <form class=example  action="<?= BASE_URL . "vpisPredmet/vpi2sani" ?>" method='post'>
                                         <input type="hidden" name="idPredmet" value="<?= $id ?>" />
                                         <input type="hidden" name="leto" value="<?= $leto ?>" />
                                         <button type=submit >Izberi</button>
