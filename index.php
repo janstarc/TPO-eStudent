@@ -228,7 +228,14 @@ $urls = [
     }, "/^zetoni\/renew$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::ZetonForm7();
         else ViewHelper::error405();
+    },"/^vpisVPRedmet$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::VpisaniForm1();
+        else ViewHelper::error405();
+    }, "/^leto\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::VpisaniForm2($id);
+        else ViewHelper::error405();
     },
+
 
     "/^zeton\/EMSOSearch$/" => function ($method) {
     if ($method == "POST") StudentOfficerController::searchByEMSO();
@@ -265,7 +272,7 @@ $urls = [
         if ($method == "POST") StudentOfficerController::exportPDF();
        else ViewHelper::error405();
     },"/^vpisVPRedmet$/" => function($method) {
-        if ($method == "GET") StudentOfficerController::vpisVPredmet();
+        if ($method == "GET") StudentOfficerController::VpisaniForm1();
         else ViewHelper::error405();
     },"/^vpisVPredmet\/predmeti$/" => function($method) {
         if ($method == "POST") StudentOfficerController::vpisVPredmetPredmeti();

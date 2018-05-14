@@ -61,7 +61,13 @@ class UserModel {
 
                 if($id_program != null){                // Preverimo, ce je program valid
                     $id_oseba = self::insertOseba($db, $value);         // V oseba vstavi --> Ime, Priimek, email, username, geslo, vrsta_vloge, tel
+
+
                     self::insertKandidat($db, $id_program, $id_oseba, $id_stud_leto, $value['vpisna']);   // V kandidat vstavi id_program, id_oseba, id_stud_leto, izkoriscen to 0
+
+                    //KODA: Pavlin -> dodajanje žetonov novim kandidatom
+                    self::insertZeton( $id_oseba, $id_program,$id_stud_leto);
+                    //END: Pavlin
                 }
 
             } else if ($value['duplikat'] == "DA" && $value['update'] == "DA"){         // Gre za posodobitev vnosa
@@ -302,12 +308,10 @@ class UserModel {
 
 
     //KODA: Pavlin -> dodajanje žetonov novim kandidatom
-    // TODO --> Ta funkcija se nikoli ne kliče! --> DELETE???
-    public static function insertZeton($id_oseba, $id_program){
+    public static function insertZeton($id_oseba, $id_program, $leto){
 
         $db = DBInit::getInstance();
         $letnik = 1;
-        $leto = 3;
         $nacin = 1;
         $oblika = 1;
         $vrsta = 1;
