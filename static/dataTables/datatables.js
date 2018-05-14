@@ -11304,8 +11304,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sFirst": "First",
-	
+
 	
 				/**
 				 * Text to use when using the 'full_numbers' type of pagination for the
@@ -11327,7 +11326,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sLast": "Last",
+				"sLast": "Zadnja",
 	
 	
 				/**
@@ -11350,7 +11349,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
+				"sNext": "Naslednja",
 	
 	
 				/**
@@ -11373,7 +11372,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
+				"sPrevious": "Prejšnja"
 			},
 	
 			/**
@@ -11396,7 +11395,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "Ta tabela ne vsebuje podatkov",
 	
 	
 			/**
@@ -11428,7 +11427,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+			"sInfo": "Prikazane vrsice <b>_START_</b> do <b>_END_</b>  (Skupno _TOTAL_ vrstic)",
 	
 	
 			/**
@@ -11449,7 +11448,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+			"sInfoEmpty": "Prikazanih 0 vrstic - Ni zadetkov",
 	
 	
 			/**
@@ -11471,7 +11470,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(filtered from _MAX_ total entries)",
+			"sInfoFiltered": "(filtrirano od _MAX_ vrstic)",
 	
 	
 			/**
@@ -11589,7 +11588,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "Show _MENU_ entries",
+			"sLengthMenu": "Prikaži _MENU_ vrstic",
 	
 	
 			/**
@@ -11613,7 +11612,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLoadingRecords": "Loading...",
+			"sLoadingRecords": "Nalaganje...",
 	
 	
 			/**
@@ -11634,7 +11633,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sProcessing": "Processing...",
+			"sProcessing": "Procesiranje...",
 	
 	
 			/**
@@ -11669,7 +11668,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "Search:",
+			"sSearch": "Išči:",
 	
 	
 			/**
@@ -11727,7 +11726,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
+			"sZeroRecords": "Ni zadetkov"
 		},
 	
 	

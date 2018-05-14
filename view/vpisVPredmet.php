@@ -3,6 +3,43 @@
 <html lang="en">
 <head>
     <?php include("view/includes/head.php"); ?>
+    <script>
+        $(document).ready( function () {
+
+            // Override default sorta s custom sortom
+            jQuery.fn.dataTableExt.oSort["slo-desc"] = function (x, y) {
+                return sloCompare(y,x);
+            };
+
+            jQuery.fn.dataTableExt.oSort["slo-asc"] = function (x, y) {
+                return sloCompare(x,y);
+            };
+
+            var oTable = $("#table-izpitov").DataTable({
+                // Custom definicije za vsak stolpec
+                "aoColumns": [{
+                    "sClass": "center",
+                    "bSortable": false
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": false
+                }],
+                // Ordering v prvem stolpcu
+                "order": [[ 1, 'asc' ]]
+            });
+
+            // Dinamicni ordering, ko se spremeni sort parameter
+            oTable.on( 'order.dt search.dt', function () {
+                oTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                } );
+            } ).draw();
+        } );
+    </script>
 </head>
 <body>
 <section id="container">
@@ -24,18 +61,18 @@
                                 echo "<option disabled selected value=''>"." Šolsko leto"."</option>";
 
                                 foreach ($leta as $key => $value){
-                                  echo "<option value=".$value['ID_STUD_LETO']."  >".$value['STUD_LETO']."</option>";
+                                    echo "<option value=".$value['ID_STUD_LETO']."  >".$value['STUD_LETO']."</option>";
 
                                 }
                                 ?>
                             </select>
                         </div>
-                            <div>
+                        <div>
 
 
-                                <button id="btn" class="btn btn-theme btn-block" type="submit">
-                                    Izberi </button>
-                            </div>
+                            <button id="btn" class="btn btn-theme btn-block" type="submit">
+                                Izberi </button>
+                        </div>
                     </form>
                 </div>
 
@@ -47,6 +84,7 @@
                         <table id="table-izpitov" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Ime predmeta</th>
                                 <th>Izberi predmet</th>
                             </tr>
@@ -60,6 +98,7 @@
                                 $id =$row["ID_PREDMET"];
                                 ?>
                             <tr>
+                                <td></td>
                                 <td><?= $izvedba?></td>
 
                                 <td>
@@ -91,7 +130,7 @@
 
             if ($vpisani == null){ echo 'style="display:none;"' ; } ?>  class="row">
                 <div  class="col-xs-12 col-md-6">
-<br>
+                    <br>
                     <?php $data = [$predmet["ID_PREDMET"],$predmet["IME_PREDMET"],$leto,count($vpisani)]?>
                     <h2>Seznam vpisanih</h2>
                     <form  action="<?= BASE_URL . "vpisVPredmet/exportCSV" ?>" method="post">
@@ -128,45 +167,45 @@
                     </table>
 
 
-                            <table id="table-izpitov" class="table table-striped table-advance table-hover">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Vpisna številka</th>
-                                    <th>Priimek in ime</th>
-                                    <th>Vrsta vpisa</th>
+                    <table id="table-izpitov" class="table table-striped table-advance table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Vpisna številka</th>
+                            <th>Priimek in ime</th>
+                            <th>Vrsta vpisa</th>
 
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <?php
-                                    $count = 0;
-                                    foreach ($vpisani as $row) {
-                                        $count +=1;
-                                        $ime = $row["PRIIMEK"]." ". $row["IME"];
-                                        $arr = [$count,$row["VPISNA_STEVILKA"],$ime,$row["OPIS_VPISA"]];
-                                        array_push($data, $arr)
-                                    ?>
-                                <tr>
-                                    <td><?= $count ?></td>
-                                    <td><?= $row["VPISNA_STEVILKA"]?></td>
-                                    <td><?= $ime ?></td>
-                                    <th><?= $row["OPIS_VPISA"] ?></th>
-
-
-                                </tr><?php
-                                }
-                                ?>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <?php
+                            $count = 0;
+                            foreach ($vpisani as $row) {
+                            $count +=1;
+                            $ime = $row["PRIIMEK"]." ". $row["IME"];
+                            $arr = [$count,$row["VPISNA_STEVILKA"],$ime,$row["OPIS_VPISA"]];
+                            array_push($data, $arr)
+                            ?>
+                        <tr>
+                            <td><?= $count ?></td>
+                            <td><?= $row["VPISNA_STEVILKA"]?></td>
+                            <td><?= $ime ?></td>
+                            <th><?= $row["OPIS_VPISA"] ?></th>
 
 
+                        </tr><?php
+                        }
+                        ?>
 
-                                </tbody>
-                            </table>
+
+
+                        </tbody>
+                    </table>
 
                 </div>
 
-        </div>
+            </div>
         </section>
     </section>
 </section>

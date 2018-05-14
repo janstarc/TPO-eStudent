@@ -56,10 +56,7 @@
                     cell.innerHTML = i+1;
                 } );
             } ).draw();
-
         } );
-
-
     </script>
 </head>
 <body>
@@ -71,7 +68,7 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Prikaz podatkov o drzavah</h4>
+                        <h4>Prikaz podatkov o državah</h4>
                         <br>
                         <br>
                         <br>
@@ -90,7 +87,6 @@
                             </thead>
                             <tbody>
                             <?php
-                            // var_dump($all);
                             foreach($all as $key=>$value): ?>
                                 <tr>
                                     <td></td>
@@ -118,7 +114,6 @@
                             <?php endforeach; ?>
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
