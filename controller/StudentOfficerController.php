@@ -393,6 +393,7 @@ class StudentOfficerController {
     public static function ZetonForm1($status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
+
                 ViewHelper::render("view/ZetonChooseStudLetoViewer.php", [
                     "pageTitle" => "Seznam vseh študijskih let",
                     "allData" => StudijskoLetoModel::getAll(),
@@ -412,7 +413,10 @@ class StudentOfficerController {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
                 $data = StudentModel::getAllStudentsByStudLeto($id);
-
+                if (count($data) == 0){
+                    $status = 1;
+                    $message = "V to študijsko leto še ni vpisanih študentov!";
+                }
                 foreach ($data as &$value) {
                     $pogoj = StudentOfficerDB::PreveriOcene($value['VPISNA_STEVILKA']);
 
@@ -506,7 +510,7 @@ class StudentOfficerController {
 
 
                 ]);
-                echo("<script>console.log('data: : ');</script>");
+
                 StudentOfficerDB::spremeniZeton($data);
                 self::ZetonForm3($data['IdOseba'],1, "Žeton je bil uspešno spremenjen");
             } else {
@@ -718,6 +722,52 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
+
+    public static function VpisaniForm1($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+
+                ViewHelper::render("view/VpisaniChooseLeto.php", [
+                    "pageTitle" => "Seznam vseh študijskih let",
+                    "allData" => StudijskoLetoModel::getAll(),
+                    "formAction" => "leto",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function VpisaniForm2($id, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+
+                $data = StudijskoLetoModel::getAll();
+                if(count($data) == 0){
+                    $status = 1;
+                    $message = "V tem letu še ni predmetov";
+                }
+                StudentOfficerDB::getPredmeti($id);
+                ViewHelper::render("view/VpisaniChoosePredmet.php", [
+                    "pageTitle" => "Seznam vseh študijskih let",
+                    "allData" => $data,
+                    "formAction" => "predmet",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+
 
     public static function vpisVPredmetVpisani($status = null, $message = null) {
         if (User::isLoggedIn()){
