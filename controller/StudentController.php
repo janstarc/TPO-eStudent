@@ -4,6 +4,8 @@ require_once("model/UserModel.php");
 require_once("model/DataForExportModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
+require_once ("view/includes/tfpdf.php");
+
 
 class StudentController {
     public static function elektronskiIndeksForm() {
@@ -35,12 +37,12 @@ class StudentController {
         $studData = KandidatModel::getKandidatPodatki($studentId);
         $emso=DataForExportModel::getEmso($studentId);
         //Osebni podatki
-        $header = array('Ime', 'Priimek', 'Email', 'EMSO','Telefon','Drzavljanstvo');
+        $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon','Državljanstvo');
         $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $emso['EMSO'], $studData['telefonska_stevilka'],"Slovenija");
 
         //Naslov za vrocanje in stalni naslov
         $naslove=KandidatModel::getOsebaVseNaslove($studentId);
-        $header1 = array('Ulica', 'Hisna stevilka', 'Kraj','Postna stevilka');
+        $header1 = array('Ulica', 'Hišna številka', 'Kraj','Poštna številka');
         foreach ($naslove as $key => $value) {
             if ($value['JE_STALNI'] == 1) {
                 $naslovStalnegaBivalisca=array($value['ULICA'],$value['HISNA_STEVILKA'],$value['KRAJ'],$value['ST_POSTA']);
@@ -57,11 +59,11 @@ class StudentController {
         $vpisData=DataForExportModel::getVpisPodatki($studentId);
         $studLetoVpisna=DataForExportModel::getStudijskoLetoAndVpisna($studentId);
         $username=$studData['uporabnisko_ime'];
-        $header2=array('Stidijski program','Studijsko leto','Vpisna stevilka','Uporabnisko ime');
+        $header2=array('Štidijski program','Študijsko leto','Vpisna Številka','Uporabniško ime');
         $lineData2=array($vpisData['NAZIV_PROGRAM'],$studLetoVpisna['STUD_LETO'],$studLetoVpisna['VPISNA_STEVILKA'],$username);
 
         //Predmetnik
-        $header3=array('Ime predmeta','Sifra predmeta','KT','Izvajalec');
+        $header3=array('Ime predmeta','Šifra predmeta','KT','Izvajalec');
         $imena=array();
         $lineData3=array();
         $sifre=array();
@@ -69,44 +71,58 @@ class StudentController {
 
         $predmete=DataForExportModel::getPredmete($studLetoVpisna['STUD_LETO'],$vpisData['ID_PROGRAM'],$studLetoVpisna['ID_LETNIK']);
 
-        for($i=0; $i<count($predmete);$i++){
+//        $allIzvajalcih=ar
+       for($i=0; $i<count($predmete);$i++){
             $imena[$i]=$predmete[$i]['IME_PREDMET'];
             $sifre[$i]=$predmete[$i]['ID_PREDMET'];
             $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
-            $izvajalec[$i]=0;
-        }
+            $getIzvajalec=DataForExportModel::getIzvajalec($sifre[$i],$studLetoVpisna['STUD_LETO']);
 
-        $pdf = new FPDF();
+            $izvajalec[$i]=$getIzvajalec["IME"] . " " . $getIzvajalec["PRIIMEK"];
+       }
+
+
+
+        /*        foreach ($predmete as $key => $value){
+                    $imena[$i]=$predmete[$i]['IME_PREDMET'];
+                    $sifre[$i]=$predmete[$i]['ID_PREDMET'];
+                    $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
+                    $getIzvajalec=DataForExportModel::getIzvajalec($sifre[$i],$studLetoVpisna['STUD_LETO']);
+                }*/
+
+        $pdf= new tFPDF();
         $pdf->AddPage();
+        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 
-        $pdf->SetFont('Arial','B',30);
+
+        $pdf->SetFont('DejaVu','',30);
         $pdf->Cell(200,50,'VPISNI LIST ',0,0,'C');
         $pdf->Ln();
 
-        $pdf->SetFont('Arial','B',15);
-        $pdf->Cell(80,10,'Osebni podatki studenta',0,0,'C');
-        $pdf->Cell(100,10,'Naslov za vrocanje',0,0,'C');
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(80,10,'Osebni podatki študenta',0,0,'C');
+        $pdf->Cell(100,10,'Naslov za vročanje',0,0,'C');
         $pdf->Ln();
-        $pdf->SetFont('Arial','B',8);
+        $pdf->SetFont('DejaVu','',8);
         $pdf->BasicTable3($header,$lineData,$header1,$naslovPrejemanje);
         $pdf->Ln();
 
-        $pdf->SetFont('Arial','B',15);
+        $pdf->SetFont('DejaVu','',15);
         $pdf->Cell(80,10,'Podatki o vpisu',0,0,'C');
         $pdf->Cell(100,10,'Stalni naslov',0,0,'C');
         $pdf->Ln();
-        $pdf->SetFont('Arial','B',8);
+        $pdf->SetFont('DejaVu','',8);
         $pdf->BasicTable3($header2,$lineData2,$header1,$naslovStalnegaBivalisca);
         $pdf->Ln();
         $pdf->Ln();
 
-        $pdf->SetFont('Arial','B',15);
-        $pdf->Cell(150,10,'Predmetnik studenta',0,0,'C');
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(180,10,'Predmetnik študenta',0,0,'C');
         $pdf->Ln();
-        $pdf->SetFont('Arial','B',8);
+        $pdf->SetFont('DejaVu','',8);
         $pdf->BasicTable2($header3,$imena,$lineData3,$sifre,$izvajalec);
 
-        $pdf->Output('I','data.pdf');
+        $pdf->Output();
 
         $filename="data.pdf";
         header('Content-Type: application/pdf');
@@ -118,12 +134,12 @@ class StudentController {
         $studData = KandidatModel::getKandidatPodatki($studentId);
         $emso=DataForExportModel::getEmso($studentId);
         //Osebni podatki
-        $header = array('Ime', 'Priimek', 'Email', 'EMSO','Telefon','Drzavljanstvo');
+        $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon','Državljanstvo');
         $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $emso['EMSO'], $studData['telefonska_stevilka'],"Slovenija");
 
         //Naslov za vrocanje in stalni naslov
         $naslove=KandidatModel::getOsebaVseNaslove($studentId);
-        $header1 = array('Ulica', 'Hisna stevilka', 'Kraj','Postna stevilka');
+        $header1 = array('Ulica', 'Hišna številka', 'Kraj','Poštna številka');
         foreach ($naslove as $key => $value) {
             if ($value['JE_STALNI'] == 1) {
                 $naslovStalnegaBivalisca=array($value['ULICA'],$value['HISNA_STEVILKA'],$value['KRAJ'],$value['ST_POSTA']);
@@ -140,11 +156,11 @@ class StudentController {
         $vpisData=DataForExportModel::getVpisPodatki($studentId);
         $studLetoVpisna=DataForExportModel::getStudijskoLetoAndVpisna($studentId);
         $username=$studData['uporabnisko_ime'];
-        $header2=array('Stidijski program','Studijsko leto','Vpisna stevilka','Uporabnisko ime');
+        $header2=array('Štidijski program','Študijsko leto','Vpisna Številka','Uporabniško ime');
         $lineData2=array($vpisData['NAZIV_PROGRAM'],$studLetoVpisna['STUD_LETO'],$studLetoVpisna['VPISNA_STEVILKA'],$username);
 
         //Predmetnik
-        $header3=array('Ime predmeta','Sifra predmeta','KT','Izvajalec');
+        $header3=array('Ime predmeta','Šifra predmeta','KT','Izvajalec');
         $imena=array();
         $lineData3=array();
         $sifre=array();
@@ -156,46 +172,50 @@ class StudentController {
             $imena[$i]=$predmete[$i]['IME_PREDMET'];
             $sifre[$i]=$predmete[$i]['ID_PREDMET'];
             $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
-            $izvajalec[$i]=0;
+            $getIzvajalec=DataForExportModel::getIzvajalec($sifre[$i],$studLetoVpisna['STUD_LETO']);
+
+            $izvajalec[$i]=$getIzvajalec["IME"] . " " . $getIzvajalec["PRIIMEK"];
         }
 
-        $pdf = new FPDF();
+        $pdf= new tFPDF();
         for($i=0;$i<6;$i++){
             $pdf->AddPage();
+            $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 
-            $pdf->SetFont('Arial','B',30);
+
+            $pdf->SetFont('DejaVu','',30);
             $pdf->Cell(200,50,'VPISNI LIST ',0,0,'C');
             $pdf->Ln();
 
-            $pdf->SetFont('Arial','B',15);
-            $pdf->Cell(80,10,'Osebni podatki studenta',0,0,'C');
-            $pdf->Cell(100,10,'Naslov za vrocanje',0,0,'C');
+            $pdf->SetFont('DejaVu','',15);
+            $pdf->Cell(80,10,'Osebni podatki študenta',0,0,'C');
+            $pdf->Cell(100,10,'Naslov za vročanje',0,0,'C');
             $pdf->Ln();
-            $pdf->SetFont('Arial','B',8);
+            $pdf->SetFont('DejaVu','',8);
             $pdf->BasicTable3($header,$lineData,$header1,$naslovPrejemanje);
             $pdf->Ln();
 
-            $pdf->SetFont('Arial','B',15);
+            $pdf->SetFont('DejaVu','',15);
             $pdf->Cell(80,10,'Podatki o vpisu',0,0,'C');
             $pdf->Cell(100,10,'Stalni naslov',0,0,'C');
             $pdf->Ln();
-            $pdf->SetFont('Arial','B',8);
+            $pdf->SetFont('DejaVu','',8);
             $pdf->BasicTable3($header2,$lineData2,$header1,$naslovStalnegaBivalisca);
             $pdf->Ln();
             $pdf->Ln();
 
-            $pdf->SetFont('Arial','B',15);
-            $pdf->Cell(150,10,'Predmetnik studenta',0,0,'C');
+            $pdf->SetFont('DejaVu','',15);
+            $pdf->Cell(180,10,'Predmetnik študenta',0,0,'C');
             $pdf->Ln();
-            $pdf->SetFont('Arial','B',8);
+            $pdf->SetFont('DejaVu','',8);
             $pdf->BasicTable2($header3,$imena,$lineData3,$sifre,$izvajalec);
 
-          
+
 
         }
 
 
-        $pdf->Output('I','data.pdf');
+        $pdf->Output();
 
         $filename="data.pdf";
         header('Content-Type: application/pdf');

@@ -1744,7 +1744,17 @@ INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VL
   (25,'Martin', 'MartinS', '123456', 's', 'Martin', 'Rešetič','040040045'),
   (26,'Manca', 'MancaS', '123456', 's', 'Manca', 'Srečko','040040045'),
   (27,'Tjaša', 'TjašaS', '123456', 's', 'Tjaša', 'Šenica','040040045'),
-  (28,'Benjamin', 'Benjamin', '123456', 's', 'Testen', 'Dragovan','040040045');
+  (28,'Benjamin', 'Benjamin', '123456', 's', 'Testen', 'Dragovan','040040045'),
+  (29,'GašperF','GašperF','123456','p','Gašper','Fijavž','040502896'),
+  (30,'PolonaO','PolonaO','123456','p','Polona','Oblak','040502896'),
+  (31,'VilijanM','VilijanM','123456','p','Vilijan','Mahnič','040502896'),
+  (32,'NikolajZ','NikolajZ','123456','p','Nikolaj','Zimic','040502896'),
+  (33,'IrenaD','IrenaD','123456','p','Irena','Drvenšek','040502896'),
+  (34,'BoštijanS','BoštijanS','123456','p','Boštijan','Slivnik','040502896'),
+  (35,'BrankoŠ','BrankoŠ','123456','p','Branko','Šter','040502896'),
+  (36,'ZoranB','ZoranB','123456','p','Zoran','Bosnič','040502896'),
+  (37,'DejanL','DejanL','123456','p','Dejan','Lavbič','040502896'),
+  (38,'BojanO','BojanO','123456','p','Bojan','Orel','040502896');
 # absolvent, pogojnoNaprej, PonavljalecNaredl7, zamenjalProgram
 # preverjanje login:
 # uporabnisko ime=testS  geslo='123456'
@@ -2046,7 +2056,16 @@ VALUES
   (9, 3, 2, 13, 14, 1),
   (10, 3, 2, NULL, NULL, 6),
   (11, 3, 13, 14, NULL, 4),
-  (12, 3, 14, NULL, NULL, 12);
+  (12, 3, 14, NULL, NULL, 12),
+
+  (13,2,29,NULL,NULL,10),
+  (14,2,30,NULL,NULL,9),
+  (15,2,32,NULL,NULL,11),
+  (16,2,34,NULL,NULL,13),
+  (17,2,35,NULL,NULL,15),
+  (18,2,36,NULL,NULL,16),
+  (19,2,37,NULL,NULL,17),
+  (20,2,38,NULL,NULL,14);
 
 INSERT INTO `tpo`.`vpis`(`ID_VPIS`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_VRSTAVPISA`,
                          `ID_OBLIKA`,`ID_LETNIK`,`POTRJENOST_VPISA`,`VPISNA_STEVILKA`)VALUES
