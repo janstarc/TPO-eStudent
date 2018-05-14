@@ -1058,16 +1058,16 @@ function Output($dest='', $name='', $isUTF8=false)
     function BasicTable2($header,$imena,$lineData,$sifre,$izvajalec)
     {
         for($i=0; $i<count($header);$i++) {
-            $this->Cell(30, 7, $header[$i], 0);
+            $this->Cell(50, 7, $header[$i], 0);
 
         }
         $this->Ln();
 
         for($i=0; $i<count($imena);$i++) {
-            $this->Cell(30, 7, $imena[$i], 0);
-            $this->Cell(30, 7, $sifre[$i], 0);
-            $this->Cell(30, 7, $lineData[$i], 0);
-            $this->Cell(30, 7, $izvajalec[$i], 0);
+            $this->Cell(55, 7, $imena[$i], 0);
+            $this->Cell(50, 7, $sifre[$i], 0);
+            $this->Cell(50, 7, $lineData[$i], 0);
+            $this->Cell(50, 7, $izvajalec[$i], 0);
         	$this->Ln();
         }
     }
@@ -1079,6 +1079,47 @@ function Output($dest='', $name='', $isUTF8=false)
             $this->Cell(50, 7, $lineData[$i], 1);
             $this->Ln();
         }
+
+	}
+
+	function BasicTableH($header,$lineData){
+
+        foreach($header as $col) {
+            $this->Cell(55, 7, $col, 1);
+
+        }
+        $this->Ln();
+
+        // Data
+
+		foreach ($lineData as $row) {
+
+         foreach ($row as $col) {
+             $this->Cell(55, 7, $col, 1);
+
+         }
+            $this->Ln();
+        }
+
+
+
+
+	}
+
+    function BasicTableH2($header,$lineData){
+
+        foreach($header as $col) {
+            $this->Cell(50, 7, $col, 1);
+        }
+        $this->Ln();
+        // Data
+
+
+        foreach ($lineData as $col) {
+                $this->Cell(50, 7, $col, 1);
+
+            }
+        $this->Ln();
 
 	}
 

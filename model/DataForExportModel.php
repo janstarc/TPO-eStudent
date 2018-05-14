@@ -53,17 +53,42 @@ class DataForExportModel
 
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT IME_PREDMET,ST_KREDITNIH_TOCK 
+            SELECT DISTINCT IME_PREDMET,ST_KREDITNIH_TOCK,p.ID_PREDMET 
             FROM PREDMET as p
             JOIN PREDMETNIK as pr
             ON p.ID_PREDMET=pr.ID_PREDMET 
-            WHERE ID_LETNIK=1 AND ID_PROGRAM=11 AND ID_STUD_LETO=2
+            WHERE ID_LETNIK=:id_letnik AND ID_PROGRAM=:id_program 
         ");
-        $statement->bindValue(":stud_leto", $stud_leto);
+       // $statement->bindValue(":stud_leto", $stud_leto);
         $statement->bindValue(":id_program", $id_program);
         $statement->bindValue(":id_letnik", $id_letnik);
         $statement->execute();
         return $statement->fetchAll();
     }
+
+    public static function getIzvajalec($id_predmet,$stud_leto) {
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT o.IME, o.PRIIMEK
+            FROM IZVEDBA_PREDMETA as ip
+            JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
+            JOIN STUDIJSKO_LETO as st ON ip.ID_STUD_LETO=st.ID_STUD_LETO
+            JOIN OSEBA as o ON (ip.ID_OSEBA1 = o.ID_OSEBA OR ip.ID_OSEBA2 = o.ID_OSEBA OR ip.ID_OSEBA3 = ID_OSEBA)
+            WHERE ip.ID_PREDMET=:id_predmet AND st.STUD_LETO=:stud_leto
+        ");
+        $statement->bindParam(":id_predmet", $id_predmet);
+        $statement->bindParam(":stud_leto", $stud_leto);
+        $statement->execute();
+        $IzvedbaPredmeta = $statement->fetch();
+
+        if ($IzvedbaPredmeta != null) {
+            return $IzvedbaPredmeta;
+        } else {
+            throw new InvalidArgumentException("No record with User id $id_predmet");
+        }
+    }
+
 
 }

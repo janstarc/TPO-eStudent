@@ -746,16 +746,47 @@ class StudentOfficerController {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
 
-                $data = StudijskoLetoModel::getAll();
+                $data = StudentOfficerDB::getPredmeti($id);
                 if(count($data) == 0){
                     $status = 1;
                     $message = "V tem letu še ni predmetov";
                 }
-                StudentOfficerDB::getPredmeti($id);
+
                 ViewHelper::render("view/VpisaniChoosePredmet.php", [
                     "pageTitle" => "Seznam vseh študijskih let",
-                    "allData" => $data,
+                    "predmeti" => $data,
+                    "formAction" => "vpisPredmet/predmet",
+                    "idLeto" => $id,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+
+    public static function VpisaniForm3($leto, $predmet, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+
+                $data = StudentOfficerDB::getVpisani($predmet, $leto);
+                if(count($data) == 0){
+                    $status = 1;
+                    $message = "V predmet v tem letu ni vpisanih študentov! ";
+                }
+
+                ViewHelper::render("view/VpisaniPrikaz.php", [
+                    "vpisani" => $data,
+                    "pageTitle" => "Seznam vseh študijskih let",
                     "formAction" => "predmet",
+                    "leto" => StudentOfficerDB::getLeto($leto),
+                    "predmet" => StudentOfficerDB::getPredmet($predmet),
+                    "idLeto" => $leto,
+                    "idPredmet" => $predmet,
                     "status" => $status,
                     "message" => $message
                 ]);
@@ -799,27 +830,35 @@ class StudentOfficerController {
     public static function exportCSV(){
 
         $data = filter_input_array(INPUT_POST, [
-            "data" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "searchVpisna" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        var_dump($data);
+        $studData = AdminDB::getStudentData($data["searchVpisna"]);
+        $vpisData = AdminDB::getEnrollmentDetails($data["searchVpisna"]);
 
         $delimiter = ",";
         $filename = "data.csv";
         $f = fopen('php://memory', 'w');
 
         //set column headers
-        $fields = array('#','VpisnaStevilka', 'PriimekIme', ' 	VrstaVpisa');
+        $fields = array('VpisnaStevilka','Ime', 'Priimek', 'NaslovStalnegaBivalisca', 'NaslovZaPrejemanjePoste','TelefonskaStevilka','NaslovElektronskePoste');
 
 
+        $naslovStalnegaBivalisca=null;
+        $naslovPrejemanje=null;
+        foreach ($studData as $key => $value) {
+            if($value['je_stalni'] == 1 ){
+                $naslovStalnegaBivalisca= $value['ulica'].$value['hisna_stevilka'].", ".$value['st_posta'].$value['kraj'];
+            }
 
-        foreach ($data as $key => $value) {
-
+            if($value['je_zavrocanje'] == 1 ){
+                $naslovPrejemanje= $value['ulica'].$value['hisna_stevilka'].", ".$value['st_posta'].$value['kraj'];
+            }
         }
 
-        $lineData = $value;
+        $lineData = array($value['vpisna_stevilka'], $value['ime'], $value['priimek'], $naslovStalnegaBivalisca,$naslovPrejemanje, $value['telefonska_stevilka'], $value['email']);
 
-        $text = array("vpisanih studentov");
+        $text = array("Izpis osebnih podatkov studenta");
         fputcsv($f, $text, $delimiter);
         for($i=0; $i<count($fields);$i++){
             $add=array($fields[$i],$lineData[$i]);
@@ -833,12 +872,22 @@ class StudentOfficerController {
         $fields = array('Letnik','NazivProgram', 'SifraPrograma', 'VrstaVpisa', 'NacinStudija');
 
 
+        foreach ($vpisData as $key => $value){
+            $lineData = array($value['letnik'], $value['naziv_program'], $value['sifra_evs'], $value['opis_vpisa'],$value['opis_nacin']);
+
+        }
+
+        for($i=0; $i<count($fields);$i++){
+            $add=array($fields[$i],$lineData[$i]);
+            fputcsv($f, $add, $delimiter);
+        }
 
 
         fseek($f, 0);
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="' . $filename . '";');
         fpassthru($f);
+
     }
 
 
@@ -846,49 +895,43 @@ class StudentOfficerController {
 
     public static function exportPDF(){
         $data = filter_input_array(INPUT_POST, [
-            "searchVpisna" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "idLeto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "idPredmet"=> ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        $studData = AdminDB::getStudentData($data["searchVpisna"]);
-        $vpisData = AdminDB::getEnrollmentDetails($data["searchVpisna"]);
+        $main = StudentOfficerDB::getVpisani($data['idPredmet'],$data['idLeto']);
+        $leto = StudentOfficerDB::getLeto($data['idLeto']);
+        $predmet = StudentOfficerDB::getPredmet($data['idPredmet']);
+        $vpisani = count($main);
+        $header = array('Sifra predmeta','Ime predmeta', 'Studijsko leto', 'Stevilo vpisanih studentov');
+        $lineData = array($predmet["ID_PREDMET"] , $predmet["IME_PREDMET"], $leto, $vpisani);
 
-        $header = array('VpisnaStevilka','Ime', 'Priimek', 'NaslovStalnegaBivalisca', 'NaslovZaPrejemanjePoste','TelefonskaStevilka','NaslovElektronskePoste');
-
-        foreach ($studData as $key => $value) {
-            if($value['je_stalni'] == 1 ){
-                $naslovStalnegaBivalisca= $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj'];
-            }
-
-            if($value['je_zavrocanje'] == 1 ){
-                $naslovPrejemanje= $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj'];
-            }
-        }
-
-        $lineData = array($value['vpisna_stevilka'], $value['ime'], $value['priimek'], $naslovStalnegaBivalisca,$naslovPrejemanje, $value['telefonska_stevilka'], $value['email']);
-
-        $header2 = array('Letnik','NazivProgram', 'SifraPrograma', 'VrstaVpisa', 'NacinStudija');
-
+        $header2 = array('Vpisna stevilka','Priimek in ime', 'Vrsta vpisa');
+        $all = [];
         $lineData2=null;
-        foreach ($vpisData as $key => $value){
-            $lineData2 = array($value['letnik'], $value['naziv_program'], $value['sifra_evs'], $value['opis_vpisa'],$value['opis_nacin']);
+        foreach ($main as $key => $value){
+
+            $lineData2 = array($value["VPISNA_STEVILKA"],$value["PRIIMEK"]." ". $value["IME"], $value["OPIS_VPISA"]);
+            array_push($all, $lineData2);
         }
+
+
 
 
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->SetFont('Arial','B',8);
-        $pdf->Cell(40,10,'Izpis osebnih podatkov studenta');
+        $pdf->Cell(40,10,'Izpis podatkov o predmetu');
         $pdf->Ln();
-        $pdf->BasicTable($header,$lineData);
-        $pdf->Cell(40,10,'Izpis podatkov o vpisih');
+        $pdf->BasicTableH2($header,$lineData);
+        $pdf->Cell(40,10,'Izpis podatkov o vpisanih');
         $pdf->Ln();
-        $pdf->BasicTable($header2,$lineData2);
+        $pdf->BasicTableH($header2,$all);
         $pdf->Output('I','data.pdf');
 
         $filename="data.pdf";
         header('Content-Type: application/pdf');
         header('Content-Disposition: attachment; filename="' . $filename . '";');
     }
-
 
 }
