@@ -53,13 +53,13 @@ class DataForExportModel
 
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT IME_PREDMET,ST_KREDITNIH_TOCK 
+            SELECT DISTINCT IME_PREDMET,ST_KREDITNIH_TOCK,p.ID_PREDMET 
             FROM PREDMET as p
             JOIN PREDMETNIK as pr
             ON p.ID_PREDMET=pr.ID_PREDMET 
-            WHERE ID_LETNIK=1 AND ID_PROGRAM=11 AND ID_STUD_LETO=2
+            WHERE ID_LETNIK=:id_letnik AND ID_PROGRAM=:id_program 
         ");
-        $statement->bindValue(":stud_leto", $stud_leto);
+       // $statement->bindValue(":stud_leto", $stud_leto);
         $statement->bindValue(":id_program", $id_program);
         $statement->bindValue(":id_letnik", $id_letnik);
         $statement->execute();

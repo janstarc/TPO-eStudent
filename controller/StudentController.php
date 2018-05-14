@@ -71,7 +71,7 @@ class StudentController {
 
         for($i=0; $i<count($predmete);$i++){
             $imena[$i]=$predmete[$i]['IME_PREDMET'];
-            $sifre[$i]=0;
+            $sifre[$i]=$predmete[$i]['ID_PREDMET'];
             $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
             $izvajalec[$i]=0;
         }
@@ -88,7 +88,7 @@ class StudentController {
         $pdf->Cell(100,10,'Naslov za vrocanje',0,0,'C');
         $pdf->Ln();
         $pdf->SetFont('Arial','B',8);
-        $pdf->BasicTable($header,$lineData,$header1,$naslovPrejemanje);
+        $pdf->BasicTable3($header,$lineData,$header1,$naslovPrejemanje);
         $pdf->Ln();
 
         $pdf->SetFont('Arial','B',15);
@@ -96,12 +96,12 @@ class StudentController {
         $pdf->Cell(100,10,'Stalni naslov',0,0,'C');
         $pdf->Ln();
         $pdf->SetFont('Arial','B',8);
-        $pdf->BasicTable($header2,$lineData2,$header1,$naslovStalnegaBivalisca);
+        $pdf->BasicTable3($header2,$lineData2,$header1,$naslovStalnegaBivalisca);
         $pdf->Ln();
         $pdf->Ln();
 
         $pdf->SetFont('Arial','B',15);
-        $pdf->Cell(100,10,'Predmetnik studenta',0,0,'C');
+        $pdf->Cell(150,10,'Predmetnik studenta',0,0,'C');
         $pdf->Ln();
         $pdf->SetFont('Arial','B',8);
         $pdf->BasicTable2($header3,$imena,$lineData3,$sifre,$izvajalec);
@@ -154,7 +154,7 @@ class StudentController {
 
         for($i=0; $i<count($predmete);$i++){
             $imena[$i]=$predmete[$i]['IME_PREDMET'];
-            $sifre[$i]=0;
+            $sifre[$i]=$predmete[$i]['ID_PREDMET'];
             $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
             $izvajalec[$i]=0;
         }
@@ -185,10 +185,13 @@ class StudentController {
             $pdf->Ln();
 
             $pdf->SetFont('Arial','B',15);
-            $pdf->Cell(100,10,'Predmetnik studenta',0,0,'C');
+            $pdf->Cell(150,10,'Predmetnik studenta',0,0,'C');
             $pdf->Ln();
             $pdf->SetFont('Arial','B',8);
             $pdf->BasicTable2($header3,$imena,$lineData3,$sifre,$izvajalec);
+
+          
+
         }
 
 

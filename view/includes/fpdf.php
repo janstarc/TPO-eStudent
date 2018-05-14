@@ -1058,16 +1058,16 @@ function Output($dest='', $name='', $isUTF8=false)
     function BasicTable2($header,$imena,$lineData,$sifre,$izvajalec)
     {
         for($i=0; $i<count($header);$i++) {
-            $this->Cell(30, 7, $header[$i], 0);
+            $this->Cell(50, 7, $header[$i], 0);
 
         }
         $this->Ln();
 
         for($i=0; $i<count($imena);$i++) {
-            $this->Cell(30, 7, $imena[$i], 0);
-            $this->Cell(30, 7, $sifre[$i], 0);
-            $this->Cell(30, 7, $lineData[$i], 0);
-            $this->Cell(30, 7, $izvajalec[$i], 0);
+            $this->Cell(55, 7, $imena[$i], 0);
+            $this->Cell(50, 7, $sifre[$i], 0);
+            $this->Cell(50, 7, $lineData[$i], 0);
+            $this->Cell(50, 7, $izvajalec[$i], 0);
         	$this->Ln();
         }
     }
