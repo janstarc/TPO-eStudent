@@ -365,6 +365,7 @@ class StudentOfficerDB
     }
 
     public static function getVpisani($predmet, $leto ){
+
         $db = DBInit::getInstance();
         $statement = $db->prepare("
                     SELECT DISTINCT *
