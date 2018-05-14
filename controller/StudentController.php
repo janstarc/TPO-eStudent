@@ -71,24 +71,14 @@ class StudentController {
 
         $predmete=DataForExportModel::getPredmete($studLetoVpisna['STUD_LETO'],$vpisData['ID_PROGRAM'],$studLetoVpisna['ID_LETNIK']);
 
-//        $allIzvajalcih=ar
-       for($i=0; $i<count($predmete);$i++){
+        for($i=0; $i<count($predmete);$i++){
             $imena[$i]=$predmete[$i]['IME_PREDMET'];
             $sifre[$i]=$predmete[$i]['ID_PREDMET'];
             $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
             $getIzvajalec=DataForExportModel::getIzvajalec($sifre[$i],$studLetoVpisna['STUD_LETO']);
 
             $izvajalec[$i]=$getIzvajalec["IME"] . " " . $getIzvajalec["PRIIMEK"];
-       }
-
-
-
-        /*        foreach ($predmete as $key => $value){
-                    $imena[$i]=$predmete[$i]['IME_PREDMET'];
-                    $sifre[$i]=$predmete[$i]['ID_PREDMET'];
-                    $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
-                    $getIzvajalec=DataForExportModel::getIzvajalec($sifre[$i],$studLetoVpisna['STUD_LETO']);
-                }*/
+        }
 
         $pdf= new tFPDF();
         $pdf->AddPage();
