@@ -81,4 +81,3 @@ function sloCompare(b1, b2){
     if(b1.length === shorterLen) return -1;         // Primer b1=abc, b2=abcd
     if(b2.length === shorterLen) return 1;          // Primer b1=abcd, b1=abc
 }
-

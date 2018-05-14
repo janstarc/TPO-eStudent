@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <?php include("view/includes/head.php"); ?>
+
     </head>
     <body>
         <section id="container">
