@@ -1263,7 +1263,6 @@ class SifrantController
             if (User::isLoggedInAsAdmin()){
 
                 SifrantDB::VrstaVpisaToogleActivated($data["activateId"]);
-
                 ViewHelper::redirect(BASE_URL . "VrstaVpisaAll");
 
             }else{
