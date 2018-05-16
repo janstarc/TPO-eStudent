@@ -615,19 +615,11 @@ CREATE TABLE IF NOT EXISTS `tpo`.`prijava` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_slovenian_ci;
-<<<<<<< Updated upstream
 
 CREATE INDEX `FK_RELATIONSHIP_26` ON `tpo`.`prijava` (`ID_ROK` ASC);
 
 CREATE INDEX `FK_REALTIONSHIP_99_idx` ON `tpo`.`prijava` (`ID_PREDMET` ASC);
 
-=======
-
-CREATE INDEX `FK_RELATIONSHIP_26` ON `tpo`.`prijava` (`ID_ROK` ASC);
-
-CREATE INDEX `FK_REALTIONSHIP_99_idx` ON `tpo`.`prijava` (`ID_PREDMET` ASC);
-
->>>>>>> Stashed changes
 CREATE INDEX `FK_RELATIONSHIP_100_idx` ON `tpo`.`prijava` (`VPISNA_STEVILKA` ASC);
 
 
