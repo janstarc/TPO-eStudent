@@ -1299,6 +1299,47 @@ function Output($name='', $dest='')
 
     }
 
+    function BasicTableH($header,$lineData){
+
+        foreach($header as $col) {
+            $this->Cell(65, 7, $col, 1);
+
+        }
+        $this->Ln();
+
+        // Data
+
+        foreach ($lineData as $row) {
+
+            foreach ($row as $col) {
+                $this->Cell(65, 7, $col, 1);
+
+            }
+            $this->Ln();
+        }
+
+
+
+
+    }
+
+    function BasicTableH2($header,$lineData){
+
+        foreach($header as $col) {
+            $this->Cell(55, 7, $col, 1);
+        }
+        $this->Ln();
+        // Data
+
+
+        foreach ($lineData as $col) {
+            $this->Cell(55, 7, $col, 1);
+
+        }
+        $this->Ln();
+
+    }
+
 
 
 /*******************************************************************************
