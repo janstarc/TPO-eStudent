@@ -16,9 +16,15 @@
                     <br>
                     <form  action="<?= BASE_URL . "NacinStudijaAll/edit" ?>" method="post" class="form-horizontal">
                         <input type="hidden" name="urediId" value="<?= $getId["ID_NACIN"] ?>"  />
+                        Opis
                         <div class="form-group">
                             <input type="text" class="form-control" name="opis" value="<?= $getId['OPIS_NACIN']?>" required autofocus>
                         </div>
+                        Šifra
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="id" value="<?= $getId['ID_NACIN']?>" required autofocus>
+                        </div>
+                        Angleški opis načina
                         <div class="form-group">
                             <input type="text" class="form-control" name="angopis" value="<?= $getId['ANG_OPIS_NACIN']?>" required>
                         </div>

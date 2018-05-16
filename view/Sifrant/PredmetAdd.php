@@ -18,6 +18,9 @@
                         <div class="form-group">
                             <input type="text" class="form-control" name="predmet" placeholder="Ime predmeta" required autofocus>
                         </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="id" placeholder="Šifra" required autofocus>
+                        </div>
 
                         <button id="btn" class="btn btn-theme btn-block" type="submit">Ustvari</button>
                     </form>

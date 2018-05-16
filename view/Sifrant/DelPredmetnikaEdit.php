@@ -23,12 +23,19 @@
                     <form  action="<?= BASE_URL . "DelPredmetnikaAll/edit" ?>" method="post" class="form-horizontal">
                         <input type="hidden" name="urediId" value="<?= $getId["ID_DELPREDMETNIKA"] ?>"  />
                         <div class="form-group">
+                            Naziv
                             <input type="text" class="form-control" name="naziv_delpredmetnika" value="<?= $getId['NAZIV_DELAPREDMETNIKA']?>" required autofocus>
                         </div>
                         <div class="form-group">
+                            Šifra
+                            <input type="text" class="form-control" name="noviId" value="<?= $getId['ID_DELPREDMETNIKA']?>" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            Skupno število KT
                             <input type="text" class="form-control" name="st_Kt" value="<?= $getId["SKUPNOSTEVILOKT"]?>" required>
                         </div>
                         <div class="form-group">
+                            Tip
                             <input type="text" class="form-control" name="tip" value="<?= $getId["TIP"]?>" required>
                         </div>
                         <button id="btn" class="btn btn-theme btn-block"  type="submit">Spremeni</button>

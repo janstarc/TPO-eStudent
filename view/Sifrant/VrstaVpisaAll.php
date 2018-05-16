@@ -24,6 +24,9 @@
                     "sClass": "center",
                     "bSortable": true,
                     "sType":"slo"
+                },  {
+                    "sClass": "center",
+                    "bSortable": false
                 }, {
                     "sClass": "center",
                     "bSortable": false
@@ -57,11 +60,18 @@
                         <br>
                         <br>
                         <br>
+                        <?php if(isset($status)): ?>
+                            <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <?= $message ?>
+                            </div>
+                        <?php endif; ?>
                         <table id="table-vrstaVpisa" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Opis vrste</th>
+                                <th>Šifra</th>
                                 <th>Uredi</th>
                                 <th>Deaktiviraj</th>
                             </tr>
@@ -73,6 +83,7 @@
                                 <tr>
                                     <td></td>
                                     <td><?php echo $value['OPIS_VPISA']; ?></td>
+                                    <td><?php echo $value['ID_VRSTAVPISA']; ?></td>
                                     <td>
                                         <form action="<?= BASE_URL . "VrstaVpisaAll/editForm" ?>" method="post">
                                             <input type="hidden" name="urediId" value="<?= $value['ID_VRSTAVPISA'] ?>" />

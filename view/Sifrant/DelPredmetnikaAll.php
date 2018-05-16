@@ -26,6 +26,10 @@
                     "sType":"slo"
                 }, {
                     "sClass": "center",
+                    "bSortable": false,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
                     "bSortable": true,
                     "sType":"slo"
                 }, {
@@ -76,7 +80,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Naziv</th>
-                                <th>Stevilo kreditov</th>
+                                <th>Šifra</th>
+                                <th>Število kreditov</th>
                                 <th>Tip</th>
                                 <th>Uredi</th>
                                 <th>Deaktiviraj</th>
@@ -89,6 +94,7 @@
                                 <tr>
                                     <td></td>
                                     <td><?php echo $value['NAZIV_DELAPREDMETNIKA']; ?></td>
+                                    <td><?php echo $value['ID_DELPREDMETNIKA']; ?></td>
                                     <td><?php echo $value['SKUPNOSTEVILOKT']; ?></td>
                                     <td><?php echo $value['TIP']; ?></td>
                                     <td>

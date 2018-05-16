@@ -26,6 +26,10 @@
                     "sClass": "center",
                     "bSortable": true,
                     "sType":"slo"
+                },{
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
                 }, {
                     "sClass": "center",
                     "bSortable": true,
@@ -74,6 +78,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Naziv opisa</th>
+                                <th>Šifra</th>
                                 <th>Angleski opis oblika</th>
                                 <th>Uredi</th>
                                 <th>Deaktiviraj</th>
@@ -85,6 +90,7 @@
                                 <tr>
                                     <td></td>
                                     <td><?php echo $value['NAZIV_OBLIKA']; ?></td>
+                                    <td><?php echo $value['ID_OBLIKA']; ?></td>
                                     <td><?php echo $value['ANG_OPIS_OBLIKA']; ?></td>
                                     <td>
                                         <form action="  <?= BASE_URL . "OblikaStudijaAll/editForm" ?>" method="post">

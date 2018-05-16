@@ -16,8 +16,13 @@
                     <br>
                     <form  action="<?= BASE_URL . "ObcinaAll/edit" ?>" method="post" class="form-horizontal">
                         <input type="hidden" name="urediId" value="<?= $getId["ID_OBCINA"] ?>"  />
+                        Ime občine
                         <div class="form-group">
                             <input type="text" class="form-control" name="ime" value="<?= $getId['IME_OBCINA']?>" required autofocus>
+                        </div>
+                        Šifra
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="id" value="<?= $getId['ID_OBCINA']?>" required autofocus>
                         </div>
                         <button id="btn" class="btn btn-theme btn-block"  type="submit">Spremeni</button>
                     </form>

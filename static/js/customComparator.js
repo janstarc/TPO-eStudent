@@ -62,7 +62,17 @@ function sloValue(char){
  sloCompare(abcd, abc) = 1  --> abcd je POD abc
  */
 function sloCompare(b1, b2){
-    "use strict";
+
+    // If it's a number
+    /*
+    if(Number.isNumber(b1) && Number.isNumber(b2)){
+        if(b1 < b2) return -1;
+        if(b1 === b2) return 0;
+        if(b1 > b2) return 1;
+    }
+    */
+
+
     var shorterLen;
     if(b1.length <= b2.length){
         shorterLen = b1.length;

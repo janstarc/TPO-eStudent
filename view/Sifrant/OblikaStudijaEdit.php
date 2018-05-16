@@ -20,6 +20,9 @@
                             <input type="text" class="form-control" name="opis" value="<?= $getId['NAZIV_OBLIKA']?>" required autofocus>
                         </div>
                         <div class="form-group">
+                            <input type="text" class="form-control" name="id" value="<?= $getId['ID_OBLIKA']?>" required autofocus>
+                        </div>
+                        <div class="form-group">
                             <input type="text" class="form-control" name="angopis" value="<?= $getId['ANG_OPIS_OBLIKA']?>" required>
                         </div>
                         <button id="btn" class="btn btn-theme btn-block"  type="submit">Spremeni</button>

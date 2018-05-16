@@ -19,6 +19,9 @@
                             <input type="text" class="form-control" name="opis" placeholder="Opis" required autofocus>
                         </div>
                         <div class="form-group">
+                            <input type="text" class="form-control" name="id" placeholder="Šifra" required autofocus>
+                        </div>
+                        <div class="form-group">
                             <input type="text" class="form-control" name="angopis" placeholder="Angleski opis" required>
                         </div>
                         <button id="btn" class="btn btn-theme btn-block" type="submit">Ustvari</button>

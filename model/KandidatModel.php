@@ -355,7 +355,7 @@ class KandidatModel {
             JOIN studijsko_leto AS s ON k.id_stud_leto = s.id_stud_leto
             JOIN student AS st ON st.ID_OSEBA = o.ID_OSEBA
             JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
-            WHERE v.ID_STUD_LETO = 2
+            WHERE v.ID_STUD_LETO = 1
         ");
 
         $statement->execute();

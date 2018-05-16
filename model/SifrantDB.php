@@ -28,13 +28,14 @@ class SifrantDB
         return true;
     }
 
-    public static function DelPredmetnikaAdd($naziv, $kt, $tip){
+    public static function DelPredmetnikaAdd($id, $naziv, $kt, $tip){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO del_predmetnika
-        (NAZIV_DELAPREDMETNIKA,SKUPNOSTEVILOKT,TIP,AKTIVNOST)
-        VALUES(:naziv,:kt,:tip,1);"
+        (ID_DELPREDMETNIKA, NAZIV_DELAPREDMETNIKA,SKUPNOSTEVILOKT,TIP,AKTIVNOST)
+        VALUES(:id, :naziv,:kt,:tip,1);"
         );
+        $statement->bindValue(":id", $id);
         $statement->bindValue(":naziv", $naziv);
         $statement->bindValue(":kt", $kt);
         $statement->bindValue(":tip", $tip);
@@ -171,18 +172,23 @@ class SifrantDB
         return true;
     }
 
-    public static function NacinStudijaAdd($opis, $angopis){
+    public static function NacinStudijaAdd($opis, $angopis, $id){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO nacin_studija
-        (OPIS_NACIN,ANG_OPIS_NACIN,AKTIVNOST)
-        VALUES(:opis,:angopis,1);"
+        (ID_NACIN, OPIS_NACIN,ANG_OPIS_NACIN,AKTIVNOST)
+        VALUES(:id,:opis,:angopis,1);"
         );
+        $statement->bindValue(":id", $id);
         $statement->bindValue(":opis", $opis);
         $statement->bindValue(":angopis", $angopis);
 
-        $statement->execute();
-        return true;
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
 
     public static function isDuplicateObcina($ime){
@@ -200,30 +206,40 @@ class SifrantDB
     }
 
 
-    public static function ObcinaAdd($ime){
+    public static function ObcinaAdd($ime, $id){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO obcina
-        (IME_OBCINA,AKTIVNOST)
-        VALUES(:ime,1);"
+        (ID_OBCINA, IME_OBCINA,AKTIVNOST)
+        VALUES(:id,:ime,1);"
         );
+        $statement->bindValue(":id", $id);
         $statement->bindValue(":ime", $ime);
-        $statement->execute();
-        return true;
+
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
 
-    public static function OblikaStudijaAdd($naziv,$ang){
+    public static function OblikaStudijaAdd($naziv,$ang,$id){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO oblika_studija
-        (NAZIV_OBLIKA,ANG_OPIS_OBLIKA,AKTIVNOST)
-        VALUES(:naziv,:ang,1);"
+        (ID_OBLIKA,NAZIV_OBLIKA,ANG_OPIS_OBLIKA,AKTIVNOST)
+        VALUES(:id,:naziv,:ang,1);"
         );
         $statement->bindValue(":naziv", $naziv);
         $statement->bindValue(":ang", $ang);
-
-        $statement->execute();
-        return true;
+        $statement->bindValue(":id", $id);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
 
     public static function isDuplicateOblikaStudija($naziv,$ang){
@@ -243,6 +259,62 @@ class SifrantDB
         if(empty($result)) return false;
         return true;
     }
+
+    public static function isDuplicateAddPosta($stevilka, $kt){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "SELECT ST_POSTA, KRAJ
+                        FROM posta
+                        WHERE ST_POSTA = :stevilka
+                        OR KRAJ = :kraj"
+        );
+
+        $statement->bindValue(":stevilka", $stevilka);
+        $statement->bindValue(":kraj", $kt);
+
+        $statement->execute();
+        $result = $statement->fetchAll();
+        if(empty($result)) return false;
+        return true;
+    }
+
+    public static function isDuplicateEditPosta($stevilka, $kt, $id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare(
+            "SELECT ST_POSTA, KRAJ
+                        FROM posta
+                        WHERE (ST_POSTA = :stevilka
+                        OR KRAJ = :kraj)
+                        AND ID_POSTA != :id"
+        );
+
+        $statement->bindValue(":stevilka", $stevilka);
+        $statement->bindValue(":kraj", $kt);
+        $statement->bindValue(":id", $id);
+
+        $statement->execute();
+        $result = $statement->fetchAll();
+        if(empty($result)) return false;
+        return true;
+    }
+
+    public static function seNiUporabljena($posta){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "SELECT n.ID_NASLOV
+                        FROM posta p
+                        JOIN naslov n on p.ID_POSTA = n.ID_POSTA
+                        WHERE p.ST_POSTA = :postnaSt"
+        );
+
+        $statement->bindValue(":postnaSt", $posta);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        if(empty($result)) return true;
+        return false;
+    }
+
     public static function PostaAdd($stevilka, $kt){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
@@ -256,39 +328,58 @@ class SifrantDB
         $statement->execute();
         return true;
     }
-    public static function PredmetAdd($ime){
+
+
+
+    public static function PredmetAdd($ime,$id){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO predmet
-        (IME_PREDMET,AKTIVNOST)
-        VALUES(:ime,1);"
+        (ID_PREDMET,IME_PREDMET,AKTIVNOST)
+        VALUES(:id,:ime,1);"
         );
         $statement->bindValue(":ime", $ime);
-        $statement->execute();
-        return true;
+        $statement->bindValue(":id", $id);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
-    public static function StudijskoLetoAdd($leto){
+
+    public static function StudijskoLetoAdd($leto, $id){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO studijsko_leto
-        (STUD_LETO)
-        VALUES(:leto);"
+        (STUD_LETO, ID_STUD_LETO)
+        VALUES(:leto, :id);"
         );
         $statement->bindValue(":leto", $leto);
-        $statement->execute();
-        return true;
-
+        $statement->bindValue(":id", $id);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
-    public static function VrstaVpisaAdd($opis){
+
+    public static function VrstaVpisaAdd($opis,$id){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO vrsta_vpisa
-        (OPIS_VPISA,AKTIVNOST)
-        VALUES(:opis,1);"
+        (ID_VRSTAVPISA,OPIS_VPISA,AKTIVNOST)
+        VALUES(:id,:opis,1);"
         );
         $statement->bindValue(":opis", $opis);
-        $statement->execute();
-        return true;
+        $statement->bindValue(":id", $id);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
 
 
@@ -879,23 +970,31 @@ class SifrantDB
     }
 
 
-    public static function DelPredmetnikaEdit($id, $naziv, $kt, $tip){
+    public static function DelPredmetnikaEdit($id, $naziv, $kt, $tip, $noviId){
         $db = DBInit::getInstance();
-        //echo $id . $naziv . $kt .$tip;
+
         $statement = $db -> prepare(
             "UPDATE del_predmetnika SET
-        NAZIV_DELAPREDMETNIKA = :naziv,
-        SKUPNOSTEVILOKT = :kt,
-        TIP = :tip
-        where  ID_DELPREDMETNIKA = :id"
+            NAZIV_DELAPREDMETNIKA = :naziv,
+            SKUPNOSTEVILOKT = :kt,
+            TIP = :tip,
+            ID_DELPREDMETNIKA = :novi_id
+            WHERE  ID_DELPREDMETNIKA = :id"
         );
         $statement->bindValue(":id", $id);
         $statement->bindValue(":naziv", $naziv);
         $statement->bindValue(":kt", $kt);
         $statement->bindValue(":tip", $tip);
-        $statement->execute();
-        return true;
+        $statement->bindValue(":novi_id", $noviId);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            var_dump($e);
+            return false;
+        }
     }
+
     public static function DrzavaEdit($id,$dk, $tk, $iso, $slo, $opo){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
@@ -928,45 +1027,64 @@ class SifrantDB
         $statement->execute();
         return true;
     }
-    public static function NacinStudijaEdit($id,$opis, $angopis){
+    public static function NacinStudijaEdit($id,$opis, $angopis, $noviId){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE nacin_studija SET
-        ANG_OPIS_NACIN = :ang,
-        OPIS_NACIN = :opis
-        where  ID_NACIN = :id"
+            ANG_OPIS_NACIN = :ang,
+            OPIS_NACIN = :opis,
+            ID_NACIN = :novi_id
+            WHERE ID_NACIN = :id"
         );
         $statement->bindValue(":id", $id);
         $statement->bindValue(":opis", $opis);
         $statement->bindValue(":ang", $angopis);
-        $statement->execute();
-        return true;
+        $statement->bindValue(":novi_id", $noviId);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
-    public static function ObcinaEdit($id,$ime){
+    public static function ObcinaEdit($id,$ime,$noviId){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE obcina SET
-        IME_OBCINA = :ime
-        where  ID_OBCINA = :id"
+            IME_OBCINA = :ime,
+            ID_OBCINA = :novi_id
+            where  ID_OBCINA = :id"
         );
         $statement->bindValue(":id", $id);
         $statement->bindValue(":ime", $ime);
-        $statement->execute();
-        return true;
+        $statement->bindValue(":novi_id", $noviId);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
-    public static function OblikaStudijaEdit($id,$naziv,$ang){
+    public static function OblikaStudijaEdit($id,$naziv,$ang,$noviId){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE oblika_studija SET
         ANG_OPIS_OBLIKA = :ang,
-        NAZIV_OBLIKA = :naziv
+        NAZIV_OBLIKA = :naziv,
+        ID_OBLIKA = :novi_id
         where  ID_OBLIKA = :id"
         );
         $statement->bindValue(":id", $id);
         $statement->bindValue(":naziv", $naziv);
         $statement->bindValue(":ang", $ang);
-        $statement->execute();
-        return true;
+        $statement->bindValue(":novi_id", $noviId);
+
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
     public static function PostaEdit($id,$stevilka, $kt){
         $db = DBInit::getInstance();
@@ -982,42 +1100,61 @@ class SifrantDB
         $statement->execute();
         return true;
     }
-    public static function PredmetEdit($id,$ime){
+
+    public static function PredmetEdit($id,$ime,$noviId){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE predmet SET
-        IME_PREDMET = :ime
+        IME_PREDMET = :ime,
+        ID_PREDMET = :novi_id
         where  ID_PREDMET = :id"
         );
         $statement->bindValue(":ime", $ime);
         $statement->bindValue(":id", $id);
-        $statement->execute();
-        return true;
+        $statement->bindValue(":novi_id", $noviId);
+
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
-    public static function StudijskoLetoEdit($id,$leto){
+    public static function StudijskoLetoEdit($id,$leto,$noviId){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE studijsko_leto SET
-            STUD_LETO = :leto
+            STUD_LETO = :leto,
+            ID_STUD_LETO = :novi_id
         where  ID_STUD_LETO = :id"
         );
         $statement->bindValue(":leto", $leto);
         $statement->bindValue(":id", $id);
-        $statement->execute();
-        return true;
+        $statement->bindValue(":novi_id", $noviId);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
-    public static function VrstaVpisaEdit($id,$opis ){
+
+    public static function VrstaVpisaEdit($id,$opis,$noviId){
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "UPDATE vrsta_vpisa SET
-        OPIS_VPISA = :opis
+        OPIS_VPISA = :opis,
+        ID_VRSTAVPISA = :novi_id
         where  ID_VRSTAVPISA = :id"
         );
         $statement->bindValue(":opis", $opis);
         $statement->bindValue(":id", $id);
-        $statement->execute();
-        return true;
-
+        $statement->bindValue(":novi_id", $noviId);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
-
 }

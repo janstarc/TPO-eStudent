@@ -22,7 +22,10 @@
                     <?php endif; ?>
                     <form  action="<?= BASE_URL . "DelPredmetnikaAdd/dodaj" ?>" method="post" class="form-horizontal">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="naziv_delpredmetnika" placeholder="NAZIV DELA PREDMETNIKA" required autofocus>
+                            <input type="text" class="form-control" name="naziv_delpredmetnika" placeholder="Naziv dela predmetnika" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="noviId" placeholder="Šifra dela predmetnika" required autofocus>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" name="st_Kt" placeholder="Stevilo kreditov" required>

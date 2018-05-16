@@ -19,6 +19,9 @@
                         <div class="form-group">
                             <input type="text" class="form-control" name="opis" value="<?= $getId['OPIS_VPISA']?>" required autofocus>
                         </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="id" value="<?= $getId['ID_VRSTAVPISA']?>" required autofocus>
+                        </div>
                         <button id="btn" class="btn btn-theme btn-block"  type="submit">Spremeni</button>
                     </form>
                 </div>

@@ -18,7 +18,9 @@
                         <div class="form-group">
                             <input type="text" class="form-control" name="stud_leto" placeholder="Studijsko leto (npr. 2018/19)" required autofocus>
                         </div>
-
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="id" placeholder="Šifra" required autofocus>
+                        </div>
                         <button id="btn" class="btn btn-theme btn-block" type="submit">Ustvari</button>
                     </form>
                 </div>

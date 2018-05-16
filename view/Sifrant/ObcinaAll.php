@@ -31,6 +31,9 @@
                 },{
                     "sClass": "center",
                     "bSortable": false
+                },{
+                    "sClass": "center",
+                    "bSortable": false
                 }],
                 // Ordering v prvem stolpcu
                 "order": [[ 1, 'asc' ]]
@@ -69,6 +72,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Ime obcina</th>
+                                <th>Šifra</th>
                                 <th>Uredi</th>
                                 <th>Deaktiviraj</th>
                             </tr>
@@ -80,6 +84,7 @@
                                 <tr>
                                     <td></td>
                                     <td><?php echo $value['IME_OBCINA']; ?></td>
+                                    <td><?php echo $value['ID_OBCINA']; ?></td>
                                     <td>
                                         <form action="<?= BASE_URL . "ObcinaAll/editForm" ?>" method="post">
                                             <input type="hidden" name="urediId" value="<?= $value['ID_OBCINA'] ?>" />

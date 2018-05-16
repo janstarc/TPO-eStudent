@@ -63,15 +63,21 @@
                         <br>
                         <br>
                         <br>
+                        <?php if(isset($status)): ?>
+                            <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <?= $message ?>
+                            </div>
+                        <?php endif; ?>
                         <table id="table-posta" class="table table-striped table-advance table-hover">
                             <thead>
-                            <tr>
-                                <th></th>
-                                <th>Stevilka poste</th>
-                                <th>Kraj</th>
-                                <th>Uredi</th>
-                                <th>Deaktiviraj</th>
-                            </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>Številka poste</th>
+                                    <th>Kraj</th>
+                                    <th>Uredi</th>
+                                    <th>Deaktiviraj</th>
+                                </tr>
                             </thead>
                             <tbody>
                             <?php

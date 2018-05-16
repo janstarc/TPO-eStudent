@@ -43,14 +43,15 @@ class SifrantController
         $data = filter_input_array(INPUT_POST, [
             "naziv_delpredmetnika" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "st_Kt" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS] ,
-            "tip" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "tip" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                // var_dump( SifrantDB::DelPredmetnikaGet());
                 if(!SifrantDB::isDuplicateDelPredmetnika($data["naziv_delpredmetnika"],$data["st_Kt"],$data["tip"])){
-                    SifrantDB::DelPredmetnikaAdd($data["naziv_delpredmetnika"],$data["st_Kt"],$data["tip"]);
+                    SifrantDB::DelPredmetnikaAdd($data["id"],$data["naziv_delpredmetnika"],$data["st_Kt"],$data["tip"]);
                     ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
                         "all" => SifrantDB::DelPredmetnikaGet(),
                         "status" => "Success",
@@ -97,21 +98,33 @@ class SifrantController
             ],
             "naziv_delpredmetnika" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "st_Kt" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "tip" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "tip" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "noviId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
         if(!SifrantDB::isDuplicateDelPredmetnika($data["naziv_delpredmetnika"],$data["st_Kt"],$data["tip"])){
-            SifrantDB::DelPredmetnikaEdit($data["urediId"], $data["naziv_delpredmetnika"], $data["st_Kt"], $data["tip"]);
-            ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
-                "all" => SifrantDB::DelPredmetnikaGet(),
-                "status" => "Success",
-                "message" => "Sprememba uspešna"
-            ]);
+
+            $res = SifrantDB::DelPredmetnikaEdit($data["urediId"], $data["naziv_delpredmetnika"], $data["st_Kt"], $data["tip"], $data["noviId"]);
+
+            if($res){
+                ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
+                    "all" => SifrantDB::DelPredmetnikaGet(),
+                    "status" => "Success",
+                    "message" => "Sprememba uspešna"
+                ]);
+            } else {
+                ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
+                    "all" => SifrantDB::DelPredmetnikaGet(),
+                    "status" => "Failure",
+                    "message" => "Sprememba neuspešna - nedovoljena sprememba šifre!"
+                ]);
+            }
+
         } else {
             ViewHelper::render("view/Sifrant/DelPredmetnikaAll.php", [
                 "all" => SifrantDB::DelPredmetnikaGet(),
                 "status" => "Failure",
-                "message" => "Sprememba neuspešna - duplikat"
+                "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
             ]);
         }
     }
@@ -245,7 +258,7 @@ class SifrantController
             ViewHelper::render("view/Sifrant/DrzavaAll.php", [
                 "all" => SifrantDB::DrzavaGet(),
                 "status" => "Failure",
-                "message" => "Sprememba neuspešna - duplikat"
+                "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
             ]);
         }
     }
@@ -320,7 +333,7 @@ class SifrantController
                     ViewHelper::render("view/Sifrant/LetnikAll.php", [
                         "all" => SifrantDB::LetnikGet(),
                         "status" => "Failure",
-                        "message" => "Sprememba neuspešna - duplikat"
+                        "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
                     ]);
                 }
             }else{
@@ -370,7 +383,7 @@ class SifrantController
             ViewHelper::render("view/Sifrant/LetnikAll.php", [
                 "all" => SifrantDB::LetnikGet(),
                 "status" => "Failure",
-                "message" => "Sprememba neuspešna - duplikat"
+                "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
             ]);
         }
     }
@@ -409,15 +422,17 @@ class SifrantController
     public static function addNacinStudija() {
         $data = filter_input_array(INPUT_POST, [
             "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
 
         ]);
 
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
-                if(!SifrantDB::isDuplicateAddNacinStudija($data["opis"],$data["angopis"])){
-                    SifrantDB::NacinStudijaAdd($data["opis"],$data["angopis"]);
+                if(!SifrantDB::isDuplicateAddNacinStudija($data["opis"],$data["angopis"]) &&
+                    SifrantDB::NacinStudijaAdd($data["opis"],$data["angopis"],$data["id"])){
+
                     ViewHelper::render("view/Sifrant/NacinStudijaAll.php", [
                         "all" => SifrantDB::NacinStudijaGet(),
                         "status" => "Success",
@@ -427,7 +442,7 @@ class SifrantController
                     ViewHelper::render("view/Sifrant/NacinStudijaAll.php", [
                         "all" => SifrantDB::NacinStudijaGet(),
                         "status" => "Failure",
-                        "message" => "Sprememba neuspešna - Duplikat"
+                        "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
                     ]);
                 }
             }else{
@@ -463,13 +478,14 @@ class SifrantController
         $data = filter_input_array(INPUT_POST, [
             "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
         // var_dump($data);
 
-        if(!SifrantDB::isDuplicateEditNacinStudija($data["opis"],$data["angopis"], $data["urediId"])){
+        if(!SifrantDB::isDuplicateEditNacinStudija($data["opis"],$data["angopis"], $data["urediId"]) &&
+            SifrantDB::NacinStudijaEdit($data["urediId"],$data["opis"],$data["angopis"], $data["id"])){
 
-            SifrantDB::NacinStudijaEdit($data["urediId"],$data["opis"],$data["angopis"]);
             ViewHelper::render("view/Sifrant/NacinStudijaAll.php", [
                 "all" => SifrantDB::NacinStudijaGet(),
                 "status" => "Success",
@@ -479,7 +495,7 @@ class SifrantController
             ViewHelper::render("view/Sifrant/NacinStudijaAll.php", [
                 "all" => SifrantDB::NacinStudijaGet(),
                 "status" => "Failure",
-                "message" => "Sprememba neuspešna - Duplikat"
+                "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
             ]);
         }
     }
@@ -538,7 +554,8 @@ class SifrantController
 
     public static function addObcina() {
         $data = filter_input_array(INPUT_POST, [
-            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
 
         ]);
 
@@ -546,9 +563,8 @@ class SifrantController
             if (User::isLoggedInAsAdmin()){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
 
-                if(!SifrantDB::isDuplicateObcina($data["ime"])){
+                if(!SifrantDB::isDuplicateObcina($data["ime"]) && SifrantDB::ObcinaAdd($data["ime"], $data["id"])){
 
-                    SifrantDB::ObcinaAdd($data["ime"]);
                     ViewHelper::render("view/Sifrant/ObcinaAll.php", [
                         "all" => SifrantDB::ObcinaGet(),
                         "status" => "Success",
@@ -558,7 +574,7 @@ class SifrantController
                     ViewHelper::render("view/Sifrant/ObcinaAll.php", [
                         "all" => SifrantDB::ObcinaGet(),
                         "status" => "Failure",
-                        "message" => "Sprememba neuspešna - Duplikat"
+                        "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
                     ]);
                 }
             }else{
@@ -593,12 +609,12 @@ class SifrantController
     public static function editObcina() {
         $data = filter_input_array(INPUT_POST, [
             "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        if(!SifrantDB::isDuplicateObcina($data["ime"])){
+        if(!SifrantDB::isDuplicateObcina($data["ime"]) && SifrantDB::ObcinaEdit($data["urediId"],$data["ime"],$data["id"])){
 
-            SifrantDB::ObcinaEdit($data["urediId"],$data["ime"]);
             ViewHelper::render("view/Sifrant/ObcinaAll.php", [
                 "all" => SifrantDB::ObcinaGet(),
                 "status" => "Success",
@@ -608,7 +624,7 @@ class SifrantController
             ViewHelper::render("view/Sifrant/ObcinaAll.php", [
                 "all" => SifrantDB::ObcinaGet(),
                 "status" => "Failure",
-                "message" => "Sprememba neuspešna - Duplikat"
+                "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
             ]);
         }
     }
@@ -670,7 +686,8 @@ class SifrantController
     public static function addOblikaStudija() {
         $data = filter_input_array(INPUT_POST, [
             "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
         ]);
 
@@ -678,8 +695,8 @@ class SifrantController
             if (User::isLoggedInAsAdmin()){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
 
-                if(!SifrantDB::isDuplicateOblikaStudija($data["opis"],$data["angopis"])){
-                    SifrantDB::OblikaStudijaAdd($data["opis"],$data["angopis"]);
+                if(!SifrantDB::isDuplicateOblikaStudija($data["opis"],$data["angopis"]) && SifrantDB::OblikaStudijaAdd($data["opis"],$data["angopis"],$data["id"])){
+
                     ViewHelper::render("view/Sifrant/OblikaStudijaAll.php", [
                         "all" => SifrantDB::OblikaStudijaGet(),
                         "status" => "Success",
@@ -689,7 +706,7 @@ class SifrantController
                     ViewHelper::render("view/Sifrant/OblikaStudijaAll.php", [
                         "all" => SifrantDB::OblikaStudijaGet(),
                         "status" => "Failure",
-                        "message" => "Sprememba neuspešna - Duplikat"
+                        "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
                     ]);
                 }
             }else{
@@ -725,12 +742,13 @@ class SifrantController
         $data = filter_input_array(INPUT_POST, [
             "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "angopis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
         // var_dump($data);
 
-        if(!SifrantDB::isDuplicateOblikaStudija($data["opis"],$data["angopis"])){
-            SifrantDB::OblikaStudijaEdit($data["urediId"],$data["opis"],$data["angopis"]);
+        if(SifrantDB::OblikaStudijaEdit($data["urediId"],$data["opis"],$data["angopis"],$data["id"])){
+
             ViewHelper::render("view/Sifrant/OblikaStudijaAll.php", [
                 "all" => SifrantDB::OblikaStudijaGet(),
                 "status" => "Success",
@@ -740,7 +758,7 @@ class SifrantController
             ViewHelper::render("view/Sifrant/OblikaStudijaAll.php", [
                 "all" => SifrantDB::OblikaStudijaGet(),
                 "status" => "Failure",
-                "message" => "Sprememba neuspešna - Duplikat"
+                "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
             ]);
         }
     }
@@ -805,9 +823,21 @@ class SifrantController
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::PostaAdd($data["st_posta"],$data["kraj"]);
-                ViewHelper::render("view/Sifrant/PostaAdd.php", [
-                ]);
+                if(!SifrantDB::isDuplicateAddPosta($data["st_posta"],$data["kraj"])){
+                    SifrantDB::PostaAdd($data["st_posta"],$data["kraj"]);
+                    ViewHelper::render("view/Sifrant/PostaAll.php", [
+                        "all" => SifrantDB::PostaGet(),
+                        "status" => "Success",
+                        "message" => "Sprememba uspešna"
+                    ]);
+                } else {
+                    ViewHelper::render("view/Sifrant/PostaAll.php", [
+                        "all" => SifrantDB::PostaGet(),
+                        "status" => "Failure",
+                        "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
+                    ]);
+                }
+
             }else{
                 ViewHelper::error403();
             }
@@ -842,10 +872,35 @@ class SifrantController
             "st_posta" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "kraj" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-         var_dump($data);
-        SifrantDB::PostaEdit($data["urediId"],$data["st_posta"],$data["kraj"]);
-        ViewHelper::redirect(BASE_URL . "PostaAll");
 
+        // Pridobi podatke za posto, ki se spreminja
+        $trenutnaPosta = SifrantDB::getOnePosta($data["urediId"]);
+
+        // Postna stevilka se ni uporabljena ALI ni spremembe na st_posta --> Lahko jo spreminjamo
+        if(SifrantDB::seNiUporabljena($trenutnaPosta["ST_POSTA"]) || ($data["st_posta"] === $trenutnaPosta["ST_POSTA"])){
+
+            if(!SifrantDB::isDuplicateEditPosta($data["st_posta"],$data["kraj"], $data["urediId"])){
+                SifrantDB::PostaEdit($data["urediId"],$data["st_posta"],$data["kraj"]);
+                ViewHelper::render("view/Sifrant/PostaAll.php", [
+                    "all" => SifrantDB::PostaGet(),
+                    "status" => "Success",
+                    "message" => "Sprememba uspešna"
+                ]);
+            }  else {
+                ViewHelper::render("view/Sifrant/PostaAll.php", [
+                    "all" => SifrantDB::PostaGet(),
+                    "status" => "Failure",
+                    "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
+                ]);
+            }
+
+        } else {
+            ViewHelper::render("view/Sifrant/PostaAll.php", [
+                "all" => SifrantDB::PostaGet(),
+                "status" => "Failure",
+                "message" => "Urejanje poštne številke ni možno - Ta pošta je že uporabljena pri naslovih"
+            ]);
+        }
     }
 
     public static function toogleActivatedPosta(){
@@ -902,17 +957,24 @@ class SifrantController
 
     public static function addPredmet() {
         $data = filter_input_array(INPUT_POST, [
-            "predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
         if (User::isLoggedIn()){
-            if (User::isLoggedInAsAdmin()){
+            if (User::isLoggedInAsAdmin() && SifrantDB::PredmetAdd($data["predmet"],$data["id"])){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::PredmetAdd($data["predmet"]);
-                ViewHelper::render("view/Sifrant/PredmetAdd.php", [
+                ViewHelper::render("view/Sifrant/PredmetAll.php", [
+                    "all" => SifrantDB::PredmetGet(),
+                    "status" => "Success",
+                    "message" => "Sprememba uspešna"
                 ]);
             }else{
-                ViewHelper::error403();
+                ViewHelper::render("view/Sifrant/PredmetAll.php", [
+                    "all" => SifrantDB::PredmetGet(),
+                    "status" => "Failure",
+                    "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
+                ]);
             }
         }else{
             ViewHelper::error401();
@@ -942,13 +1004,25 @@ class SifrantController
     public static function editPredmet() {
         $data = filter_input_array(INPUT_POST, [
             "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
 
         ]);
-        // var_dump($data);
-        SifrantDB::PredmetEdit($data["urediId"],$data["predmet"]);
-        ViewHelper::redirect(BASE_URL . "PredmetAll");
 
+        if(SifrantDB::PredmetEdit($data["urediId"],$data["predmet"],$data["id"])){
+            // var_dump( SifrantDB::DelPredmetnikaGet());
+            ViewHelper::render("view/Sifrant/PredmetAll.php", [
+                "all" => SifrantDB::PredmetGet(),
+                "status" => "Success",
+                "message" => "Sprememba uspešna"
+            ]);
+        }else{
+            ViewHelper::render("view/Sifrant/PredmetAll.php", [
+                "all" => SifrantDB::PredmetGet(),
+                "status" => "Failure",
+                "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
+            ]);
+        }
     }
 
     public static function toogleActivatedPredmet(){
@@ -1006,17 +1080,25 @@ class SifrantController
 
     public static function addStudijskoLeto() {
         $data = filter_input_array(INPUT_POST, [
-            "stud_leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "stud_leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
         ]);
 
         if (User::isLoggedIn()){
-            if (User::isLoggedInAsAdmin()){
+            if (User::isLoggedInAsAdmin() && SifrantDB::StudijskoLetoAdd($data["stud_leto"],$data["id"])){
                 // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::StudijskoLetoAdd($data["stud_leto"]);
-                ViewHelper::render("view/Sifrant/StudijskoLetoAdd.php", [
+
+                ViewHelper::render("view/Sifrant/StudijskoLetoAll.php", [
+                    "all" => SifrantDB::StudijskoLetoGet(),
+                    "status" => "Success",
+                    "message" => "Sprememba uspešna"
                 ]);
             }else{
-                ViewHelper::error403();
+                ViewHelper::render("view/Sifrant/StudijskoLetoAll.php", [
+                    "all" => SifrantDB::StudijskoLetoGet(),
+                    "status" => "Failure",
+                    "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
+                ]);
             }
         }else{
             ViewHelper::error401();
@@ -1046,13 +1128,25 @@ class SifrantController
     public static function editStudijskoLeto() {
         $data = filter_input_array(INPUT_POST, [
             "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "stud_leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "stud_leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
         ]);
-         var_dump($data);
-        SifrantDB::StudijskoLetoEdit($data["urediId"],$data["stud_leto"]);
-        ViewHelper::redirect(BASE_URL . "StudijskoLetoAll");
+        // var_dump($data);
+        if (SifrantDB::StudijskoLetoEdit($data["urediId"],$data["stud_leto"],$data["id"])){
 
+            ViewHelper::render("view/Sifrant/StudijskoLetoAll.php", [
+                "all" => SifrantDB::StudijskoLetoGet(),
+                "status" => "Success",
+                "message" => "Sprememba uspešna"
+            ]);
+        } else {
+            ViewHelper::render("view/Sifrant/StudijskoLetoAll.php", [
+                "all" => SifrantDB::StudijskoLetoGet(),
+                "status" => "Failure",
+                "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
+            ]);
+        }
     }
 
 
@@ -1091,17 +1185,25 @@ class SifrantController
 
     public static function addVrstaVpisa() {
         $data = filter_input_array(INPUT_POST, [
-            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
         if (User::isLoggedIn()){
-            if (User::isLoggedInAsAdmin()){
-                // var_dump( SifrantDB::DelPredmetnikaGet());
-                SifrantDB::VrstaVpisaAdd($data["opis"]);
-                ViewHelper::render("view/Sifrant/VrstaVpisaAdd.php", [
+            if (User::isLoggedInAsAdmin() && SifrantDB::VrstaVpisaAdd($data["opis"],$data["id"])){
+
+
+                ViewHelper::render("view/Sifrant/VrstaVpisaAll.php", [
+                    "all" => SifrantDB::VrstaVpisaGet(),
+                    "status" => "Success",
+                    "message" => "Sprememba uspešna"
                 ]);
-            }else{
-                ViewHelper::error403();
+            } else {
+                ViewHelper::render("view/Sifrant/VrstaVpisaAll.php", [
+                    "all" => SifrantDB::VrstaVpisaGet(),
+                    "status" => "Failure",
+                    "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
+                ]);
             }
         }else{
             ViewHelper::error401();
@@ -1131,13 +1233,25 @@ class SifrantController
     public static function editVrstaVpisa() {
         $data = filter_input_array(INPUT_POST, [
             "urediId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "opis" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
         ]);
         // var_dump($data);
-        SifrantDB::VrstaVpisaEdit($data["urediId"],$data["opis"]);
-        ViewHelper::redirect(BASE_URL . "VrstaVpisaAll");
+        if (SifrantDB::VrstaVpisaEdit($data["urediId"],$data["opis"],$data["id"])){
 
+            ViewHelper::render("view/Sifrant/VrstaVpisaAll.php", [
+                "all" => SifrantDB::VrstaVpisaGet(),
+                "status" => "Success",
+                "message" => "Sprememba uspešna"
+            ]);
+        } else {
+            ViewHelper::render("view/Sifrant/VrstaVpisaAll.php", [
+                "all" => SifrantDB::VrstaVpisaGet(),
+                "status" => "Failure",
+                "message" => "Sprememba neuspešna - duplikat ali že uporabljena šifra"
+            ]);
+        }
     }
 
     public static function toogleActivatedVrstaVpisa(){

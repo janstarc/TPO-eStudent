@@ -22,12 +22,12 @@
                     "bSortable": false
                 }, {
                     "sClass": "center",
-                    "bSortable": true,
-                    "sType":"slo"
+                    "bSortable": false
+
                 }, {
                     "sClass": "center",
-                    "bSortable": true,
-                    "sType":"slo"
+                    "bSortable": false
+
                 }],
                 // Ordering v prvem stolpcu
                 "order": [[ 1, 'asc' ]]
@@ -64,7 +64,7 @@
                         <table id="table-letnik" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Šifra</th>
                                 <th>Letnik</th>
                                 <th>Uredi</th>
                             </tr>

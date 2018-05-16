@@ -26,6 +26,9 @@
                         "sClass": "center",
                         "bSortable": true,
                         "sType":"slo"
+                    },{
+                        "sClass": "center",
+                        "bSortable": false
                     }, {
                         "sClass": "center",
                         "bSortable": true,
@@ -60,11 +63,18 @@
                         <br>
                         <br>
                         <br>
+                        <?php if(isset($status)): ?>
+                            <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <?= $message ?>
+                            </div>
+                        <?php endif; ?>
                         <table id="table-predmeti" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Ime predmeta</th>
+                                <th>Šifra</th>
                                 <th>Uredi</th>
                                 <th>Deaktiviraj</th>
                             </tr>
@@ -76,6 +86,7 @@
                                 <tr>
                                     <td></td>
                                     <td><?php echo $value['IME_PREDMET']; ?></td>
+                                    <td><?php echo $value['ID_PREDMET']; ?></td>
                                     <td>
                                         <form action="<?= BASE_URL . "PredmetAll/editForm" ?>" method="post">
                                             <input type="hidden" name="urediId" value="<?= $value['ID_PREDMET'] ?>" />

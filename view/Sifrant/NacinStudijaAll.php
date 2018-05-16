@@ -26,6 +26,10 @@
                     "sType":"slo"
                 }, {
                     "sClass": "center",
+                    "bSortable": false,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
                     "bSortable": true,
                     "sType":"slo"
                 }, {
@@ -72,6 +76,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Opis nacin</th>
+                                <th>Šifra</th>
                                 <th>Angleski opis nacina</th>
                                 <th>Uredi</th>
                                 <th>Deaktiviraj</th>
@@ -84,6 +89,7 @@
                                 <tr>
                                     <td></td>
                                     <td><?php echo $value['OPIS_NACIN']; ?></td>
+                                    <td><?php echo $value['ID_NACIN']; ?></td>
                                     <td><?php echo $value['ANG_OPIS_NACIN']; ?></td>
 
                                     <td>
