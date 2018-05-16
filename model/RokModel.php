@@ -89,7 +89,7 @@ class RokModel {
         if ($IzvedbaPredmeta != null) {
             return $IzvedbaPredmeta;
         } else {
-            throw new InvalidArgumentException("No record with User id $idUser");
+            throw new InvalidArgumentException("No record with User id $idRok");
         }
     }
     
@@ -143,5 +143,25 @@ class RokModel {
         $result = $statement->fetch();
 
         return ($result["AKTIVNOST"] == 1);
+    }
+
+    public static function getAllByEnrolledStudent($idUser, $idCurrentYear) {
+        $db = DBInit::getInstance();
+
+        // TODO ocena == null OR ocena == 5
+        $statement = $db->prepare("
+        SELECT r.ID_ROK, ip.ID_IZVEDBA, p.ID_PREDMET, p.IME_PREDMET, r.DATUM_ROKA, r.CAS_ROKA, r.AKTIVNOST
+        FROM `rok` AS r
+        JOIN `izvedba_predmeta` AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
+        JOIN `predmet` AS p ON ip.ID_PREDMET = p.ID_PREDMET
+        JOIN `predmeti_studenta` AS ps ON ps.ID_PREDMET = p.ID_PREDMET
+        JOIN `student` AS s ON s.VPISNA_STEVILKA = ps.VPISNA_STEVILKA
+        WHERE s.ID_OSEBA = :idUser AND ps.ID_STUD_LETO = :idCurrentYear AND r.AKTIVNOST = 1
+        ORDER BY DATUM_ROKA, CAS_ROKA
+    ");
+        $statement->bindParam(":idUser", $idUser, PDO::PARAM_INT);
+        $statement->bindParam(":idCurrentYear", $idCurrentYear, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll();
     }
 }

@@ -6,7 +6,7 @@
     </head>
     <body>
         <section id="container">
-            <?php include("view/includes/menu-links-professor.php"); ?>
+            <?php include("view/includes/menu-links-student.php"); ?>
             <section id="main-content">
                 <section class="wrapper">
                     <div class="row">
@@ -23,11 +23,12 @@
                                 <table id="table-subject" class="table table-striped table-advance table-hover">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Predmet</th>
                                         <th>Datum</th>
                                         <th>Cas</th>
-                                        <th>Uredi</th>
-                                        <th>Deaktiviraj</th>
+                                        <th>Prijava</th>
+                                        <th>Odjava</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -43,18 +44,15 @@
                                             </td>
                                             <td><?php echo $rok['CAS_ROKA']; ?></td>
                                             <td>
-                                                <form action="<?= BASE_URL . $formAction . "edit/" . $rok["ID_ROK"] ?>" method="get">
-                                                    <input class="btn btn-primary btn-sm" type="submit" value="Uredi" />
+                                                <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
+                                                    <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
+                                                    <input class="btn btn-primary btn-sm" type="submit" value="Prijavi se" />
                                                 </form>
                                             </td>
                                             <td>
-                                                <form  action="<?= BASE_URL . $formAction . "toogleActivated" ?>" method="post">
-                                                    <input type="hidden" name="activateId" value="<?= $rok["ID_ROK"] ?>" />
-                                                    <?php if(!$rok["AKTIVNOST"]) : ?>
-                                                        <input class="btn btn-success btn-sm" type="submit" value="Activate" />
-                                                    <?php else : ?>
-                                                        <input class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
-                                                    <?php endif; ?>
+                                                <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
+                                                    <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
+                                                    <input class="btn btn-primary btn-sm" type="submit" value="Odjavi se" />
                                                 </form>
                                             </td>
                                         </tr>

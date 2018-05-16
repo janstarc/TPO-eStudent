@@ -212,6 +212,28 @@ class StudentController {
         header('Content-Disposition: attachment; filename="' . $filename . '";');
     }
 
-
-
+    public static function izpitniRokForm($status = null, $message = null) {
+        $IdYear = StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsStudent()){
+                $IdYear = StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
+                $roki = RokModel::getAllByEnrolledStudent(User::getId(), $IdYear["ID_STUD_LETO"]);
+                if (empty($roki)) {
+                    $status = "Info";
+                    $message = "Trenutno ni razpisanih izpitne roke.";
+                }
+                ViewHelper::render("view/IzpitniRokStudent.php", [
+                    "pageTitle" => "Seznam vse roke",
+                    "roki" => $roki,
+                    "formAction" => "izpitniRok/student/",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
 }

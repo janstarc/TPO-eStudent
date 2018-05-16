@@ -158,6 +158,11 @@ $urls = [
         else ViewHelper::error405();
     },
 
+    "/^izpitniRok\/student$/" => function ($method) {
+        if ($method == "GET") StudentController::izpitniRokForm();
+        else ViewHelper::error405();
+    },
+
     "/^dodajPredmet$/" => function ($method) {
         if ($method == "POST") AdminController::addInPredmetnik();
         else ViewHelper::error405();
