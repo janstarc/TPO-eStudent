@@ -1,13 +1,82 @@
 <?php
 
 require_once("model/UserModel.php");
+require_once("model/PredmetModel.php");
 require_once("model/DataForExportModel.php");
+require_once("model/DelPredmetnikaModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
 require_once ("view/includes/tfpdf.php");
 
 
 class StudentController {
+    public static function vpis2LForm($status = null, $message = null) {
+        $ObvPredmeti = PredmetModel::getAllByType([
+            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_LETNIK" => 2,
+            "TIP" => 'o'
+        ]);
+        $StrIzbPredmeti = PredmetModel::getAllByType([
+            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_LETNIK" => 2,
+            "TIP" => 'st'
+        ]);
+        $SplIzbPredmeti = PredmetModel::getAllByType([
+            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_LETNIK" => 2,
+            "TIP" => 'sp'
+        ]);
+        echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
+        echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
+        echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+    }
+
+    public static function vpis3L1Form($status = null, $message = null) {
+        $ObvPredmeti = PredmetModel::getAllByType([
+            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_LETNIK" => 3,
+            "TIP" => 'o'
+        ]);
+        $IzbModulov = DelPredmetnikaModel::getAllModulov();
+        $SplIzbPredmeti = PredmetModel::getAllByType([
+            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_LETNIK" => 2,
+            "TIP" => 'sp'
+        ]);
+        echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
+        echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
+        echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+    }
+
+    public static function vpis3L2Form($status = null, $message = null) {
+        $ObvPredmeti = PredmetModel::getAllByType([
+            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_LETNIK" => 3,
+            "TIP" => 'o'
+        ]);
+        $ModIzbPredmeti = PredmetModel::getAllByType([
+            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_LETNIK" => 3,
+            "TIP" => 'm'
+        ]);
+        $SplIzbPredmeti = PredmetModel::getAllByType([
+            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_LETNIK" => 2,
+            "TIP" => 'sp'
+        ]);
+        echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
+        echo '<pre>' . var_export($ModIzbPredmeti, true) . '</pre>';
+        echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+    }
+
     public static function elektronskiIndeksForm() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudent()){
