@@ -92,7 +92,7 @@
                                         <th>Vpisna stevilka</th>
                                         <th>Letnik</th>
                                         <th>Vsota Opravljenih KT</th>
-
+                                        <th>Dodaj žeton</th>
                                         <th>Pogoji za vpis</th>
                                         <th>Pogoji za ponavljanje</th>
                                         <th>Poglej vse žetone</th>
@@ -109,14 +109,22 @@
                                             <td><?php echo $data['VPISNA_STEVILKA']; ?></td>
                                             <td><?php echo $data['ID_LETNIK']; ?></td>
                                             <td><?php echo $data['VSOTA_OPRAVLJENIH_KREDITNIH_TOCK']; ?></td>
+
+                                            <td><form  action="<?= BASE_URL . "zetoni/add" ?>" method="post">
+                                                    <input type="hidden" name="IdOseba" value="<?= $data['ID_OSEBA'] ?>" />
+                                                    <input type="hidden" name="Leto" value="<?= $id ?>" />
+                                                    <input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />
+                                                </form></td>
                                             <td><form  <?php if ($data['pogoj1'] == 0){ echo 'style="display:none;"';} ?>  action="<?= BASE_URL . "zetoni/add" ?>" method="post">
                                                     <input type="hidden" name="IdOseba" value="<?= $data['ID_OSEBA'] ?>" />
                                                     <input type="hidden" name="Leto" value="<?= $id ?>" />
                                                     <input class="btn btn-primary btn-sm" type="submit" value="Naslednji letnik" />
                                                 </form></td>
+
                                             <td><form  <?php if ($data['pogoj2'] == 0){ echo 'style="display:none;"';} ?>  action="<?= BASE_URL . "zetoni/renew" ?>" method="post">
                                                     <input type="hidden" name="IdOseba" value="<?= $data['ID_OSEBA'] ?>" />
                                                     <input type="hidden" name="Leto" value="<?= $id ?>" />
+                                                    <input type="hidden" name="ponevljanje" value="<?= 1 ?>" />
                                                     <input class="btn btn-primary btn-sm" type="submit" value="Ponavljanje letnika" />
                                                 </form>
                                             <td>

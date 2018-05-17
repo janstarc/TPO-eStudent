@@ -572,10 +572,11 @@ class StudentOfficerController {
             if (User::isLoggedInAsStudentOfficer()) {
                 $data = filter_input_array(INPUT_POST, [
                     "IdOseba" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                    "Leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+                    "Leto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
                 ]);
 
-                StudentOfficerDB::dodajNov1($data["IdOseba"]);
+                StudentOfficerDB::dodajNov2($data["IdOseba"]);
                 ViewHelper::redirect(BASE_URL . "zetoni/".$data["Leto"]);
 
             } else {
@@ -724,6 +725,96 @@ class StudentOfficerController {
         }
     }
 
+    public static function SteviloVpisanihForm1($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+
+                ViewHelper::render("view/steviloVpisanih.php", [
+                    "pageTitle" => "Seznam vseh študijskih let",
+                    "allData" => StudijskoLetoModel::getAll(),
+                    "formAction" => "steviloVpisanih/params",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }public static function SteviloVpisanihForm2($id, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = StudijskoLetoModel::getAllProgram();
+                if(count($data) == 0){
+                    $status = 1;
+                    $message = "V tem letu še ni predmetov";
+                }
+                ViewHelper::render("view/steviloVpisanihProgram.php", [
+                    "pageTitle" => "Seznam vseh študijskih programov",
+                    "allData" => StudijskoLetoModel::getAllProgram(),
+                    "formAction" => $id,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }public static function SteviloVpisanihForm3($id1, $id2, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = StudijskoLetoModel::getAllLetnik();
+                if(count($data) == 0){
+                    $status = 1;
+                    $message = "V tem letu še ni predmetov";
+                }
+                ViewHelper::render("view/steviloVpisanihLetnik.php", [
+                    "pageTitle" => "Seznam vseh letnikov",
+                    "allData" => StudijskoLetoModel::getAllLetnik(),
+                    "formAction" => $id2,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function SteviloVpisanihForm4($id1, $id2, $id3, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = StudentOfficerDB::getPredmetiSteviloVpisanih($id1, $id2, $id3);
+                if(count($data) == 0){
+                    $status = 1;
+                    $message = "V iskanih parametrih ni vpisanih študentov";
+                }
+                ViewHelper::render("view/steviloVpisanihPrikaz.php", [
+                    "pageTitle" => "Seznam vseh letnikov",
+                    "allData" => $data,
+                    "id1" => $id1,
+                    "id2" => $id2,
+                    "id3" => $id3,
+                    "formAction" => $id2,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
     public static function VpisaniForm1($status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
@@ -742,7 +833,6 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
-
     public static function VpisaniForm2($id, $status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
@@ -908,7 +998,7 @@ class StudentOfficerController {
 
         $pdf = new tFPDF();
         $pdf->AddPage('L');
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
         $pdf->SetFont('DejaVu','',10);
         $pdf->Cell(40,10,'Izpis podatkov o predmetu');
         $pdf->Ln();
@@ -923,4 +1013,81 @@ class StudentOfficerController {
         header('Content-Disposition: attachment; filename="' . $filename . '";');
     }
 
+
+    public static function exportCSV2(){
+
+        $data = filter_input_array(INPUT_POST, [
+            "id1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id3" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+        ]);
+
+        $data = StudentOfficerDB::getPredmetiSteviloVpisanih($data['id1'], $data['id2'], $data['id3']);
+
+        $delimiter = ",";
+        $filename = "data.csv";
+        $f = fopen('php://memory', 'w');
+
+
+        $fields = array();
+        fputcsv($f, $fields, $delimiter);
+        $fields = array("Izpis podatkov o številu vpisanih");
+        fputcsv($f, $fields, $delimiter);
+        $fields = array('Šifra predmeta','Ime predmeta', 'Ime glavnega profesorja', 'Število vpisanih študentov');
+        fputcsv($f, $fields, $delimiter);
+
+        $all = [];
+        $lineData2=null;
+        foreach ($data as $key => $value){
+
+            $lineData2 = array($value["ID_PREDMET"],$value["IME_PREDMET"],  $value["IME"]." ".$value["PRIIMEK"], $value["COUNT"]);
+            fputcsv($f, $lineData2, $delimiter);
+        }
+
+        fseek($f, 0);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+        fpassthru($f);
+
+    }
+
+
+
+
+    public static function exportPDF2(){
+        $data = filter_input_array(INPUT_POST, [
+            "id1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id3" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+        ]);
+
+        $data = StudentOfficerDB::getPredmetiSteviloVpisanih($data['id1'], $data['id2'], $data['id3']);
+        $header2 = array('Šifra predmeta','Ime predmeta', 'Ime glavnega profesorja', 'Število vpisanih študentov');
+
+       $all = [];
+        foreach ($data as $key => $value){
+
+            $lineData2 = array($value["ID_PREDMET"],$value["IME_PREDMET"],  $value["IME"]." ".$value["PRIIMEK"], $value["COUNT"]);
+            array_push($all, $lineData2);
+        }
+
+
+
+
+        $pdf = new tFPDF();
+        $pdf->AddPage('L');
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+        $pdf->SetFont('DejaVu','',10);
+        $pdf->Cell(40,10,'Izpis podatkov o številu vpisanih:');
+
+        $pdf->Ln();
+        $pdf->BasicTableH($header2,$all);
+        $pdf->Output();
+
+        $filename="data.pdf";
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+    }
 }

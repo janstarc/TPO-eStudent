@@ -524,6 +524,82 @@ class ProfesorController {
 
 
 
+//PAVLIN: seznam vpisanih v predmet
+    public static function VpisaniForm1($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsProfessor()) {
+
+                ViewHelper::render("view/VpisaniChooseLetoP.php", [
+                    "pageTitle" => "Seznam vseh študijskih let",
+                    "allData" => StudijskoLetoModel::getAll(),
+                    "formAction" => "vpisPredmetP/leto",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function VpisaniForm2($id, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsProfessor()) {
+
+                $data = ProfesorDB::getPredmetiProfesorja2($id);
+
+                if(count($data) == 0){
+                    $status = 1;
+                    $message = "V tem letu še ni predmetov";
+                }
+
+                ViewHelper::render("view/VpisaniChoosePredmetP.php", [
+                    "pageTitle" => "Seznam vseh študijskih let",
+                    "predmeti" => $data,
+                    "formAction" => "vpisPredmetP/predmet",
+                    "idLeto" => $id,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+
+    public static function VpisaniForm3($leto, $predmet, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsProfessor()) {
+
+                $data = StudentOfficerDB::getVpisani($predmet, $leto);
+                if(count($data) == 0){
+                    $status = 1;
+                    $message = "V predmet v tem letu ni vpisanih študentov! ";
+                }
+
+                ViewHelper::render("view/VpisaniPrikazP.php", [
+                    "vpisani" => $data,
+                    "pageTitle" => "Seznam vseh študijskih let",
+                    "formAction" => "predmet",
+                    "leto" => StudentOfficerDB::getLeto($leto),
+                    "predmet" => StudentOfficerDB::getPredmet($predmet),
+                    "idLeto" => $leto,
+                    "idPredmet" => $predmet,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
 
 
 

@@ -171,6 +171,7 @@ class StudentOfficerDB
         $db = DBInit::getInstance();
         $letnik =$data['ID_LETNIK']+1;
         $leto = $data['ID_STUD_LETO']+1;
+        if ($letnik >3) $letnik = 3;
 
         if ($letnik == 3){
 
@@ -249,6 +250,102 @@ class StudentOfficerDB
         $statement->execute();
 
         return true;}
+
+    }
+
+    public static function dodajNov2($id){
+
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+           SELECT * FROM `zeton` WHERE id_oseba = :oseba
+            ORDER BY ID_STUD_LETO DESC limit 1 ");
+
+        $statement->bindParam(":oseba", $id);
+        $statement->execute();
+        $data = $statement->fetchAll()[0];
+        $data['ID_VRSTAVPISA'] = 2 ;
+        $db = DBInit::getInstance();
+        $letnik =$data['ID_LETNIK']+1;
+        $leto = $data['ID_STUD_LETO']+1;
+        if ($letnik >3) $letnik = 3;
+
+        if ($letnik == 3){
+
+            $db = DBInit::getInstance();
+            $statement = $db->prepare("
+            SELECT AVG(ocena) 
+            FROM predmeti_studenta p, student s, oseba o 
+            WHERE o.ID_OSEBA=:id and s.ID_OSEBA = o.ID_OSEBA 
+            and p.VPISNA_STEVILKA = s.VPISNA_STEVILKA
+            ");
+
+            $statement->bindParam(":id", $id);
+            $statement->execute();
+            $ocena = $statement->fetchAll()[0];
+
+            if ($ocena >8.5) $izbirnost = 1;
+            else $izbirnost = 0;
+            $statement = $db->prepare("
+            INSERT INTO `tpo`.`zeton`
+            (`ID_OSEBA`,
+            `ID_LETNIK`,
+            `ID_STUD_LETO`,
+            `ID_OBLIKA`,
+            `ID_VRSTAVPISA`,
+            `ID_NACIN`,
+            `ID_PROGRAM`,
+            `PROSTA_IZBIRNOST`)
+            VALUES
+            (:oseba,
+            :letnik,
+            :leto,
+            :oblika,
+            :vrstaVpisa,
+            :nacin,
+            :program,
+            :izbirnost); ");
+
+            $statement->bindParam(":oseba", $id);
+            $statement->bindParam(":letnik", $letnik);
+            $statement->bindParam(":leto", $leto);
+            $statement->bindParam(":oblika", $data['ID_OBLIKA']);
+            $statement->bindParam(":vrstaVpisa", $data['ID_VRSTAVPISA']);
+            $statement->bindParam(":nacin", $data['ID_NACIN']);
+            $statement->bindParam(":program", $data['ID_PROGRAM']);
+            $statement->bindParam(":izbirnost", $izbirnost);
+            $statement->execute();
+
+            return true;
+        }
+        else{
+            $statement = $db->prepare("
+            INSERT INTO `tpo`.`zeton`
+            (`ID_OSEBA`,
+            `ID_LETNIK`,
+            `ID_STUD_LETO`,
+            `ID_OBLIKA`,
+            `ID_VRSTAVPISA`,
+            `ID_NACIN`,
+            `ID_PROGRAM`)
+            VALUES
+            (:oseba,
+            :letnik,
+            :leto,
+            :oblika,
+            :vrstaVpisa,
+            :nacin,
+            :program); ");
+
+            $statement->bindParam(":oseba", $id);
+            $statement->bindParam(":letnik", $letnik);
+            $statement->bindParam(":leto", $leto);
+            $statement->bindParam(":oblika", $data['ID_OBLIKA']);
+            $statement->bindParam(":vrstaVpisa", $data['ID_VRSTAVPISA']);
+            $statement->bindParam(":nacin", $data['ID_NACIN']);
+            $statement->bindParam(":program", $data['ID_PROGRAM']);
+            $statement->execute();
+
+            return true;}
 
     }
     public static function dodajNov1($id){
@@ -339,13 +436,48 @@ class StudentOfficerDB
             $db = DBInit::getInstance();
 
             $statement = $db->prepare("
-                    SELECT DISTINCT *
-                    FROM   predmet p , predmetnik pr
-                    WHERE ID_STUD_LETO = :leto and p.id_predmet = pr.id_predmet ");
+                    SELECT DISTINCT * 
+                    FROM   predmet p ,izvedba_predmeta i, oseba o 
+                    WHERE i.ID_STUD_LETO = :leto and p.id_predmet = i.id_predmet and o.ID_OSEBA = i.ID_OSEBA1
+                    ");
             $statement->bindParam(":leto", $leto);
             $statement->execute();
 
             return $statement->fetchAll();
+
+    }
+    public static function getPredmetiSteviloVpisanih($leto, $program, $letnik)
+    {
+        $all = [];
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                    SELECT * FROM predmetnik pr, predmet p, studijsko_leto s, letnik l, program po , izvedba_predmeta i, oseba o
+        where pr.ID_PREDMET = p.ID_PREDMET and pr.ID_STUD_LETO = s.ID_STUD_LETO and i.ID_STUD_LETO = pr.ID_STUD_LETO 
+        and pr.ID_LETNIK = l.ID_LETNIK and pr.ID_PROGRAM = po.ID_PROGRAM and i.ID_PREDMET = p.ID_PREDMET
+        and :letnik = l.ID_LETNIK and :program = pr.ID_PROGRAM and s.ID_STUD_LETO = :leto and i.ID_OSEBA1 = o.ID_OSEBA");
+        $statement->bindParam(":leto", $leto);
+        $statement->bindParam(":program", $program);
+        $statement->bindParam(":letnik", $letnik);
+        $statement->execute();
+
+        $retultat = $statement->fetchAll();
+        #var_dump($retultat);
+        foreach ($retultat as $var) {
+
+            $db = DBInit::getInstance();
+            $statement = $db->prepare("
+                         SELECT count(*) FROM
+                        predmeti_studenta pr WHERE pr.ID_PREDMET = :id AND pr.ID_STUD_LETO = :leto
+                        ");
+            $statement->bindParam(":leto", $leto);
+            $statement->bindParam(":id", $var['ID_PREDMET']);
+            $statement->execute();
+            $count = $statement->fetchColumn();
+            $var['COUNT'] = $count;
+            array_push($all, $var);
+         }
+        return $all;
 
     }
 
@@ -502,4 +634,6 @@ class StudentOfficerDB
             return 2;
         }
     }
+
+
 }

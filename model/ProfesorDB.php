@@ -456,5 +456,29 @@ class ProfesorDB
         return $statement->fetchColumn();
 
     }
+
+
+    //seznam vpisanih v predmet:
+
+    public static function getPredmetiProfesorja2($leto)
+    {
+        $id_oseba = User::getId();
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT DISTINCT * 
+                    FROM   predmet p ,izvedba_predmeta i, oseba o 
+                    WHERE i.ID_STUD_LETO = :leto and p.id_predmet = i.id_predmet and o.ID_OSEBA = i.ID_OSEBA1 
+                    and (:prof = ID_OSEBA1 or :prof = ID_OSEBA2 or :prof = ID_OSEBA3 )
+            
+        ");
+
+
+        $statement->bindValue(":leto", $leto);
+        $statement->bindValue(":prof", User::getId());
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
 }
 

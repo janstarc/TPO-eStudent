@@ -32,4 +32,24 @@ class StudijskoLetoModel {
         $res = $statement->fetchAll();
         return $res;
     }
+    public static function getAllProgram() {
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT *
+            FROM PROGRAM
+        ");
+        $statement->execute();
+        $res = $statement->fetchAll();
+        return $res;
+    }
+    public static function getAllLetnik() {
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT *
+            FROM LETNIK
+        ");
+        $statement->execute();
+        $res = $statement->fetchAll();
+        return $res;
+    }
 }

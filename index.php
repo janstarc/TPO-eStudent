@@ -234,7 +234,7 @@ $urls = [
         if ($method == "POST") StudentOfficerController::ZetonForm7();
         else ViewHelper::error405();
 
-
+    //vpisani v predmet - referent
     },"/^vpisPredmet$/" => function($method) {
         if ($method == "GET") StudentOfficerController::VpisaniForm1();
         else ViewHelper::error405();
@@ -250,8 +250,45 @@ $urls = [
     }, "/^VpisaniPrikaz\/exportPDF$/" => function($method) {
         if ($method == "POST") StudentOfficerController::exportPDF();
         else ViewHelper::error405();
+    }
+//vpisani v predmet - profesor
+    ,"/^vpisPredmetP$/" => function($method) {
+        if ($method == "GET") ProfesorController::VpisaniForm1();
+        else ViewHelper::error405();
+    }, "/^vpisPredmetP\/leto\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") ProfesorController::VpisaniForm2($id);
+        else ViewHelper::error405();
+    }, "/^vpisPredmetP\/predmet\/(\d+)\/(\d+)$/" => function ($method, $id, $id2) {
+        if ($method == "GET") ProfesorController::VpisaniForm3($id, $id2);
+        else ViewHelper::error405();
+    },"/^VpisaniPrikazP\/exportCSV$/" => function($method) {
+        if ($method == "POST") ProfesorController::exportCSV();
+        else ViewHelper::error405();
+    }, "/^VpisaniPrikazP\/exportPDF$/" => function($method) {
+        if ($method == "POST") ProfesorController::exportPDF();
+        else ViewHelper::error405();
     },
 
+    //stevilo vpisanih steviloVpisanih
+    "/^steviloVpisanih$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::SteviloVpisanihForm1();
+        else ViewHelper::error405();
+    }, "/^steviloVpisanih\/params\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::SteviloVpisanihForm2($id);
+        else ViewHelper::error405();
+    }, "/^steviloVpisanih\/params\/(\d+)\/(\d+)$/" => function ($method, $id1, $id2) {
+        if ($method == "GET") StudentOfficerController::SteviloVpisanihForm3($id1, $id2);
+        else ViewHelper::error405();
+    }, "/^steviloVpisanih\/params\/(\d+)\/(\d+)\/(\d+)$/" => function ($method, $id1, $id2,$id3) {
+        if ($method == "GET") StudentOfficerController::SteviloVpisanihForm4($id1, $id2, $id3);
+        else ViewHelper::error405();
+    },"/^steviloVpisanih\/exportCSV$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportCSV2();
+        else ViewHelper::error405();
+    }, "/^steviloVpisanih\/exportPDF$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportPDF2();
+        else ViewHelper::error405();
+    },
 
     "/^zeton\/EMSOSearch$/" => function ($method) {
     if ($method == "POST") StudentOfficerController::searchByEMSO();

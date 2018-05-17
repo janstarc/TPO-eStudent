@@ -17,7 +17,10 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Šifra predmeta</th>
+                                <th>Šifra izvajanja</th>
                                 <th>Ime predmeta</th>
+                                <th>Ime glavnega predavatelja</th>
                                 <th>Izberi predmet</th>
                             </tr>
                             </thead>
@@ -29,11 +32,14 @@
                                 $n += 1 ;
                                 $izvedba = $row["IME_PREDMET"];
                                 $id =$row["ID_PREDMET"];
+                                $profesor = $row['IME'] . $row['PRIIMEK']
                                 ?>
                             <tr>
                                 <td><?= $n       ?></td>
+                                <td><?= $row['ID_PREDMET'] ?></td>
+                                <td><?= $row['ID_IZVEDBA'] ?></td>
                                 <td><?= $izvedba?></td>
-
+                                <td><?= $profesor ?></td>
 
                                 <td>
                                     <form action="<?= BASE_URL . $formAction . "/" . $idLeto .  "/" . $id ?>" method="get">
