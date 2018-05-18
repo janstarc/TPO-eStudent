@@ -6,12 +6,14 @@
 </head>
 <body>
 <section id="container">
-    <?php include("view/includes/menu-links-student-officer.php"); ?>
+    <?php include("view/includes/menu-links-professor.php"); ?>
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
                 <div class="col-xs-12 col-md-6 offset-md-3">
+                    <br>
                     <h2><?= $pageTitle ?></h2>
+                    <h5>Izberi študijsko leto</h5>
                     <?php if(isset($status)): ?>
                         <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

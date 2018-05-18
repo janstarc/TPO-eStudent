@@ -89,30 +89,26 @@ $urls = [
         else ViewHelper::error405();
     },
 
-
-    "/^vnosOcenTest$/" => function($method) {
-        if ($method == "GET") ProfesorController::VpisaniForm1();
+    // VNOS OCEN TEST
+    "/^VnosOcen$/" => function($method) {
+        if ($method == "GET") ProfesorController::VnosOcenChooseLeto();
         else ViewHelper::error405();
-    }, "/^vnosOcen\/leto\/(\d+)$/" => function ($method, $id) {
-        if ($method == "GET") ProfesorController::VpisaniForm2($id);
+    }, "/^VnosOcen\/leto\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") ProfesorController::vnosOcenIzberiPredmetInRok($id);
         else ViewHelper::error405();
-    },
-
-
-    "/^VnosOcen$/" => function ($method) {
-        if ($method == "GET") ProfesorController::vnosOcenIzberiPredmetInRok();
-        //else if ($method == "POST") ProfesorController::vnosOcenPoStudentih();
+    }, "/^VnosOcen\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
+        if ($method == "POST") ProfesorController::vnosOcenIzpita($id);
         else ViewHelper::error405();
-    }, "/^VnosOcen\/seznamStudentov$/" => function ($method) {
-        if ($method == "POST") ProfesorController::vnosOcenIzpita();
-        else ViewHelper::error405();
-    },"/^VnosOcen\/vnosEneOceneAjax$/" => function ($method) {
+    },"/^VnosOcen\/leto\/(\d+)\/seznamStudentov\/vnosEneOceneAjax$/" => function ($method) {
         if ($method == "POST") ProfesorController::vnosEneOceneAjax();
         else ViewHelper::error405();
-    },"/^VnosOcen\/vrniPrijavoAjax/" => function ($method){
+    },"/^VnosOcen\/leto\/(\d+)\/seznamStudentov\/vrniPrijavoAjax/" => function ($method){
         if ($method == "POST") ProfesorController::vrniPrijavoAjax();
         else ViewHelper::error405();
-    }, "/^OsebniPodatkiStudenta$/" => function ($method) {
+    },
+    // VNOS OCEN TEST
+
+    "/^OsebniPodatkiStudenta$/" => function ($method) {
         if ($method == "GET") AdminController::pregledOsebnihPodatkovStudenta();
         else ViewHelper::error405();
     }, "/^OsebniPodatkiStudenta\/vpisnaSearch$/" => function ($method) {

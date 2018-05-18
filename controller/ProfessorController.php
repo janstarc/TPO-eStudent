@@ -12,20 +12,41 @@ class ProfesorController {
 
     /********* VNOS OCEN IZPITNEGA ROKA *********/
 
-    public static function vnosOcenIzberiPredmetInRok() {
+    public static function VnosOcenChooseLeto($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsProfessor()) {
+
+                ViewHelper::render("view/VnosOcenChooseLeto.php", [
+                    "pageTitle" => "Seznam vseh študijskih let",
+                    "allData" => StudijskoLetoModel::getAll(),
+                    "formAction" => "VnosOcen/leto",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function vnosOcenIzberiPredmetInRok($id_stud_leto) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
 
                 // Get izpiti for profesor
                 $id_oseba = User::getId();
-                $predmetiProfesorja = ProfesorDB::getPredmetiProfesorja($id_oseba);
+                //var_dump("ID_OSEBA=".$id_oseba." ID_STUD_LETO=".$id_stud_leto);
+                $predmetiProfesorja = ProfesorDB::getPredmetiProfesorja($id_oseba, $id_stud_leto);
+                //var_dump($predmetiProfesorja);
 
                 // Najdi izvajalce predmeta, kreiraj locen array $izvajalciPredmetov
                 $izvajalciPredmetov=[];
                 foreach ($predmetiProfesorja as $key => $value){
 
                     $izvajalciRoka = "";
-                    $tmp = PredmetModel::getPredmetIzvajalci($value["ID_PREDMET"]);
+                    $tmp = PredmetModel::getPredmetIzvajalci($value["ID_PREDMET"], $id_stud_leto);
                     $tmp = $tmp[0];
 
                     if($tmp["ID_OSEBA1"] != null) $izvajalciRoka .= $tmp["IME1"]." ".$tmp["PRIIMEK1"];
@@ -38,7 +59,7 @@ class ProfesorController {
                 }
 
                 // Get izpitni roki za vse izpite profesorja
-                $izpitniRokiProfesorja = ProfesorDB::getIzpitniRokiProfesorja($id_oseba);
+                $izpitniRokiProfesorja = ProfesorDB::getIzpitniRokiProfesorja($id_oseba, $id_stud_leto);
 
                 foreach($izpitniRokiProfesorja as $key => $value){
                     $izpitniRokiProfesorja[$key]["DATUM_ROKA"] = self::formatDateSlo($value["DATUM_ROKA"]);
@@ -53,7 +74,8 @@ class ProfesorController {
                 ViewHelper::render("view/VnosOcenIzbiraPredmetaInRoka.php", [
                     "predmeti" => $predmetiProfesorja,
                     "izpitniRoki" => $izpitniRokiProfesorja,
-                    "izvajalciPredmetov" => $izvajalciPredmetov
+                    "izvajalciPredmetov" => $izvajalciPredmetov,
+                    "id_stud_leto" => $id_stud_leto
                 ]);
             }else{
                 ViewHelper::error403();
@@ -64,18 +86,20 @@ class ProfesorController {
     }
 
     // Forma za vnos ocen, ko je ze izbran predmet in izpitni rok
-    public static function vnosOcenIzpita(){
+    public static function vnosOcenIzpita($id_stud_leto){
 
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
 
                 $data = filter_input_array(INPUT_POST, [
                     "id_predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                    "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+                    "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
                 ]);
+                //var_dump("ID SL: " . $id_stud_leto);
 
                 $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
-                $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"]);
+                $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
                 $izvajalciArray = $izvajalciArray[0];
 
 

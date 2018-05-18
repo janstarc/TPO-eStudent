@@ -50,7 +50,7 @@
             <section id="main-content">
                 <section class="wrapper">
                     <br>
-                     <form action="<?= BASE_URL . "VnosOcen/seznamStudentov" ?>" method="post" class="form-horizontal">
+                     <form action="<?= BASE_URL . "VnosOcen/leto/".$id_stud_leto."/seznamStudentov" ?>" method="post" class="form-horizontal">
                         <h3>Vnos ocen izpitnega roka</h3>
                         <div class="form-group">
                             <label for="id_predmet">Izberi predmet</label>

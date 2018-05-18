@@ -318,7 +318,7 @@ class ProfesorDB
         return $result;
     }
 
-    public static function getPredmetiProfesorja($id_oseba)
+    public static function getPredmetiProfesorja($id_oseba, $id_stud_leto)
     {
 
         $db = DBInit::getInstance();
@@ -327,17 +327,19 @@ class ProfesorDB
             SELECT DISTINCT ip.ID_PREDMET, p.IME_PREDMET, p.SIFRA_PREDMET
             FROM izvedba_predmeta AS ip
             JOIN predmet AS p ON ip.ID_PREDMET = p.ID_PREDMET
-            WHERE ip.ID_OSEBA1 = :id_oseba
+            WHERE (ip.ID_OSEBA1 = :id_oseba
             OR ip.ID_OSEBA2 = :id_oseba
-            OR ip.ID_OSEBA3 = :id_oseba
+            OR ip.ID_OSEBA3 = :id_oseba)
+            AND ip.ID_STUD_LETO = :id_stud_leto
         ");
 
         $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->bindValue(":id_stud_leto", $id_stud_leto);
         $statement->execute();
         return $statement->fetchAll();
     }
 
-    public static function getIzpitniRokiProfesorja($id_oseba)
+    public static function getIzpitniRokiProfesorja($id_oseba, $id_stud_leto)
     {
 
         $db = DBInit::getInstance();
@@ -348,9 +350,11 @@ class ProfesorDB
             WHERE (ip.ID_OSEBA1 = :id_oseba
             OR ip.ID_OSEBA2 = :id_oseba
             OR ip.ID_OSEBA3 = :id_oseba)
+            AND ip.ID_STUD_LETO = :id_stud_leto
         ");
 
         $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->bindValue(":id_stud_leto", $id_stud_leto);
         $statement->execute();
         return $statement->fetchAll();
     }

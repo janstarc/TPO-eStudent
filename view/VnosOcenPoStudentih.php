@@ -25,7 +25,7 @@
             } else {
                 $.ajax({
                     type: "POST",
-                    url:   "vnosEneOceneAjax",
+                    url:   "seznamStudentov/vnosEneOceneAjax",
                     data: { "id_prijava": id_prijava,  "tocke": tocke},           // { name: "John" }
                     success: function() {
                         $("#alert").removeClass("alert-danger").addClass("alert-success").show();
@@ -40,7 +40,7 @@
 
             $.ajax({
                 type: "POST",
-                url:   "vrniPrijavoAjax",
+                url:   "seznamStudentov/vrniPrijavoAjax",
                 data: { "id_prijava": id_prijava },           // { name: "John" }
                 success: function() {
                     $("#alert").removeClass("alert-danger").addClass("alert-success").show();
