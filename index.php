@@ -167,6 +167,10 @@ $urls = [
         if ($method == "GET") StudentController::izpitniRokForm();
         else ViewHelper::error405();
     },
+    "/^izpitniRok\/student\/prijava$/" => function ($method) {
+        if ($method == "POST") StudentController::prijavaNaIzpitu();
+        else ViewHelper::error405();
+    },
 
     "/^dodajPredmet$/" => function ($method) {
         if ($method == "POST") AdminController::addInPredmetnik();
