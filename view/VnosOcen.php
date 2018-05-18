@@ -34,8 +34,9 @@
                 $.each(izpitniRoki, function(key, value) {
                     var id_predmeta = value["ID_PREDMET"];
                     var datum_roka = value["DATUM_ROKA"];
+                    var id_roka = value["ID_ROK"]
                     if (id == id_predmeta) {
-                        $('#id_rok').append('<option value="' + id_predmeta + '">' + datum_roka + '</option>');
+                        $('#id_rok').append('<option value="' + id_roka + '">' + datum_roka + '</option>');
                     }
                 });
             }
@@ -47,10 +48,10 @@
             <section id="main-content">
                 <section class="wrapper">
                     <br>
-                     <form action="<?= BASE_URL . "VnosOcenDve" ?>" method="post" class="form-horizontal">
-                        <h3>Izberi predmet in rok izpita</h3>
+                     <form action="<?= BASE_URL . "VnosOcen/seznamStudentov" ?>" method="post" class="form-horizontal">
+                        <h3>Vnos ocen izpitnega roka</h3>
                         <div class="form-group">
-                            <label for="id_drzava">Predmet</label>
+                            <label for="id_predmet">Izberi predmet</label>
                             <select class="form-control" id="id_predmet" name="id_predmet" required>
                                 <option selected disabled hidden></option>
                                 <?php foreach ($predmeti as $key => $value): ?>
@@ -60,13 +61,8 @@
 
                         </div>
                         <div class="form-group">
-                            <label for="id_drzava">Izpitni rok</label>
-                            <select class="form-control" id="id_rok" name="id_rok" required>
-                                <!--<option selected disabled hidden></option>-->
-                                <?php //foreach ($izpitniRoki as $key => $value): ?>
-
-                                <?php //endforeach; ?>
-                            </select>
+                            <label for="id_rok">Izberi izpitni rok</label>
+                            <select class="form-control" id="id_rok" name="id_rok" required></select>
                         </div>
                          <div class="row">
                              <div class="col-xs-12 col-md-6 offset-md-3">
@@ -74,75 +70,6 @@
                              </div>
                          </div>
                     </form>
-                    <div class="row mt">
-                        <div class="col-lg-12">
-                            <div class="content-panel">
-                                <section id="unseen">
-                                    <table class="table table-bordered table-striped table-condensed">
-                                        <!--
-                                        <thead>
-                                            <tr>
-                                                <th>Šifra predmeta</th>
-                                                <th>Predmet</th>
-                                                <th>Vpisna številka študenta</th>
-                                                <th>Letnik</th>
-                                                <th>Datum</th>
-                                                <th>Opravljanje</th>
-                                                <th>KT</th>
-                                                <th>Ocena</th>
-                                            </tr>
-                                        </thead>
-                                        -->
-                                        <!--
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td><textarea id="textAreaVpisna" rows="1" cols="10"></textarea></td>
-                                                <td></td>
-                                                <td><input style="height:28px" type="datetime-local" id="datumOcena" name="dateTime"></td>
-                                                <td><textarea rows="1" cols="2" id="textAreaOpravljanje"></textarea></td>
-                                                <td></td>
-                                                <td><textarea rows="1" cols="1" id="textAreaOcena"></textarea></td>
-                                                <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="vnesiOcena">Vnesi ocena</button></td>
-                                            </tr>
-                                        </tbody>
-                                        -->
-                                    </table>
-                                </section>
-                            </div>
-                            <!-- /content-panel -->
-                        </div>
-                        <!-- /col-lg-4 -->
-                    </div>
-                    <!-- /row -->
-                    <div class="row mt">
-                        <div class="col-md-12 mt">
-                            <h3>Seznam vseh ocen po predmetu</h3>
-                            <div class="content-panel">
-                                <h5>Izberi predmet:
-                                    <input list="predmet" name="predmet">
-                                    <datalist id="predmet">
-                                        <option value=""></option>
-                                    </datalist>
-                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="prikaz">Prikazi</button>
-                                </h5>
-                                <table id="tabelaOcen" class="table table-bordered table-striped table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th>Vpisna številka </th>
-                                            <th>Datum izpita</th>
-                                            <th>Opravljanje</th>
-                                            <th>KT</th>
-                                            <th>Ocena</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </section>
             </section>
         </section>

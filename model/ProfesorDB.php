@@ -348,8 +348,7 @@ class ProfesorDB
             SELECT ip.ID_PREDMET, r.ID_ROK, r.ID_IZVEDBA, r.DATUM_ROKA, r.CAS_ROKA
             FROM rok AS r
             JOIN izvedba_predmeta AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
-            WHERE ip.ID_STUD_LETO = 2
-            AND (ip.ID_OSEBA1 = :id_oseba
+            WHERE (ip.ID_OSEBA1 = :id_oseba
             OR ip.ID_OSEBA2 = :id_oseba
             OR ip.ID_OSEBA3 = :id_oseba)
         ");
@@ -364,7 +363,7 @@ class ProfesorDB
 
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT p.ID_PRIJAVA, p.VPISNA_STEVILKA, o.IME, o.PRIIMEK
+            SELECT o.IME, o.PRIIMEK, p.ID_PRIJAVA, p.ID_ROK, p.ID_PREDMET, p.PODATKI_O_PLACILU, p.ZAP_ST_POLAGANJ, p.VPISNA_STEVILKA, p.DATUM_ODJAVE, p.DATUM_PRIJAVE, p.TOCKE_IZPITA
             FROM prijava AS p
             JOIN student AS s ON p.VPISNA_STEVILKA = s.VPISNA_STEVILKA
             JOIN oseba AS o ON s.ID_OSEBA = o.ID_OSEBA
@@ -375,6 +374,21 @@ class ProfesorDB
         $statement->execute();
         return $statement->fetchAll();
     }
+
+    public static function insertTockeIzpita($id_prijava, $tocke){
+
+        $db=DBInit::getInstance();
+        $statement = $db->prepare("
+            UPDATE prijava
+            SET TOCKE_IZPITA = :tocke
+            WHERE ID_PRIJAVA = :id_prijava
+        ");
+
+        $statement->bindValue(":id_prijava", $id_prijava);
+        $statement->bindValue(":tocke", $tocke);
+        $statement->execute();
+    }
+
 
     public static function getLeta()
     {

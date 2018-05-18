@@ -8,14 +8,7 @@
     <script>
         $(document).ready( function () {
 
-            // Override default sorta s custom sortom
-            jQuery.fn.dataTableExt.oSort["slo-desc"] = function (x, y) {
-                return sloCompare(y,x);
-            };
 
-            jQuery.fn.dataTableExt.oSort["slo-asc"] = function (x, y) {
-                return sloCompare(x,y);
-            };
 
             var oTable = $("#table-subject").DataTable({
                 // Custom definicije za vsak stolpec
@@ -27,6 +20,7 @@
                     {
                         "sClass": "center",
                         "bSortable": true,
+                        "sType":"slo"
                     },{
                         "sClass": "center",
                         "bSortable": true,
@@ -44,6 +38,15 @@
                 // Ordering v prvem stolpcu
                 "order": [[ 1, 'asc' ]]
             });
+
+            // Override default sorta s custom sortom
+            jQuery.fn.dataTableExt.oSort["slo-desc"] = function (x, y) {
+                return sloCompare(y,x);
+            };
+
+            jQuery.fn.dataTableExt.oSort["slo-asc"] = function (x, y) {
+                return sloCompare(x,y);
+            };
 
             // Dinamicni ordering, ko se spremeni sort parameter
             oTable.on( 'order.dt search.dt', function () {

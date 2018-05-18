@@ -32,7 +32,9 @@ class ProfesorController {
                     "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
                 ]);
 
+                //var_dump($data);
                 $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
+                //var_dump($prijavljeniStudenti);
 
                 ViewHelper::render("view/VnosOcenPoStudentih.php", [
                     "id_predmet" => $data["id_predmet"],
@@ -65,6 +67,29 @@ class ProfesorController {
           ViewHelper::error401();
         }
     }
+
+    public static function vnosEneOceneAjax(){
+        $data = filter_input_array(INPUT_POST, [
+            "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "tocke" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        //ProfesorDB::insertTockeIzpita(1, 99);
+        ProfesorDB::insertTockeIzpita($data["id_prijava"], $data["tocke"]);
+
+    }
+
+    // TODO Shranjuj ID odjavitelja!
+    public static function vrniPrijavoAjax(){
+        $data = filter_input_array(INPUT_POST, [
+            "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "tocke" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+
+        //ProfesorDB::insertTockeIzpita(1, 99);
+        ProfesorDB::insertTockeIzpita($data["id_prijava"], $data["tocke"]);
+    }
     
     public static function VnosIzpitovForm() {
         if (User::isLoggedIn()){
@@ -89,6 +114,11 @@ class ProfesorController {
 
                 // Get izpitni roki za vse izpite profesorja
                 $izpitniRokiProfesorja = ProfesorDB::getIzpitniRokiProfesorja($id_oseba);
+                //var_dump($izpitniRokiProfesorja);
+
+                foreach ($izpitniRokiProfesorja as $key => $value){
+                    $izpitniRokiProfesorja[$key]["DATUM_ROKA"] = self::formatDateSlo($value["DATUM_ROKA"]);
+                }
                 //var_dump($izpitniRokiProfesorja);
 
                 // Prikaži obrazec za vnos
@@ -520,6 +550,11 @@ class ProfesorController {
         $filename="data.pdf";
         header('Content-Type: application/pdf');
         header('Content-Disposition: attachment; filename="' . $filename . '";');
+    }
+
+    public static function formatDateSlo($date){
+        list($d, $m, $y) = explode('-', $date);
+        return $y.".".$m.".".$d;
     }
 
 

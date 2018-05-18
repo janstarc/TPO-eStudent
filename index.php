@@ -91,9 +91,14 @@ $urls = [
         if ($method == "GET") ProfesorController::vnosOcenForm();
         //else if ($method == "POST") ProfesorController::vnosOcenPoStudentih();
         else ViewHelper::error405();
-    }, "/^VnosOcenDve$/" => function ($method) {
+    }, "/^VnosOcen\/seznamStudentov$/" => function ($method) {
         if ($method == "POST") ProfesorController::vnosOcenPoStudentih();
-        //else if ($method == "POST")
+        else ViewHelper::error405();
+    },"/^VnosOcen\/vnosEneOceneAjax$/" => function ($method) {
+        if ($method == "POST") ProfesorController::vnosEneOceneAjax();
+        else ViewHelper::error405();
+    },"/^VnosOcen\/vrniPrijavoAjax/" => function ($method) {
+        if ($method == "POST") ProfesorController::vrniPrijavoAjax();
         else ViewHelper::error405();
     }, "/^OsebniPodatkiStudenta$/" => function ($method) {
         if ($method == "GET") AdminController::pregledOsebnihPodatkovStudenta();
