@@ -87,17 +87,29 @@ $urls = [
     }, "/^VnosIzpitov$/" => function ($method) {
         if ($method == "GET") ProfesorController::VnosIzpitovForm();
         else ViewHelper::error405();
-    }, "/^VnosOcen$/" => function ($method) {
-        if ($method == "GET") ProfesorController::vnosOcenForm();
+    },
+
+
+    "/^vnosOcenTest$/" => function($method) {
+        if ($method == "GET") ProfesorController::VpisaniForm1();
+        else ViewHelper::error405();
+    }, "/^vnosOcen\/leto\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") ProfesorController::VpisaniForm2($id);
+        else ViewHelper::error405();
+    },
+
+
+    "/^VnosOcen$/" => function ($method) {
+        if ($method == "GET") ProfesorController::vnosOcenIzberiPredmetInRok();
         //else if ($method == "POST") ProfesorController::vnosOcenPoStudentih();
         else ViewHelper::error405();
     }, "/^VnosOcen\/seznamStudentov$/" => function ($method) {
-        if ($method == "POST") ProfesorController::vnosOcenPoStudentih();
+        if ($method == "POST") ProfesorController::vnosOcenIzpita();
         else ViewHelper::error405();
     },"/^VnosOcen\/vnosEneOceneAjax$/" => function ($method) {
         if ($method == "POST") ProfesorController::vnosEneOceneAjax();
         else ViewHelper::error405();
-    },"/^VnosOcen\/vrniPrijavoAjax/" => function ($method) {
+    },"/^VnosOcen\/vrniPrijavoAjax/" => function ($method){
         if ($method == "POST") ProfesorController::vrniPrijavoAjax();
         else ViewHelper::error405();
     }, "/^OsebniPodatkiStudenta$/" => function ($method) {

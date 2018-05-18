@@ -295,7 +295,6 @@ class ProfesorDB
         $statement->bindValue(":geslo", $geslo);
         $statement->bindValue(":telefon", $telefon);
 
-
         $statement->execute();
 
         return true;
@@ -305,7 +304,6 @@ class ProfesorDB
     public static function getSubjectProfessors($id_subject)
     {
         $db = DBInit::getInstance();
-
 
         $statement = $db->prepare(
             "SELECT ID_OSEBA1,ID_OSEBA2, ID_OSEBA3
@@ -318,7 +316,6 @@ class ProfesorDB
         $result = $statement->fetch();
 
         return $result;
-
     }
 
     public static function getPredmetiProfesorja($id_oseba)
@@ -327,7 +324,7 @@ class ProfesorDB
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            SELECT DISTINCT ip.ID_PREDMET, p.IME_PREDMET
+            SELECT DISTINCT ip.ID_PREDMET, p.IME_PREDMET, p.SIFRA_PREDMET
             FROM izvedba_predmeta AS ip
             JOIN predmet AS p ON ip.ID_PREDMET = p.ID_PREDMET
             WHERE ip.ID_OSEBA1 = :id_oseba
@@ -363,11 +360,14 @@ class ProfesorDB
 
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT o.IME, o.PRIIMEK, p.ID_PRIJAVA, p.ID_ROK, p.ID_PREDMET, p.PODATKI_O_PLACILU, p.ZAP_ST_POLAGANJ, p.VPISNA_STEVILKA, p.DATUM_ODJAVE, p.DATUM_PRIJAVE, p.TOCKE_IZPITA
+            SELECT o.ID_OSEBA, o.IME, o.PRIIMEK, p.ID_PRIJAVA, ip.ID_PREDMET, p.ID_ROK, p.PODATKI_O_PLACILU, p.ZAP_ST_POLAGANJ, p.ZAP_ST_POLAGANJ_LETOS, p.VPISNA_STEVILKA, p.DATUM_ODJAVE, p.DATUM_PRIJAVE, p.TOCKE_IZPITA
             FROM prijava AS p
-            JOIN student AS s ON p.VPISNA_STEVILKA = s.VPISNA_STEVILKA
-            JOIN oseba AS o ON s.ID_OSEBA = o.ID_OSEBA
+              JOIN student AS s ON p.VPISNA_STEVILKA = s.VPISNA_STEVILKA
+              JOIN oseba AS o ON s.ID_OSEBA = o.ID_OSEBA
+              JOIN rok AS r ON p.ID_ROK = r.ID_ROK
+              JOIN izvedba_predmeta AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
             WHERE p.ID_ROK = :id_rok
+            AND ISNULL(p.DATUM_ODJAVE)
         ");
 
         $statement->bindValue(":id_rok", $id_rok);
@@ -386,6 +386,21 @@ class ProfesorDB
 
         $statement->bindValue(":id_prijava", $id_prijava);
         $statement->bindValue(":tocke", $tocke);
+        $statement->execute();
+    }
+
+
+    public static function vrniPrijavoProfesor($id_prijava, $id_odjavitelj){
+
+        $db=DBInit::getInstance();
+        $statement = $db->prepare("
+            UPDATE prijava
+            SET DATUM_ODJAVE = CURRENT_DATE, ID_OSEBA_ODJAVITELJ = :id_odjavitelj, TOCKE_IZPITA = null 
+            WHERE ID_PRIJAVA = :id_prijava
+        ");
+
+        $statement->bindValue(":id_prijava", $id_prijava);
+        $statement->bindValue(":id_odjavitelj", $id_odjavitelj);
         $statement->execute();
     }
 

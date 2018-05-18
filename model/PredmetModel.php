@@ -18,4 +18,37 @@ class PredmetModel {
         $statement->execute();
         return $statement->fetchAll();
     }
+
+    public static function getPredmetIme($id_predmet){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT IME_PREDMET
+            FROM predmet
+            WHERE ID_PREDMET = :id_predmet
+        ");
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result["IME_PREDMET"];
+    }
+
+    // TODO Hardcoded stud leto
+    public static function getPredmetIzvajalci($id_predmet){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT DISTINCT p.ID_PREDMET, p.IME_PREDMET, ip.ID_OSEBA1, ip.ID_OSEBA2, ip.ID_OSEBA3, o1.IME AS IME1, o1.PRIIMEK AS PRIIMEK1, o2.IME AS IME2, o2.PRIIMEK AS PRIIMEK2, o3.IME AS IME3, o3.PRIIMEK AS PRIIMEK3
+            FROM predmet AS p
+              JOIN izvedba_predmeta AS ip on p.ID_PREDMET = ip.ID_PREDMET
+              LEFT JOIN oseba o1 on ip.ID_OSEBA1 = o1.ID_OSEBA
+              LEFT JOIN oseba o2 on ip.ID_OSEBA2 = o2.ID_OSEBA
+              LEFT JOIN oseba o3 on ip.ID_OSEBA3 = o3.ID_OSEBA
+            WHERE p.ID_PREDMET = :id_predmet
+            AND ip.ID_STUD_LETO = :id_stud_leto
+        ");
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_stud_leto", 2);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        return $result;
+    }
 }
