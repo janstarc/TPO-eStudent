@@ -29,9 +29,25 @@ class StudentController {
             "ID_LETNIK" => 2,
             "TIP" => 'sp'
         ]);
-        echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
-        echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
-        echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+        // echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
+        // echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
+        // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+        
+        $obcine = ObcinaModel::getAll();
+        $poste = PostaModel::getAll();
+        $drzave = DrzavaModel::getAll();
+        ViewHelper::render("view/VpisniList2Viewer.php", [
+            "pageTitle" => "Vpisni list",
+            "formAction" => "vpis2L",
+            "obcine" => $obcine,
+            "poste" => $poste,
+            "drzave" => $drzave,
+            "predmeti" => $ObvPredmeti,
+            "StrIzbPredmeti" => $StrIzbPredmeti,
+            "SplIzbPredmeti" => $SplIzbPredmeti,
+            "status" => $status,
+            "message" => $message
+        ]);
     }
 
     public static function vpis3L1Form($status = null, $message = null) {
@@ -48,9 +64,25 @@ class StudentController {
             "ID_LETNIK" => 2,
             "TIP" => 'sp'
         ]);
-        echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
-        echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
-        echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+        // echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
+        // echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
+        // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+        
+        $obcine = ObcinaModel::getAll();
+        $poste = PostaModel::getAll();
+        $drzave = DrzavaModel::getAll();
+        ViewHelper::render("view/VpisniList31Viewer.php", [
+            "pageTitle" => "Vpisni list",
+            "formAction" => "vpis3L1",
+            "obcine" => $obcine,
+            "poste" => $poste,
+            "drzave" => $drzave,
+            "predmeti" => $ObvPredmeti,
+            "IzbModulov" => $IzbModulov,
+            "SplIzbPredmeti" => $SplIzbPredmeti,
+            "status" => $status,
+            "message" => $message
+        ]);
     }
 
     public static function vpis3L2Form($status = null, $message = null) {
@@ -72,9 +104,29 @@ class StudentController {
             "ID_LETNIK" => 2,
             "TIP" => 'sp'
         ]);
-        echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
-        echo '<pre>' . var_export($ModIzbPredmeti, true) . '</pre>';
-        echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+        // echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
+        // echo '<pre>' . var_export($ModIzbPredmeti, true) . '</pre>';
+        // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+        
+        $obcine = ObcinaModel::getAll();
+        $poste = PostaModel::getAll();
+        $drzave = DrzavaModel::getAll();
+        ViewHelper::render("view/VpisniList32Viewer.php", [
+            "pageTitle" => "Vpisni list",
+            "formAction" => "vpis3L2",
+            "obcine" => $obcine,
+            "poste" => $poste,
+            "drzave" => $drzave,
+            "predmeti" => $ObvPredmeti,
+            "ModIzbPredmeti" => $ModIzbPredmeti,
+            "SplIzbPredmeti" => $SplIzbPredmeti,
+            "status" => $status,
+            "message" => $message
+        ]);
+    }
+    
+    public static function vpis2L($status = null, $message = null) {
+        echo '<pre>' . var_export($_POST, true) . '</pre>';
     }
 
     public static function elektronskiIndeksForm() {

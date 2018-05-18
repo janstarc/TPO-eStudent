@@ -56,12 +56,15 @@ $urls = [
         else ViewHelper::error405();
     }, "/^vpis2L$/" => function ($method) {
         if ($method == "GET") StudentController::vpis2LForm();
+        else if ($method == "POST") StudentController::vpis2L();
         else ViewHelper::error405();
     }, "/^vpis3L1$/" => function ($method) {
         if ($method == "GET") StudentController::vpis3L1Form();
+        else if ($method == "POST") StudentController::vpis3L1();
         else ViewHelper::error405();
     }, "/^vpis3L2$/" => function ($method) {
         if ($method == "GET") StudentController::vpis3L2Form();
+        else if ($method == "POST") StudentController::vpis3L2();
         else ViewHelper::error405();
     }, "/^kandidati$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::kandidatiList();
