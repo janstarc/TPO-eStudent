@@ -3,6 +3,15 @@
 <html lang="en">
     <head>
         <?php include("view/includes/head.php"); ?>
+        <?php
+            $sitePrijaviNull=true;
+            foreach ( $roki as $rok) {
+                if($rok["ID_PRIJAVA"]!=NULL){
+                    $sitePrijaviNull=false;
+                    break;
+                }
+            }
+        ?>
     </head>
     <body>
         <section id="container">
@@ -44,16 +53,20 @@
                                             </td>
                                             <td><?php echo $rok['CAS_ROKA']; ?></td>
                                             <td>
+                                                <?php if($sitePrijaviNull) : ?>
                                                 <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
                                                     <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
                                                     <input class="btn btn-primary btn-sm" type="submit" value="Prijavi se" />
                                                 </form>
+                                                <?php endif; ?>
                                             </td>
                                             <td>
+                                                <?php if($rok["ID_PRIJAVA"]!=NULL) : ?>
                                                 <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
                                                     <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
                                                     <input class="btn btn-primary btn-sm" type="submit" value="Odjavi se" />
                                                 </form>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php $i = $i + 1; endforeach; ?>

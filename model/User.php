@@ -29,6 +29,11 @@ class User {
 	public function getId() {
 		return (int)$_SESSION["user"]["ID_OSEBA"];
 	}
+
+    public function getId1() {
+        return $_SESSION["user"]["ID_OSEBA"];
+    }
+
 	public function getTypeOfUser() {
 		return $_SESSION["user"]["VRSTA_VLOGE"];
 	}

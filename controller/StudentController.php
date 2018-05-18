@@ -2,6 +2,7 @@
 
 require_once("model/UserModel.php");
 require_once("model/DataForExportModel.php");
+require_once("model/PrijavaModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
 require_once ("view/includes/tfpdf.php");
@@ -236,4 +237,24 @@ class StudentController {
             ViewHelper::error401();
         }
     }
+
+    public static function prijavaNaIzpitu(){
+        $data1 = filter_input_array(INPUT_POST, [
+            "rokId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsStudent()){
+                $IdYear = StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
+                $id_predmet = PrijavaModel::getIzpitniRok($IdYear["ID_STUD_LETO"],$data1["rokId"]);
+                $vpisna=PrijavaModel::getVpisna(User::getId1());
+                $data=PrijavaModel::prijavaAdd($vpisna["VPISNA_STEVILKA"], $data1["rokId"],$id_predmet["ID_PREDMET"]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
 }

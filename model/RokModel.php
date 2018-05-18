@@ -150,12 +150,13 @@ class RokModel {
 
         // TODO ocena == null OR ocena == 5
         $statement = $db->prepare("
-        SELECT r.ID_ROK, ip.ID_IZVEDBA, p.ID_PREDMET, p.IME_PREDMET, r.DATUM_ROKA, r.CAS_ROKA, r.AKTIVNOST
+        SELECT r.ID_ROK, ip.ID_IZVEDBA, p.ID_PREDMET, p.IME_PREDMET, r.DATUM_ROKA, r.CAS_ROKA, r.AKTIVNOST,pr.ID_PRIJAVA
         FROM `rok` AS r
         JOIN `izvedba_predmeta` AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
         JOIN `predmet` AS p ON ip.ID_PREDMET = p.ID_PREDMET
         JOIN `predmeti_studenta` AS ps ON ps.ID_PREDMET = p.ID_PREDMET
         JOIN `student` AS s ON s.VPISNA_STEVILKA = ps.VPISNA_STEVILKA
+        LEFT JOIN `prijava` AS pr ON r.ID_ROK=pr.ID_ROK AND pr.VPISNA_STEVILKA=s.VPISNA_STEVILKA
         WHERE s.ID_OSEBA = :idUser AND ps.ID_STUD_LETO = :idCurrentYear AND r.AKTIVNOST = 1
         ORDER BY DATUM_ROKA, CAS_ROKA
     ");
