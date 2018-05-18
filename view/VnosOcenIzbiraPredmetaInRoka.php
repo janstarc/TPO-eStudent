@@ -34,9 +34,11 @@
                 $.each(izpitniRoki, function(key, value) {
                     var id_predmeta = value["ID_PREDMET"];
                     var datum_roka = value["DATUM_ROKA"];
-                    var id_roka = value["ID_ROK"]
+                    var cas_roka = value["CAS_ROKA"];
+                    var id_roka = value["ID_ROK"];
+                    var izvajalec = value["IZVAJALEC"];
                     if (id == id_predmeta) {
-                        $('#id_rok').append('<option value="' + id_roka + '">' + datum_roka + '</option>');
+                        $('#id_rok').append('<option value="' + id_roka + '">' + datum_roka + ' ob ' + cas_roka + ' (' + izvajalec + ')</option>');
                     }
                 });
             }
@@ -55,7 +57,7 @@
                             <select class="form-control" id="id_predmet" name="id_predmet" required>
                                 <option selected disabled hidden></option>
                                 <?php foreach ($predmeti as $key => $value): ?>
-                                    <option value="<?= $value["ID_PREDMET"] ?>"><?= $value["IME_PREDMET"]." (ID=".$value["ID_PREDMET"].")" ?></option>
+                                    <option value="<?= $value["ID_PREDMET"] ?>"><?= $value["IME_PREDMET"]." (".$value["SIFRA_PREDMET"].")" ?></option>
                                 <?php endforeach; ?>
                             </select>
 

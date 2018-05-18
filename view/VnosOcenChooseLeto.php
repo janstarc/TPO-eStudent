@@ -11,9 +11,7 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-xs-12 col-md-6 offset-md-3">
-                    <br><br>
                     <h2><?= $pageTitle ?></h2>
-                    <p>Izberi študijsko leto</p>
                     <?php if(isset($status)): ?>
                         <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

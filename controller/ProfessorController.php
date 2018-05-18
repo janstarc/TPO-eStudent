@@ -9,6 +9,121 @@ require_once("model/StudijskoLetoModel.php");
 require_once("ViewHelper.php");
 
 class ProfesorController {
+
+    /********* VNOS OCEN IZPITNEGA ROKA *********/
+
+    public static function vnosOcenIzberiPredmetInRok() {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
+
+                // Get izpiti for profesor
+                $id_oseba = User::getId();
+                $predmetiProfesorja = ProfesorDB::getPredmetiProfesorja($id_oseba);
+
+                // Najdi izvajalce predmeta, kreiraj locen array $izvajalciPredmetov
+                $izvajalciPredmetov=[];
+                foreach ($predmetiProfesorja as $key => $value){
+
+                    $izvajalciRoka = "";
+                    $tmp = PredmetModel::getPredmetIzvajalci($value["ID_PREDMET"]);
+                    $tmp = $tmp[0];
+
+                    if($tmp["ID_OSEBA1"] != null) $izvajalciRoka .= $tmp["IME1"]." ".$tmp["PRIIMEK1"];
+                    if ($tmp["ID_OSEBA2"] != null) $izvajalciRoka .= ", ".$tmp["IME2"]." ".$tmp["PRIIMEK2"];
+                    if ($tmp["ID_OSEBA3"] != null) $izvajalciRoka .= ", ".$tmp["IME3"]." ".$tmp["PRIIMEK3"];
+                    $temp["ID_PREDMET"] = $value["ID_PREDMET"];
+                    $temp["IZVAJALEC"] = $izvajalciRoka;
+
+                    array_push($izvajalciPredmetov, $temp);
+                }
+
+                // Get izpitni roki za vse izpite profesorja
+                $izpitniRokiProfesorja = ProfesorDB::getIzpitniRokiProfesorja($id_oseba);
+
+                foreach($izpitniRokiProfesorja as $key => $value){
+                    $izpitniRokiProfesorja[$key]["DATUM_ROKA"] = self::formatDateSlo($value["DATUM_ROKA"]);
+
+                    foreach($izvajalciPredmetov as $k1 => $v1){
+                        if($v1["ID_PREDMET"] === $value["ID_PREDMET"]){
+                            $izpitniRokiProfesorja[$key]["IZVAJALEC"] = $v1["IZVAJALEC"];
+                        }
+                    }
+                }
+
+                ViewHelper::render("view/VnosOcenIzbiraPredmetaInRoka.php", [
+                    "predmeti" => $predmetiProfesorja,
+                    "izpitniRoki" => $izpitniRokiProfesorja,
+                    "izvajalciPredmetov" => $izvajalciPredmetov
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    // Forma za vnos ocen, ko je ze izbran predmet in izpitni rok
+    public static function vnosOcenIzpita(){
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsProfessor()){
+
+                $data = filter_input_array(INPUT_POST, [
+                    "id_predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+                ]);
+
+                $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
+                $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"]);
+                $izvajalciArray = $izvajalciArray[0];
+
+
+                $izvajalci = "";
+                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
+                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
+                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
+                $rokData = RokModel::get($data["id_rok"]);
+                //var_dump($prijavljeniStudenti);
+
+                ViewHelper::render("view/VnosOcenPoStudentih.php", [
+                    "id_predmet" => $data["id_predmet"],
+                    "id_rok" => $data["id_rok"],
+                    "datum_roka" => $data["id_rok"],
+                    "prijavljeniStudenti" => $prijavljeniStudenti,
+                    "izvajalci" => $izvajalci,
+                    "rok_data" => $rokData
+                ]);
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+          ViewHelper::error401();
+        }
+    }
+
+    // Ajax klic za vnos ene ocene --> Iz vnosOcenPoStudentih()
+    public static function vnosEneOceneAjax(){
+        $data = filter_input_array(INPUT_POST, [
+            "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "tocke" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        ProfesorDB::insertTockeIzpita($data["id_prijava"], $data["tocke"]);
+    }
+
+    // Ajax klic za vracanje prijave --> Iz vnosOcenPoStudentih()
+    public static function vrniPrijavoAjax(){
+        $data = filter_input_array(INPUT_POST, [
+            "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+
+        ProfesorDB::vrniPrijavoProfesor($data["id_prijava"], User::getId());
+    }
+
+    /********* VNOS IZPITOV *********/
+
     public static function PregledIzpitovProfesorForm() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
@@ -21,76 +136,6 @@ class ProfesorController {
         }
     }
 
-    //public static function vnosOcenPoStudentih($id_predmet, $id_rok){
-    public static function vnosOcenPoStudentih(){
-
-        if (User::isLoggedIn()){
-            if (User::isLoggedInAsProfessor()){
-
-                $data = filter_input_array(INPUT_POST, [
-                    "id_predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                    "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
-                ]);
-
-                //var_dump($data);
-                $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
-                //var_dump($prijavljeniStudenti);
-
-                ViewHelper::render("view/VnosOcenPoStudentih.php", [
-                    "id_predmet" => $data["id_predmet"],
-                    "id_rok" => $data["id_rok"],
-                    "prijavljeniStudenti" => $prijavljeniStudenti
-                ]);
-                /*
-                ViewHelper::render("view/VpisniListPotrditevViewer.php", [
-                    "pageTitle" => "Potrdi vpisni list izbranega kandidata",
-                    "formAction" => "kandidati",
-                    "id" => $id,
-                    "KandidatPodatki" => $KandidatPodatki,
-                    "stud_leto" => $stud_leto,
-                    "StudijskaLeta" => StudijskoLetoModel::getAll(),
-                    "StudijskiProgrami" => StudijskiProgramModel::getAll(),
-                    "obcine" => $obcine,
-                    "poste" => $poste,
-                    "drzave" => $drzave,
-                    "naslove" => KandidatModel::getKandidatVseNaslove($id),
-                    "userName" => $userName,
-                    "predmeti" => $predmeti,
-                    "status" => $status,
-                    "message" => $message
-                ]);
-                */
-            }else{
-                ViewHelper::error403();
-            }
-        }else{
-          ViewHelper::error401();
-        }
-    }
-
-    public static function vnosEneOceneAjax(){
-        $data = filter_input_array(INPUT_POST, [
-            "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "tocke" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
-        ]);
-
-        //ProfesorDB::insertTockeIzpita(1, 99);
-        ProfesorDB::insertTockeIzpita($data["id_prijava"], $data["tocke"]);
-
-    }
-
-    // TODO Shranjuj ID odjavitelja!
-    public static function vrniPrijavoAjax(){
-        $data = filter_input_array(INPUT_POST, [
-            "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "tocke" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
-        ]);
-
-
-        //ProfesorDB::insertTockeIzpita(1, 99);
-        ProfesorDB::insertTockeIzpita($data["id_prijava"], $data["tocke"]);
-    }
-    
     public static function VnosIzpitovForm() {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
@@ -103,38 +148,6 @@ class ProfesorController {
         }
     }
 
-    public static function vnosOcenForm() {
-        if (User::isLoggedIn()){
-            if (User::isLoggedInAsProfessor()){
-
-                // Get izpiti for profesor
-                $id_oseba = User::getId();
-                $predmetiProfesorja = ProfesorDB::getPredmetiProfesorja($id_oseba);
-                //var_dump($predmetiProfesorja);
-
-                // Get izpitni roki za vse izpite profesorja
-                $izpitniRokiProfesorja = ProfesorDB::getIzpitniRokiProfesorja($id_oseba);
-                //var_dump($izpitniRokiProfesorja);
-
-                foreach ($izpitniRokiProfesorja as $key => $value){
-                    $izpitniRokiProfesorja[$key]["DATUM_ROKA"] = self::formatDateSlo($value["DATUM_ROKA"]);
-                }
-                //var_dump($izpitniRokiProfesorja);
-
-                // Prikaži obrazec za vnos
-
-                ViewHelper::render("view/VnosOcen.php", [
-                    "predmeti" => $predmetiProfesorja,
-                    "izpitniRoki" => $izpitniRokiProfesorja
-                ]);
-            }else{
-                ViewHelper::error403();
-            }
-        }else{
-            ViewHelper::error401();
-        }
-    }
-    
     public static function izpitniRokForm($status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
@@ -326,7 +339,8 @@ class ProfesorController {
             ViewHelper::error401();
         }
     }
-    
+
+    /********* VZDRZEVANJE PREDMETNIKA *********/
 
     public static function VzdrzevanjePredmetnika() {
         if (User::isLoggedIn()){
