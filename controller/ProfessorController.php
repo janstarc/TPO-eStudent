@@ -12,14 +12,14 @@ class ProfesorController {
 
     /********* VNOS OCEN IZPITNEGA ROKA *********/
 
-    public static function VnosOcenChooseLeto($status = null, $message = null) {
+    public static function VnosOcenIzpitaChooseLeto($status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsProfessor()) {
 
-                ViewHelper::render("view/VnosOcenChooseLeto.php", [
+                ViewHelper::render("view/VnosOcenIzpitaChooseLeto.php", [
                     "pageTitle" => "Seznam vseh študijskih let",
                     "allData" => StudijskoLetoModel::getAll(),
-                    "formAction" => "VnosOcen/leto",
+                    "formAction" => "VnosOcenIzpita/leto",
                     "status" => $status,
                     "message" => $message
                 ]);
@@ -31,7 +31,7 @@ class ProfesorController {
         }
     }
 
-    public static function vnosOcenIzberiPredmetInRok($id_stud_leto) {
+    public static function vnosOcenIzpitaIzberiPredmetInRok($id_stud_leto) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsProfessor()){
 
@@ -71,7 +71,7 @@ class ProfesorController {
                     }
                 }
 
-                ViewHelper::render("view/VnosOcenIzbiraPredmetaInRoka.php", [
+                ViewHelper::render("view/VnosOcenIzpitaIzbiraPredmetaInRoka.php", [
                     "predmeti" => $predmetiProfesorja,
                     "izpitniRoki" => $izpitniRokiProfesorja,
                     "izvajalciPredmetov" => $izvajalciPredmetov,
@@ -108,9 +108,9 @@ class ProfesorController {
                 if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
                 if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
                 $rokData = RokModel::get($data["id_rok"]);
-                //var_dump($prijavljeniStudenti);
 
-                ViewHelper::render("view/VnosOcenPoStudentih.php", [
+
+                ViewHelper::render("view/VnosOcenIzpitaPoStudentih.php", [
                     "id_predmet" => $data["id_predmet"],
                     "id_rok" => $data["id_rok"],
                     "datum_roka" => $data["id_rok"],
@@ -128,7 +128,7 @@ class ProfesorController {
     }
 
     // Ajax klic za vnos ene ocene --> Iz vnosOcenPoStudentih()
-    public static function vnosEneOceneAjax(){
+    public static function vnosEneOceneIzpitaAjax(){
         $data = filter_input_array(INPUT_POST, [
             "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "tocke" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
@@ -138,7 +138,7 @@ class ProfesorController {
     }
 
     // Ajax klic za vracanje prijave --> Iz vnosOcenPoStudentih()
-    public static function vrniPrijavoAjax(){
+    public static function vrniPrijavoNaIzpitAjax(){
         $data = filter_input_array(INPUT_POST, [
             "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
         ]);

@@ -13,7 +13,6 @@
             if(today < datumRokaDate) console.log("Ocen ni mogoče vnašati, datum roka je večji od današnjega dne");
 
             if(tocke < 0){
-
                 $("#alert").removeClass("alert-success").addClass("alert-danger").show();
                 $("#alertContent").text("Napaka - Vnešene točke morajo biti večje od 0");
             } else if(tocke > 100) {
@@ -124,6 +123,7 @@
                     <p><big>Predmet: <b><?= PredmetModel::getPredmetIme($id_predmet) ?></b></big></p>
                     <p><big>Izpraševalci: <b><?= $izvajalci ?></b></big></p>
                     <p><big>Datum roka: <b><?= ProfesorController::formatDateSlo($rok_data["DATUM_ROKA"])." ob ".$rok_data["CAS_ROKA"] ?></b></big></p>
+                    <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($rok_data["ID_STUD_LETO"]) ?></b></big></p>
                     <div class="content-panel">
 
                         <div id="alert" class="alert alert-success alert-dismissible" role="alert" style="display: none">

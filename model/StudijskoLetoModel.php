@@ -21,6 +21,20 @@ class StudijskoLetoModel {
             throw new InvalidArgumentException("No record with Year $currentYear");
         }
     }
+
+    public static function getIme($id_stud_leto) {
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT STUD_LETO
+            FROM studijsko_leto
+            WHERE ID_STUD_LETO = :id_stud_leto
+        ");
+
+        $statement->bindValue(":id_stud_leto", $id_stud_leto);
+        $statement->execute();
+        $res = $statement->fetch();
+        return $res["STUD_LETO"];
+    }
     
     public static function getAll() {
         $db = DBInit::getInstance();

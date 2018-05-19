@@ -24,12 +24,12 @@
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
                 <a href="<?= BASE_URL . "PregledIzpitovProfesor" ?>">
-                    <span>PregledIzpitovProfesor</span>
+                    <span>Pregled Izpitov Profesor</span>
                 </a>
             </li>
             <li class="mt">
                 <a href="<?= BASE_URL . "VnosIzpitov" ?>">
-                    <span>VnosIzpitov</span>
+                    <span>Vnos Izpitov</span>
                 </a>
             </li>
             <li class="mt">
@@ -38,8 +38,13 @@
                 </a>
             </li>
             <li class="mt">
+                <a href="<?= BASE_URL . "VnosOcenIzpita" ?>">
+                    <span>Vnos Ocen Izpita</span>
+                </a>
+            </li>
+            <li class="mt">
                 <a href="<?= BASE_URL . "VnosOcen" ?>">
-                    <span>VnosOcen</span>
+                    <span>Vnos Končnih Ocen</span>
                 </a>
             </li>
             <li class="mt">
