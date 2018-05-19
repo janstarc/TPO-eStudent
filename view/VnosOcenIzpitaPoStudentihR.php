@@ -3,30 +3,50 @@
 <html lang="en">
 <head>
     <?php include("view/includes/head.php"); ?>
-
-
     <script>
 
-        var mainInfo=function(id_predmetistudenta, ocena, ime, priimek){
+        var mainInfo=function(id_prijava, tocke, ime, priimek, datumRoka){
+            var datumRokaTab = datumRoka.split("-");
+            var datumRokaDate = new Date(datumRokaTab[0], datumRokaTab[1], datumRokaTab[2]);
+            var today = new Date();
 
-            if(ocena <= 0){
+            if(today < datumRokaDate) console.log("Ocen ni mogoče vnašati, datum roka je večji od današnjega dne");
+
+            if(tocke < 0){
                 $("#alert").removeClass("alert-success").addClass("alert-danger").show();
-                $("#alertContent").text("Napaka - Končna ocena mora biti večja od 0");
-            } else if(ocena > 10) {
+                $("#alertContent").text("Napaka - Vnešene točke morajo biti večje od 0");
+            } else if(tocke > 100) {
                 $("#alert").removeClass("alert-success").addClass("alert-danger").show();
-                $("#alertContent").text("Napaka - Končna ocena mora biti manjša ali enaka 10");
+                $("#alertContent").text("Napaka - Vnešene točke morajo biti manjše od 100");
+            } else if(today < datumRokaDate) {
+                $("#alert").removeClass("alert-success").addClass("alert-danger").show();
+                $("#alertContent").text("Napaka - Ocen ni mogoče vnašati, datum roka je večji od današnjega dne");
             } else {
                 $.ajax({
                     type: "POST",
-                    url:   "seznamStudentov/vnosEneKoncneOceneAjax",
-                    data: { "id_predmetistudenta": id_predmetistudenta,  "ocena": ocena},           // { name: "John" }
+                    url:   "seznamStudentov/vnosEneOceneAjax",
+                    data: { "id_prijava": id_prijava,  "tocke": tocke},           // { name: "John" }
                     success: function() {
                         $("#alert").removeClass("alert-danger").addClass("alert-success").show();
-                        var message = "Vnos uspešen!   " + ime + " " + priimek + " (Končna ocena: " + ocena + ")";
+                        var message = "Vnos uspešen!   " + ime + " " + priimek + " (" + tocke + " točk)";
                         $("#alertContent").text(message);
                     }
                 });
             }
+        };
+
+        var vrnjenaPrijava=function(id_prijava, ime, priimek){
+
+            $.ajax({
+                type: "POST",
+                url:   "seznamStudentov/vrniPrijavoAjax",
+                data: { "id_prijava": id_prijava },           // { name: "John" }
+                success: function() {
+                    $("#alert").removeClass("alert-danger").addClass("alert-success").show();
+                    var message = "Vnos uspešen!   " + ime + " " + priimek + " uspešno odjavljen!";
+                    $("#alertContent").text(message);
+                }
+            });
         };
 
         $(document).ready( function () {
@@ -56,10 +76,6 @@
                     "sClass": "center",
                     "bSortable": true,
                     "sType":"slo"
-                },{
-                    "sClass": "center",
-                    "bSortable": true,
-                    "sType":"slo"
                 }, {
                     "sClass": "center",
                     "bSortable": false
@@ -73,8 +89,15 @@
                     "sType":"slo"
                 }, {
                     "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
                     "bSortable": false
-                }],
+                }, {
+                    "sClass": "center",
+                    "bSortable": false
+                } ],
                 // Ordering v prvem stolpcu
                 "order": [[ 1, 'asc' ]]
             });
@@ -90,18 +113,17 @@
 </head>
 <body>
 <section id="container">
-    <?php include("view/includes/menu-links-professor.php"); ?>
+    <?php include("view/includes/menu-links-student-officer.php"); ?>
     <section id="main-content">
         <section class="wrapper">
             <br>
             <div class="row mt">
                 <div class="col-md-12 mt">
-                    <h3>Seznam vpisanih študentov v predmet</h3>
-
+                    <h3>Seznam prijavljenih študentov na izpitni rok</h3>
                     <p><big>Predmet: <b><?= PredmetModel::getPredmetIme($id_predmet)." (".PredmetModel::getPredmetSifra($id_predmet).")" ?></b></big></p>
-                    <p><big>Nosilci predmeta: <b><?= $izvajalci ?></b></big></p>
-                    <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($id_stud_leto) ?></b></big></p>
-
+                    <p><big>Izpraševalci: <b><?= $izvajalci ?></b></big></p>
+                    <p><big>Datum roka: <b><?= ProfessorController::formatDateSlo($rok_data["DATUM_ROKA"])." ob ".$rok_data["CAS_ROKA"] ?></b></big></p>
+                    <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($rok_data["ID_STUD_LETO"]) ?></b></big></p>
                     <div class="content-panel">
 
                         <div id="alert" class="alert alert-success alert-dismissible" role="alert" style="display: none">
@@ -110,30 +132,31 @@
                         <table id="tabelaOcen" class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th></th>
+                                <th>ID Prijava</th>
                                 <th>Vpisna številka</th>
                                 <th>Ime</th>
                                 <th>Priimek</th>
-                                <th>ID Predmeti studenta</th>
-                                <th>Št. polaganj (skupno)</th>
-                                <th>Št. polaganj (letos)</th>
-                                <th>Točke (zadnji rok)</th>
-                                <th>Končna ocena</th>
+                                <th>Datum prijave</th>
+                                <th>Zap. št. polaganja (skupno)</th>
+                                <th>Zap. št. polaganja (letos)</th>
+                                <th>Točke</th>
+                                <th>Vrnjena prijava</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($prijavljeniStudenti as $key => $value): ?>
                                 <tr>
-
                                     <td></td>
-                                    <td><?= $value['VPISNA_STEVILKA'] ?></td>
-                                    <td><?= $value['IME'] ?></td>
-                                    <td><?= $value['PRIIMEK'] ?></td>
-                                    <td><?= $value['ID_PREDMETISTUDENTA'] ?></td>
-                                    <td><?php if($value['ZAP_ST_POLAGANJ'] == null) echo "Ni vnosa"; else echo $value['ZAP_ST_POLAGANJ'] ?></td>
-                                    <td><?php if($value['ZAP_ST_POLAGANJ_LETOS'] == null) echo "Ni vnosa"; else echo $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
-                                    <td><?php if($value['TOCKE_IZPITA'] == null) echo "Ni vnosa"; else echo $value['TOCKE_IZPITA'] ?></td>
-                                    <td> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PREDMETISTUDENTA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>')" value="<?= $value['OCENA'] ?>" /></td>
+                                    <td> <?= $value['ID_PRIJAVA'] ?></td>
+                                    <td> <?= $value['IME'] ?></td>
+                                    <td> <?= $value['PRIIMEK'] ?></td>
+                                    <td> <?= $value['VPISNA_STEVILKA'] ?></td>
+                                    <td> <?= ProfessorController::formatDateSlo($value['DATUM_PRIJAVE']) ?></td>
+                                    <td> <?= $value['ZAP_ST_POLAGANJ'] ?></td>
+                                    <td> <?= $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
+                                    <td id="tockeInput"> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PRIJAVA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>', '<?= $rok_data["DATUM_ROKA"] ?>')" value="<?= $value['TOCKE_IZPITA'] ?>" /></td>
+                                    <td id="me"> <input type="checkbox" onchange="vrnjenaPrijava(<?= $value['ID_PRIJAVA'] ?>, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>')"></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

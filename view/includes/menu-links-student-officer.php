@@ -50,6 +50,16 @@
                     <span>Žeton</span>
                 </a>
             </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "VnosOcenIzpitaR" ?>">
+                    <span>Vnos ocen izpita</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "VnosKoncnihOcenR" ?>">
+                    <span>Vnos končnih ocen</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

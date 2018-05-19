@@ -8,7 +8,7 @@ require_once("model/RokModel.php");
 require_once("model/StudijskoLetoModel.php");
 require_once("ViewHelper.php");
 
-class ProfesorController {
+class ProfessorController {
 
     /********* VNOS OCEN IZPITNEGA ROKA *********/
 
@@ -19,7 +19,7 @@ class ProfesorController {
                 ViewHelper::render("view/VnosOcenIzpitaChooseLeto.php", [
                     "pageTitle" => "Vnos ocen izpita",
                     "allData" => StudijskoLetoModel::getAll(),
-                    "formAction" => "VnosOcenIzpita/leto",
+                    "formAction" => "VnosOcenIzpitaP/leto",
                     "status" => $status,
                     "message" => $message
                 ]);
@@ -71,7 +71,7 @@ class ProfesorController {
                     }
                 }
 
-                ViewHelper::render("view/VnosOcenIzpitaIzbiraPredmetaInRoka.php", [
+                ViewHelper::render("view/VnosOcenIzpitaChoosePredmetInRok.php", [
                     "predmeti" => $predmetiProfesorja,
                     "izpitniRoki" => $izpitniRokiProfesorja,
                     "izvajalciPredmetov" => $izvajalciPredmetov,
@@ -154,7 +154,7 @@ class ProfesorController {
                 ViewHelper::render("view/VnosKoncnihOcenChooseLeto.php", [
                     "pageTitle" => "Vnos Končnih Ocen",
                     "allData" => StudijskoLetoModel::getAll(),
-                    "formAction" => "VnosKoncnihOcen/leto",
+                    "formAction" => "VnosKoncnihOcenP/leto",
                     "status" => $status,
                     "message" => $message
                 ]);
@@ -174,44 +174,8 @@ class ProfesorController {
                 $id_oseba = User::getId();
                 $predmetiProfesorja = ProfesorDB::getPredmetiProfesorja($id_oseba, $id_stud_leto);
 
-
-                // Najdi izvajalce predmeta, kreiraj locen array $izvajalciPredmetov
-                /*
-                $izvajalciPredmetov=[];
-                foreach ($predmetiProfesorja as $key => $value){
-
-                    $izvajalciRoka = "";
-                    $tmp = PredmetModel::getPredmetIzvajalci($value["ID_PREDMET"], $id_stud_leto);
-                    $tmp = $tmp[0];
-
-                    if($tmp["ID_OSEBA1"] != null) $izvajalciRoka .= $tmp["IME1"]." ".$tmp["PRIIMEK1"];
-                    if ($tmp["ID_OSEBA2"] != null) $izvajalciRoka .= ", ".$tmp["IME2"]." ".$tmp["PRIIMEK2"];
-                    if ($tmp["ID_OSEBA3"] != null) $izvajalciRoka .= ", ".$tmp["IME3"]." ".$tmp["PRIIMEK3"];
-                    $temp["ID_PREDMET"] = $value["ID_PREDMET"];
-                    $temp["IZVAJALEC"] = $izvajalciRoka;
-
-                    array_push($izvajalciPredmetov, $temp);
-                }
-
-
-                // Get izpitni roki za vse izpite profesorja
-                $izpitniRokiProfesorja = ProfesorDB::getIzpitniRokiProfesorja($id_oseba, $id_stud_leto);
-
-                foreach($izpitniRokiProfesorja as $key => $value){
-                    $izpitniRokiProfesorja[$key]["DATUM_ROKA"] = self::formatDateSlo($value["DATUM_ROKA"]);
-
-                    foreach($izvajalciPredmetov as $k1 => $v1){
-                        if($v1["ID_PREDMET"] === $value["ID_PREDMET"]){
-                            $izpitniRokiProfesorja[$key]["IZVAJALEC"] = $v1["IZVAJALEC"];
-                        }
-                    }
-                }
-                */
-
                 ViewHelper::render("view/VnosKoncnihOcenChoosePredmet.php", [
                     "predmeti" => $predmetiProfesorja,
-                    //"izpitniRoki" => $izpitniRokiProfesorja,
-                    //"izvajalciPredmetov" => $izvajalciPredmetov,
                     "id_stud_leto" => $id_stud_leto
                 ]);
             }else{
@@ -234,10 +198,8 @@ class ProfesorController {
                 //var_dump("ID SL: " . $id_stud_leto);
 
                 $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaPredmet($data["id_predmet"], $id_stud_leto);
-                //var_dump($prijavljeniStudenti);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
                 $izvajalciArray = $izvajalciArray[0];
-
 
                 $izvajalci = "";
                 if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
@@ -245,10 +207,7 @@ class ProfesorController {
                 if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
 
                 $tockeIzpita = ProfesorDB::getTockeIzpita($data["id_predmet"], $id_stud_leto);
-                //var_dump($tockeIzpita);
                 $prijavljeniStudenti = self::najdiZadnjoOceno($prijavljeniStudenti, $tockeIzpita);
-                //var_dump($prijavljeniStudenti);
-
 
                 ViewHelper::render("view/VnosKoncnihOcenPoStudentih.php", [
                     "id_predmet" => $data["id_predmet"],
@@ -266,8 +225,6 @@ class ProfesorController {
     }
 
     public static function najdiZadnjoOceno($prijavljeniStudenti, $prijava){
-
-
 
         foreach($prijavljeniStudenti as $psKey => $psValue){
             $maxIdPrijava = null;

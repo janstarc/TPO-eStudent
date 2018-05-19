@@ -122,7 +122,7 @@
                     <h3>Seznam prijavljenih študentov na izpitni rok</h3>
                     <p><big>Predmet: <b><?= PredmetModel::getPredmetIme($id_predmet)." (".PredmetModel::getPredmetSifra($id_predmet).")" ?></b></big></p>
                     <p><big>Izpraševalci: <b><?= $izvajalci ?></b></big></p>
-                    <p><big>Datum roka: <b><?= ProfesorController::formatDateSlo($rok_data["DATUM_ROKA"])." ob ".$rok_data["CAS_ROKA"] ?></b></big></p>
+                    <p><big>Datum roka: <b><?= ProfessorController::formatDateSlo($rok_data["DATUM_ROKA"])." ob ".$rok_data["CAS_ROKA"] ?></b></big></p>
                     <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($rok_data["ID_STUD_LETO"]) ?></b></big></p>
                     <div class="content-panel">
 
@@ -134,9 +134,9 @@
                                 <tr>
                                     <th></th>
                                     <th>ID Prijava</th>
+                                    <th>Vpisna številka</th>
                                     <th>Ime</th>
                                     <th>Priimek</th>
-                                    <th>Vpisna številka</th>
                                     <th>Datum prijave</th>
                                     <th>Zap. št. polaganja (skupno)</th>
                                     <th>Zap. št. polaganja (letos)</th>
@@ -149,10 +149,10 @@
                                     <tr>
                                         <td></td>
                                         <td> <?= $value['ID_PRIJAVA'] ?></td>
+                                        <td> <?= $value['VPISNA_STEVILKA'] ?></td>
                                         <td> <?= $value['IME'] ?></td>
                                         <td> <?= $value['PRIIMEK'] ?></td>
-                                        <td> <?= $value['VPISNA_STEVILKA'] ?></td>
-                                        <td> <?= ProfesorController::formatDateSlo($value['DATUM_PRIJAVE']) ?></td>
+                                        <td> <?= ProfessorController::formatDateSlo($value['DATUM_PRIJAVE']) ?></td>
                                         <td> <?= $value['ZAP_ST_POLAGANJ'] ?></td>
                                         <td> <?= $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
                                         <td id="tockeInput"> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PRIJAVA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>', '<?= $rok_data["DATUM_ROKA"] ?>')" value="<?= $value['TOCKE_IZPITA'] ?>" /></td>

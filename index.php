@@ -82,47 +82,82 @@ $urls = [
         if ($method == "GET") StudentController::PregledIzpitovStudentForm();
         else ViewHelper::error405();
     }, "/^PregledIzpitovProfesor$/" => function ($method) {
-        if ($method == "GET") ProfesorController::PregledIzpitovProfesorForm();
+        if ($method == "GET") ProfessorController::PregledIzpitovProfesorForm();
         else ViewHelper::error405();
     }, "/^VnosIzpitov$/" => function ($method) {
-        if ($method == "GET") ProfesorController::VnosIzpitovForm();
+        if ($method == "GET") ProfessorController::VnosIzpitovForm();
         else ViewHelper::error405();
     },
 
     // VNOS OCEN IZPITA
-    "/^VnosOcenIzpita$/" => function($method) {
-        if ($method == "GET") ProfesorController::vnosOcenIzpitaChooseLeto();
+    // Prof
+    "/^VnosOcenIzpitaP$/" => function($method) {
+        if ($method == "GET") ProfessorController::vnosOcenIzpitaChooseLeto();
         else ViewHelper::error405();
-    }, "/^VnosOcenIzpita\/leto\/(\d+)$/" => function ($method, $id) {
-        if ($method == "GET") ProfesorController::vnosOcenIzpitaIzberiPredmetInRok($id);
+    }, "/^VnosOcenIzpitaP\/leto\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") ProfessorController::vnosOcenIzpitaIzberiPredmetInRok($id);
         else ViewHelper::error405();
-    }, "/^VnosOcenIzpita\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
-        if ($method == "POST") ProfesorController::vnosOcenIzpita($id);
+    }, "/^VnosOcenIzpitaP\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
+        if ($method == "POST") ProfessorController::vnosOcenIzpita($id);
         else ViewHelper::error405();
-    },"/^VnosOcenIzpita\/leto\/(\d+)\/seznamStudentov\/vnosEneOceneAjax$/" => function ($method) {
-        if ($method == "POST") ProfesorController::vnosEneOceneIzpitaAjax();
+    },"/^VnosOcenIzpitaP\/leto\/(\d+)\/seznamStudentov\/vnosEneOceneAjax$/" => function ($method) {
+        if ($method == "POST") ProfessorController::vnosEneOceneIzpitaAjax();
         else ViewHelper::error405();
-    },"/^VnosOcenIzpita\/leto\/(\d+)\/seznamStudentov\/vrniPrijavoAjax/" => function ($method){
-        if ($method == "POST") ProfesorController::vrniPrijavoNaIzpitAjax();
+    },"/^VnosOcenIzpitaP\/leto\/(\d+)\/seznamStudentov\/vrniPrijavoAjax/" => function ($method){
+        if ($method == "POST") ProfessorController::vrniPrijavoNaIzpitAjax();
+        else ViewHelper::error405();
+    },
+
+    // Ref
+    "/^VnosOcenIzpitaR$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::vnosOcenIzpitaChooseLeto();
+        else ViewHelper::error405();
+    }, "/^VnosOcenIzpitaR\/leto\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::vnosOcenIzpitaIzberiPredmetInRok($id);
+        else ViewHelper::error405();
+    }, "/^VnosOcenIzpitaR\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
+        if ($method == "POST") StudentOfficerController::vnosOcenIzpita($id);
+        else ViewHelper::error405();
+    },"/^VnosOcenIzpitaR\/leto\/(\d+)\/seznamStudentov\/vnosEneOceneAjax$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::vnosEneOceneIzpitaAjax();
+        else ViewHelper::error405();
+    },"/^VnosOcenIzpitaR\/leto\/(\d+)\/seznamStudentov\/vrniPrijavoAjax/" => function ($method){
+        if ($method == "POST") StudentOfficerController::vrniPrijavoNaIzpitAjax();
         else ViewHelper::error405();
     },
     // VNOS OCEN IZPITA END
 
-    // VNOS KONCNIH OCEN TEST
-    "/^VnosKoncnihOcen$/" => function($method) {
-        if ($method == "GET") ProfesorController::vnosKoncnihOcenChooseLeto();
+    // VNOS KONCNIH OCEN
+    // Prof
+    "/^VnosKoncnihOcenP$/" => function($method) {
+        if ($method == "GET") ProfessorController::vnosKoncnihOcenChooseLeto();
         else ViewHelper::error405();
-    }, "/^VnosKoncnihOcen\/leto\/(\d+)$/" => function ($method, $id) {
-        if ($method == "GET") ProfesorController::vnosKoncnihOcenIzberiPredmet($id);
+    }, "/^VnosKoncnihOcenP\/leto\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") ProfessorController::vnosKoncnihOcenIzberiPredmet($id);
         else ViewHelper::error405();
-    }, "/^VnosKoncnihOcen\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
-        if ($method == "POST") ProfesorController::vnosKoncnihOcen($id);
+    }, "/^VnosKoncnihOcenP\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
+        if ($method == "POST") ProfessorController::vnosKoncnihOcen($id);
         else ViewHelper::error405();
-    },"/^VnosKoncnihOcen\/leto\/(\d+)\/seznamStudentov\/vnosEneKoncneOceneAjax$/" => function ($method) {
-        if ($method == "POST") ProfesorController::vnosEneKoncneOceneAjax();
+    },"/^VnosKoncnihOcenP\/leto\/(\d+)\/seznamStudentov\/vnosEneKoncneOceneAjax$/" => function ($method) {
+        if ($method == "POST") ProfessorController::vnosEneKoncneOceneAjax();
         else ViewHelper::error405();
     },
-    // VNOS OCEN TEST
+
+    // Ref
+    "/^VnosKoncnihOcenR$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::vnosKoncnihOcenChooseLeto();
+        else ViewHelper::error405();
+    }, "/^VnosKoncnihOcenR\/leto\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::vnosKoncnihOcenIzberiPredmet($id);
+        else ViewHelper::error405();
+    }, "/^VnosKoncnihOcenR\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
+        if ($method == "POST") StudentOfficerController::vnosKoncnihOcen($id);
+        else ViewHelper::error405();
+    },"/^VnosKoncnihOcenR\/leto\/(\d+)\/seznamStudentov\/vnosEneKoncneOceneAjax$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::vnosEneKoncneOceneAjax();
+        else ViewHelper::error405();
+    },
+    // VNOS OCEN END
 
     "/^OsebniPodatkiStudenta$/" => function ($method) {
         if ($method == "GET") AdminController::pregledOsebnihPodatkovStudenta();
@@ -151,18 +186,18 @@ $urls = [
     },
 
     "/^izpitniRok\/profesor$/" => function ($method) {
-        if ($method == "GET") ProfesorController::izpitniRokAllForm();
+        if ($method == "GET") ProfessorController::izpitniRokAllForm();
         else ViewHelper::error405();
     }, "/^izpitniRok\/profesor\/add$/" => function ($method) {
-        if ($method == "GET") ProfesorController::izpitniRokForm();
-        else if ($method == "POST") ProfesorController::VnosIzpitnegaRoka();
+        if ($method == "GET") ProfessorController::izpitniRokForm();
+        else if ($method == "POST") ProfessorController::VnosIzpitnegaRoka();
         else ViewHelper::error405();
     }, "/^izpitniRok\/profesor\/edit\/(\d+)$/" => function ($method, $id) {
-        if ($method == "GET") ProfesorController::izpitniRokEditForm($id);
-        else if ($method == "POST") ProfesorController::SpremembaIzpitnegaRoka($id);
+        if ($method == "GET") ProfessorController::izpitniRokEditForm($id);
+        else if ($method == "POST") ProfessorController::SpremembaIzpitnegaRoka($id);
         else ViewHelper::error405();
     }, "/^izpitniRok\/profesor\/toogleActivated$/" => function ($method) {
-        if ($method == "POST") ProfesorController::toggleizpitniRokActivated();
+        if ($method == "POST") ProfessorController::toggleizpitniRokActivated();
         else if ($method == "GET") ViewHelper::redirect(BASE_URL . "izpitniRok/profesor");
         else ViewHelper::error405();
     },
@@ -286,19 +321,19 @@ $urls = [
     }
 //vpisani v predmet - profesor
     ,"/^vpisPredmetP$/" => function($method) {
-        if ($method == "GET") ProfesorController::VpisaniForm1();
+        if ($method == "GET") ProfessorController::VpisaniForm1();
         else ViewHelper::error405();
     }, "/^vpisPredmetP\/leto\/(\d+)$/" => function ($method, $id) {
-        if ($method == "GET") ProfesorController::VpisaniForm2($id);
+        if ($method == "GET") ProfessorController::VpisaniForm2($id);
         else ViewHelper::error405();
     }, "/^vpisPredmetP\/predmet\/(\d+)\/(\d+)$/" => function ($method, $id, $id2) {
-        if ($method == "GET") ProfesorController::VpisaniForm3($id, $id2);
+        if ($method == "GET") ProfessorController::VpisaniForm3($id, $id2);
         else ViewHelper::error405();
     },"/^VpisaniPrikazP\/exportCSV$/" => function($method) {
-        if ($method == "POST") ProfesorController::exportCSV();
+        if ($method == "POST") ProfessorController::exportCSV();
         else ViewHelper::error405();
     }, "/^VpisaniPrikazP\/exportPDF$/" => function($method) {
-        if ($method == "POST") ProfesorController::exportPDF();
+        if ($method == "POST") ProfessorController::exportPDF();
         else ViewHelper::error405();
     },
 
@@ -347,7 +382,7 @@ $urls = [
         if ($method == "POST") AdminController::exportPDF();
         else ViewHelper::error405();
     }, "/^VnosOceneProf$/" => function($method) {
-        if($method == "GET") ProfesorController::vnosOcenProf();
+        if($method == "GET") ProfessorController::vnosOcenProf();
         else ViewHelper::error405();
     },
     

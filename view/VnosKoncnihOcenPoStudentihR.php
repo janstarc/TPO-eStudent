@@ -90,7 +90,7 @@
 </head>
 <body>
 <section id="container">
-    <?php include("view/includes/menu-links-professor.php"); ?>
+    <?php include("view/includes/menu-links-student-officer.php"); ?>
     <section id="main-content">
         <section class="wrapper">
             <br>
@@ -124,7 +124,6 @@
                             <tbody>
                             <?php foreach ($prijavljeniStudenti as $key => $value): ?>
                                 <tr>
-
                                     <td></td>
                                     <td><?= $value['VPISNA_STEVILKA'] ?></td>
                                     <td><?= $value['IME'] ?></td>

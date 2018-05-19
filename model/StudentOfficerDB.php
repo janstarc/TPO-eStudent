@@ -636,4 +636,40 @@ class StudentOfficerDB
     }
 
 
+    public static function getPredmetiZaStudLeto($id_stud_leto)
+    {
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT DISTINCT ip.ID_PREDMET, p.IME_PREDMET, p.SIFRA_PREDMET, o1.IME AS IME1, o1.PRIIMEK AS PRIIMEK1, o2.IME AS IME2, o2.PRIIMEK AS PRIIMEK2, o3.IME AS IME3, o3.PRIIMEK AS PRIIMEK3
+            FROM izvedba_predmeta AS ip
+            JOIN predmet AS p ON ip.ID_PREDMET = p.ID_PREDMET
+            LEFT JOIN oseba o1 on ip.ID_OSEBA1 = o1.ID_OSEBA
+            LEFT JOIN oseba o2 on ip.ID_OSEBA2 = o2.ID_OSEBA
+            LEFT JOIN oseba o3 on ip.ID_OSEBA3 = o3.ID_OSEBA
+            WHERE ip.ID_STUD_LETO = :id_stud_leto
+        ");
+
+        $statement->bindValue(":id_stud_leto", $id_stud_leto);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
+    public static function getIzpitniRokiZaStudLeto($id_stud_leto)
+    {
+
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT ip.ID_PREDMET, r.ID_ROK, r.ID_IZVEDBA, r.DATUM_ROKA, r.CAS_ROKA
+            FROM rok AS r
+            JOIN izvedba_predmeta AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
+            WHERE ip.ID_STUD_LETO = :id_stud_leto
+        ");
+
+        $statement->bindValue(":id_stud_leto", $id_stud_leto);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
 }
