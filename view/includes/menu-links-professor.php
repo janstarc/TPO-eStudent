@@ -43,7 +43,7 @@
                 </a>
             </li>
             <li class="mt">
-                <a href="<?= BASE_URL . "VnosOcen" ?>">
+                <a href="<?= BASE_URL . "VnosKoncnihOcen" ?>">
                     <span>Vnos Končnih Ocen</span>
                 </a>
             </li>

@@ -32,7 +32,20 @@ class PredmetModel {
         return $result["IME_PREDMET"];
     }
 
-    // TODO Hardcoded stud leto
+    public static function getPredmetSifra($id_predmet){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT SIFRA_PREDMET
+            FROM predmet
+            WHERE ID_PREDMET = :id_predmet
+        ");
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result["SIFRA_PREDMET"];
+    }
+
+
     public static function getPredmetIzvajalci($id_predmet, $id_stud_leto){
         $db = DBInit::getInstance();
         $statement = $db->prepare("

@@ -379,7 +379,7 @@ class ProfesorDB
         return $statement->fetchAll();
     }
 
-    public static function insertTockeIzpita($id_prijava, $tocke){
+    public static function updateTockeIzpita($id_prijava, $tocke){
 
         $db=DBInit::getInstance();
         $statement = $db->prepare("
@@ -390,6 +390,21 @@ class ProfesorDB
 
         $statement->bindValue(":id_prijava", $id_prijava);
         $statement->bindValue(":tocke", $tocke);
+        $statement->execute();
+    }
+
+    public static function updateKoncnaOcena($id_predmetistudenta, $ocena){
+
+        var_dump("ID ps: ".$id_predmetistudenta." Ocena: ".$ocena);
+        $db=DBInit::getInstance();
+        $statement = $db->prepare("
+            UPDATE predmeti_studenta
+            SET OCENA = :ocena
+            WHERE ID_PREDMETISTUDENTA = :id_predmetistudenta
+        ");
+
+        $statement->bindValue(":id_predmetistudenta", $id_predmetistudenta);
+        $statement->bindValue(":ocena", $ocena);
         $statement->execute();
     }
 
@@ -406,6 +421,46 @@ class ProfesorDB
         $statement->bindValue(":id_prijava", $id_prijava);
         $statement->bindValue(":id_odjavitelj", $id_odjavitelj);
         $statement->execute();
+    }
+
+    public static function getPrijavljeniNaPredmet($id_predmet, $id_stud_leto)
+    {
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT o.ID_OSEBA, o.IME, o.PRIIMEK, s.VPISNA_STEVILKA, p.OCENA, p.ID_PREDMETISTUDENTA
+            FROM oseba o
+              JOIN student s on o.ID_OSEBA = s.ID_OSEBA
+              JOIN predmeti_studenta p on s.VPISNA_STEVILKA = p.VPISNA_STEVILKA
+            WHERE p.ID_STUD_LETO = :id_stud_leto
+            AND p.ID_PREDMET = :id_predmet
+        ");
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_stud_leto", $id_stud_leto);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
+    public static function getTockeIzpita($id_predmet, $id_stud_leto)
+    {
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT p.ID_PRIJAVA, i.ID_PREDMET, i.ID_STUD_LETO, p.VPISNA_STEVILKA, p.ZAP_ST_POLAGANJ, p.ZAP_ST_POLAGANJ_LETOS, p.TOCKE_IZPITA
+            FROM prijava p
+              JOIN rok r on p.ID_ROK = r.ID_ROK
+              JOIN izvedba_predmeta i ON r.ID_IZVEDBA = i.ID_IZVEDBA
+            WHERE i.ID_STUD_LETO = :id_stud_leto
+                  AND i.ID_PREDMET = :id_predmet
+        ");
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_stud_leto", $id_stud_leto);
+        $statement->execute();
+        return $statement->fetchAll();
     }
 
 
