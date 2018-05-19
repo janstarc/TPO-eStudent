@@ -6,7 +6,6 @@
 
 
     <script>
-
         var mainInfo=function(id_predmetistudenta, ocena, ime, priimek){
 
             if(ocena <= 0){
@@ -90,19 +89,18 @@
 </head>
 <body>
 <section id="container">
-    <?php include("view/includes/menu-links-professor.php"); ?>
+    <?php include("view/includes/menu-links-student-officer.php"); ?>
     <section id="main-content">
         <section class="wrapper">
             <br>
             <div class="row mt">
                 <div class="col-md-12 mt">
-                    <h3>Vnos končnih ocen predmeta</h3>
+                    <h3>Pregled seznama študentov s končnimi ocenami</h3>
 
                     <p><big>Predmet: <b><?= PredmetModel::getPredmetIme($id_predmet)." (".PredmetModel::getPredmetSifra($id_predmet).")" ?></b></big></p>
                     <p><big>Nosilci predmeta: <b><?= $izvajalci ?></b></big></p>
                     <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($id_stud_leto) ?></b></big></p>
 
-                    <br>
                     <div class="content-panel">
 
                         <div id="alert" class="alert alert-success alert-dismissible" role="alert" style="display: none">
@@ -134,7 +132,7 @@
                                     <td><?php if($value['ZAP_ST_POLAGANJ'] == null) echo "Ni vnosa"; else echo $value['ZAP_ST_POLAGANJ'] ?></td>
                                     <td><?php if($value['ZAP_ST_POLAGANJ_LETOS'] == null) echo "Ni vnosa"; else echo $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
                                     <td><?php if($value['TOCKE_IZPITA'] == null) echo "Ni vnosa"; else echo $value['TOCKE_IZPITA'] ?></td>
-                                    <td> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PREDMETISTUDENTA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>')" value="<?= $value['OCENA'] ?>" /></td>
+                                    <td><?php if($value['OCENA'] == null) echo "Ni vnosa"; else echo $value['OCENA'] ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

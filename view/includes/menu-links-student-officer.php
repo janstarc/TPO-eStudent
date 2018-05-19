@@ -57,7 +57,7 @@
             </li>
             <li class="mt">
                 <a href="<?= BASE_URL . "VnosKoncnihOcenR" ?>">
-                    <span>Vnos končnih ocen</span>
+                    <span>Končne ocene</span>
                 </a>
             </li>
         </ul>

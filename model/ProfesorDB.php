@@ -449,7 +449,7 @@ class ProfesorDB
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            SELECT p.ID_PRIJAVA, i.ID_PREDMET, i.ID_STUD_LETO, p.VPISNA_STEVILKA, p.ZAP_ST_POLAGANJ, p.ZAP_ST_POLAGANJ_LETOS, p.TOCKE_IZPITA
+            SELECT p.ID_PRIJAVA, i.ID_PREDMET, i.ID_STUD_LETO, p.VPISNA_STEVILKA, p.ZAP_ST_POLAGANJ, p.ZAP_ST_POLAGANJ_LETOS, p.TOCKE_IZPITA, p.DATUM_PRIJAVE, p.DATUM_ODJAVE
             FROM prijava p
               JOIN rok r on p.ID_ROK = r.ID_ROK
               JOIN izvedba_predmeta i ON r.ID_IZVEDBA = i.ID_IZVEDBA

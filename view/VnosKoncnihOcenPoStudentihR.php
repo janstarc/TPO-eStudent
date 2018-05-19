@@ -96,7 +96,7 @@
             <br>
             <div class="row mt">
                 <div class="col-md-12 mt">
-                    <h3>Seznam vpisanih študentov v predmet</h3>
+                    <h3>Vnos končnih ocen predmeta</h3>
 
                     <p><big>Predmet: <b><?= PredmetModel::getPredmetIme($id_predmet)." (".PredmetModel::getPredmetSifra($id_predmet).")" ?></b></big></p>
                     <p><big>Nosilci predmeta: <b><?= $izvajalci ?></b></big></p>
@@ -117,7 +117,7 @@
                                 <th>ID Predmeti studenta</th>
                                 <th>Št. polaganj (skupno)</th>
                                 <th>Št. polaganj (letos)</th>
-                                <th>Točke (zadnji rok)</th>
+                                <th>Točke izpita</th>
                                 <th>Končna ocena</th>
                             </tr>
                             </thead>

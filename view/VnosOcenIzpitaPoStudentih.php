@@ -119,7 +119,7 @@
             <br>
             <div class="row mt">
                 <div class="col-md-12 mt">
-                    <h3>Seznam prijavljenih študentov na izpitni rok</h3>
+                    <h3>Vnos ocen izpitnega roka</h3>
                     <p><big>Predmet: <b><?= PredmetModel::getPredmetIme($id_predmet)." (".PredmetModel::getPredmetSifra($id_predmet).")" ?></b></big></p>
                     <p><big>Izpraševalci: <b><?= $izvajalci ?></b></big></p>
                     <p><big>Datum roka: <b><?= ProfessorController::formatDateSlo($rok_data["DATUM_ROKA"])." ob ".$rok_data["CAS_ROKA"] ?></b></big></p>
@@ -146,18 +146,18 @@
                             </thead>
                             <tbody>
                             <?php foreach ($prijavljeniStudenti as $key => $value): ?>
-                                    <tr>
-                                        <td></td>
-                                        <td> <?= $value['ID_PRIJAVA'] ?></td>
-                                        <td> <?= $value['VPISNA_STEVILKA'] ?></td>
-                                        <td> <?= $value['IME'] ?></td>
-                                        <td> <?= $value['PRIIMEK'] ?></td>
-                                        <td> <?= ProfessorController::formatDateSlo($value['DATUM_PRIJAVE']) ?></td>
-                                        <td> <?= $value['ZAP_ST_POLAGANJ'] ?></td>
-                                        <td> <?= $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
-                                        <td id="tockeInput"> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PRIJAVA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>', '<?= $rok_data["DATUM_ROKA"] ?>')" value="<?= $value['TOCKE_IZPITA'] ?>" /></td>
-                                        <td id="me"> <input type="checkbox" onchange="vrnjenaPrijava(<?= $value['ID_PRIJAVA'] ?>, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>')"></td>
-                                    </tr>
+                                <tr>
+                                    <td></td>
+                                    <td> <?= $value['ID_PRIJAVA'] ?></td>
+                                    <td> <?= $value['VPISNA_STEVILKA'] ?></td>
+                                    <td> <?= $value['IME'] ?></td>
+                                    <td> <?= $value['PRIIMEK'] ?></td>
+                                    <td> <?= ProfessorController::formatDateSlo($value['DATUM_PRIJAVE']) ?></td>
+                                    <td> <?= $value['ZAP_ST_POLAGANJ'] ?></td>
+                                    <td> <?= $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
+                                    <td id="tockeInput"> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PRIJAVA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>', '<?= $rok_data["DATUM_ROKA"] ?>')" value="<?= $value['TOCKE_IZPITA'] ?>" /></td>
+                                    <td id="me"> <input type="checkbox" onchange="vrnjenaPrijava(<?= $value['ID_PRIJAVA'] ?>, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>')"></td>
+                                </tr>
                             <?php endforeach; ?>
                             </tbody>
                         </table>

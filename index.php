@@ -138,6 +138,9 @@ $urls = [
     }, "/^VnosKoncnihOcenP\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
         if ($method == "POST") ProfessorController::vnosKoncnihOcen($id);
         else ViewHelper::error405();
+    },"/^IzpisKoncnihOcenP\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
+        if ($method == "POST") ProfessorController::izpisKoncnihOcen($id);
+        else ViewHelper::error405();
     },"/^VnosKoncnihOcenP\/leto\/(\d+)\/seznamStudentov\/vnosEneKoncneOceneAjax$/" => function ($method) {
         if ($method == "POST") ProfessorController::vnosEneKoncneOceneAjax();
         else ViewHelper::error405();
@@ -152,6 +155,9 @@ $urls = [
         else ViewHelper::error405();
     }, "/^VnosKoncnihOcenR\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
         if ($method == "POST") StudentOfficerController::vnosKoncnihOcen($id);
+        else ViewHelper::error405();
+    }, "/^IzpisKoncnihOcenR\/leto\/(\d+)\/seznamStudentov$/" => function ($method, $id) {
+        if ($method == "POST") StudentOfficerController::izpisKoncnihOcen($id);
         else ViewHelper::error405();
     },"/^VnosKoncnihOcenR\/leto\/(\d+)\/seznamStudentov\/vnosEneKoncneOceneAjax$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::vnosEneKoncneOceneAjax();
