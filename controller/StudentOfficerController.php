@@ -1236,6 +1236,15 @@ class StudentOfficerController {
         ProfesorDB::vrniPrijavoProfesor($data["id_prijava"], User::getId());
     }
 
+    // Ajax klic za vracanje prijave --> Iz vnosOcenPoStudentih()
+    public static function prekliciVrnjenoPrijavoAjax(){
+        $data = filter_input_array(INPUT_POST, [
+            "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+
+        ProfesorDB::prekliciVrnjenoPrijavoProfesor($data["id_prijava"], User::getId());
+    }
+
     /********* VNOS KONCNIH OCEN ********/
     public static function vnosKoncnihOcenChooseLeto($status = null, $message = null) {
         if (User::isLoggedIn()) {

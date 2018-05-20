@@ -423,6 +423,20 @@ class ProfesorDB
         $statement->execute();
     }
 
+    public static function prekliciVrnjenoPrijavoProfesor($id_prijava, $id_odjavitelj){
+
+        $db=DBInit::getInstance();
+        $statement = $db->prepare("
+            UPDATE prijava
+            SET DATUM_ODJAVE = null, ID_OSEBA_ODJAVITELJ = null, TOCKE_IZPITA = null 
+            WHERE ID_PRIJAVA = :id_prijava
+        ");
+
+        $statement->bindValue(":id_prijava", $id_prijava);
+        //$statement->bindValue(":id_odjavitelj", $id_odjavitelj);
+        $statement->execute();
+    }
+
     public static function getPrijavljeniNaPredmet($id_predmet, $id_stud_leto)
     {
 

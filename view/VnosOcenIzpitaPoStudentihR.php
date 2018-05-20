@@ -35,21 +35,47 @@
             }
         };
 
-        var vrnjenaPrijava=function(id_prijava, ime, priimek){
+        $(document).ready( function () {
 
-            $.ajax({
-                type: "POST",
-                url:   "seznamStudentov/vrniPrijavoAjax",
-                data: { "id_prijava": id_prijava },           // { name: "John" }
-                success: function() {
-                    $("#alert").removeClass("alert-danger").addClass("alert-success").show();
-                    var message = "Vnos uspešen!   " + ime + " " + priimek + " uspešno odjavljen!";
-                    $("#alertContent").text(message);
+            $('.cbox-prijava').on('change', function() {
+                var checkbox = $(this);
+
+                var id_prijava = $(this).data('id-prijava');
+                var ime = $(this).data('ime');
+                var priimek = $(this).data('priimek');
+
+                if (checkbox.is(':checked')){
+                    $.ajax({
+                        type: "POST",
+                        url:   "seznamStudentov/vrniPrijavoAjax",
+                        data: { "id_prijava": id_prijava },           // { name: "John" }
+                        success: function() {
+                            $("#alert").removeClass("alert-danger").addClass("alert-success").show();
+                            var message = "Vnos uspešen!   " + ime + " " + priimek + " uspešno odjavljen!";
+                            $("#alertContent").text(message);
+                            console.log(checkbox);
+                            var input = checkbox.parent().parent().find('#tockeInput input');
+                            input.val('');
+                            input.attr('disabled', true);
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url:   "seznamStudentov/prekliciVrnjenoPrijavoAjax",
+                        data: { "id_prijava": id_prijava },           // { name: "John" }
+                        success: function() {
+                            $("#alert").removeClass("alert-danger").addClass("alert-success").show();
+                            var message = "Vnos uspešen! Odjava za " + ime + " " + priimek + " uspešno preklicana";
+                            $("#alertContent").text(message);
+                            console.log(checkbox);
+                            var input = checkbox.parent().parent().find('#tockeInput input');
+                            input.val('');
+                            input.attr('disabled', false);
+                        }
+                    });
                 }
             });
-        };
-
-        $(document).ready( function () {
 
             // Override default sorta s custom sortom
             jQuery.fn.dataTableExt.oSort["slo-desc"] = function (x, y) {
@@ -156,7 +182,9 @@
                                     <td> <?= $value['ZAP_ST_POLAGANJ'] ?></td>
                                     <td> <?= $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
                                     <td id="tockeInput"> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PRIJAVA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>', '<?= $rok_data["DATUM_ROKA"] ?>')" value="<?= $value['TOCKE_IZPITA'] ?>" /></td>
-                                    <td id="me"> <input type="checkbox" onchange="vrnjenaPrijava(<?= $value['ID_PRIJAVA'] ?>, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>')"></td>
+                                    <td id="me">
+                                        <input type="checkbox" class="cbox-prijava" data-id-prijava="<?= $value['ID_PRIJAVA'] ?>" data-ime="<?= $value['IME'] ?>" data-priimek="<?= $value['PRIIMEK'] ?>">
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

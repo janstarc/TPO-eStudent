@@ -103,8 +103,11 @@ $urls = [
     },"/^VnosOcenIzpitaP\/leto\/(\d+)\/seznamStudentov\/vnosEneOceneAjax$/" => function ($method) {
         if ($method == "POST") ProfessorController::vnosEneOceneIzpitaAjax();
         else ViewHelper::error405();
-    },"/^VnosOcenIzpitaP\/leto\/(\d+)\/seznamStudentov\/vrniPrijavoAjax/" => function ($method){
+    },"/^VnosOcenIzpitaP\/leto\/(\d+)\/seznamStudentov\/vrniPrijavoAjax$/" => function ($method){
         if ($method == "POST") ProfessorController::vrniPrijavoNaIzpitAjax();
+        else ViewHelper::error405();
+    },"/^VnosOcenIzpitaP\/leto\/(\d+)\/seznamStudentov\/prekliciVrnjenoPrijavoAjax$/" => function ($method){
+        if ($method == "POST") ProfessorController::prekliciVrnjenoPrijavoAjax();
         else ViewHelper::error405();
     },
 
@@ -121,8 +124,11 @@ $urls = [
     },"/^VnosOcenIzpitaR\/leto\/(\d+)\/seznamStudentov\/vnosEneOceneAjax$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::vnosEneOceneIzpitaAjax();
         else ViewHelper::error405();
-    },"/^VnosOcenIzpitaR\/leto\/(\d+)\/seznamStudentov\/vrniPrijavoAjax/" => function ($method){
+    },"/^VnosOcenIzpitaR\/leto\/(\d+)\/seznamStudentov\/vrniPrijavoAjax$/" => function ($method){
         if ($method == "POST") StudentOfficerController::vrniPrijavoNaIzpitAjax();
+        else ViewHelper::error405();
+    },"/^VnosOcenIzpitaR\/leto\/(\d+)\/seznamStudentov\/prekliciVrnjenoPrijavoAjax$/" => function ($method){
+        if ($method == "POST") StudentOfficerController::prekliciVrnjenoPrijavoAjax();
         else ViewHelper::error405();
     },
     // VNOS OCEN IZPITA END
