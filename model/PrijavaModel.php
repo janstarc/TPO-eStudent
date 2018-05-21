@@ -40,7 +40,7 @@ class PrijavaModel
                     $statement2->bindValue(":id_rok", $id_rok);
 
                     $statement2->execute();
-                    var_dump($statement2->rowCount());
+                    //var_dump($statement2->rowCount());
                 }
 
                 return true;

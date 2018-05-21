@@ -266,10 +266,127 @@ class StudentController {
         }
     }
 
-    // 1 --> ima prijava dugme,
-    // 2 --> ima prijava dugme, disabled
-    // 3 --> nema prijava dugme
-    // 4 --> ne go prikazuvaj predmetot
-    
+    public static function dozvoliPrijava($roki, $id_rok){
+        //var_dump($id_rok);
+        //var_dump($roki);
+
+        $trenutniRok = null;
+
+        // Najdi trenutni rok, in ga shrani
+        foreach ($roki as $key => $value){
+            if($value["ID_ROK"] === $id_rok) {
+                $trenutniRok = $value;
+                break;
+            }
+        }
+
+        //var_dump($trenutniRok);
+        // Obstaja prijava na trenutni rok, ni se ocene
+        if(isset($trenutniRok["ID_PRIJAVA"]) && (!isset($trenutniRok["OCENA"]) || $trenutniRok["OCENA"] < 6)){
+            return $trenutniRok["ID_ROK"];
+        }
+
+        // Ni prijave na trenutni rok
+            // --> Sploh ni prijav na ta predmet
+            // --> Obstaja kasnejsa prijava brez ocene
+            // --> Obstaja prijava z oceno
+        if(!isset($trenutniRok["ID_PRIJAVA"]) && !isset($trenutniRok["OCENA"])){
+
+            if(self::obstajajoPrijave($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"])){
+
+                $prijavaBrezOcene = self::findPrijavaBrezOcene($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"]);
+                if($prijavaBrezOcene > 0){
+                    return $prijavaBrezOcene;           // ID_ROKA je shranjen v $prijavaBrezOcene
+                }
+
+                // Prijava brez ocene NE obstaja --> Mora obstajati prijava z oceno
+                $ocenaPrijaveZOceno = self::findPrijavaZOceno($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"]);
+                if($ocenaPrijaveZOceno > 5) return -1;
+                if($ocenaPrijaveZOceno < 6) return 0;
+            } else {
+                return 0;           // Sploh ni prijav na ta predmet
+            }
+        }
+
+        if($trenutniRok["OCENA"] > 5) return -1;
+        if($trenutniRok["OCENA"] < 6) return 0;
+        return -2;          // ERROR
+    }
+
+    // Returns ID_ROK, ce obstaja prijava brez ocene
+    // Returns -1, ce ne obstaja prijave brez ocene
+    public static function findPrijavaZOceno($rokiTab, $id_rok, $id_predmet){
+
+        foreach($rokiTab as $key => $value){
+            if($value["ID_PREDMET"] == $id_predmet && $value["ID_ROK"] != $id_rok){     // Najdi rok tega predmeta
+                if(isset($value["ID_PRIJAVA"]) && isset($value["OCENA"])){            // Ali obstaja prijava?
+                    return $value["OCENA"];
+                }
+            }
+        }
+        return 0;
+    }
+
+    // Returns ID_ROK, ce obstaja prijava brez ocene
+    // Returns -1, ce ne obstaja prijave brez ocene
+    public static function findPrijavaBrezOcene($rokiTab, $id_rok, $id_predmet){
+
+        foreach($rokiTab as $key => $value){
+            if($value["ID_PREDMET"] == $id_predmet && $value["ID_ROK"] != $id_rok){     // Najdi rok tega predmeta
+                if(isset($value["ID_PRIJAVA"]) && !isset($value["OCENA"])){            // Ali obstaja prijava?
+                    return $value["ID_ROK"];
+                }
+            }
+        }
+        return 0;
+    }
+
+    public static function obstajajoPrijave($rokiTab, $id_rok, $id_predmet){
+
+        foreach($rokiTab as $key => $value){
+            if($value["ID_PREDMET"] == $id_predmet && $value["ID_ROK"] != $id_rok){     // Najdi rok tega predmeta
+                if(isset($value["ID_PRIJAVA"])){            // Ali obstaja prijava?
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+        /*
+        $prijavenIdx=NULL;
+        $padnatIdx=NULL;
+        $imaPolozen=false;
+       // var_dump($tekoven);echo "<br>";
+        foreach ($roki as $i=>$rok ){
+            var_dump($rok["ID_PREDMET"],$tekoven["ID_PREDMET"]);
+            echo "<br>";
+            if(($rok["ID_PREDMET"]!=$tekoven["ID_PREDMET"])){
+                continue;
+            }
+            if($rok["ID_PRIJAVA"]!=NULL){
+                if($rok["OCENA"] > 5){
+                    $imaPolozen=true;
+                }else if($rok["OCENA"] <= 5){
+                    $padnatIdx=$i;
+                }else{
+                    $prijavenIdx=$i;
+                }
+
+            }
+
+        }
+        // var_dump($idx,$prijavenIdx,$padnatIdx,$imaPolozen);echo "<br>";
+        if($prijavenIdx!=NULL ){
+            if($idx==$prijavenIdx){
+                return 2;
+            }else{
+                return 3;
+            }
+        }
+        if($idx<=$padnatIdx) return 4;
+        if($imaPolozen) return 4;
+
+        return 1;
+        */
 
 }

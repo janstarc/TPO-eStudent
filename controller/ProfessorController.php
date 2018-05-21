@@ -255,6 +255,7 @@ class ProfessorController {
                 if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
 
                 $tockeIzpita = ProfesorDB::getTockeIzpita($data["id_predmet"], $id_stud_leto);
+                //var_dump($tockeIzpita);
                 $prijavljeniStudenti = self::najdiZadnjoOceno($prijavljeniStudenti, $tockeIzpita);
 
                 ViewHelper::render("view/IzpisKoncnihOcenPoStudentih.php", [
