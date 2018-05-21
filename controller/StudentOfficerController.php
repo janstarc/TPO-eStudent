@@ -1242,7 +1242,7 @@ class StudentOfficerController {
             "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
         ]);
 
-        ProfesorDB::prekliciVrnjenoPrijavoProfesor($data["id_prijava"], User::getId());
+        ProfesorDB::prekliciVrnjenoPrijavoProfesor($data["id_prijava"]);
     }
 
     /********* VNOS KONCNIH OCEN ********/

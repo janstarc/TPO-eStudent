@@ -414,7 +414,7 @@ class ProfesorDB
         $db=DBInit::getInstance();
         $statement = $db->prepare("
             UPDATE prijava
-            SET DATUM_ODJAVE = CURRENT_DATE, ID_OSEBA_ODJAVITELJ = :id_odjavitelj, TOCKE_IZPITA = null 
+            SET DATUM_ODJAVE = CURRENT_TIMESTAMP, ID_OSEBA_ODJAVITELJ = :id_odjavitelj, TOCKE_IZPITA = null 
             WHERE ID_PRIJAVA = :id_prijava
         ");
 
@@ -423,7 +423,7 @@ class ProfesorDB
         $statement->execute();
     }
 
-    public static function prekliciVrnjenoPrijavoProfesor($id_prijava, $id_odjavitelj){
+    public static function prekliciVrnjenoPrijavoProfesor($id_prijava){
 
         $db=DBInit::getInstance();
         $statement = $db->prepare("
