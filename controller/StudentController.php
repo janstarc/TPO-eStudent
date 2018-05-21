@@ -267,6 +267,60 @@ class StudentController {
     }
 
     public static function dozvoliPrijava($roki, $id_rok){
+
+        $trenutniRok = null;
+
+        // Najdi trenutni rok, in ga shrani
+        foreach ($roki as $key => $value){
+            if($value["ID_ROK"] === $id_rok) {
+                $trenutniRok = $value;
+                break;
+            }
+        }
+
+        // Obstaja prijava na trenutni rok, ni se ocene ali je ocena negativna
+        if(isset($trenutniRok["ID_PRIJAVA"]) && $trenutniRok["OCENA"] < 6){
+            return $trenutniRok["ID_ROK"];
+        }
+
+        // Ni prijave na trenutni rok
+            // --> Sploh ni prijav na ta predmet
+            // --> Obstaja kasnejsa prijava brez ocene
+            // --> Obstaja prijava z oceno
+
+        if(!isset($trenutniRok["ID_PRIJAVA"]) && $trenutniRok["OCENA"] < 6){
+
+            if(self::obstajajoPrijave($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"])){
+
+                if(isset($trenutniRok["OCENA"]) && $trenutniRok["OCENA"] < 6) return 0;
+                elseif(!isset($trenutniRok["OCENA"])) return self::najdiIdRoka($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"]);     // Fail - SHOW ALL
+                else return -1;                             // Pass - HIDE ALL
+            } else {
+                return 0;
+            }
+        }
+        if($trenutniRok["OCENA"] > 5) return -1;
+
+        return -2;          // ERROR
+    }
+
+    // Returns ID_ROK, ce obstaja prijava brez ocene
+    // Returns -1, ce ne obstaja prijave brez ocene
+    public static function najdiIdRoka($rokiTab, $id_rok, $id_predmet){
+
+        foreach($rokiTab as $key => $value){
+            if($value["ID_PREDMET"] == $id_predmet && $value["ID_ROK"] != $id_rok){     // Najdi rok tega predmeta
+                if(isset($value["ID_PRIJAVA"])){            // Ali obstaja prijava?
+                    return $value["ID_ROK"];
+                }
+            }
+        }
+        return 0;
+    }
+
+
+
+    public static function dozvoliPrijava2($roki, $id_rok){
         //var_dump($id_rok);
         //var_dump($roki);
 
@@ -290,7 +344,7 @@ class StudentController {
             // --> Sploh ni prijav na ta predmet
             // --> Obstaja kasnejsa prijava brez ocene
             // --> Obstaja prijava z oceno
-        if(!isset($trenutniRok["ID_PRIJAVA"]) && !isset($trenutniRok["OCENA"])){
+        if(!isset($trenutniRok["ID_PRIJAVA"]) && (!isset($trenutniRok["OCENA"]) || $trenutniRok["OCENA"] < 6)){
 
             if(self::obstajajoPrijave($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"])){
 

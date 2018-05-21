@@ -13,7 +13,7 @@
     }
     //TODO : HARD-CODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     $datum=new DateTime();
-    $datum->setDate(2018,05,05);
+    $datum->setDate(2017,9,6);
 
     ?>
 
@@ -65,6 +65,8 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th>ID Rok</th>
+                                <th>Return</th>
                                 <th>Predmet</th>
                                 <th>Datum</th>
                                 <th>Cas</th>
@@ -95,6 +97,8 @@
                                 ?>
                                 <tr>
                                     <td><?=  $zapIdx++ ?></td>
+                                    <td><?= $rok['ID_ROK'] ?></td>
+                                    <td><?= StudentController::dozvoliPrijava($roki, $rok['ID_ROK']); ?></td>
                                     <td><?= $rok['IME_PREDMET'] ?></td>
                                     <td>
                                         <?php
@@ -115,6 +119,7 @@
                                         <form action="<?= BASE_URL . $formAction . "odjava" ?>" method="post">
                                             <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
                                             <input id="odjava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm <?= $dozvoliPrijava==$id_rok ? "" : "d-none" ?>" type="submit" value="Odjavi se" />
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
