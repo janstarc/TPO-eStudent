@@ -11,7 +11,29 @@
                     break;
                 }
             }
+
         ?>
+
+        <script>
+            //NE BRISI TALE KOD CEPRAV JE ZAKOMENTIRAN !!!
+            /*var prijava=function(rokId,zapPolaganje,imePredmet){
+                $.ajax({
+                    type: "POST",
+                    url:   "student/prijava",
+                    data: { "rokId": rokId },
+                    success: function() {
+                        $("#alert").removeClass("alert-danger").addClass("alert-success").show();
+                        var message = "Prijava uspešna! To bo vaše polaganje številka: "+zapPolaganje+", pri predmetu "+imePredmet;
+                        $("#alertContent").text(message);
+                        //$("#prijava").removeClass("btn-primary").addClass("btn-default");
+                        $("#prijava-"+rokId).prop("disabled",true);
+                        $(".prijava:not([disabled])").addClass("d-none");
+                        $("#odjava-"+rokId).removeClass("d-none");
+                    }
+                });
+            };*/
+        </script>
+
     </head>
     <body>
         <section id="container">
@@ -29,6 +51,11 @@
                                         <?= $message ?>
                                     </div>
                                 <?php endif; ?>
+
+                                <div id="alert" class="alert alert-success alert-dismissible" role="alert" style="display: none">
+                                    <div id="alertContent"></div>
+                                </div>
+
                                 <table id="table-subject" class="table table-striped table-advance table-hover">
                                     <thead>
                                     <tr>
@@ -41,35 +68,47 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php $i = 1; foreach($roki as $rok): ?>
+                                    <?php
+                                    $zapIdx=1;
+                                    $now=new DateTime();
+                                    //var_dump($roki);
+                                   // echo "<br>";
+                                    foreach($roki as $i=>$rok):
+
+                                        if(new DateTime($rok["DATUM_ROKA"]) < $now){
+                                            continue;
+                                        }
+
+                                        $dozvoliPrijava=StudentController::dozvoliPrijava($roki,$i);
+                                       // var_dump($rok["IME_PREDMET"],$dozvoliPrijava);echo "<br>";
+                                        if($dozvoliPrijava==4){
+                                            continue;
+                                        }
+                                        ?>
                                         <tr>
-                                            <td><?php echo $i; ?></td>
-                                            <td><?php echo $rok['IME_PREDMET']; ?></td>
+                                            <td><?=  $zapIdx++ ?></td>
+                                            <td><?= $rok['IME_PREDMET'] ?></td>
                                             <td>
                                                 <?php
                                                     list($y, $m, $d) = explode('-', $rok["DATUM_ROKA"]);
                                                     echo $d."-".$m."-".$y;
                                                 ?>
                                             </td>
-                                            <td><?php echo $rok['CAS_ROKA']; ?></td>
+                                            <td><?= $rok['CAS_ROKA'] ?></td>
                                             <td>
-                                                <?php if($sitePrijaviNull) : ?>
                                                 <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
                                                     <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
-                                                    <input class="btn btn-primary btn-sm" type="submit" value="Prijavi se" />
+                                                    <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= $dozvoliPrijava==3 ? "d-none" : ""?>" <?= $dozvoliPrijava==2 ? "disabled" : ""?>  type="submit"  value="Prijavi se"  />
+
                                                 </form>
-                                                <?php endif; ?>
+
                                             </td>
                                             <td>
-                                                <?php if($rok["ID_PRIJAVA"]!=NULL) : ?>
-                                                <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
                                                     <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
-                                                    <input class="btn btn-primary btn-sm" type="submit" value="Odjavi se" />
-                                                </form>
-                                                <?php endif; ?>
+                                                    <input id="odjava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm <?= $dozvoliPrijava==2 ? "" : "d-none" ?>" type="submit" value="Odjavi se" />
                                             </td>
                                         </tr>
-                                    <?php $i = $i + 1; endforeach; ?>
+                                    <?php endforeach; ?>
                                     </tbody>
                                 </table>
 

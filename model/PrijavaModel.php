@@ -40,7 +40,6 @@ class PrijavaModel
                     $statement2->bindValue(":id_rok", $id_rok);
 
                     $statement2->execute();
-                    var_dump("bbtrnt");
                     var_dump($statement2->rowCount());
                 }
 
@@ -84,6 +83,23 @@ class PrijavaModel
     ");
         $statement->bindParam(":leto", $leto);
         $statement->bindParam(":id_rok", $id_rok);
+        $statement->execute();
+        return $statement->fetch();
+    }
+
+
+    public static function getZapStPolaganj($vpisna){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+        SELECT DISTINCT p.ZAP_ST_POLAGANJ
+        FROM prijava as p
+            JOIN student as s ON s.VPISNA_STEVILKA=p.VPISNA_STEVILKA 
+            JOIN ROK as r ON r.ID_ROK=p.ID_ROK
+            JOIN IZVEDBA_PREDMETA AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
+             WHERE p.VPISNA_STEVILKA =:vpisna
+    ");
+        $statement->bindParam(":vpisna", $vpisna);
+
         $statement->execute();
         return $statement->fetch();
     }

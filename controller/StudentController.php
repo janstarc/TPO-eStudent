@@ -214,11 +214,17 @@ class StudentController {
     }
 
     public static function izpitniRokForm($status = null, $message = null) {
+
+
+
         $IdYear = StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudent()){
                 $IdYear = StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
                 $roki = RokModel::getAllByEnrolledStudent(User::getId(), $IdYear["ID_STUD_LETO"]);
+                $vpisna=PrijavaModel::getVpisna(User::getId1());
+                $zapPolaganj=PrijavaModel::getZapStPolaganj($vpisna["VPISNA_STEVILKA"]);
+                //var_dump($roki);
                 if (empty($roki)) {
                     $status = "Info";
                     $message = "Trenutno ni razpisanih izpitne roke.";
@@ -228,7 +234,8 @@ class StudentController {
                     "roki" => $roki,
                     "formAction" => "izpitniRok/student/",
                     "status" => $status,
-                    "message" => $message
+                    "message" => $message,
+                    "zapPolaganj" => $zapPolaganj
                 ]);
             }else{
                 ViewHelper::error403();
@@ -249,12 +256,56 @@ class StudentController {
                 $id_predmet = PrijavaModel::getIzpitniRok($IdYear["ID_STUD_LETO"],$data1["rokId"]);
                 $vpisna=PrijavaModel::getVpisna(User::getId1());
                 $data=PrijavaModel::prijavaAdd($vpisna["VPISNA_STEVILKA"], $data1["rokId"],$id_predmet["ID_PREDMET"]);
+
+                ViewHelper::redirect(BASE_URL . "izpitniRok/student");
             }else{
                 ViewHelper::error403();
             }
         }else{
             ViewHelper::error401();
         }
+    }
+
+    // 1 --> ima prijava dugme,
+    // 2 --> ima prijava dugme, disabled
+    // 3 --> nema prijava dugme
+    // 4 --> ne go prikazuvaj predmetot
+    public static function dozvoliPrijava($roki, $idx ){
+        $tekoven=$roki[$idx];
+        $prijavenIdx=NULL;
+        $padnatIdx=NULL;
+        $imaPolozen=false;
+       // var_dump($tekoven);echo "<br>";
+        foreach ($roki as $i=>$rok ){
+           /* var_dump($rok["ID_PREDMET"],$tekoven["ID_PREDMET"]);
+            echo "<br>";*/
+            if(($rok["ID_PREDMET"]!=$tekoven["ID_PREDMET"])){
+                continue;
+            }
+            if($rok["ID_PRIJAVA"]!=NULL){
+                if($rok["OCENA"] > 5){
+                    $imaPolozen=true;
+                }else if($rok["OCENA"] <= 5){
+                    $padnatIdx=$i;
+                }else{
+                    $prijavenIdx=$i;
+                }
+
+            }
+
+        }
+        // var_dump($idx,$prijavenIdx,$padnatIdx,$imaPolozen);echo "<br>";
+        if($prijavenIdx!=NULL ){
+            if($idx==$prijavenIdx){
+                return 2;
+            }else{
+                return 3;
+            }
+        }
+        if($idx<=$padnatIdx) return 4;
+        if($imaPolozen) return 4;
+
+        return 1;
     }
 
 }
