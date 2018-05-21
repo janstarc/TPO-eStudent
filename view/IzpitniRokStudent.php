@@ -11,6 +11,9 @@
             break;
         }
     }
+    //TODO : HARD-CODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    $datum=new DateTime();
+    $datum->setDate(2018,05,05);
 
     ?>
 
@@ -32,6 +35,8 @@
                 }
             });
         };*/
+
+
     </script>
 
 </head>
@@ -75,7 +80,7 @@
                             // echo "<br>";
                             foreach($roki as $i=>$rok):
 
-                                if(new DateTime($rok["DATUM_ROKA"]) < $now){
+                                if(new DateTime($rok["DATUM_ROKA"]) < $datum){
                                     continue;
                                 }
 
