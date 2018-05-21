@@ -270,42 +270,6 @@ class StudentController {
     // 2 --> ima prijava dugme, disabled
     // 3 --> nema prijava dugme
     // 4 --> ne go prikazuvaj predmetot
-    public static function dozvoliPrijava($roki, $idx ){
-        $tekoven=$roki[$idx];
-        $prijavenIdx=NULL;
-        $padnatIdx=NULL;
-        $imaPolozen=false;
-       // var_dump($tekoven);echo "<br>";
-        foreach ($roki as $i=>$rok ){
-           /* var_dump($rok["ID_PREDMET"],$tekoven["ID_PREDMET"]);
-            echo "<br>";*/
-            if(($rok["ID_PREDMET"]!=$tekoven["ID_PREDMET"])){
-                continue;
-            }
-            if($rok["ID_PRIJAVA"]!=NULL){
-                if($rok["OCENA"] > 5){
-                    $imaPolozen=true;
-                }else if($rok["OCENA"] <= 5){
-                    $padnatIdx=$i;
-                }else{
-                    $prijavenIdx=$i;
-                }
-
-            }
-
-        }
-        // var_dump($idx,$prijavenIdx,$padnatIdx,$imaPolozen);echo "<br>";
-        if($prijavenIdx!=NULL ){
-            if($idx==$prijavenIdx){
-                return 2;
-            }else{
-                return 3;
-            }
-        }
-        if($idx<=$padnatIdx) return 4;
-        if($imaPolozen) return 4;
-
-        return 1;
-    }
+    
 
 }

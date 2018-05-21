@@ -79,9 +79,12 @@
                                             continue;
                                         }
 
-                                        $dozvoliPrijava=StudentController::dozvoliPrijava($roki,$i);
+                                        $dozvoliPrijava=StudentController::dozvoliPrijava($roki,$rok["ID_ROK"]);
                                        // var_dump($rok["IME_PREDMET"],$dozvoliPrijava);echo "<br>";
-                                        if($dozvoliPrijava==4){
+
+                                        $id_rok=$rok["ID_ROK"];
+                                        var_dump($id_rok);
+                                        if($dozvoliPrijava==-1){
                                             continue;
                                         }
                                         ?>
@@ -98,14 +101,15 @@
                                             <td>
                                                 <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
                                                     <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
-                                                    <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= $dozvoliPrijava==3 ? "d-none" : ""?>" <?= $dozvoliPrijava==2 ? "disabled" : ""?>  type="submit"  value="Prijavi se"  />
+                                                    <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= ($dozvoliPrijava!=$id_rok && $dozvoliPrijava!=0) ? "d-none" : ""?>" <?= $dozvoliPrijava==$id_rok ? "disabled" : ""?>  type="submit"  value="Prijavi se"  />
 
                                                 </form>
 
                                             </td>
                                             <td>
+                                                <form action="<?= BASE_URL . $formAction . "odjava" ?>" method="post">
                                                     <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
-                                                    <input id="odjava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm <?= $dozvoliPrijava==2 ? "" : "d-none" ?>" type="submit" value="Odjavi se" />
+                                                    <input id="odjava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm <?= $dozvoliPrijava==$id_rok ? "" : "d-none" ?>" type="submit" value="Odjavi se" />
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
