@@ -106,6 +106,14 @@
                         <div id="alert" class="alert alert-success alert-dismissible" role="alert" style="display: none">
                             <div id="alertContent"></div>
                         </div>
+                        <form  action="<?= BASE_URL . "IzpisKoncnihOcenP/leto/". $id_stud_leto . "/seznamStudentov/exportCSV" ?>" method="post">
+                            <input type="hidden" name="id_predmet" value="<?= $id_predmet ?>"/>
+                            <input id="csv" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v CSV"/>
+                        </form>
+                        <form  action="<?= BASE_URL . "IzpisKoncnihOcenP/leto/". $id_stud_leto . "/seznamStudentov/exportPDF" ?>" method="post">
+                            <input type="hidden" name="id_predmet" value="<?= $id_predmet ?>"/>
+                            <input id="pdf" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v PDF"/>
+                        </form>
                         <table id="tabelaOcen" class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>

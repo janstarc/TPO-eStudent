@@ -7,6 +7,7 @@ require_once("controller/AdminController.php");
 require_once("controller/StudentOfficerController.php");
 require_once("controller/ProfessorController.php");
 require_once("controller/StudentController.php");
+require_once("controller/KoncneOceneController.php");
 require_once("controller/KandidatController.php");
 require_once("controller/SifrantController.php");
 require_once("model/User.php");
@@ -150,6 +151,12 @@ $urls = [
     },"/^VnosKoncnihOcenP\/leto\/(\d+)\/seznamStudentov\/vnosEneKoncneOceneAjax$/" => function ($method) {
         if ($method == "POST") ProfessorController::vnosEneKoncneOceneAjax();
         else ViewHelper::error405();
+    },"/^IzpisKoncnihOcenP\/leto\/(\d+)\/seznamStudentov\/exportCSV$/" => function ($method,$id) {
+        if ($method == "POST") KoncneOceneController::exportCSV($id);
+        else ViewHelper::error405();
+    },"/^IzpisKoncnihOcenP\/leto\/(\d+)\/seznamStudentov\/exportPDF$/" => function ($method,$id) {
+        if ($method == "POST") KoncneOceneController::exportPDF($id);
+        else ViewHelper::error405();
     },
 
     // Ref
@@ -167,6 +174,12 @@ $urls = [
         else ViewHelper::error405();
     },"/^VnosKoncnihOcenR\/leto\/(\d+)\/seznamStudentov\/vnosEneKoncneOceneAjax$/" => function ($method) {
         if ($method == "POST") StudentOfficerController::vnosEneKoncneOceneAjax();
+        else ViewHelper::error405();
+    },"/^IzpisKoncnihOcenR\/leto\/(\d+)\/seznamStudentov\/exportCSV$/" => function ($method,$id) {
+        if ($method == "POST") KoncneOceneController::exportCSVR($id);
+        else ViewHelper::error405();
+    },"/^IzpisKoncnihOcenR\/leto\/(\d+)\/seznamStudentov\/exportPDF$/" => function ($method,$id) {
+        if ($method == "POST") KoncneOceneController::exportPDFR($id);
         else ViewHelper::error405();
     },
     // VNOS OCEN END
