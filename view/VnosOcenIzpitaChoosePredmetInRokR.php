@@ -38,7 +38,7 @@
                 var id_roka = value["ID_ROK"];
                 var izvajalec = value["IZVAJALEC"];
                 if (id == id_predmeta) {
-                    $('#id_rok').append('<option value="' + id_roka + '">' + datum_roka + ' ob ' + cas_roka + ' (' + izvajalec + ')</option>');
+                    $('#id_rok').append('<option value="' + id_roka + '">' + datum_roka + ' ob ' + cas_roka + ' (' + izvajalec + ') [id_rok=' + id_roka + ']</option>');
                 }
             });
         }

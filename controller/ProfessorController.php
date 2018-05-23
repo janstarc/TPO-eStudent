@@ -275,22 +275,34 @@ class ProfessorController {
 
     public static function najdiZadnjoOceno($prijavljeniStudenti, $prijava){
 
+        //var_dump($prijavljeniStudenti);
+        //var_dump($prijava);
+
         foreach($prijavljeniStudenti as $psKey => $psValue){
             $maxIdPrijava = null;
             $stPolaganj = null;
             $stPolaganjLetos = null;
             $tocke = null;
+            $cntrPrijav = 0;
+            $cntrVrnjenihPrijav = 0;
 
             foreach ($prijava as $pKey => $pValue){
-                if($psValue["VPISNA_STEVILKA"] === $pValue["VPISNA_STEVILKA"] && $pValue["ZAP_ST_POLAGANJ"] > $stPolaganj){
+                if($psValue["VPISNA_STEVILKA"] === $pValue["VPISNA_STEVILKA"] && $pValue["ZAP_ST_POLAGANJ"] > $stPolaganj && !isset($pValue["DATUM_ODJAVE"])){
                     $maxIdPrijava = $pValue["ID_PRIJAVA"];
                     $stPolaganj = $pValue["ZAP_ST_POLAGANJ"];
                     $stPolaganjLetos = $pValue["ZAP_ST_POLAGANJ_LETOS"];
+                    $tocke = $pValue["TOCKE_IZPITA"];
 
-                    if(!isset($pValue["TOCKE_IZPITA"])) $tocke = "VP";
-                    else $tocke = $pValue["TOCKE_IZPITA"];
+                    //if(!isset($pValue["TOCKE_IZPITA"])) $tocke = "VP";
+                    //else $tocke = $pValue["TOCKE_IZPITA"];
                 }
+
+                if($psValue["VPISNA_STEVILKA"] == $pValue["VPISNA_STEVILKA"]) $cntrPrijav++;
+                if($psValue["VPISNA_STEVILKA"] == $pValue["VPISNA_STEVILKA"] && isset($pValue["DATUM_ODJAVE"])) $cntrVrnjenihPrijav++;
             }
+
+            if($cntrPrijav == $cntrVrnjenihPrijav) $tocke = "VP";
+
 
             $prijavljeniStudenti[$psKey]["ID_PRIJAVA"] = $maxIdPrijava;
             $prijavljeniStudenti[$psKey]["ZAP_ST_POLAGANJ"] = $stPolaganj;
@@ -760,6 +772,15 @@ class ProfessorController {
     public static function formatDateSlo($date){
         list($d, $m, $y) = explode('-', $date);
         return $y.".".$m.".".$d;
+    }
+
+    public static function formatDateTimeSlo($dateTime){
+
+        $date = substr($dateTime, 0, 10);
+        $time = substr($dateTime, 11, 8);
+        list($d, $m, $y) = explode('-', $date);
+        list($h, $min) = explode(':', $time);
+        return $y.".".$m.".".$d." (".$h.":".$min.")";
     }
 
 

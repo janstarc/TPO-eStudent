@@ -178,7 +178,7 @@
                                     <td> <?= $value['VPISNA_STEVILKA'] ?></td>
                                     <td> <?= $value['IME'] ?></td>
                                     <td> <?= $value['PRIIMEK'] ?></td>
-                                    <td> <?= ProfessorController::formatDateSlo($value['DATUM_PRIJAVE']) ?></td>
+                                    <td> <?= ProfessorController::formatDateTimeSlo($value['DATUM_PRIJAVE']) ?></td>
                                     <td> <?= $value['ZAP_ST_POLAGANJ'] ?></td>
                                     <td> <?= $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
                                     <td id="tockeInput"> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PRIJAVA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>', '<?= $rok_data["DATUM_ROKA"] ?>')" value="<?= $value['TOCKE_IZPITA'] ?>" /></td>
