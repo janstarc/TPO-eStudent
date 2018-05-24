@@ -92,7 +92,7 @@
                                     continue;
                                 }*/
 
-                                $dozvoliPrijava=StudentController::dozvoliPrijava($roki,$rok["ID_ROK"]);
+                                $dozvoliPrijava=StudentController::dozvoliPrijava2($roki,$rok["ID_ROK"]);
                                 // var_dump($rok["IME_PREDMET"],$dozvoliPrijava);echo "<br>";
 
                                 $id_rok=$rok["ID_ROK"];
@@ -104,7 +104,7 @@
                                 <tr>
                                     <td><?=  $zapIdx++ ?></td>
                                     <td><?= $rok['IME_PREDMET'] ?></td>
-                                    <td><?= StudentController::dozvoliPrijava($roki,$id_rok) ?></td>
+                                    <td><?= StudentController::dozvoliPrijava2($roki,$id_rok) ?></td>
                                     <td>
                                         <?php
                                         list($y, $m, $d) = explode('-', $rok["DATUM_ROKA"]);

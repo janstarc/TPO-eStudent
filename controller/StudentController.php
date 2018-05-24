@@ -280,7 +280,7 @@ class StudentController {
 
 
         // Obstaja prijava na trenutni rok, ni se ocene ali je ocena negativna
-        if(isset($trenutniRok["ID_PRIJAVA"]) && $trenutniRok["OCENA"] < 6){
+        if(isset($trenutniRok["ID_PRIJAVA"]) && $trenutniRok["OCENA_IZPITA"] < 6){
             return $trenutniRok["ID_ROK"];
         }
 
@@ -288,18 +288,18 @@ class StudentController {
             // --> Sploh ni prijav na ta predmet
             // --> Obstaja kasnejsa prijava brez ocene
             // --> Obstaja prijava z oceno
-        if(!isset($trenutniRok["ID_PRIJAVA"]) && $trenutniRok["OCENA"] < 6){
+        if(!isset($trenutniRok["ID_PRIJAVA"]) && $trenutniRok["OCENA_IZPITA"] < 6){
 
             if(self::obstajajoPrijave($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"])){
 
-                if(isset($trenutniRok["OCENA"]) && $trenutniRok["OCENA"] < 6) return 0;
-                elseif(!isset($trenutniRok["OCENA"])) return self::najdiIdRoka($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"]);     // Fail - SHOW ALL
+                if(isset($trenutniRok["OCENA_IZPITA"]) && $trenutniRok["OCENA_IZPITA"] < 6) return 0;
+                elseif(!isset($trenutniRok["OCENA_IZPITA"])) return self::najdiIdRoka($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"]);     // Fail - SHOW ALL
                 else return -1;                             // Pass - HIDE ALL
             } else {
                 return 0;
             }
         }
-        if($trenutniRok["OCENA"] > 5) return -1;
+        if($trenutniRok["OCENA_IZPITA"] > 5) return -1;
 
         return -2;          // ERROR
     }
@@ -336,7 +336,7 @@ class StudentController {
 
         //var_dump($trenutniRok);
         // Obstaja prijava na trenutni rok, ni se ocene
-        if(isset($trenutniRok["ID_PRIJAVA"]) && (!isset($trenutniRok["OCENA"]) || $trenutniRok["OCENA"] < 6)){
+        if(isset($trenutniRok["ID_PRIJAVA"]) && (!isset($trenutniRok["OCENA_IZPITA"]) || $trenutniRok["OCENA_IZPITA"] < 6)){
             return $trenutniRok["ID_ROK"];
         }
 
@@ -344,7 +344,7 @@ class StudentController {
             // --> Sploh ni prijav na ta predmet
             // --> Obstaja kasnejsa prijava brez ocene
             // --> Obstaja prijava z oceno
-        if(!isset($trenutniRok["ID_PRIJAVA"]) && (!isset($trenutniRok["OCENA"]) || $trenutniRok["OCENA"] < 6)){
+        if(!isset($trenutniRok["ID_PRIJAVA"]) && (!isset($trenutniRok["OCENA_IZPITA"]) || $trenutniRok["OCENA_IZPITA"] < 6)){
 
             if(self::obstajajoPrijave($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"])){
 
@@ -362,8 +362,8 @@ class StudentController {
             }
         }
 
-        if($trenutniRok["OCENA"] > 5) return -1;
-        if($trenutniRok["OCENA"] < 6) return 0;
+        if($trenutniRok["OCENA_IZPITA"] > 5) return -1;
+        if($trenutniRok["OCENA_IZPITA"] < 6) return 0;
         return -2;          // ERROR
     }
 
@@ -373,8 +373,8 @@ class StudentController {
 
         foreach($rokiTab as $key => $value){
             if($value["ID_PREDMET"] == $id_predmet && $value["ID_ROK"] != $id_rok){     // Najdi rok tega predmeta
-                if(isset($value["ID_PRIJAVA"]) && isset($value["OCENA"])){            // Ali obstaja prijava?
-                    return $value["OCENA"];
+                if(isset($value["ID_PRIJAVA"]) && isset($value["OCENA_IZPITA"])){            // Ali obstaja prijava?
+                    return $value["OCENA_IZPITA"];
                 }
             }
         }
@@ -387,7 +387,7 @@ class StudentController {
 
         foreach($rokiTab as $key => $value){
             if($value["ID_PREDMET"] == $id_predmet && $value["ID_ROK"] != $id_rok){     // Najdi rok tega predmeta
-                if(isset($value["ID_PRIJAVA"]) && !isset($value["OCENA"])){            // Ali obstaja prijava?
+                if(isset($value["ID_PRIJAVA"]) && !isset($value["OCENA_IZPITA"])){            // Ali obstaja prijava?
                     return $value["ID_ROK"];
                 }
             }
@@ -451,9 +451,9 @@ class StudentController {
                 continue;
             }
             if($rok["ID_PRIJAVA"]!=NULL){
-                if($rok["OCENA"] > 5){
+                if($rok["OCENA_IZPITA"] > 5){
                     $imaPolozen=true;
-                }else if($rok["OCENA"] <= 5){
+                }else if($rok["OCENA_IZPITA"] <= 5){
                     $padnatIdx=$i;
                 }else{
                     $prijavenIdx=$i;
