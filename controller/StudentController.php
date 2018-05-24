@@ -334,11 +334,13 @@ class StudentController {
             }
         }
 
-        var_dump($trenutniRok);
+        //var_dump($trenutniRok);
         // Obstaja prijava na trenutni rok, ni se ocene
         if(isset($trenutniRok["ID_PRIJAVA"]) && !isset($trenutniRok["OCENA_IZPITA"])){
+
             return $trenutniRok["ID_ROK"];
         }
+
 
         // Ni prijave na trenutni rok
             // --> Sploh ni prijav na ta predmet
@@ -349,12 +351,15 @@ class StudentController {
             if(self::obstajajoPrijave($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"])){
 
                 $prijavaBrezOcene = self::findPrijavaBrezOcene($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"]);
+               // var_dump($prijavaBrezOcene);
                 if($prijavaBrezOcene > 0){
                     return $prijavaBrezOcene;           // ID_ROKA je shranjen v $prijavaBrezOcene
                 }
 
                 // Prijava brez ocene NE obstaja --> Mora obstajati prijava z oceno
                 $ocenaPrijaveZOceno = self::findPrijavaZOceno($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"]);
+
+                //var_dump($ocenaPrijaveZOceno);
                 if($ocenaPrijaveZOceno > 5) return -1;
                 if($ocenaPrijaveZOceno < 6) return 0;
             } else {
@@ -371,14 +376,24 @@ class StudentController {
     // Returns -1, ce ne obstaja prijave brez ocene
     public static function findPrijavaZOceno($rokiTab, $id_rok, $id_predmet){
 
+        $maxIdPrijava = 0;
+        $maxOcena = 0;
+
+        //var_dump("benetj");
         foreach($rokiTab as $key => $value){
             if($value["ID_PREDMET"] == $id_predmet && $value["ID_ROK"] != $id_rok){     // Najdi rok tega predmeta
-                if(isset($value["ID_PRIJAVA"]) && isset($value["OCENA_IZPITA"])){            // Ali obstaja prijava?
-                    return $value["OCENA_IZPITA"];
+                //var_dump($value["DATUM_ODJAVE"]);
+                if(isset($value["ID_PRIJAVA"]) && isset($value["OCENA_IZPITA"]) && !isset($value["DATUM_ODJAVE"])){            // Ali obstaja prijava?
+
+                    if($maxOcena < $value["OCENA_IZPITA"]){
+                        $maxOcena=$value["OCENA_IZPITA"];
+                    }
                 }
             }
         }
-        return 0;
+        //var_dump($maxIdPrijava);
+        //var_dump($maxOcena);
+        return $maxOcena;
     }
 
     // Returns ID_ROK, ce obstaja prijava brez ocene
@@ -431,11 +446,17 @@ class StudentController {
         return $countPrijav;
     }
 
+    public static function vsehprijavljenihRokovLetos($id_rok){
+        $vpisna=PrijavaModel::getVpisna(User::getId1());
+        $studLetoPredmet=PrijavaModel::getStudLetoPredmetRok($id_rok);
+        $vpisnaSt=$vpisna["VPISNA_STEVILKA"];
+        $leto=$studLetoPredmet["ID_STUD_LETO"];
+        $predmet=$studLetoPredmet["ID_PREDMET"];
+        $countRokov=PrijavaModel::countVsehRokovLetos($vpisnaSt,$leto,$predmet);
+        //var_dump("COUNTROKOV". $countRokov);
+        return $countRokov;
 
-
-
-
-
+    }
 
 
 

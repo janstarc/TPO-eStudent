@@ -151,4 +151,21 @@ class PrijavaModel
         return $statement->fetchColumn();
     }
 
+    public static function countVsehRokovLetos($vpisna,$id_leto,$id_predmet){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+        SELECT COUNT(p.ID_PRIJAVA)
+        FROM prijava as p
+        JOIN rok as r ON p.ID_ROK=r.ID_ROK
+        JOIN izvedba_predmeta as ip ON r.ID_IZVEDBA=ip.ID_IZVEDBA
+        WHERE p.VPISNA_STEVILKA=:vpisna AND ip.ID_STUD_LETO=:id_leto AND ip.ID_PREDMET=:id_predmet AND p.DATUM_ODJAVE IS NULL
+    ");
+        $statement->bindParam(":vpisna", $vpisna);
+        $statement->bindParam(":id_leto", $id_leto);
+        $statement->bindParam(":id_predmet", $id_predmet);
+
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
 }
