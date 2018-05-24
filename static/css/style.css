@@ -2202,3 +2202,25 @@ h4 {
     margin-left: 900px;
     margin-top: -140px;
 }
+
+.tooltiptext{
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.prijava1{
+    position: relative;
+    display: inline-block;
+}
+
+.prijava1:hover .tooltiptext {
+    visibility: visible;
+}

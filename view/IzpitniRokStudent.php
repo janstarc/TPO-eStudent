@@ -36,7 +36,11 @@
             });
         };*/
 
-
+        var jeDisabled=function(id){
+            if(document.getElementById("id")==true){
+                return 1;
+            }
+        }
     </script>
 
 </head>
@@ -65,9 +69,8 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>ID Rok</th>
-                                <th>Return</th>
                                 <th>Predmet</th>
+                                <th>Return</th>
                                 <th>Datum</th>
                                 <th>Cas</th>
                                 <th>Prijava</th>
@@ -82,9 +85,12 @@
                             // echo "<br>";
                             foreach($roki as $i=>$rok):
 
-                                if(new DateTime($rok["DATUM_ROKA"]) < $datum){
+                                //$stejPrijav=StudentController::zapSteviloPrijav();
+                                $stejPrijavLetos=StudentController::zapSteviloPrijavLetos($rok["ID_ROK"]);
+                                $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupno($rok["ID_ROK"]);
+                                /*if(new DateTime($rok["DATUM_ROKA"]) < $datum){
                                     continue;
-                                }
+                                }*/
 
                                 $dozvoliPrijava=StudentController::dozvoliPrijava($roki,$rok["ID_ROK"]);
                                 // var_dump($rok["IME_PREDMET"],$dozvoliPrijava);echo "<br>";
@@ -97,9 +103,8 @@
                                 ?>
                                 <tr>
                                     <td><?=  $zapIdx++ ?></td>
-                                    <td><?= $rok['ID_ROK'] ?></td>
-                                    <td><?= StudentController::dozvoliPrijava($roki, $rok['ID_ROK']); ?></td>
                                     <td><?= $rok['IME_PREDMET'] ?></td>
+                                    <td><?= StudentController::dozvoliPrijava($roki,$id_rok) ?></td>
                                     <td>
                                         <?php
                                         list($y, $m, $d) = explode('-', $rok["DATUM_ROKA"]);
@@ -110,7 +115,10 @@
                                     <td>
                                         <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
                                             <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
-                                            <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= ($dozvoliPrijava!=$id_rok && $dozvoliPrijava!=0) ? "d-none" : ""?>" <?= $dozvoliPrijava==$id_rok ? "disabled" : ""?>  type="submit"  value="Prijavi se"  />
+                                            <div class="prijava1">
+                                                <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= ($dozvoliPrijava!=$id_rok && $dozvoliPrijava!=0) ? "d-none" : ""?>" <?= $dozvoliPrijava==$id_rok ? "disabled" : ""?>  type="submit"  value="Prijavi se"  />
+                                                <span class="tooltiptext">LETOS: To je vaše polaganje število: <?= $stejPrijavLetos+1 ?>  in SKUPNO polaganje število <?= $stejPrijavSkupno+ 1?></span>
+                                            </div>
 
                                         </form>
 

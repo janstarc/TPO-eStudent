@@ -278,7 +278,6 @@ class StudentController {
             }
         }
 
-        // OCENA == 5 | Prvi rok prijava | Drugi rok prijava
 
         // Obstaja prijava na trenutni rok, ni se ocene ali je ocena negativna
         if(isset($trenutniRok["ID_PRIJAVA"]) && $trenutniRok["OCENA"] < 6){
@@ -407,6 +406,39 @@ class StudentController {
         }
         return false;
     }
+
+
+    public static function zapSteviloPrijavLetos($id_rok){
+        $vpisna=PrijavaModel::getVpisna(User::getId1());
+        $studLetoPredmet=PrijavaModel::getStudLetoPredmetRok($id_rok);
+
+        $vpisnaSt=$vpisna["VPISNA_STEVILKA"];
+        $leto=$studLetoPredmet["ID_STUD_LETO"];
+        $predmet=$studLetoPredmet["ID_PREDMET"];
+
+        $countPrijav=PrijavaModel::countZapPrijavLetos($vpisnaSt,$leto,$predmet);
+        return $countPrijav;
+    }
+
+    public static function zapSteviloPrijavSkupno($id_rok){
+        $vpisna=PrijavaModel::getVpisna(User::getId1());
+        $studLetoPredmet=PrijavaModel::getStudLetoPredmetRok($id_rok);
+
+        $vpisnaSt=$vpisna["VPISNA_STEVILKA"];
+        $predmet=$studLetoPredmet["ID_PREDMET"];
+
+        $countPrijav=PrijavaModel::countZapPrijavSkupno($vpisnaSt,$predmet);
+        return $countPrijav;
+    }
+
+
+
+
+
+
+
+
+
         /*
         $prijavenIdx=NULL;
         $padnatIdx=NULL;
