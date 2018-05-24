@@ -72,7 +72,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Predmet</th>
-                                <th>Return</th>
                                 <th>Datum</th>
                                 <th>Cas</th>
                                 <th>Prijava</th>
@@ -91,35 +90,29 @@
                                     continue;
                                 }
 
-                                //$stejPrijav=StudentController::zapSteviloPrijav();
                                 $stejPrijavLetos=StudentController::zapSteviloPrijavLetos($rok["ID_ROK"]);
                                 $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupno($rok["ID_ROK"]);
+                                //var_dump($stejPrijavSkupno);
                                 if(new DateTime($rok["DATUM_ROKA"]) <= $datum && !isset($rok["ID_PRIJAVA"])){
                                     continue;
                                 }
 
                                 $vsePrijavljenihRokeLetos=StudentController::vsehprijavljenihRokovLetos($rok["ID_ROK"]);
-                                //var_dump($vsePrijavljenihRokeLetos);
-
                                 $dozvoliPrijava=StudentController::dozvoliPrijava2($roki,$rok["ID_ROK"]);
                                 if($vsePrijavljenihRokeLetos>=3){
                                     $dozvoliPrijava=-4;
                                 }
-                                // var_dump($rok["IME_PREDMET"],$dozvoliPrijava);echo "<br>";
                                 $date1=date_create($rok["DATUM_ROKA"]);
                                 $date2=date_create($datumString);
                                 $diff=date_diff($date2,$date1);
                                 //echo $diff->format("%R%a days");
                                 //var_dump($diff);
                                 $diff = $diff->format("%R%a");
-                                //var_dump($diff);
                                 if( $diff <= 2 ){
                                     // -3 pomeni id_rok!=return hide prijava hide odjava
                                     $dozvoliPrijava=-3;
                                 }
-
                                 $id_rok=$rok["ID_ROK"];
-                                //var_dump($id_rok);
                                 if($dozvoliPrijava==-1){
                                     continue;
                                 }
@@ -127,7 +120,6 @@
                                 <tr>
                                     <td><?=  $zapIdx++ ?></td>
                                     <td><?= $rok['IME_PREDMET'] ?></td>
-                                    <td><?= StudentController::dozvoliPrijava2($roki,$id_rok) ?></td>
                                     <td>
                                         <?php
                                         list($y, $m, $d) = explode('-', $rok["DATUM_ROKA"]);

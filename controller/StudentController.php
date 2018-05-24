@@ -436,6 +436,7 @@ class StudentController {
     }
 
     public static function zapSteviloPrijavSkupno($id_rok){
+
         $vpisna=PrijavaModel::getVpisna(User::getId1());
         $studLetoPredmet=PrijavaModel::getStudLetoPredmetRok($id_rok);
 
@@ -443,6 +444,7 @@ class StudentController {
         $predmet=$studLetoPredmet["ID_PREDMET"];
 
         $countPrijav=PrijavaModel::countZapPrijavSkupno($vpisnaSt,$predmet);
+
         return $countPrijav;
     }
 
