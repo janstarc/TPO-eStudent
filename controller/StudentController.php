@@ -460,6 +460,24 @@ class StudentController {
 
     }
 
+    public static function postoiPrijavaVoBazata($id_predmet){
+        $vpisna=PrijavaModel::getVpisna(User::getId1());
+        $vpisnaSt=$vpisna["VPISNA_STEVILKA"];
+        $checkPrijava=PrijavaModel::checkPrijava($vpisnaSt,$id_predmet);
+        //var_dump($checkPrijava);
+        if($checkPrijava>0){
+            return true;
+        }
+        return false;
+    }
+
+    public static function getNacinStudija(){
+        $vpisna=PrijavaModel::getVpisna(User::getId1());
+        $vpisnaSt=$vpisna["VPISNA_STEVILKA"];
+        $nacinStudija=PrijavaModel::getNacinStudija($vpisnaSt);
+        return $nacinStudija["ID_NACIN"];
+    }
+
 
 
         /*

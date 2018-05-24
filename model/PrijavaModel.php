@@ -168,4 +168,34 @@ class PrijavaModel
         return $statement->fetchColumn();
     }
 
+    public static function checkPrijava($vpisna,$id_predmet){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT COUNT(p.OCENA_IZPITA) 
+            FROM prijava as p 
+            JOIN predmeti_studenta as ps ON ps.VPISNA_STEVILKA=p.VPISNA_STEVILKA
+            JOIN predmet p2 ON ps.ID_PREDMET = p2.ID_PREDMET 
+            WHERE p2.ID_PREDMET=:id_predmet AND p.VPISNA_STEVILKA=:vpisna
+        ");
+        $statement->bindParam(":vpisna", $vpisna);
+        $statement->bindParam(":id_predmet", $id_predmet);
+        $statement->execute();
+        return $statement->fetchColumn();
+
+    }
+
+    public static function getNacinStudija($vpisna){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+        SELECT v.ID_NACIN
+        FROM vpis as v
+        WHERE v.VPISNA_STEVILKA =:vpisna
+    ");
+        $statement->bindParam(":vpisna", $vpisna);
+
+        $statement->execute();
+        return $statement->fetch();
+    }
+
 }

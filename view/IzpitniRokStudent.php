@@ -13,9 +13,9 @@
     }
     //TODO : HARD-CODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     $datum=new DateTime();
-    $datum->setDate(2018,1,27);
+    $datum->setDate(2017,12,27);
 
-    $datumString="2018-01-27";
+    $datumString="2017-12-27";
 
     ?>
 
@@ -84,6 +84,8 @@
                             $now=new DateTime();
                             //var_dump($roki);
                             // echo "<br>";
+                            $nacinStudij=StudentController::getNacinStudija();
+                            var_dump($nacinStudij);
                             foreach($roki as $i=>$rok):
 
                                 if(isset($rok["OCENA_IZPITA"])){
@@ -99,9 +101,20 @@
 
                                 $vsePrijavljenihRokeLetos=StudentController::vsehprijavljenihRokovLetos($rok["ID_ROK"]);
                                 $dozvoliPrijava=StudentController::dozvoliPrijava2($roki,$rok["ID_ROK"]);
-                                if($vsePrijavljenihRokeLetos>=3){
+                                //var_dump($stejPrijavSkupno);
+                               // var_dump($rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"]);
+                                if($rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"] >= 54 && $rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"]<60){
+                                    if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])){
+                                        $stejPrijavLetos=$stejPrijavSkupno;
+                                        if($stejPrijavSkupno>=6){
+                                            $dozvoliPrijava=-4;
+                                        }
+                                    }
+
+                                }else if($vsePrijavljenihRokeLetos>=3 || $stejPrijavSkupno>=6){
                                     $dozvoliPrijava=-4;
                                 }
+                                //var_dump($dozvoliPrijava);
                                 $date1=date_create($rok["DATUM_ROKA"]);
                                 $date2=date_create($datumString);
                                 $diff=date_diff($date2,$date1);
@@ -112,6 +125,9 @@
                                     // -3 pomeni id_rok!=return hide prijava hide odjava
                                     $dozvoliPrijava=-3;
                                 }
+
+
+
                                 $id_rok=$rok["ID_ROK"];
                                 if($dozvoliPrijava==-1){
                                     continue;
@@ -132,10 +148,15 @@
                                             <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
                                             <div class="prijava1">
                                                 <?php if($dozvoliPrijava==-4): ?>
-                                                <p>Preseženo št. prijav <br>v tem letu</p>
+                                                <p>Preseženo št. prijav</p>
                                                 <?php else: ?>
                                                 <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= ($dozvoliPrijava!=$id_rok && $dozvoliPrijava!=0) ? "d-none" : ""?>" <?= $dozvoliPrijava==$id_rok ? "disabled" : ""?>  type="submit"  value="Prijavi se"  />
-                                                <span class="tooltiptext">LETOS: To je vaše polaganje število: <?= $stejPrijavLetos+1 ?>  in SKUPNO polaganje število <?= $stejPrijavSkupno+ 1?></span>
+                                                <?php if(($nacinStudij==2) || ($stejPrijavSkupno==$stejPrijavLetos && $stejPrijavSkupno>=3)):?>
+                                                        <span class="tooltiptext">PLAČLIV IZPIT <br> LETOS: To je vaše polaganje število: <?= $stejPrijavLetos+1 ?>  in SKUPNO polaganje število <?= $stejPrijavSkupno+ 1?></span>
+                                                <?php else: ?>
+                                                        <span class="tooltiptext">LETOS: To je vaše polaganje število: <?= $stejPrijavLetos+1 ?>  in SKUPNO polaganje število <?= $stejPrijavSkupno+ 1?></span>
+                                                    <?php endif;?>
+
                                                 <?php endif;?>
                                             </div>
 
