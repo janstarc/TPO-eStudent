@@ -334,9 +334,9 @@ class StudentController {
             }
         }
 
-        //var_dump($trenutniRok);
+        var_dump($trenutniRok);
         // Obstaja prijava na trenutni rok, ni se ocene
-        if(isset($trenutniRok["ID_PRIJAVA"]) && (!isset($trenutniRok["OCENA_IZPITA"]) || $trenutniRok["OCENA_IZPITA"] < 6)){
+        if(isset($trenutniRok["ID_PRIJAVA"]) && !isset($trenutniRok["OCENA_IZPITA"])){
             return $trenutniRok["ID_ROK"];
         }
 
@@ -344,7 +344,7 @@ class StudentController {
             // --> Sploh ni prijav na ta predmet
             // --> Obstaja kasnejsa prijava brez ocene
             // --> Obstaja prijava z oceno
-        if(!isset($trenutniRok["ID_PRIJAVA"]) && (!isset($trenutniRok["OCENA_IZPITA"]) || $trenutniRok["OCENA_IZPITA"] < 6)){
+        if(!isset($trenutniRok["ID_PRIJAVA"]) && !isset($trenutniRok["OCENA_IZPITA"])){
 
             if(self::obstajajoPrijave($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"])){
 
