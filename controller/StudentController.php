@@ -278,6 +278,8 @@ class StudentController {
             }
         }
 
+        // OCENA == 5 | Prvi rok prijava | Drugi rok prijava
+
         // Obstaja prijava na trenutni rok, ni se ocene ali je ocena negativna
         if(isset($trenutniRok["ID_PRIJAVA"]) && $trenutniRok["OCENA"] < 6){
             return $trenutniRok["ID_ROK"];
@@ -287,7 +289,6 @@ class StudentController {
             // --> Sploh ni prijav na ta predmet
             // --> Obstaja kasnejsa prijava brez ocene
             // --> Obstaja prijava z oceno
-
         if(!isset($trenutniRok["ID_PRIJAVA"]) && $trenutniRok["OCENA"] < 6){
 
             if(self::obstajajoPrijave($roki, $trenutniRok["ID_ROK"], $trenutniRok["ID_PREDMET"])){

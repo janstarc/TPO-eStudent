@@ -108,7 +108,7 @@ class KoncneOceneController
 
         $pdf= new tFPDF();
         $pdf->AddPage('L');
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->SetFont('DejaVu','',15);
         $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
@@ -277,7 +277,7 @@ class KoncneOceneController
 
         $pdf= new tFPDF();
         $pdf->AddPage('L');
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->SetFont('DejaVu','',15);
         $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
