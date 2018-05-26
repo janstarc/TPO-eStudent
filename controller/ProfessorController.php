@@ -107,6 +107,16 @@ class ProfessorController {
 
                 $rokData = RokModel::get($data["id_rok"]);
 
+                /*
+                foreach ($prijavljeniStudenti as $i=>$value){
+                    $stejPrijavLetos=StudentController::zapSteviloPrijavLetosProf($data["id_rok"],$value["VPISNA_STEVILKA"]);
+                    $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupnoProf($data["id_rok"],$value["VPISNA_STEVILKA"]);
+
+                    $prijavljeniStudenti[$i]["ZAP_ST_POLAGANJ"]=$stejPrijavSkupno;
+                    $prijavljeniStudenti[$i]["ZAP_ST_POLAGANJ_LETOS"]=$stejPrijavLetos;
+                }
+                */
+
 
                 ViewHelper::render("view/VnosOcenIzpitaPoStudentih.php", [
                     "id_predmet" => $data["id_predmet"],
@@ -252,6 +262,7 @@ class ProfessorController {
                 $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
                 $rokData = RokModel::get($data["id_rok"]);
 
+                /*
                 foreach ($prijavljeniStudenti as $i=>$value){
                     $stejPrijavLetos=StudentController::zapSteviloPrijavLetosProf($data["id_rok"],$value["VPISNA_STEVILKA"]);
                     $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupnoProf($data["id_rok"],$value["VPISNA_STEVILKA"]);
@@ -259,6 +270,7 @@ class ProfessorController {
                     $prijavljeniStudenti[$i]["ZAP_ST_POLAGANJ"]=$stejPrijavSkupno;
                     $prijavljeniStudenti[$i]["ZAP_ST_POLAGANJ_LETOS"]=$stejPrijavLetos;
                 }
+                */
 
                 ViewHelper::render("view/VnosKoncnihOcenPoStudentih.php", [
                     "id_predmet" => $data["id_predmet"],
@@ -310,6 +322,16 @@ class ProfessorController {
                 $izvajalci = self::createIzvajalciString($izvajalciArray);
                 $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
                 $rokData = RokModel::get($data["id_rok"]);
+
+                /*
+                foreach ($prijavljeniStudenti as $i=>$value){
+                    $stejPrijavLetos=StudentController::zapSteviloPrijavLetosProf($data["id_rok"],$value["VPISNA_STEVILKA"]);
+                    $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupnoProf($data["id_rok"],$value["VPISNA_STEVILKA"]);
+
+                    $prijavljeniStudenti[$i]["ZAP_ST_POLAGANJ"]=$stejPrijavSkupno;
+                    $prijavljeniStudenti[$i]["ZAP_ST_POLAGANJ_LETOS"]=$stejPrijavLetos;
+                }
+                */
 
                 ViewHelper::render("view/IzpisKoncnihOcenPoStudentih.php", [
                     "id_predmet" => $data["id_predmet"],
