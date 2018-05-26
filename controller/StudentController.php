@@ -472,6 +472,15 @@ class StudentController {
     }
 
 
+    public static function findDatumPrejnegaRoka($roki,$id_rok, $id_predmet){
+        foreach ($roki as $i=>$rok){
+            if($rok["ID_PREDMET"]==$id_predmet && $rok["ID_ROK"]!=$id_rok && $rok["OCENA_IZPITA"]==5){
+                return $rok["DATUM_ROKA"];
+            }
+        }
+        return -1;
+    }
+
     public static function getNacinStudija(){
         $vpisna=PrijavaModel::getVpisna(User::getId1());
         $vpisnaSt=$vpisna["VPISNA_STEVILKA"];

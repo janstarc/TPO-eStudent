@@ -90,6 +90,7 @@
                                 }
 
                                 if(new DateTime($rok["DATUM_ROKA"]) <= $datum && !isset($rok["ID_PRIJAVA"])){
+
                                     continue;
                                 }
 
@@ -133,6 +134,20 @@
                                 }
 
 
+                                if($i>0){
+                                   $datumPrejsnega=StudentController::findDatumPrejnegaRoka($roki,$rok["ID_ROK"],$rok["ID_PREDMET"]);
+                                   $datumPrejsnega=date_create($datumPrejsnega);
+                                   $dateTrenutnega=date_create($roki[$i]["DATUM_ROKA"]);
+
+
+                                   $dateCmp=date_diff($datumPrejsnega,$dateTrenutnega);
+                                    $dateCmp = $dateCmp->format("%R%a");
+                                   
+                                   if($dateCmp>=0 && $dateCmp<11){
+                                       $dozvoliPrijava=-10;
+                                   }
+                                }
+
 
                                 $id_rok=$rok["ID_ROK"];
                                 if($dozvoliPrijava==-1){
@@ -153,6 +168,9 @@
                                         <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
                                             <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
                                             <div class="prijava1">
+                                                <?php if($dozvoliPrijava==-10): ?>
+                                                    <p>Ni poteklo dovolj časa <br> od prejsnega roka.</p>
+                                                <?php endif;?>
                                                 <?php if($dozvoliPrijava==-3): ?>
                                                     <p>Potekal je rok za prijavo</p>
                                                 <?php endif;?>
