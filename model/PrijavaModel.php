@@ -125,7 +125,7 @@ class PrijavaModel
         FROM prijava as p 
         JOIN rok as r ON p.ID_ROK=r.ID_ROK
         JOIN izvedba_predmeta as ip ON r.ID_IZVEDBA=ip.ID_IZVEDBA
-        WHERE p.VPISNA_STEVILKA=:vpisna AND ip.ID_STUD_LETO=:id_leto AND ip.ID_PREDMET=:id_predmet
+        WHERE p.VPISNA_STEVILKA=:vpisna AND ip.ID_STUD_LETO=:id_leto AND ip.ID_PREDMET=:id_predmet AND p.DATUM_ODJAVE IS NULL
     ");
         $statement->bindParam(":vpisna", $vpisna);
         $statement->bindParam(":id_leto", $id_leto);
@@ -142,7 +142,7 @@ class PrijavaModel
         FROM prijava as p 
         JOIN rok as r ON p.ID_ROK=r.ID_ROK
         JOIN izvedba_predmeta as ip ON r.ID_IZVEDBA=ip.ID_IZVEDBA
-        WHERE p.VPISNA_STEVILKA=:vpisna AND ip.ID_PREDMET=:id_predmet
+        WHERE p.VPISNA_STEVILKA=:vpisna AND ip.ID_PREDMET=:id_predmet AND p.DATUM_ODJAVE IS NULL
     ");
         $statement->bindParam(":vpisna", $vpisna);
         $statement->bindParam(":id_predmet", $id_predmet);
@@ -169,21 +169,20 @@ class PrijavaModel
     }
 
     public static function checkPrijava($vpisna,$id_predmet){
-        $db = DBInit::getInstance();
-
-        $statement = $db->prepare("
-            SELECT COUNT(p.OCENA_IZPITA) 
-            FROM prijava as p 
-            JOIN predmeti_studenta as ps ON ps.VPISNA_STEVILKA=p.VPISNA_STEVILKA
-            JOIN predmet p2 ON ps.ID_PREDMET = p2.ID_PREDMET 
-            WHERE p2.ID_PREDMET=:id_predmet AND p.VPISNA_STEVILKA=:vpisna
+    $db = DBInit::getInstance();
+    $statement = $db->prepare("
+            SELECT COUNT(p.OCENA_IZPITA)
+            FROM prijava as p
+            JOIN rok as r ON r.ID_ROK=p.ID_ROK
+            JOIN izvedba_predmeta as ip ON ip.ID_IZVEDBA=r.ID_IZVEDBA
+            WHERE p.VPISNA_STEVILKA=:vpisna AND ip.ID_PREDMET=:id_predmet AND DATUM_ODJAVE IS NULL AND OCENA_IZPITA IS NOT NULL
         ");
-        $statement->bindParam(":vpisna", $vpisna);
-        $statement->bindParam(":id_predmet", $id_predmet);
-        $statement->execute();
-        return $statement->fetchColumn();
+    $statement->bindParam(":vpisna", $vpisna);
+    $statement->bindParam(":id_predmet", $id_predmet);
+    $statement->execute();
+    return $statement->fetchColumn();
 
-    }
+}
 
     public static function getNacinStudija($vpisna){
         $db = DBInit::getInstance();

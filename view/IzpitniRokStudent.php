@@ -13,9 +13,9 @@
     }
     //TODO : HARD-CODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     $datum=new DateTime();
-    $datum->setDate(2017,12,27);
+    $datum->setDate(2018,05,27);
 
-    $datumString="2017-12-27";
+    $datumString="2018-05-27";
 
     ?>
 
@@ -82,46 +82,52 @@
                             <?php
                             $zapIdx=1;
                             $now=new DateTime();
-                            //var_dump($roki);
-                            // echo "<br>";
                             $nacinStudij=StudentController::getNacinStudija();
-                            var_dump($nacinStudij);
                             foreach($roki as $i=>$rok):
 
                                 if(isset($rok["OCENA_IZPITA"])){
                                     continue;
                                 }
 
-                                $stejPrijavLetos=StudentController::zapSteviloPrijavLetos($rok["ID_ROK"]);
-                                $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupno($rok["ID_ROK"]);
-                                //var_dump($stejPrijavSkupno);
                                 if(new DateTime($rok["DATUM_ROKA"]) <= $datum && !isset($rok["ID_PRIJAVA"])){
                                     continue;
                                 }
 
-                                $vsePrijavljenihRokeLetos=StudentController::vsehprijavljenihRokovLetos($rok["ID_ROK"]);
+                                $stejPrijavLetos=StudentController::zapSteviloPrijavLetos($rok["ID_ROK"]);
+                                $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupno($rok["ID_ROK"]);
+
                                 $dozvoliPrijava=StudentController::dozvoliPrijava2($roki,$rok["ID_ROK"]);
-                                //var_dump($stejPrijavSkupno);
-                               // var_dump($rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"]);
-                                if($rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"] >= 54 && $rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"]<60){
-                                    if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])){
-                                        $stejPrijavLetos=$stejPrijavSkupno;
-                                        if($stejPrijavSkupno>=6){
+
+                                if($rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"] ==60 ){
+                                    if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])==3){
+                                        $dozvoliPrijava=-5;
+                                    }
+                                }
+                                else if($rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"] >= 54 && $rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"]<60){
+                                    if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])>0){
+                                        if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])==6){
                                             $dozvoliPrijava=-4;
                                         }
+                                        $stejPrijavLetos=$stejPrijavSkupno;
                                     }
 
-                                }else if($vsePrijavljenihRokeLetos>=3 || $stejPrijavSkupno>=6){
-                                    $dozvoliPrijava=-4;
+                                }else if($rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"] < 54){
+                                    if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])>0){
+                                        /*if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])==3){
+                                            $dozvoliPrijava=-5;
+                                        }*/
+                                        $stejPrijavLetos=$stejPrijavSkupno-3;
+                                    }
                                 }
-                                //var_dump($dozvoliPrijava);
+
+
+
                                 $date1=date_create($rok["DATUM_ROKA"]);
                                 $date2=date_create($datumString);
                                 $diff=date_diff($date2,$date1);
-                                //echo $diff->format("%R%a days");
-                                //var_dump($diff);
                                 $diff = $diff->format("%R%a");
-                                if( $diff <= 2 ){
+                                //var_dump($diff);
+                                if( $diff <= 1 ){
                                     // -3 pomeni id_rok!=return hide prijava hide odjava
                                     $dozvoliPrijava=-3;
                                 }
@@ -147,8 +153,16 @@
                                         <form action="<?= BASE_URL . $formAction . "prijava" ?>" method="post">
                                             <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
                                             <div class="prijava1">
+                                                <?php if($dozvoliPrijava==-3): ?>
+                                                    <p>Potekal je rok za prijavo</p>
+                                                <?php endif;?>
                                                 <?php if($dozvoliPrijava==-4): ?>
-                                                <p>Preseženo št. prijav</p>
+                                                <p>Preseženo skupno <br> št. prijav</p>
+                                                <?php endif;?>
+                                                <?php
+                                                //var_dump($stejPrijavLetos);
+                                                if($dozvoliPrijava==-5): ?>
+                                                    <p>Preseženo št. prijav <br> v trenutnem letu</p>
                                                 <?php else: ?>
                                                 <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= ($dozvoliPrijava!=$id_rok && $dozvoliPrijava!=0) ? "d-none" : ""?>" <?= $dozvoliPrijava==$id_rok ? "disabled" : ""?>  type="submit"  value="Prijavi se"  />
                                                 <?php if(($nacinStudij==2) || ($stejPrijavSkupno==$stejPrijavLetos && $stejPrijavSkupno>=3)):?>

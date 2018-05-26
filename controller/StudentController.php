@@ -466,10 +466,11 @@ class StudentController {
         $checkPrijava=PrijavaModel::checkPrijava($vpisnaSt,$id_predmet);
         //var_dump($checkPrijava);
         if($checkPrijava>0){
-            return true;
+            return $checkPrijava;
         }
         return false;
     }
+
 
     public static function getNacinStudija(){
         $vpisna=PrijavaModel::getVpisna(User::getId1());
