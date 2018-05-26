@@ -255,6 +255,10 @@ $urls = [
         if ($method == "POST") StudentController::prijavaNaIzpitu();
         else ViewHelper::error405();
     },
+    "/^izpitniRok\/student\/odjava$/" => function ($method) {
+        if ($method == "POST") StudentController::odjavaOdIzpitu();
+        else ViewHelper::error405();
+    },
 
     "/^dodajPredmet$/" => function ($method) {
         if ($method == "POST") AdminController::addInPredmetnik();

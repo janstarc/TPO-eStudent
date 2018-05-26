@@ -401,7 +401,7 @@ class StudentController {
     public static function findPrijavaBrezOcene($rokiTab, $id_rok, $id_predmet){
 
         foreach($rokiTab as $key => $value){
-            if($value["ID_PREDMET"] == $id_predmet && $value["ID_ROK"] != $id_rok){     // Najdi rok tega predmeta
+            if($value["ID_PREDMET"] == $id_predmet && $value["ID_ROK"] != $id_rok && !isset($value["DATUM_ODJAVE"])){     // Najdi rok tega predmeta
                 if(isset($value["ID_PRIJAVA"]) && !isset($value["OCENA_IZPITA"])){            // Ali obstaja prijava?
                     return $value["ID_ROK"];
                 }
@@ -486,6 +486,28 @@ class StudentController {
         $vpisnaSt=$vpisna["VPISNA_STEVILKA"];
         $nacinStudija=PrijavaModel::getNacinStudija($vpisnaSt);
         return $nacinStudija["ID_NACIN"];
+    }
+
+    public static function odjavaOdIzpitu(){
+        $data1 = filter_input_array(INPUT_POST, [
+            "odjava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        $vpisna=PrijavaModel::getVpisna(User::getId1());
+        $vpisnaSt=$vpisna["VPISNA_STEVILKA"];
+       //data1["odjava"] e id_rok
+        $checkOdjava=PrijavaModel::odjaviSe(User::getId1(),$data1["odjava"],$vpisnaSt);
+        ViewHelper::redirect(BASE_URL . "izpitniRok/student");
+
+    }
+
+    public static function setAllSubjects($roki,$id_rok,$id_predmet){
+        foreach ($roki as $i=>$rok){
+            if($rok["ID_PREDMET"]==$id_predmet && $rok["ID_ROK"]!=$id_rok){
+                return $i;
+            }
+        }
+        return -1;
     }
 
 

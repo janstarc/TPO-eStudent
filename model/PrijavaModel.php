@@ -12,7 +12,7 @@ class PrijavaModel
     public static function prijavaAdd($vpisna,$id_rok,$id_predmet){
 
             $db = DBInit::getInstance();
-            $statement = $db -> prepare(
+          /*  $statement = $db -> prepare(
                 "UPDATE prijava as p 
             JOIN student as s ON s.VPISNA_STEVILKA=p.VPISNA_STEVILKA 
             JOIN ROK as r ON r.ID_ROK=p.ID_ROK 
@@ -28,7 +28,7 @@ class PrijavaModel
 
             try{
                 $statement->execute();
-                if($statement->rowCount()==0){
+                if($statement->rowCount()==0){*/
 
                     $statement2 = $db -> prepare(
                         "INSERT INTO prijava 
@@ -41,13 +41,13 @@ class PrijavaModel
 
                     $statement2->execute();
                     //var_dump($statement2->rowCount());
-                }
+                //}
 
                 return true;
-            } catch (Exception $e){
+           /* } catch (Exception $e){
                 var_dump($e);
                return false;
-            }
+            }*/
     }
 
     public static function getVpisna($id){
@@ -195,6 +195,24 @@ class PrijavaModel
 
         $statement->execute();
         return $statement->fetch();
+    }
+
+    public static function odjaviSe($idOseba,$id_rok,$vpisna){
+        $db=DBInit::getInstance();
+        $statement = $db->prepare("
+            UPDATE prijava
+            SET DATUM_ODJAVE = CURRENT_TIMESTAMP, ID_OSEBA_ODJAVITELJ = :idOseba, TOCKE_IZPITA = null 
+            WHERE ID_ROK =:id_rok AND prijava.VPISNA_STEVILKA=:vpisna
+        ");
+
+        $statement->bindValue(":id_rok", $id_rok);
+        $statement->bindValue(":idOseba", $idOseba);
+        $statement->bindValue(":vpisna", $vpisna);
+        if($statement->execute()){
+            return true;
+        }
+        return false;
+
     }
 
 }

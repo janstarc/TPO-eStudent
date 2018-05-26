@@ -82,9 +82,15 @@
                             <?php
                             $zapIdx=1;
                             $now=new DateTime();
+
                             $nacinStudij=StudentController::getNacinStudija();
                             foreach($roki as $i=>$rok):
+                                $odjava=0;
+                                if(isset($rok["DATUM_ODJAVE"])){
+                                   $odjava=$rok["ID_ROK"];
 
+                                }
+                                //var_dump($odjava);
                                 if(isset($rok["OCENA_IZPITA"])){
                                     continue;
                                 }
@@ -96,6 +102,9 @@
 
                                 $stejPrijavLetos=StudentController::zapSteviloPrijavLetos($rok["ID_ROK"]);
                                 $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupno($rok["ID_ROK"]);
+
+
+                               // var_dump($rok["IME_PREDMET"].' '. $odjava);
 
                                 $dozvoliPrijava=StudentController::dozvoliPrijava2($roki,$rok["ID_ROK"]);
 
@@ -142,9 +151,10 @@
 
                                    $dateCmp=date_diff($datumPrejsnega,$dateTrenutnega);
                                     $dateCmp = $dateCmp->format("%R%a");
-                                   
+
                                    if($dateCmp>=0 && $dateCmp<11){
                                        $dozvoliPrijava=-10;
+
                                    }
                                 }
 
@@ -178,11 +188,12 @@
                                                 <p>Preseženo skupno <br> št. prijav</p>
                                                 <?php endif;?>
                                                 <?php
-                                                //var_dump($stejPrijavLetos);
                                                 if($dozvoliPrijava==-5): ?>
                                                     <p>Preseženo št. prijav <br> v trenutnem letu</p>
-                                                <?php else: ?>
-                                                <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= ($dozvoliPrijava!=$id_rok && $dozvoliPrijava!=0) ? "d-none" : ""?>" <?= $dozvoliPrijava==$id_rok ? "disabled" : ""?>  type="submit"  value="Prijavi se"  />
+                                                <?php else:
+                                                    var_dump($rok["ID_ROK"].' '.$odjava.' '.$dozvoliPrijava);
+                                                    ?>
+                                                <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= ($dozvoliPrijava!=$id_rok && $dozvoliPrijava!=0) ? "d-none" : ""?> " <?= ($dozvoliPrijava==$id_rok && $odjava!=$id_rok) ? "disabled" : ""?> type="submit"  value="Prijavi se"  />
                                                 <?php if(($nacinStudij==2) || ($stejPrijavSkupno==$stejPrijavLetos && $stejPrijavSkupno>=3)):?>
                                                         <span class="tooltiptext">PLAČLIV IZPIT <br> LETOS: To je vaše polaganje število: <?= $stejPrijavLetos+1 ?>  in SKUPNO polaganje število <?= $stejPrijavSkupno+ 1?></span>
                                                 <?php else: ?>
@@ -197,8 +208,8 @@
                                     </td>
                                     <td>
                                         <form action="<?= BASE_URL . $formAction . "odjava" ?>" method="post">
-                                            <input type="hidden" name="rokId" value="<?= $rok["ID_ROK"] ?>" />
-                                            <input id="odjava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm <?= $dozvoliPrijava==$id_rok ? "" : "d-none" ?>" type="submit" value="Odjavi se" />
+                                            <input type="hidden" name="odjava" value="<?= $rok["ID_ROK"] ?>" />
+                                            <input id="odjava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm <?= $dozvoliPrijava==$id_rok ? "" : "d-none" ?> <?= $odjava==$id_rok ? "d-none" : ""?>" type="submit" value="Odjavi se" />
                                         </form>
                                     </td>
                                 </tr>
