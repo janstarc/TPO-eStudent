@@ -56,8 +56,8 @@ class KandidatController {
     }
     
     public static function vpis() {
+//            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
         $data = filter_input_array(INPUT_POST, [
-            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
@@ -113,10 +113,10 @@ class KandidatController {
                     ]
                 ]);
             }
-            $idKandidat = KandidatModel::getKandidatIdWithEmail($data["email"]);
+            $idKandidat = KandidatModel::getKandidatIdWithUserId(User::getId());
             KandidatModel::updateEmso($idKandidat, $data["emso"]);
             KandidatModel::updateTelefon($idKandidat, $data["telefonska_stevilka"]);
-
+            
             KandidatModel::insertNaslov($idKandidat, [
                 "id_drzava" => $data["id_drzava"],
                 "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),

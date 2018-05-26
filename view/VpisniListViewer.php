@@ -125,8 +125,8 @@
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Podatki o vpisu</h3>
                                     <div class="form-group">
-                                        <label for="id_naziv_program">Študijski program</label>
-                                        <select class="form-control" id="id_naziv_program" name="id_naziv_program" required disabled>
+                                        <label for="ID_PROGRAM">Študijski program</label>
+                                        <select class="form-control" id="ID_PROGRAM" name="ID_PROGRAM" required disabled>
                                             <option value=""><?= $KandidatPodatki["naziv_program"] ?></option>
                                         </select>
                                     </div>

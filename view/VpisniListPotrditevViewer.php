@@ -46,6 +46,7 @@
                                 </div>
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Stalni Naslov</h3>
+                                    <input type="hidden" name="ID_NASLOV1" value="<?= $naslov[0]["ID_NASLOV"] ?>" />
                                     <div class="form-group">
                                         <label for="id_drzava">Država</label>
                                         <select class="form-control" id="id_drzava" name="id_drzava" onchange="toggleDrzava();" required>
@@ -102,6 +103,7 @@
                                     </div>
                                     
                                     <h3>Začasni naslov</h3>
+                                    <input type="hidden" name="ID_NASLOV2" value="<?= $naslov[1]["ID_NASLOV"] ?>" />
                                     <div class="form-group">
                                         <label for="id_drzava2">Država</label>
                                         <select class="form-control" id="id_drzava2" name="id_drzava2" onchange="toggleDrzava2();">
@@ -185,13 +187,13 @@
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Podatki o vpisu</h3>
                                     <div class="form-group">
-                                        <label for="id_naziv_program">Študijski program</label>
-                                        <select class="form-control" id="ID_STUD_LETO" name="ID_STUD_LETO" required>
+                                        <label for="ID_PROGRAM">Študijski program</label>
+                                        <select class="form-control" id="ID_PROGRAM" name="ID_PROGRAM" required>
                                             <?php foreach ($StudijskiProgrami as $StudijskiProgram):
                                                 if ($KandidatPodatki["id_program"] == $StudijskiProgram["ID_PROGRAM"]): ?>
-                                                    <option disabled selected value="<?= $StudijskiProgram["ID_PROGRAM"] ?>"><?= $StudijskiProgram["NAZIV_PROGRAM"] ?></option>
+                                                    <option selected value="<?= $StudijskiProgram["ID_PROGRAM"] ?>"><?= $StudijskiProgram["NAZIV_PROGRAM"] ?></option>
                                                 <?php else: ?>
-                                                    <option disabled value="<?= $StudijskiProgram["ID_PROGRAM"] ?>"><?= $StudijskiProgram["NAZIV_PROGRAM"] ?></option>
+                                                    <option value="<?= $StudijskiProgram["ID_PROGRAM"] ?>"><?= $StudijskiProgram["NAZIV_PROGRAM"] ?></option>
                                                 <?php endif;
                                             endforeach; ?>
                                         </select>
@@ -202,9 +204,9 @@
                                         <select class="form-control" id="ID_STUD_LETO" name="ID_STUD_LETO" required>
                                             <?php foreach ($StudijskaLeta as $StudijskoLeto):
                                                 if ($stud_leto['ID_STUD_LETO'] == $StudijskoLeto["ID_STUD_LETO"]): ?>
-                                                    <option disabled selected value="<?= $StudijskoLeto["ID_STUD_LETO"] ?>"><?= $StudijskoLeto["STUD_LETO"] ?></option>
+                                                    <option selected value="<?= $StudijskoLeto["ID_STUD_LETO"] ?>"><?= $StudijskoLeto["STUD_LETO"] ?></option>
                                                 <?php else: ?>
-                                                    <option disabled value="<?= $StudijskoLeto["ID_STUD_LETO"] ?>"><?= $StudijskoLeto["STUD_LETO"] ?></option>
+                                                    <option value="<?= $StudijskoLeto["ID_STUD_LETO"] ?>"><?= $StudijskoLeto["STUD_LETO"] ?></option>
                                                 <?php endif;
                                             endforeach; ?>
                                         </select>

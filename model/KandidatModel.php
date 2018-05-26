@@ -234,23 +234,20 @@ class KandidatModel {
         $statement->execute();
     }
 
-    public static function updateNaslov($id_kandidat, $value){
-        $id_oseba = self::getOsebaIdWithKandidatId($id_kandidat);
+    public static function updateNaslov($id_naslov, $value){
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
             UPDATE naslov
-            SET id_posta = :id_posta, id_drzava = :id_drzava, id_oseba = :id_oseba, id_obcina = :id_obcina, ulica = :ulica
+            SET id_drzava = :id_drzava, ulica = :ulica, id_posta = :id_posta, id_obcina = :id_obcina, je_zavrocanje = :je_zavrocanje
             WHERE ID_NASLOV = :id_naslov
         ");
         $statement->bindValue(":id_drzava", $value['id_drzava']);
+        $statement->bindValue(":ulica", $value['ulica']);
         $statement->bindValue(":id_posta", $value['id_posta']);
         $statement->bindValue(":id_obcina", $value['id_obcina']);
-        $statement->bindValue(":ulica", $value['ulica']);
-//        $statement->bindValue(":je_zavrocanje", $value['je_zavrocanje']);
-//        $statement->bindValue(":je_stalni", $value['je_stalni']);
-        $statement->bindValue(":id_oseba", $id_oseba);
-        $statement->bindValue(":id_naslov", $value['id_naslov']);
+        $statement->bindValue(":je_zavrocanje", $value['je_zavrocanje']);
+        $statement->bindValue(":id_naslov", $id_naslov);
         $statement->execute();
     }
 
@@ -397,6 +394,47 @@ class KandidatModel {
 
         return $result['ID_VPIS'];
     }
+    
+    public static function getVpisnaStevilkaWithKandidatId($id_kandidat){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT v.VPISNA_STEVILKA
+            FROM vpis AS v 
+            JOIN kandidat AS k ON v.VPISNA_STEVILKA = k.VPISNA_STEVILKA
+            WHERE k.ID_KANDIDAT = :id_kandidat
+        ");
+
+        $statement->bindValue(":id_kandidat", $id_kandidat);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        return $result['VPISNA_STEVILKA'];
+    }
+    
+    public static function updateProgram($id_vpis, $ID_PROGRAM){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare("
+            UPDATE vpis
+            SET ID_PROGRAM = :ID_PROGRAM
+            WHERE id_vpis = :id_vpis
+        ");
+        $statement->bindValue(":ID_PROGRAM", $ID_PROGRAM);
+        $statement->bindValue(":id_vpis", $id_vpis);
+        $statement->execute();
+    }
+    
+    public static function updateStudLeto($id_vpis, $ID_STUD_LETO){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare("
+            UPDATE vpis
+            SET ID_STUD_LETO = :ID_STUD_LETO
+            WHERE id_vpis = :id_vpis
+        ");
+        $statement->bindValue(":ID_STUD_LETO", $ID_STUD_LETO);
+        $statement->bindValue(":id_vpis", $id_vpis);
+        $statement->execute();
+    }
 
     public static function potrdiVpisReferent($id_kandidat){
         $db = DBInit::getInstance();
@@ -453,16 +491,16 @@ class KandidatModel {
         $result = $statement->fetch();
         return $result['VPISNA_STEVILKA'];
     }
-
-    public static function insertPredmetiKandidat($id_vpis, $predmeti, $id_stud_leto){
+    
+    public static function insertPredmetiKandidat($VPISNA_STEVILKA, $predmeti, $id_stud_leto){
         $db = DBInit::getInstance();
 
         foreach ($predmeti as $key => $value){
             $statement = $db -> prepare("
-            INSERT INTO predmeti_studenta (ID_VPIS, ID_PREDMET, ID_STUD_LETO)
-            VALUES (:id_vpis, :id_predmet, :id_stud_leto)
+                INSERT INTO predmeti_studenta (VPISNA_STEVILKA, ID_PREDMET, ID_STUD_LETO)
+                VALUES (:VPISNA_STEVILKA, :id_predmet, :id_stud_leto)
             ");
-            $statement->bindValue(":id_vpis", $id_vpis);
+            $statement->bindValue(":VPISNA_STEVILKA", $VPISNA_STEVILKA);
             $statement->bindValue(":id_predmet", $value['ID_PREDMET']);
             $statement->bindValue(":id_stud_leto", $id_stud_leto);
             $statement->execute();
