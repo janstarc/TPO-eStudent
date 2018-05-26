@@ -340,18 +340,6 @@ class StudentOfficerController {
         }
     }
 
-    /*
-        array (size=9)
-          'Ime' => string 'kIme' (length=4)
-          'Priimek' => string 'kPriimek' (length=8)
-          'emso' => string '2147483647' (length=10)
-          'telefonska_stevilka' => string '123456789' (length=9)
-          'id_drzava' => string '4' (length=1)
-          'ulica1' => string 'aa' (length=2)
-          'hisna_stevilka1' => string '1' (length=1)
-          'id_posta1' => string '176' (length=3)
-          'ID_STUD_LETO' => string '2' (length=1)
-    */
     public static function kandidatiPotrdiVpisForm($id) {
 
         $data = filter_input_array(INPUT_POST, [
@@ -508,8 +496,6 @@ class StudentOfficerController {
                     "Vrstavpisa" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
                     "NacinStudija" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
                     "OblikaStudija" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-
-
                 ]);
 
                 StudentOfficerDB::spremeniZeton($data);
@@ -544,9 +530,6 @@ class StudentOfficerController {
 
     }
 
-
-
-
     public static function ZetonForm6(){
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
@@ -567,6 +550,7 @@ class StudentOfficerController {
         }
 
     }
+
     public static function ZetonForm7(){
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
@@ -585,7 +569,6 @@ class StudentOfficerController {
         } else {
             ViewHelper::error401();
         }
-
     }
 
     public static function Zeton($status = null, $message = null) {
@@ -653,17 +636,13 @@ class StudentOfficerController {
 
     public static function spremeni() {
         $data = filter_input_array(INPUT_POST, [
-
-
             "leto" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "letnik" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "program" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "Vrstavpisa" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "NacinStudija" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "OblikaStudija" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-
             "id_zeton" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
-
         ]);
         StudentOfficerDB::spremeniZeton($data);
         ViewHelper::render("view/Zeton.php", [
@@ -704,10 +683,9 @@ class StudentOfficerController {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
                 $data = filter_input_array(INPUT_POST, [
-
-
                     "leto" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
                 ]);
+
                 ViewHelper::render("view/vpisVPredmet.php", [
                     "status" => $status,
                     "message" => $message,
@@ -738,12 +716,13 @@ class StudentOfficerController {
                 ]);
             } else {
                 ViewHelper::error403();
-
             }
         } else {
             ViewHelper::error401();
         }
-    }public static function SteviloVpisanihForm2($id, $status = null, $message = null) {
+    }
+
+    public static function SteviloVpisanihForm2($id, $status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
                 $data = StudijskoLetoModel::getAllProgram();
@@ -760,12 +739,13 @@ class StudentOfficerController {
                 ]);
             } else {
                 ViewHelper::error403();
-
             }
         } else {
             ViewHelper::error401();
         }
-    }public static function SteviloVpisanihForm3($id1, $id2, $status = null, $message = null) {
+    }
+
+    public static function SteviloVpisanihForm3($id1, $id2, $status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
                 $data = StudijskoLetoModel::getAllLetnik();
@@ -782,7 +762,6 @@ class StudentOfficerController {
                 ]);
             } else {
                 ViewHelper::error403();
-
             }
         } else {
             ViewHelper::error401();
@@ -809,12 +788,12 @@ class StudentOfficerController {
                 ]);
             } else {
                 ViewHelper::error403();
-
             }
         } else {
             ViewHelper::error401();
         }
     }
+
     public static function VpisaniForm1($status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
@@ -833,6 +812,7 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
+
     public static function VpisaniForm2($id, $status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
@@ -858,7 +838,6 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
-
 
     public static function VpisaniForm3($leto, $predmet, $status = null, $message = null) {
         if (User::isLoggedIn()) {
@@ -889,8 +868,6 @@ class StudentOfficerController {
         }
     }
 
-
-
     public static function vpisVPredmetVpisani($status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
@@ -908,7 +885,6 @@ class StudentOfficerController {
                     "leto" => StudentOfficerDB::getLeto( $data['leto']),
                     "predmet" => StudentOfficerDB::getPredmet($data['idPredmet']),
                     "predmeti" => null
-
                 ]);
             }else{
                 ViewHelper::error403();
@@ -930,11 +906,9 @@ class StudentOfficerController {
         $predmet = StudentOfficerDB::getPredmet($data['idPredmet']);
         $vpisani = count($main);
 
-
         $delimiter = ",";
         $filename = "data.csv";
         $f = fopen('php://memory', 'w');
-
 
         $fields = array('Šifra predmeta','Ime predmeta', 'Študijsko leto', 'Število vpisanih studentov');
         $lineData = array($predmet["ID_PREDMET"] , $predmet["IME_PREDMET"], $leto, $vpisani);
@@ -965,11 +939,7 @@ class StudentOfficerController {
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="' . $filename . '";');
         fpassthru($f);
-
     }
-
-
-
 
     public static function exportPDF(){
         $data = filter_input_array(INPUT_POST, [
@@ -992,9 +962,6 @@ class StudentOfficerController {
             $lineData2 = array($value["VPISNA_STEVILKA"],$value["PRIIMEK"]." ". $value["IME"], $value["OPIS_VPISA"]);
             array_push($all, $lineData2);
         }
-
-
-
 
         $pdf = new tFPDF();
         $pdf->AddPage('L');
@@ -1029,7 +996,6 @@ class StudentOfficerController {
         $filename = "data.csv";
         $f = fopen('php://memory', 'w');
 
-
         $fields = array();
         fputcsv($f, $fields, $delimiter);
         $fields = array("Izpis podatkov o številu vpisanih");
@@ -1052,9 +1018,6 @@ class StudentOfficerController {
 
     }
 
-
-
-
     public static function exportPDF2(){
         $data = filter_input_array(INPUT_POST, [
             "id1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
@@ -1073,9 +1036,6 @@ class StudentOfficerController {
             array_push($all, $lineData2);
         }
 
-
-
-
         $pdf = new tFPDF();
         $pdf->AddPage('L');
         $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
@@ -1090,13 +1050,6 @@ class StudentOfficerController {
         header('Content-Type: application/pdf');
         header('Content-Disposition: attachment; filename="' . $filename . '";');
     }
-
-
-
-
-
-
-
 
 
     /********* VNOS OCEN IZPITNEGA ROKA *********/
@@ -1126,7 +1079,6 @@ class StudentOfficerController {
 
                 // Get izpiti for profesor
                 $predmetiProfesorja = StudentOfficerDB::getPredmetiZaStudLeto($id_stud_leto);
-                //var_dump($predmetiProfesorja);
 
                 // Najdi izvajalce predmeta, kreiraj locen array $izvajalciPredmetov
                 $izvajalciPredmetov=[];
@@ -1157,8 +1109,6 @@ class StudentOfficerController {
                         }
                     }
                 }
-                //var_dump($izpitniRokiProfesorja);
-
 
                 ViewHelper::render("view/VnosOcenIzpitaChoosePredmetInRokR.php", [
                     "predmeti" => $predmetiProfesorja,
@@ -1186,7 +1136,6 @@ class StudentOfficerController {
                     "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
                 ]);
-                //var_dump("ID SL: " . $id_stud_leto);
 
                 $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
@@ -1196,7 +1145,6 @@ class StudentOfficerController {
                 $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
 
                 $rokData = RokModel::get($data["id_rok"]);
-
 
                 ViewHelper::render("view/VnosOcenIzpitaPoStudentihR.php", [
                     "id_predmet" => $data["id_predmet"],
@@ -1270,9 +1218,7 @@ class StudentOfficerController {
 
                 // Get izpiti for profesor
                 $id_oseba = User::getId();
-                //var_dump("ID_OSEBA=".$id_oseba." ID_STUD_LETO=".$id_stud_leto);
                 $predmetiProfesorja = StudentOfficerDB::getPredmetiZaStudLeto($id_stud_leto);
-                //var_dump($predmetiProfesorja);
 
                 // Najdi izvajalce predmeta, kreiraj locen array $izvajalciPredmetov
                 $izvajalciPredmetov=[];
@@ -1369,11 +1315,8 @@ class StudentOfficerController {
                     "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
                 ]);
-                //var_dump("ID SL: " . $id_stud_leto);
-
 
                 $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
-                //var_dump($prijavljeniStudenti);
                 $prijavljeniStudenti = ProfessorController::vnesiVP($prijavljeniStudenti);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
                 $izprasevalciArray = RokModel::getRokIzprasevalci($data["id_rok"]);
@@ -1382,9 +1325,6 @@ class StudentOfficerController {
                 $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
 
                 $rokData = RokModel::get($data["id_rok"]);
-                //var_dump($rokData);
-
-                //var_dump($prijavljeniStudenti);
 
                 ViewHelper::render("view/IzpisKoncnihOcenPoStudentihR.php", [
                     "id_predmet" => $data["id_predmet"],
@@ -1447,7 +1387,6 @@ class StudentOfficerController {
             $prijavljeniStudenti[$psKey]["TOCKE_IZPITA"] = $tocke;
         }
 
-        //var_dump($prijavljeniStudenti);
         return $prijavljeniStudenti;
     }
 
@@ -1462,11 +1401,7 @@ class StudentOfficerController {
         ProfesorDB::updateOcenaIzpita($data["id_prijava"], $data["ocena"]);
     }
 
-
-
-
-
-
+    
     public static function formatDateSlo($date){
         list($d, $m, $y) = explode('-', $date);
         return $y.".".$m.".".$d;

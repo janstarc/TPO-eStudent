@@ -297,21 +297,14 @@ class ProfessorController {
                     "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
                 ]);
-                //var_dump("ID SL: " . $id_stud_leto);
-
 
                 $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
-                //var_dump($prijavljeniStudenti);
                 $prijavljeniStudenti = self::vnesiVP($prijavljeniStudenti);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
                 $izprasevalciArray = RokModel::getRokIzprasevalci($data["id_rok"]);
-
                 $izvajalci = self::createIzvajalciString($izvajalciArray);
                 $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
                 $rokData = RokModel::get($data["id_rok"]);
-                //var_dump($rokData);
-
-                //var_dump($prijavljeniStudenti);
 
                 ViewHelper::render("view/IzpisKoncnihOcenPoStudentih.php", [
                     "id_predmet" => $data["id_predmet"],
@@ -333,9 +326,6 @@ class ProfessorController {
 
     public static function najdiZadnjoOceno($prijavljeniStudenti, $prijava){
 
-        //var_dump($prijavljeniStudenti);
-        //var_dump($prijava);
-
         foreach($prijavljeniStudenti as $psKey => $psValue){
             $maxIdPrijava = null;
             $stPolaganj = null;
@@ -350,9 +340,6 @@ class ProfessorController {
                     $stPolaganj = $pValue["ZAP_ST_POLAGANJ"];
                     $stPolaganjLetos = $pValue["ZAP_ST_POLAGANJ_LETOS"];
                     $tocke = $pValue["TOCKE_IZPITA"];
-
-                    //if(!isset($pValue["TOCKE_IZPITA"])) $tocke = "VP";
-                    //else $tocke = $pValue["TOCKE_IZPITA"];
                 }
 
                 if($psValue["VPISNA_STEVILKA"] == $pValue["VPISNA_STEVILKA"]) $cntrPrijav++;
@@ -360,7 +347,6 @@ class ProfessorController {
             }
 
             if($cntrPrijav == $cntrVrnjenihPrijav) $tocke = "VP";
-
 
             $prijavljeniStudenti[$psKey]["ID_PRIJAVA"] = $maxIdPrijava;
             $prijavljeniStudenti[$psKey]["ZAP_ST_POLAGANJ"] = $stPolaganj;
