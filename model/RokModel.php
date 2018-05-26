@@ -3,6 +3,25 @@
 require_once "DBInit.php";
 
 class RokModel {
+
+    public static function getRokIzprasevalci($id_rok){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT DISTINCT r.ID_OSEBA_IZPRASEVALEC1, ID_OSEBA_IZPRASEVALEC2, ID_OSEBA_IZPRASEVALEC3, o1.IME AS IME1, o1.PRIIMEK AS PRIIMEK1, o2.IME AS IME2, o2.PRIIMEK AS PRIIMEK2, o3.IME AS IME3, o3.PRIIMEK AS PRIIMEK3
+            FROM rok AS r
+              LEFT JOIN oseba o1 on r.ID_OSEBA_IZPRASEVALEC1 = o1.ID_OSEBA
+              LEFT JOIN oseba o2 on r.ID_OSEBA_IZPRASEVALEC2 = o2.ID_OSEBA
+              LEFT JOIN oseba o3 on r.ID_OSEBA_IZPRASEVALEC3 = o3.ID_OSEBA
+            WHERE r.ID_ROK = :id_rok
+        ");
+
+        $statement->bindParam(":id_rok", $id_rok);
+        $statement->execute();
+        return $statement->fetchAll();
+
+    }
+
     public static function isUnique(array $params) {
         $db = DBInit::getInstance();
 

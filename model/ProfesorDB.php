@@ -359,12 +359,28 @@ class ProfesorDB
         return $statement->fetchAll();
     }
 
+    public static function getIzpitniRokiZaStudLeto($id_stud_leto)
+    {
+
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT ip.ID_PREDMET, r.ID_ROK, r.ID_IZVEDBA, r.DATUM_ROKA, r.CAS_ROKA
+            FROM rok AS r
+            JOIN izvedba_predmeta AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
+            WHERE ip.ID_STUD_LETO = :id_stud_leto
+        ");
+
+        $statement->bindValue(":id_stud_leto", $id_stud_leto);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
     public static function getPrijavljeniNaIzpit($id_rok)
     {
 
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT o.ID_OSEBA, o.IME, o.PRIIMEK, p.ID_PRIJAVA, ip.ID_PREDMET, p.ID_ROK, p.PODATKI_O_PLACILU, p.ZAP_ST_POLAGANJ, p.ZAP_ST_POLAGANJ_LETOS, p.VPISNA_STEVILKA, p.DATUM_ODJAVE, p.DATUM_PRIJAVE, p.TOCKE_IZPITA
+            SELECT o.ID_OSEBA, o.IME, o.PRIIMEK, p.ID_PRIJAVA, ip.ID_PREDMET, p.ID_ROK, p.PODATKI_O_PLACILU, p.ZAP_ST_POLAGANJ, p.ZAP_ST_POLAGANJ_LETOS, p.VPISNA_STEVILKA, p.DATUM_ODJAVE, p.DATUM_PRIJAVE, p.TOCKE_IZPITA, p.OCENA_IZPITA
             FROM prijava AS p
               JOIN student AS s ON p.VPISNA_STEVILKA = s.VPISNA_STEVILKA
               JOIN oseba AS o ON s.ID_OSEBA = o.ID_OSEBA
@@ -378,6 +394,27 @@ class ProfesorDB
         $statement->execute();
         return $statement->fetchAll();
     }
+
+    /*
+    public static function getPrijavljeniNaIzpitIncludingVP($id_rok)
+    {
+
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT o.ID_OSEBA, o.IME, o.PRIIMEK, p.ID_PRIJAVA, ip.ID_PREDMET, p.ID_ROK, p.PODATKI_O_PLACILU, p.ZAP_ST_POLAGANJ, p.ZAP_ST_POLAGANJ_LETOS, p.VPISNA_STEVILKA, p.DATUM_ODJAVE, p.DATUM_PRIJAVE, p.TOCKE_IZPITA, p.OCENA_IZPITA
+            FROM prijava AS p
+              JOIN student AS s ON p.VPISNA_STEVILKA = s.VPISNA_STEVILKA
+              JOIN oseba AS o ON s.ID_OSEBA = o.ID_OSEBA
+              JOIN rok AS r ON p.ID_ROK = r.ID_ROK
+              JOIN izvedba_predmeta AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
+            WHERE p.ID_ROK = :id_rok
+        ");
+
+        $statement->bindValue(":id_rok", $id_rok);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+    */
 
     public static function updateTockeIzpita($id_prijava, $tocke){
 
@@ -393,20 +430,51 @@ class ProfesorDB
         $statement->execute();
     }
 
-    public static function updateKoncnaOcena($id_predmetistudenta, $ocena){
+    public static function updateOcenaIzpita($id_prijava, $ocena){
 
-        var_dump("ID ps: ".$id_predmetistudenta." Ocena: ".$ocena);
+        //var_dump("ID ps: ".$id_prijava." Ocena: ".$ocena);
         $db=DBInit::getInstance();
+        $statement = $db->prepare("
+            UPDATE prijava
+            SET OCENA_IZPITA = :ocena
+            WHERE ID_PRIJAVA = :id_prijava
+        ");
+
+        $statement->bindValue(":id_prijava", $id_prijava);
+        $statement->bindValue(":ocena", $ocena);
+        $statement->execute();
+
+        self::updateKoncnaOcena($id_prijava, $ocena);
+    }
+
+    public static function updateKoncnaOcena($id_prijava, $ocena){
+
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT ps.ID_PREDMETISTUDENTA, ps.OCENA
+            FROM predmeti_studenta AS ps
+            JOIN prijava AS p ON ps.VPISNA_STEVILKA = p.VPISNA_STEVILKA
+            JOIN rok AS r ON p.ID_ROK = r.ID_ROK
+            JOIN izvedba_predmeta ip on r.ID_IZVEDBA = ip.ID_IZVEDBA
+            WHERE ip.ID_PREDMET = ps.ID_PREDMET
+            AND p.ID_PRIJAVA = :id_prijava
+        ");
+        $statement->bindValue(":id_prijava", $id_prijava);
+        $statement->execute();
+        $result = $statement->fetch();
+
         $statement = $db->prepare("
             UPDATE predmeti_studenta
             SET OCENA = :ocena
             WHERE ID_PREDMETISTUDENTA = :id_predmetistudenta
         ");
 
-        $statement->bindValue(":id_predmetistudenta", $id_predmetistudenta);
         $statement->bindValue(":ocena", $ocena);
+        $statement->bindValue(":id_predmetistudenta", $result["ID_PREDMETISTUDENTA"]);
         $statement->execute();
     }
+
+
 
 
     public static function vrniPrijavoProfesor($id_prijava, $id_odjavitelj){

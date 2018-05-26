@@ -46,22 +46,12 @@
                     "bSortable": false
                 }, {
                     "sClass": "center",
-                    "bSortable": false
-                }, {
-                    "sClass": "center",
                     "bSortable": true,
                     "sType":"slo"
                 }, {
                     "sClass": "center",
                     "bSortable": true,
                     "sType":"slo"
-                },{
-                    "sClass": "center",
-                    "bSortable": true,
-                    "sType":"slo"
-                }, {
-                    "sClass": "center",
-                    "bSortable": false
                 }, {
                     "sClass": "center",
                     "bSortable": true,
@@ -72,7 +62,16 @@
                     "sType":"slo"
                 }, {
                     "sClass": "center",
-                    "bSortable": false
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
                 }],
                 // Ordering v prvem stolpcu
                 "order": [[ 1, 'asc' ]]
@@ -99,18 +98,20 @@
 
                     <p><big>Predmet: <b><?= PredmetModel::getPredmetIme($id_predmet)." (".PredmetModel::getPredmetSifra($id_predmet).")" ?></b></big></p>
                     <p><big>Nosilci predmeta: <b><?= $izvajalci ?></b></big></p>
-                    <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($id_stud_leto) ?></b></big></p>
+                    <p><big>Izpraševalci: <b><?= $izprasevalci ?></b></big></p>
+                    <p><big>Datum roka: <b><?= ProfessorController::formatDateSlo($rok_data["DATUM_ROKA"])." ob ".$rok_data["CAS_ROKA"] ?></b></big></p>
+                    <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($rok_data["ID_STUD_LETO"]) ?></b></big></p>
 
                     <div class="content-panel">
 
                         <div id="alert" class="alert alert-success alert-dismissible" role="alert" style="display: none">
                             <div id="alertContent"></div>
                         </div>
-                        <form  action="<?= BASE_URL . "IzpisKoncnihOcenR/leto/". $id_stud_leto . "/seznamStudentov/exportCSV" ?>" method="post">
+                        <form  action="<?= BASE_URL . "IzpisKoncnihOcenP/leto/". $rok_data["ID_STUD_LETO"] . "/seznamStudentov/exportCSV" ?>" method="post">
                             <input type="hidden" name="id_predmet" value="<?= $id_predmet ?>"/>
                             <input id="csv" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v CSV"/>
                         </form>
-                        <form  action="<?= BASE_URL . "IzpisKoncnihOcenR/leto/". $id_stud_leto . "/seznamStudentov/exportPDF" ?>" method="post">
+                        <form  action="<?= BASE_URL . "IzpisKoncnihOcenP/leto/". $rok_data["ID_STUD_LETO"] . "/seznamStudentov/exportPDF" ?>" method="post">
                             <input type="hidden" name="id_predmet" value="<?= $id_predmet ?>"/>
                             <input id="pdf" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v PDF"/>
                         </form>
@@ -121,7 +122,6 @@
                                 <th>Vpisna številka</th>
                                 <th>Ime</th>
                                 <th>Priimek</th>
-                                <th>ID Predmeti studenta</th>
                                 <th>Št. polaganj (skupno)</th>
                                 <th>Št. polaganj (letos)</th>
                                 <th>Točke izpita</th>
@@ -136,11 +136,10 @@
                                     <td><?= $value['VPISNA_STEVILKA'] ?></td>
                                     <td><?= $value['IME'] ?></td>
                                     <td><?= $value['PRIIMEK'] ?></td>
-                                    <td><?= $value['ID_PREDMETISTUDENTA'] ?></td>
                                     <td><?php if($value['ZAP_ST_POLAGANJ'] == null) echo "Ni vnosa"; else echo $value['ZAP_ST_POLAGANJ'] ?></td>
                                     <td><?php if($value['ZAP_ST_POLAGANJ_LETOS'] == null) echo "Ni vnosa"; else echo $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
                                     <td><?php if($value['TOCKE_IZPITA'] == null) echo "Ni vnosa"; else echo $value['TOCKE_IZPITA'] ?></td>
-                                    <td><?php if($value['OCENA'] == null) echo "Ni vnosa"; else echo $value['OCENA'] ?></td>
+                                    <td><?php if($value['OCENA_IZPITA'] == null) echo "Ni vnosa"; else echo $value['OCENA_IZPITA'] ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
