@@ -147,7 +147,8 @@
                 <div class="col-md-12 mt">
                     <h3>Vnos ocen izpitnega roka</h3>
                     <p><big>Predmet: <b><?= PredmetModel::getPredmetIme($id_predmet)." (".PredmetModel::getPredmetSifra($id_predmet).")" ?></b></big></p>
-                    <p><big>Izpraševalci: <b><?= $izvajalci ?></b></big></p>
+                    <p><big>Izvajalci: <b><?= $izvajalci ?></b></big></p>
+                    <p><big>Izpraševalci: <b><?= $izprasevalci ?></b></big></p>
                     <p><big>Datum roka: <b><?= ProfessorController::formatDateSlo($rok_data["DATUM_ROKA"])." ob ".$rok_data["CAS_ROKA"] ?></b></big></p>
                     <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($rok_data["ID_STUD_LETO"]) ?></b></big></p>
                     <div class="content-panel">

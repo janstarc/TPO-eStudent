@@ -1190,13 +1190,11 @@ class StudentOfficerController {
 
                 $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
-                $izvajalciArray = $izvajalciArray[0];
+                $izprasevalciArray = RokModel::getRokIzprasevalci($data["id_rok"]);
 
+                $izvajalci = self::createIzvajalciString($izvajalciArray);
+                $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
 
-                $izvajalci = "";
-                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
-                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
-                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
                 $rokData = RokModel::get($data["id_rok"]);
 
 
@@ -1206,6 +1204,7 @@ class StudentOfficerController {
                     "datum_roka" => $data["id_rok"],
                     "prijavljeniStudenti" => $prijavljeniStudenti,
                     "izvajalci" => $izvajalci,
+                    "izprasevalci" => $izprasevalci,
                     "rok_data" => $rokData
                 ]);
 
@@ -1317,24 +1316,6 @@ class StudentOfficerController {
         }else{
             ViewHelper::error401();
         }
-        /*
-        if (User::isLoggedIn()){
-            if (User::isLoggedInAsStudentOfficer()){
-
-                // Get izpiti for profesor
-                $predmetiProfesorja = StudentOfficerDB::getPredmetiZaStudLeto($id_stud_leto);
-
-                ViewHelper::render("view/VnosKoncnihOcenChoosePredmetInRokR.php", [
-                    "predmeti" => $predmetiProfesorja,
-                    "id_stud_leto" => $id_stud_leto
-                ]);
-            }else{
-                ViewHelper::error403();
-            }
-        }else{
-            ViewHelper::error401();
-        }
-        */
     }
 
     // Forma za vnos ocen, ko je ze izbran predmet in izpitni rok
@@ -1348,24 +1329,16 @@ class StudentOfficerController {
                     "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
                 ]);
-                //var_dump("ID SL: " . $id_stud_leto);
-
 
                 $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
-                //var_dump($prijavljeniStudenti);
                 $prijavljeniStudenti = ProfessorController::vnesiVP($prijavljeniStudenti);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
-                $izvajalciArray = $izvajalciArray[0];
+                $izprasevalciArray = RokModel::getRokIzprasevalci($data["id_rok"]);
 
+                $izvajalci = self::createIzvajalciString($izvajalciArray);
+                $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
 
-                $izvajalci = "";
-                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
-                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
-                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
                 $rokData = RokModel::get($data["id_rok"]);
-                //var_dump($rokData);
-
-                //var_dump($prijavljeniStudenti);
 
                 ViewHelper::render("view/VnosKoncnihOcenPoStudentihR.php", [
                     "id_predmet" => $data["id_predmet"],
@@ -1373,6 +1346,7 @@ class StudentOfficerController {
                     "datum_roka" => $data["id_rok"],
                     "prijavljeniStudenti" => $prijavljeniStudenti,
                     "izvajalci" => $izvajalci,
+                    "izprasevalci" => $izprasevalci,
                     "rok_data" => $rokData
                 ]);
 
@@ -1382,41 +1356,6 @@ class StudentOfficerController {
         }else{
             ViewHelper::error401();
         }
-
-        /*
-        if (User::isLoggedIn()){
-            if (User::isLoggedInAsStudentOfficer()){
-
-                $data = filter_input_array(INPUT_POST, [
-                    "id_predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                ]);
-
-                $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaPredmet($data["id_predmet"], $id_stud_leto);
-                $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
-                $izvajalciArray = $izvajalciArray[0];
-
-                $izvajalci = "";
-                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
-                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
-                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
-
-                $tockeIzpita = ProfesorDB::getTockeIzpita($data["id_predmet"], $id_stud_leto);
-                $prijavljeniStudenti = self::najdiZadnjoOceno($prijavljeniStudenti, $tockeIzpita);
-
-                ViewHelper::render("view/VnosKoncnihOcenPoStudentihR.php", [
-                    "id_predmet" => $data["id_predmet"],
-                    "prijavljeniStudenti" => $prijavljeniStudenti,
-                    "izvajalci" => $izvajalci,
-                    "id_stud_leto" => $id_stud_leto
-                ]);
-
-            }else{
-                ViewHelper::error403();
-            }
-        }else{
-            ViewHelper::error401();
-        }
-        */
     }
 
     // Forma za vnos ocen, ko je ze izbran predmet in izpitni rok
@@ -1437,13 +1376,11 @@ class StudentOfficerController {
                 //var_dump($prijavljeniStudenti);
                 $prijavljeniStudenti = ProfessorController::vnesiVP($prijavljeniStudenti);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
-                $izvajalciArray = $izvajalciArray[0];
+                $izprasevalciArray = RokModel::getRokIzprasevalci($data["id_rok"]);
 
+                $izvajalci = self::createIzvajalciString($izvajalciArray);
+                $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
 
-                $izvajalci = "";
-                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
-                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
-                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
                 $rokData = RokModel::get($data["id_rok"]);
                 //var_dump($rokData);
 
@@ -1455,6 +1392,7 @@ class StudentOfficerController {
                     "datum_roka" => $data["id_rok"],
                     "prijavljeniStudenti" => $prijavljeniStudenti,
                     "izvajalci" => $izvajalci,
+                    "izprasevalci" => $izprasevalci,
                     "rok_data" => $rokData
                 ]);
 
@@ -1464,42 +1402,24 @@ class StudentOfficerController {
         }else{
             ViewHelper::error401();
         }
-        /*
-        if (User::isLoggedIn()){
-            if (User::isLoggedInAsStudentOfficer()){
+    }
 
-                $data = filter_input_array(INPUT_POST, [
-                    "id_predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                ]);
-                //var_dump("ID SL: " . $id_stud_leto);
+    public static function createIzvajalciString($izvajalciArray){
+        $izvajalciArray = $izvajalciArray[0];
+        $izvajalci = "";
+        if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
+        if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
+        if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
+        return $izvajalci;
+    }
 
-                $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaPredmet($data["id_predmet"], $id_stud_leto);
-                //var_dump($prijavljeniStudenti);
-                $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
-                $izvajalciArray = $izvajalciArray[0];
-
-                $izvajalci = "";
-                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
-                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
-                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
-
-                $tockeIzpita = ProfesorDB::getTockeIzpita($data["id_predmet"], $id_stud_leto);
-                $prijavljeniStudenti = self::najdiZadnjoOceno($prijavljeniStudenti, $tockeIzpita);
-
-                ViewHelper::render("view/IzpisKoncnihOcenPoStudentihR.php", [
-                    "id_predmet" => $data["id_predmet"],
-                    "prijavljeniStudenti" => $prijavljeniStudenti,
-                    "izvajalci" => $izvajalci,
-                    "id_stud_leto" => $id_stud_leto
-                ]);
-
-            }else{
-                ViewHelper::error403();
-            }
-        }else{
-            ViewHelper::error401();
-        }
-        */
+    public static function createIzprasevalciString($izprasevalciArray){
+        $izprasevalciArray = $izprasevalciArray[0];
+        $izprasevalci = "";
+        if($izprasevalciArray["ID_OSEBA_IZPRASEVALEC1"] != null) $izprasevalci .= $izprasevalciArray["IME1"]." ".$izprasevalciArray["PRIIMEK1"];
+        if($izprasevalciArray["ID_OSEBA_IZPRASEVALEC2"] != null) $izprasevalci .= ", ".$izprasevalciArray["IME2"]." ".$izprasevalciArray["PRIIMEK2"];
+        if($izprasevalciArray["ID_OSEBA_IZPRASEVALEC3"] != null) $izprasevalci .= ", ".$izprasevalciArray["IME3"]." ".$izprasevalciArray["PRIIMEK3"];
+        return $izprasevalci;
     }
 
     public static function najdiZadnjoOceno($prijavljeniStudenti, $prijava){

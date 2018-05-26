@@ -100,13 +100,11 @@ class ProfessorController {
 
                 $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
-                $izvajalciArray = $izvajalciArray[0];
+                $izprasevalciArray = RokModel::getRokIzprasevalci($data["id_rok"]);
 
+                $izvajalci = self::createIzvajalciString($izvajalciArray);
+                $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
 
-                $izvajalci = "";
-                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
-                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
-                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
                 $rokData = RokModel::get($data["id_rok"]);
 
 
@@ -116,6 +114,7 @@ class ProfessorController {
                     "datum_roka" => $data["id_rok"],
                     "prijavljeniStudenti" => $prijavljeniStudenti,
                     "izvajalci" => $izvajalci,
+                    "izprasevalci" => $izprasevalci,
                     "rok_data" => $rokData
                 ]);
 
@@ -247,13 +246,10 @@ class ProfessorController {
                 //var_dump($prijavljeniStudenti);
                 $prijavljeniStudenti = self::vnesiVP($prijavljeniStudenti);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
-                $izvajalciArray = $izvajalciArray[0];
+                $izprasevalciArray = RokModel::getRokIzprasevalci($data["id_rok"]);
 
-
-                $izvajalci = "";
-                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
-                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
-                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
+                $izvajalci = self::createIzvajalciString($izvajalciArray);
+                $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
                 $rokData = RokModel::get($data["id_rok"]);
                 //var_dump($rokData);
 
@@ -265,6 +261,7 @@ class ProfessorController {
                     "datum_roka" => $data["id_rok"],
                     "prijavljeniStudenti" => $prijavljeniStudenti,
                     "izvajalci" => $izvajalci,
+                    "izprasevalci" => $izprasevalci,
                     "rok_data" => $rokData
                 ]);
 
@@ -307,13 +304,10 @@ class ProfessorController {
                 //var_dump($prijavljeniStudenti);
                 $prijavljeniStudenti = self::vnesiVP($prijavljeniStudenti);
                 $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
-                $izvajalciArray = $izvajalciArray[0];
+                $izprasevalciArray = RokModel::getRokIzprasevalci($data["id_rok"]);
 
-
-                $izvajalci = "";
-                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
-                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
-                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
+                $izvajalci = self::createIzvajalciString($izvajalciArray);
+                $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
                 $rokData = RokModel::get($data["id_rok"]);
                 //var_dump($rokData);
 
@@ -325,6 +319,7 @@ class ProfessorController {
                     "datum_roka" => $data["id_rok"],
                     "prijavljeniStudenti" => $prijavljeniStudenti,
                     "izvajalci" => $izvajalci,
+                    "izprasevalci" => $izprasevalci,
                     "rok_data" => $rokData
                 ]);
 
@@ -923,6 +918,24 @@ class ProfessorController {
         } else {
             ViewHelper::error401();
         }
+    }
+
+    public static function createIzvajalciString($izvajalciArray){
+        $izvajalciArray = $izvajalciArray[0];
+        $izvajalci = "";
+        if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
+        if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
+        if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
+        return $izvajalci;
+    }
+
+    public static function createIzprasevalciString($izprasevalciArray){
+        $izprasevalciArray = $izprasevalciArray[0];
+        $izprasevalci = "";
+        if($izprasevalciArray["ID_OSEBA_IZPRASEVALEC1"] != null) $izprasevalci .= $izprasevalciArray["IME1"]." ".$izprasevalciArray["PRIIMEK1"];
+        if($izprasevalciArray["ID_OSEBA_IZPRASEVALEC2"] != null) $izprasevalci .= ", ".$izprasevalciArray["IME2"]." ".$izprasevalciArray["PRIIMEK2"];
+        if($izprasevalciArray["ID_OSEBA_IZPRASEVALEC3"] != null) $izprasevalci .= ", ".$izprasevalciArray["IME3"]." ".$izprasevalciArray["PRIIMEK3"];
+        return $izprasevalci;
     }
 
 
