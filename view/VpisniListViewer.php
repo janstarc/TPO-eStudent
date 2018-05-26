@@ -44,28 +44,23 @@
                                         <label for="telefonska_stevilka">Telefon</label>
                                         <input type="number" class="form-control" id="telefonska_stevilka" name="telefonska_stevilka" value="<?= $KandidatPodatki["telefonska_stevilka"] ?>" required>
                                     </div>
+                                </div>
+                                <div class="col-xs-12 col-md-4">
+                                    <h3>Stalni Naslov</h3>
                                     <div class="form-group">
-                                        <label for="id_drzava">Državljanstvo</label>
-                                        <select class="form-control" id="id_drzava" name="id_drzava" required>
+                                        <label for="id_drzava">Država</label>
+                                        <select class="form-control" id="id_drzava" name="id_drzava" onchange="toggleDrzava();" required>
                                             <option selected disabled hidden></option>
                                             <?php foreach ($drzave as $drzava): ?>
                                                 <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-xs-12 col-md-4">
-                                    <h3>Stalni Naslov</h3>
                                     <div class="form-group">
                                         <label for="ulica">Ulica</label>
-                                        <input type="text" class="form-control" id="ulica" name="ulica" value="" required>
+                                        <input type="text" class="form-control" id="ulica" name="ulica" required>
                                     </div>
-                                    <!-- Hisna stevilka je lahko tudi 1a, zato ne more biti samo number -->
-                                    <div class="form-group">
-                                        <label for="hisna_stevilka">Hišna številka</label>
-                                        <input type="number" class="form-control" id="hisna_stevilka" name="hisna_stevilka" value="" required>
-                                    </div>
-                                    <div class="form-group">
+                                    <div class="form-group postaINobcina">
                                         <label for="id_posta">Kraj in poštna številka</label>
                                         <select class="form-control" id="id_posta" name="id_posta" required>
                                             <option selected disabled hidden></option>
@@ -74,36 +69,57 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    
-                                    <div class="form-group">
-                                        <label>Ali je stalni naslov, tudi naslov za vročanje?</label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optradio" id="je_zavrocanje" value="je_zavrocanje" required>Da
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optradio" id="ni_zavrocanje" value="ni_zavrocanje" >Ne
-                                        </label>
+                                    <div class="form-group postaINobcina">
+                                        <label for="id_obcina">Občina</label>
+                                        <select class="form-control" id="id_obcina" name="id_obcina" required>
+                                            <option selected disabled hidden></option>
+                                            <?php foreach ($obcine as $obcina): ?>
+                                                <option value="<?= $obcina["ID_OBCINA"] ?>"><?= $obcina["IME_OBCINA"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                     
-                                    <div id="naslov2">
-                                        <h3>Naslov za vročanje</h3>
-                                        <div class="form-group">
-                                            <label for="ulica2">Ulica</label>
-                                            <input type="text" class="form-control" id="ulica2" name="ulica2" value="" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="hisna_stevilka2">Hišna številka</label>
-                                            <input type="number" class="form-control" id="hisna_stevilka2" name="hisna_stevilka2" value="" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_posta2">Kraj in poštna številka</label>
-                                            <select class="form-control" id="id_posta2" name="id_posta2" required>
-                                                <option selected disabled hidden></option>
-                                                <?php foreach ($poste as $posta): ?>
-                                                    <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
+                                    <h3>Začasni naslov</h3>
+                                    <div class="form-group">
+                                        <label for="id_drzava2">Država</label>
+                                        <select class="form-control" id="id_drzava2" name="id_drzava2" onchange="toggleDrzava2();">
+                                            <option selected disabled hidden></option>
+                                            <?php foreach ($drzave as $drzava): ?>
+                                                <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ulica2">Ulica</label>
+                                        <input type="text" class="form-control" id="ulica2" name="ulica2">
+                                    </div>
+                                    <div class="form-group postaINobcina2">
+                                        <label for="id_posta2">Kraj in poštna številka</label>
+                                        <select class="form-control" id="id_posta2" name="id_posta2">
+                                            <option selected disabled hidden></option>
+                                            <?php foreach ($poste as $posta): ?>
+                                                <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group postaINobcina2">
+                                        <label for="id_obcina2">Občina</label>
+                                        <select class="form-control" id="id_obcina2" name="id_obcina2">
+                                            <option selected disabled hidden></option>
+                                            <?php foreach ($obcine as $obcina): ?>
+                                                <option value="<?= $obcina["ID_OBCINA"] ?>"><?= $obcina["IME_OBCINA"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Kateri naslov zelite uporabiti za vročanje poste?</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="naslovZaVrocanje" id="stalni" value="stalni" required>Stalni
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="naslovZaVrocanje" id="zacasni" value="zacasni" >Zacasni
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
@@ -142,8 +158,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <?php
-                                        foreach($predmeti as $predmet): ?>
+                                        <?php $vsota=0;
+                                        foreach($predmeti as $predmet):
+                                            $vsota+=$predmet['ST_KREDITNIH_TOCK']; ?>
                                             <tr>
                                                 <td><?php echo $predmet['IME_PREDMET']; ?></td>
                                                 <td><?php echo $predmet['ST_KREDITNIH_TOCK']; ?></td>
@@ -151,7 +168,7 @@
                                         <?php endforeach; ?>
                                         <tr>
                                             <td>Skupno st. KKT</td>
-                                            <td>60</td>
+                                            <td><?php echo $vsota; ?></td>
                                         </tr>
                                         </tbody>
                                     </table>

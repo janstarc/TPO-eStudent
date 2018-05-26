@@ -54,6 +54,10 @@ $urls = [
         if ($method == "GET") KandidatController::vpisForm();
         else if ($method == "POST") KandidatController::vpis();
         else ViewHelper::error405();
+    }, "/^vpisNasledniLetnik$/" => function ($method) {
+        if ($method == "GET") StudentController::vpisForm();
+        else if ($method == "POST") StudentController::vpis();
+        else ViewHelper::error405();
     }, "/^vpis2L$/" => function ($method) {
         if ($method == "GET") StudentController::vpis2LForm();
         else if ($method == "POST") StudentController::vpis2L();

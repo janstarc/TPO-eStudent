@@ -1,6 +1,7 @@
 <?php
 
 require_once("model/UserModel.php");
+require_once("model/StudentModel.php");
 require_once("model/PredmetModel.php");
 require_once("model/DataForExportModel.php");
 require_once("model/DelPredmetnikaModel.php");
@@ -10,6 +11,25 @@ require_once ("view/includes/tfpdf.php");
 
 
 class StudentController {
+    public static function vpisForm() {
+        $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
+        // echo '<pre>' . var_export($zeton, true) . '</pre>';
+        if ($zeton == null) {
+            ViewHelper::render("view/DisplayMessageViewer.php", [
+                "status" => "Info",
+                "message" => "Vpisni list ste ze oddali ali ne ispolnujete pogoje za vpis v visji letnik."
+            ]);
+        } else {
+            if ($zeton["ID_LETNIK"] == 2) {
+                self::vpis2LForm();
+            } else if ($zeton["ID_LETNIK"] == 3 && $zeton["PROSTA_IZBIRNOST"] == 0) {
+                self::vpis3L1Form();
+            } else if ($zeton["ID_LETNIK"] == 3 && $zeton["PROSTA_IZBIRNOST"] == 1) {
+                self::vpis3L2Form();
+            }
+        }
+    }
+
     public static function vpis2LForm($status = null, $message = null) {
         $ObvPredmeti = PredmetModel::getAllByType([
             "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
@@ -161,6 +181,7 @@ class StudentController {
         $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon','Državljanstvo');
         $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $emso['EMSO'], $studData['telefonska_stevilka'],"Slovenija");
 
+        // TODO
         //Naslov za vrocanje in stalni naslov
         $naslove=KandidatModel::getOsebaVseNaslove($studentId);
         $header1 = array('Ulica', 'Hišna številka', 'Kraj','Poštna številka');
@@ -248,6 +269,7 @@ class StudentController {
         $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon','Državljanstvo');
         $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $emso['EMSO'], $studData['telefonska_stevilka'],"Slovenija");
 
+        // TODO
         //Naslov za vrocanje in stalni naslov
         $naslove=KandidatModel::getOsebaVseNaslove($studentId);
         $header1 = array('Ulica', 'Hišna številka', 'Kraj','Poštna številka');

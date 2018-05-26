@@ -262,18 +262,19 @@ class StudentOfficerController {
     public static function kandidatPreglejVpisForm($id, $status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
-                $KandidatPodatki = KandidatModel::getKandidatPodatki($id);
+                $KandidatId = KandidatModel::getKandidatIdWithUserId($id);
+                $KandidatPodatki = KandidatModel::getKandidatPodatki($KandidatId);
                 $stud_leto = KandidatModel::getStudijskoLeto($KandidatPodatki["id_stud_leto"]);
                 $obcine = ObcinaModel::getAll();
                 $poste = PostaModel::getAll();
                 $drzave = DrzavaModel::getAll();
-                $userName = UserModel::getUserName(User::getId());
+                $userName = UserModel::getUserName($id);
                 $predmeti = PredmetModel::getAll([
                     "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
                     "ID_PROGRAM" => $KandidatPodatki["id_program"],
                     "ID_LETNIK" => 1
                 ]);
-                
+
                 ViewHelper::render("view/VpisniListPotrditevViewer.php", [
                     "pageTitle" => "Potrdi vpisni list izbranega kandidata",
                     "formAction" => "kandidati",
@@ -285,7 +286,7 @@ class StudentOfficerController {
                     "obcine" => $obcine,
                     "poste" => $poste,
                     "drzave" => $drzave,
-                    "naslove" => KandidatModel::getKandidatVseNaslove($id),
+                    "naslov" => KandidatModel::getKandidatVseNaslove($id),
                     "userName" => $userName,
                     "predmeti" => $predmeti,
                     "status" => $status,
@@ -340,55 +341,51 @@ class StudentOfficerController {
         }
     }
 
-    /*
-        array (size=9)
-          'Ime' => string 'kIme' (length=4)
-          'Priimek' => string 'kPriimek' (length=8)
-          'emso' => string '2147483647' (length=10)
-          'telefonska_stevilka' => string '123456789' (length=9)
-          'id_drzava' => string '4' (length=1)
-          'ulica1' => string 'aa' (length=2)
-          'hisna_stevilka1' => string '1' (length=1)
-          'id_posta1' => string '176' (length=3)
-          'ID_STUD_LETO' => string '2' (length=1)
-    */
     public static function kandidatiPotrdiVpisForm($id) {
+//        echo '<pre>' . var_export($_POST, true) . '</pre>';
 
         $data = filter_input_array(INPUT_POST, [
             "Ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "Priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "emso" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "id_drzava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "id_naslov1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "ulica1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "hisna_stevilka1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "id_posta1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "ID_STUD_LETO" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        // TODO - Ko se spremenijo naslovi!
-        $nasloviArr = array();
-        array_push($nasloviArr,
-            array('id_naslov' => $data['id_naslov1'], 'ulica' => $data['ulica1'], 'hisna_stevilka' => $data['hisna_stevilka1'],
-                    'id_posta' => $data['id_posta1'], 'id_drzava' => $data['id_drzava'], 'je_zavrocanje' => 1, 'je_stalni' => 1));
+        if (Validation::checkValues($data)) {
+            KandidatModel::updateImeInPriimek($id, $data['Ime'], $data['Priimek']);
+            KandidatModel::updateEmso($id, $data['emso']);
+            KandidatModel::updateTelefon($id, $data['telefonska_stevilka']);
 
-        KandidatModel::updateImeInPriimek($id, $data['Ime'], $data['Priimek']);
-        KandidatModel::updateEmso($id, $data['emso']);
-        KandidatModel::updateTelefon($id, $data['telefonska_stevilka']);
-        KandidatModel::updateNaslovi($id, $nasloviArr);
-        KandidatModel::potrdiVpisReferent($id);
+            $data["id_drzava"] = $_POST["id_drzava1"];
+            $data["ulica"] = $_POST["ulica1"];
+            $data["id_posta"] = $_POST["id_posta1"];
+            $data["id_obcina"] = $_POST["id_obcina1"];
+            $data["id_naslov"] = $_POST["id_naslov1"];
+            KandidatModel::updateNaslov($id, $data);
 
-        $KandidatPodatki = KandidatModel::getKandidatPodatki($id);
-        $predmeti = PredmetModel::getAll([
-            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
-            "ID_PROGRAM" => $KandidatPodatki["id_program"],
-            "ID_LETNIK" => 1
-        ]);
+            $data["id_drzava"] = $_POST["id_drzava2"];
+            $data["ulica"] = $_POST["ulica2"];
+            $data["id_posta"] = $_POST["id_posta2"];
+            $data["id_obcina"] = $_POST["id_obcina2"];
+            $data["id_naslov"] = $_POST["id_naslov2"];
+            KandidatModel::updateNaslov($id, $data);
 
-        $id_vpis = KandidatModel::getVpisId($id);
-        KandidatModel::insertPredmetiKandidat($id_vpis, $predmeti, $KandidatPodatki["id_stud_leto"]);
-        //self::kandidatiList("Success", "Vpis za študenta ".$data['ime']." ".$data['priimek']." uspešno potrjen!");
+            KandidatModel::potrdiVpisReferent($id);
+
+            $KandidatPodatki = KandidatModel::getKandidatPodatki($id);
+            $predmeti = PredmetModel::getAll([
+                "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+                "ID_PROGRAM" => $KandidatPodatki["id_program"],
+                "ID_LETNIK" => 1
+            ]);
+
+            $id_vpis = KandidatModel::getVpisId($id);
+            KandidatModel::insertPredmetiKandidat($id_vpis, $predmeti, $KandidatPodatki["id_stud_leto"]);
+
+            self::kandidatiList("Success", "Vpis za študenta ".$data['ime']." ".$data['priimek']." uspešno potrjen!");
+        } else {
+
+        }
     }
 
     public static function ZetonForm1($status = null, $message = null) {
