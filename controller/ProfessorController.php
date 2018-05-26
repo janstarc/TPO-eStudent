@@ -251,9 +251,14 @@ class ProfessorController {
                 $izvajalci = self::createIzvajalciString($izvajalciArray);
                 $izprasevalci = self::createIzprasevalciString($izprasevalciArray);
                 $rokData = RokModel::get($data["id_rok"]);
-                //var_dump($rokData);
 
-                //var_dump($prijavljeniStudenti);
+                foreach ($prijavljeniStudenti as $i=>$value){
+                    $stejPrijavLetos=StudentController::zapSteviloPrijavLetosProf($data["id_rok"],$value["VPISNA_STEVILKA"]);
+                    $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupnoProf($data["id_rok"],$value["VPISNA_STEVILKA"]);
+
+                    $prijavljeniStudenti[$i]["ZAP_ST_POLAGANJ"]=$stejPrijavSkupno;
+                    $prijavljeniStudenti[$i]["ZAP_ST_POLAGANJ_LETOS"]=$stejPrijavLetos;
+                }
 
                 ViewHelper::render("view/VnosKoncnihOcenPoStudentih.php", [
                     "id_predmet" => $data["id_predmet"],
@@ -262,7 +267,7 @@ class ProfessorController {
                     "prijavljeniStudenti" => $prijavljeniStudenti,
                     "izvajalci" => $izvajalci,
                     "izprasevalci" => $izprasevalci,
-                    "rok_data" => $rokData
+                    "rok_data" => $rokData,
                 ]);
 
             }else{

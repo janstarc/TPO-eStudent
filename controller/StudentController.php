@@ -431,9 +431,25 @@ class StudentController {
         $leto=$studLetoPredmet["ID_STUD_LETO"];
         $predmet=$studLetoPredmet["ID_PREDMET"];
 
+
         $countPrijav=PrijavaModel::countZapPrijavLetos($vpisnaSt,$leto,$predmet);
         return $countPrijav;
     }
+
+    public static function zapSteviloPrijavLetosProf($id_rok,$vpisna){
+
+        $studLetoPredmet=PrijavaModel::getStudLetoPredmetRok($id_rok);
+
+
+        $leto=$studLetoPredmet["ID_STUD_LETO"];
+        $predmet=$studLetoPredmet["ID_PREDMET"];
+
+
+        $countPrijav=PrijavaModel::countZapPrijavLetos($vpisna,$leto,$predmet);
+        return $countPrijav;
+    }
+
+
 
     public static function zapSteviloPrijavSkupno($id_rok){
 
@@ -444,6 +460,20 @@ class StudentController {
         $predmet=$studLetoPredmet["ID_PREDMET"];
 
         $countPrijav=PrijavaModel::countZapPrijavSkupno($vpisnaSt,$predmet);
+
+        return $countPrijav;
+    }
+
+
+    public static function zapSteviloPrijavSkupnoProf($id_rok,$vpisna){
+
+
+        $studLetoPredmet=PrijavaModel::getStudLetoPredmetRok($id_rok);
+
+
+        $predmet=$studLetoPredmet["ID_PREDMET"];
+
+        $countPrijav=PrijavaModel::countZapPrijavSkupno($vpisna,$predmet);
 
         return $countPrijav;
     }
