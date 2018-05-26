@@ -1401,7 +1401,7 @@ class StudentOfficerController {
         ProfesorDB::updateOcenaIzpita($data["id_prijava"], $data["ocena"]);
     }
 
-    
+
     public static function formatDateSlo($date){
         list($d, $m, $y) = explode('-', $date);
         return $y.".".$m.".".$d;

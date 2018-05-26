@@ -30,14 +30,19 @@ class PrijavaModel
                 $statement->execute();
                 if($statement->rowCount()==0){*/
 
+                $stejPrijavLetos=StudentController::zapSteviloPrijavLetosProf($id_rok,$vpisna);
+                $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupnoProf($id_rok,$vpisna);
+
                     $statement2 = $db -> prepare(
                         "INSERT INTO prijava 
                       (ID_ROK, VPISNA_STEVILKA, ZAP_ST_POLAGANJ,ZAP_ST_POLAGANJ_LETOS, PODATKI_O_PLACILU, DATUM_PRIJAVE)
-                      VALUES (:id_rok,:vpisna,1,1,'1',now())
+                      VALUES (:id_rok, :vpisna, :stejPrijavLetos, :stejPrijavSkupno, '1', now())
                       "
                     );
                     $statement2->bindValue(":vpisna", $vpisna);
                     $statement2->bindValue(":id_rok", $id_rok);
+                    $statement2->bindValue(":stejPrijavLetos", $stejPrijavLetos+1);
+                    $statement2->bindValue(":stejPrijavSkupno", $stejPrijavSkupno+1);
 
                     $statement2->execute();
                     //var_dump($statement2->rowCount());
