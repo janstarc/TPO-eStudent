@@ -13,9 +13,9 @@
     }
     //TODO : HARD-CODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     $datum=new DateTime();
-    $datum->setDate(2018,05,27);
+    $datum->setDate(2018,9,5);
 
-    $datumString="2018-05-27";
+    $datumString="2018-09-05";
 
     ?>
 
@@ -136,8 +136,8 @@
                                 $date2=date_create($datumString);
                                 $diff=date_diff($date2,$date1);
                                 $diff = $diff->format("%R%a");
-                                //var_dump($diff);
-                                if( $diff <= 1 ){
+                               // var_dump($diff);
+                                if( $diff <= 2 ){
                                     // -3 pomeni id_rok!=return hide prijava hide odjava
                                     $dozvoliPrijava=-3;
                                 }
@@ -191,7 +191,7 @@
                                                 if($dozvoliPrijava==-5): ?>
                                                     <p>Preseženo št. prijav <br> v trenutnem letu</p>
                                                 <?php else:
-                                                    var_dump($rok["ID_ROK"].' '.$odjava.' '.$dozvoliPrijava);
+                                                    //var_dump($rok["ID_ROK"].' '.$odjava.' '.$dozvoliPrijava);
                                                     ?>
                                                 <input id="prijava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm prijava <?= ($dozvoliPrijava!=$id_rok && $dozvoliPrijava!=0) ? "d-none" : ""?> " <?= ($dozvoliPrijava==$id_rok && $odjava!=$id_rok) ? "disabled" : ""?> type="submit"  value="Prijavi se"  />
                                                 <?php if(($nacinStudij==2) || ($stejPrijavSkupno==$stejPrijavLetos && $stejPrijavSkupno>=3)):?>
@@ -208,8 +208,12 @@
                                     </td>
                                     <td>
                                         <form action="<?= BASE_URL . $formAction . "odjava" ?>" method="post">
+                                            <?php if($dozvoliPrijava==-3): ?>
+                                                <p>Potekal je rok za odjavo</p>
+                                            <?php else: ?>
                                             <input type="hidden" name="odjava" value="<?= $rok["ID_ROK"] ?>" />
                                             <input id="odjava-<?= $rok["ID_ROK"] ?>" class="btn btn-primary btn-sm <?= $dozvoliPrijava==$id_rok ? "" : "d-none" ?> <?= $odjava==$id_rok ? "d-none" : ""?>" type="submit" value="Odjavi se" />
+                                            <?php endif;?>
                                         </form>
                                     </td>
                                 </tr>
