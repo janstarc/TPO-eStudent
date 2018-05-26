@@ -7,7 +7,7 @@
 
     <script>
 
-        var mainInfo=function(id_predmetistudenta, ocena, ime, priimek){
+        var mainInfo=function(id_prijava, ocena, ime, priimek){
 
             if(ocena <= 0){
                 $("#alert").removeClass("alert-success").addClass("alert-danger").show();
@@ -19,7 +19,7 @@
                 $.ajax({
                     type: "POST",
                     url:   "seznamStudentov/vnosEneKoncneOceneAjax",
-                    data: { "id_predmetistudenta": id_predmetistudenta,  "ocena": ocena},           // { name: "John" }
+                    data: { "id_prijava": id_prijava,  "ocena": ocena},           // { name: "John" }
                     success: function() {
                         $("#alert").removeClass("alert-danger").addClass("alert-success").show();
                         var message = "Vnos uspešen!   " + ime + " " + priimek + " (Končna ocena: " + ocena + ")";
@@ -30,6 +30,46 @@
         };
 
         $(document).ready( function () {
+
+            $('.cbox-prijava').on('change', function() {
+                var checkbox = $(this);
+
+                var id_prijava = $(this).data('id-prijava');
+                var ime = $(this).data('ime');
+                var priimek = $(this).data('priimek');
+
+                if (checkbox.is(':checked')){
+                    $.ajax({
+                        type: "POST",
+                        url:   "seznamStudentov/vrniPrijavoAjax",
+                        data: { "id_prijava": id_prijava },           // { name: "John" }
+                        success: function() {
+                            $("#alert").removeClass("alert-danger").addClass("alert-success").show();
+                            var message = "Vnos uspešen!   " + ime + " " + priimek + " uspešno odjavljen!";
+                            $("#alertContent").text(message);
+                            console.log(checkbox);
+                            var input = checkbox.parent().parent().find('#tockeInput input');
+                            input.val('');
+                            input.attr('disabled', true);
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url:   "seznamStudentov/prekliciVrnjenoPrijavoAjax",
+                        data: { "id_prijava": id_prijava },           // { name: "John" }
+                        success: function() {
+                            $("#alert").removeClass("alert-danger").addClass("alert-success").show();
+                            var message = "Vnos uspešen! Odjava za " + ime + " " + priimek + " uspešno preklicana";
+                            $("#alertContent").text(message);
+                            console.log(checkbox);
+                            var input = checkbox.parent().parent().find('#tockeInput input');
+                            input.val('');
+                            input.attr('disabled', false);
+                        }
+                    });
+                }
+            });
 
             // Override default sorta s custom sortom
             jQuery.fn.dataTableExt.oSort["slo-desc"] = function (x, y) {
@@ -47,30 +87,31 @@
                     "bSortable": false
                 }, {
                     "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                }, {
+                    "sClass": "center",
                     "bSortable": false
-                }, {
-                    "sClass": "center",
-                    "bSortable": true,
-                    "sType":"slo"
-                }, {
-                    "sClass": "center",
-                    "bSortable": true,
-                    "sType":"slo"
-                },{
-                    "sClass": "center",
-                    "bSortable": true,
-                    "sType":"slo"
-                }, {
-                    "sClass": "center",
-                    "bSortable": false
-                }, {
-                    "sClass": "center",
-                    "bSortable": true,
-                    "sType":"slo"
-                }, {
-                    "sClass": "center",
-                    "bSortable": true,
-                    "sType":"slo"
                 }, {
                     "sClass": "center",
                     "bSortable": false
@@ -100,7 +141,9 @@
 
                     <p><big>Predmet: <b><?= PredmetModel::getPredmetIme($id_predmet)." (".PredmetModel::getPredmetSifra($id_predmet).")" ?></b></big></p>
                     <p><big>Nosilci predmeta: <b><?= $izvajalci ?></b></big></p>
-                    <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($id_stud_leto) ?></b></big></p>
+                    <p><big>Izpraševalci: <b><?= $izvajalci ?></b></big></p>
+                    <p><big>Datum roka: <b><?= ProfessorController::formatDateSlo($rok_data["DATUM_ROKA"])." ob ".$rok_data["CAS_ROKA"] ?></b></big></p>
+                    <p><big>Študijsko leto: <b><?= StudijskoLetoModel::getIme($rok_data["ID_STUD_LETO"]) ?></b></big></p>
 
                     <br>
                     <div class="content-panel">
@@ -115,11 +158,11 @@
                                 <th>Vpisna številka</th>
                                 <th>Ime</th>
                                 <th>Priimek</th>
-                                <th>ID Predmeti studenta</th>
                                 <th>Št. polaganj (skupno)</th>
                                 <th>Št. polaganj (letos)</th>
                                 <th>Točke izpita</th>
                                 <th>Končna ocena</th>
+                                <th>Vrnjena prijava</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -130,11 +173,13 @@
                                     <td><?= $value['VPISNA_STEVILKA'] ?></td>
                                     <td><?= $value['IME'] ?></td>
                                     <td><?= $value['PRIIMEK'] ?></td>
-                                    <td><?= $value['ID_PREDMETISTUDENTA'] ?></td>
                                     <td><?php if($value['ZAP_ST_POLAGANJ'] == null) echo "Ni vnosa"; else echo $value['ZAP_ST_POLAGANJ'] ?></td>
                                     <td><?php if($value['ZAP_ST_POLAGANJ_LETOS'] == null) echo "Ni vnosa"; else echo $value['ZAP_ST_POLAGANJ_LETOS'] ?></td>
                                     <td><?php if($value['TOCKE_IZPITA'] == null) echo "Ni vnosa"; else echo $value['TOCKE_IZPITA'] ?></td>
-                                    <td> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PREDMETISTUDENTA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>')" value="<?= $value['OCENA'] ?>" /></td>
+                                    <td id="tockeInput"> <input id="test" type="number" name="tocke" onchange="mainInfo(<?= $value['ID_PRIJAVA'] ?>, this.value, '<?= $value['IME'] ?>', '<?= $value['PRIIMEK'] ?>')" value="<?= $value['OCENA_IZPITA'] ?>" /></td>
+                                    <td id="me">
+                                        <input type="checkbox" class="cbox-prijava" data-id-prijava="<?= $value['ID_PRIJAVA'] ?>" data-ime="<?= $value['IME'] ?>" data-priimek="<?= $value['PRIIMEK'] ?>">
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

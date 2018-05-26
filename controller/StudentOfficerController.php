@@ -1265,14 +1265,66 @@ class StudentOfficerController {
         }
     }
 
-    public static function vnosKoncnihOcenIzberiPredmet($id_stud_leto) {
+    public static function vnosKoncnihOcenIzberiPredmetInRok($id_stud_leto) {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsStudentOfficer()){
+
+                // Get izpiti for profesor
+                $id_oseba = User::getId();
+                //var_dump("ID_OSEBA=".$id_oseba." ID_STUD_LETO=".$id_stud_leto);
+                $predmetiProfesorja = StudentOfficerDB::getPredmetiZaStudLeto($id_stud_leto);
+                //var_dump($predmetiProfesorja);
+
+                // Najdi izvajalce predmeta, kreiraj locen array $izvajalciPredmetov
+                $izvajalciPredmetov=[];
+                foreach ($predmetiProfesorja as $key => $value){
+
+                    $izvajalciRoka = "";
+                    $tmp = PredmetModel::getPredmetIzvajalci($value["ID_PREDMET"], $id_stud_leto);
+                    $tmp = $tmp[0];
+
+                    if($tmp["ID_OSEBA1"] != null) $izvajalciRoka .= $tmp["IME1"]." ".$tmp["PRIIMEK1"];
+                    if ($tmp["ID_OSEBA2"] != null) $izvajalciRoka .= ", ".$tmp["IME2"]." ".$tmp["PRIIMEK2"];
+                    if ($tmp["ID_OSEBA3"] != null) $izvajalciRoka .= ", ".$tmp["IME3"]." ".$tmp["PRIIMEK3"];
+                    $temp["ID_PREDMET"] = $value["ID_PREDMET"];
+                    $temp["IZVAJALEC"] = $izvajalciRoka;
+
+                    array_push($izvajalciPredmetov, $temp);
+                }
+
+                // Get izpitni roki za vse izpite profesorja
+                $izpitniRokiProfesorja = ProfesorDB::getIzpitniRokiZaStudLeto($id_stud_leto);
+
+                foreach($izpitniRokiProfesorja as $key => $value){
+                    $izpitniRokiProfesorja[$key]["DATUM_ROKA"] = self::formatDateSlo($value["DATUM_ROKA"]);
+
+                    foreach($izvajalciPredmetov as $k1 => $v1){
+                        if($v1["ID_PREDMET"] === $value["ID_PREDMET"]){
+                            $izpitniRokiProfesorja[$key]["IZVAJALEC"] = $v1["IZVAJALEC"];
+                        }
+                    }
+                }
+
+                ViewHelper::render("view/VnosKoncnihOcenChoosePredmetInRokR.php", [
+                    "predmeti" => $predmetiProfesorja,
+                    "izpitniRoki" => $izpitniRokiProfesorja,
+                    "izvajalciPredmetov" => $izvajalciPredmetov,
+                    "id_stud_leto" => $id_stud_leto
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+        /*
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
 
                 // Get izpiti for profesor
                 $predmetiProfesorja = StudentOfficerDB::getPredmetiZaStudLeto($id_stud_leto);
 
-                ViewHelper::render("view/VnosKoncnihOcenChoosePredmetR.php", [
+                ViewHelper::render("view/VnosKoncnihOcenChoosePredmetInRokR.php", [
                     "predmeti" => $predmetiProfesorja,
                     "id_stud_leto" => $id_stud_leto
                 ]);
@@ -1282,11 +1334,56 @@ class StudentOfficerController {
         }else{
             ViewHelper::error401();
         }
+        */
     }
 
     // Forma za vnos ocen, ko je ze izbran predmet in izpitni rok
     public static function vnosKoncnihOcen($id_stud_leto){
 
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsStudentOfficer()){
+
+                $data = filter_input_array(INPUT_POST, [
+                    "id_predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+                ]);
+                //var_dump("ID SL: " . $id_stud_leto);
+
+
+                $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
+                //var_dump($prijavljeniStudenti);
+                $prijavljeniStudenti = ProfessorController::vnesiVP($prijavljeniStudenti);
+                $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
+                $izvajalciArray = $izvajalciArray[0];
+
+
+                $izvajalci = "";
+                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
+                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
+                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
+                $rokData = RokModel::get($data["id_rok"]);
+                //var_dump($rokData);
+
+                //var_dump($prijavljeniStudenti);
+
+                ViewHelper::render("view/VnosKoncnihOcenPoStudentihR.php", [
+                    "id_predmet" => $data["id_predmet"],
+                    "id_rok" => $data["id_rok"],
+                    "datum_roka" => $data["id_rok"],
+                    "prijavljeniStudenti" => $prijavljeniStudenti,
+                    "izvajalci" => $izvajalci,
+                    "rok_data" => $rokData
+                ]);
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+
+        /*
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
 
@@ -1319,11 +1416,55 @@ class StudentOfficerController {
         }else{
             ViewHelper::error401();
         }
+        */
     }
 
     // Forma za vnos ocen, ko je ze izbran predmet in izpitni rok
     public static function izpisKoncnihOcen($id_stud_leto){
 
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsStudentOfficer()){
+
+                $data = filter_input_array(INPUT_POST, [
+                    "id_predmet" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+                    "id_rok" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+                ]);
+                //var_dump("ID SL: " . $id_stud_leto);
+
+
+                $prijavljeniStudenti = ProfesorDB::getPrijavljeniNaIzpit($data['id_rok']);
+                //var_dump($prijavljeniStudenti);
+                $prijavljeniStudenti = ProfessorController::vnesiVP($prijavljeniStudenti);
+                $izvajalciArray = PredmetModel::getPredmetIzvajalci($data["id_predmet"], $id_stud_leto);
+                $izvajalciArray = $izvajalciArray[0];
+
+
+                $izvajalci = "";
+                if($izvajalciArray["ID_OSEBA1"] != null) $izvajalci .= $izvajalciArray["IME1"]." ".$izvajalciArray["PRIIMEK1"];
+                if($izvajalciArray["ID_OSEBA2"] != null) $izvajalci .= ", ".$izvajalciArray["IME2"]." ".$izvajalciArray["PRIIMEK2"];
+                if($izvajalciArray["ID_OSEBA3"] != null) $izvajalci .= ", ".$izvajalciArray["IME3"]." ".$izvajalciArray["PRIIMEK3"];
+                $rokData = RokModel::get($data["id_rok"]);
+                //var_dump($rokData);
+
+                //var_dump($prijavljeniStudenti);
+
+                ViewHelper::render("view/IzpisKoncnihOcenPoStudentihR.php", [
+                    "id_predmet" => $data["id_predmet"],
+                    "id_rok" => $data["id_rok"],
+                    "datum_roka" => $data["id_rok"],
+                    "prijavljeniStudenti" => $prijavljeniStudenti,
+                    "izvajalci" => $izvajalci,
+                    "rok_data" => $rokData
+                ]);
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+        /*
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
 
@@ -1358,6 +1499,7 @@ class StudentOfficerController {
         }else{
             ViewHelper::error401();
         }
+        */
     }
 
     public static function najdiZadnjoOceno($prijavljeniStudenti, $prijava){
@@ -1393,11 +1535,11 @@ class StudentOfficerController {
     public static function vnosEneKoncneOceneAjax(){
 
         $data = filter_input_array(INPUT_POST, [
-            "id_predmetistudenta" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id_prijava" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "ocena" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        ProfesorDB::updateKoncnaOcena($data["id_predmetistudenta"], $data["ocena"]);
+        ProfesorDB::updateOcenaIzpita($data["id_prijava"], $data["ocena"]);
     }
 
 

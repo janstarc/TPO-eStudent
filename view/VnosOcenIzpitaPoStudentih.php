@@ -158,7 +158,7 @@
                         <table id="tabelaOcen" class="table table-bordered table-striped table-condensed">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>#</th>
                                     <th>ID Prijava</th>
                                     <th>Vpisna številka</th>
                                     <th>Ime</th>
