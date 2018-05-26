@@ -91,6 +91,18 @@
 
                                 }
                                 //var_dump($odjava);
+
+                                if($i>0){
+                                    $getTmpName=$roki[$i]["IME_PREDMET"];
+                                    $getPrevName=$roki[$i-1]["IME_PREDMET"];
+                                    $getTmpDate=$roki[$i]["DATUM_ROKA"];
+                                    $getPrevDate=$roki[$i-1]["DATUM_ROKA"];
+
+                                    if($getPrevName==$getTmpName && $getPrevDate==$getTmpDate){
+                                        continue;
+                                    }
+                                }
+
                                 if(isset($rok["OCENA_IZPITA"])){
                                     continue;
                                 }
