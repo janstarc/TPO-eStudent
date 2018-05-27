@@ -1299,47 +1299,111 @@ function Output($name='', $dest='')
 
     }
 
-    function BasicTableH($header,$lineData){
+    function BasicTableO($header,$lineData){
+        for($i=0; $i<count($header);$i++) {
+            $this->Cell(70, 7, $header[$i], 1);
+            $this->Cell(70, 7, $lineData[$i], 1);
+            $this->Ln();
+        }
 
+    }
+
+    function BasicTableH($header,$lineData){
+        $this->Cell(20, 7, "#", 1);
         foreach($header as $col) {
-            $this->Cell(65, 7, $col, 1);
+            $this->Cell(45, 7, $col, 1);
 
         }
         $this->Ln();
 
         // Data
 
-        foreach ($lineData as $row) {
-
+        foreach ($lineData as $i=>$row) {
+            $this->Cell(20, 7, $i+1, 1);
             foreach ($row as $col) {
-                $this->Cell(65, 7, $col, 1);
+                $this->Cell(45, 7, $col, 1);
 
             }
             $this->Ln();
         }
 
+    }
 
+    function BasicTableHSt($header,$lineData){
+        $this->Cell(20, 7, "#", 1);
+        foreach($header as $col) {
+            $this->Cell(60, 7, $col, 1);
 
+        }
+        $this->Ln();
+
+        // Data
+
+        foreach ($lineData as $i=>$row) {
+            $this->Cell(20, 7, $i+1, 1);
+            foreach ($row as $col) {
+                $this->Cell(60, 7, $col, 1);
+
+            }
+            $this->Ln();
+        }
 
     }
 
     function BasicTableH2($header,$lineData){
 
-        foreach($header as $col) {
-            $this->Cell(55, 7, $col, 1);
+        foreach($header as $i=>$col) {
+            if($i==1){
+                $this->Cell(55, 7, $col, 1);
+            }else{
+                $this->Cell(45, 7, $col, 1);
+            }
+            //$this->Cell(55, 7, $col, 1);
         }
         $this->Ln();
         // Data
 
 
-        foreach ($lineData as $col) {
-            $this->Cell(55, 7, $col, 1);
+        foreach ($lineData as $i=>$col) {
+            if($i==1){
+                $this->Cell(55, 7, $col, 1);
+            }else{
+                $this->Cell(45, 7, $col, 1);
+            }
+
+        	//$this->Cell(55, 7, $col, 1);
 
         }
         $this->Ln();
 
     }
 
+
+    function BasicTableP($header,$lineData){
+
+        foreach($header as $i=>$col) {
+        	if($i==1){
+                $this->Cell(55, 7, $col, 1);
+			}else{
+                $this->Cell(35, 7, $col, 1);
+			}
+
+        }
+        $this->Ln();
+        // Data
+
+
+        foreach ($lineData as $i=>$col) {
+            if($i==1){
+                $this->Cell(55, 7, $col, 1);
+            }else{
+                $this->Cell(35, 7, $col, 1);
+            }
+
+        }
+        $this->Ln();
+
+    }
 
 
 /*******************************************************************************

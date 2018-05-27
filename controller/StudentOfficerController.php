@@ -910,6 +910,9 @@ class StudentOfficerController {
         $filename = "data.csv";
         $f = fopen('php://memory', 'w');
 
+        $text = array("UNIVERZA V LJUBLJANI, FAKULTETA ZA RAČUNALNIŠTVO IN INFORMATIKO");
+        fputcsv($f, $text, $delimiter);
+
         $fields = array('Šifra predmeta','Ime predmeta', 'Študijsko leto', 'Število vpisanih studentov');
         $lineData = array($predmet["ID_PREDMET"] , $predmet["IME_PREDMET"], $leto, $vpisani);
 
@@ -964,8 +967,18 @@ class StudentOfficerController {
         }
 
         $pdf = new tFPDF();
-        $pdf->AddPage('L');
+        $pdf->AddPage('');
         $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+
+        $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
+        $pdf->Ln();
+        $tDate=date("Y-m-d");
+        $sloDate=ProfessorController::formatDateSlo($tDate);
+        $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $pdf->Ln();
+
         $pdf->SetFont('DejaVu','',10);
         $pdf->Cell(40,10,'Izpis podatkov o predmetu');
         $pdf->Ln();
@@ -995,6 +1008,9 @@ class StudentOfficerController {
         $delimiter = ",";
         $filename = "data.csv";
         $f = fopen('php://memory', 'w');
+
+        $text = array("UNIVERZA V LJUBLJANI, FAKULTETA ZA RAČUNALNIŠTVO IN INFORMATIKO");
+        fputcsv($f, $text, $delimiter);
 
         $fields = array();
         fputcsv($f, $fields, $delimiter);
@@ -1039,11 +1055,19 @@ class StudentOfficerController {
         $pdf = new tFPDF();
         $pdf->AddPage('L');
         $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+        $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
+        $pdf->Ln();
+        $tDate=date("Y-m-d");
+        $sloDate=ProfessorController::formatDateSlo($tDate);
+        $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $pdf->Ln();
         $pdf->SetFont('DejaVu','',10);
         $pdf->Cell(40,10,'Izpis podatkov o številu vpisanih:');
 
         $pdf->Ln();
-        $pdf->BasicTableH($header2,$all);
+        $pdf->BasicTableHSt($header2,$all);
         $pdf->Output();
 
         $filename="data.pdf";

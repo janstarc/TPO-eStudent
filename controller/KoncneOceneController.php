@@ -111,8 +111,13 @@ class KoncneOceneController
         $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->SetFont('DejaVu','',15);
+        $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
+        $pdf->SetFont('DejaVu','',15);
         $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
         $pdf->Ln();
+        $tDate=date("Y-m-d");
+        $sloDate=ProfessorController::formatDateSlo($tDate);
+        $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
         $pdf->Ln();
 
 
@@ -131,6 +136,8 @@ class KoncneOceneController
 
         $pdf->SetFont('DejaVu','',8);
         $fields=array("Vpisna številka","Ime","Priimek","Št. polaganj (skupno)","Št. polaganj (letos)","Točke izpita","Končna ocena");
+
+        $pdf->Cell(35, 7, "#", 1);
         foreach($fields as $col) {
             $pdf->Cell(35, 7, $col, 1);
 
@@ -163,6 +170,7 @@ class KoncneOceneController
                 $ocena = $value["OCENA"];
             }
             $lineData = array($value["VPISNA_STEVILKA"], $value["IME"], $value["PRIIMEK"], $zapPolaganj, $zapPolaganjLetos, $tocke, $ocena);
+            $pdf->Cell(35, 7, $key+1, 1);
             foreach($lineData as $col) {
                 $pdf->Cell(35, 7, $col, 1);
 

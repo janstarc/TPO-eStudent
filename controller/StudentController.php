@@ -83,11 +83,19 @@ class StudentController {
 
         $pdf= new tFPDF();
         $pdf->AddPage();
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
+        $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
+        $pdf->Ln();
+        $tDate=date("Y-m-d");
+        $sloDate=ProfessorController::formatDateSlo($tDate);
+        $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $pdf->Ln();
 
-        $pdf->SetFont('DejaVu','',30);
-        $pdf->Cell(200,50,'VPISNI LIST ',0,0,'C');
+        $pdf->SetFont('DejaVu','',25);
+        $pdf->Cell(200,30,'VPISNI LIST ',0,0,'C');
         $pdf->Ln();
 
         $pdf->SetFont('DejaVu','',15);
@@ -171,11 +179,19 @@ class StudentController {
         $pdf= new tFPDF();
         for($i=0;$i<6;$i++){
             $pdf->AddPage();
-            $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+            $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
+            $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
+            $pdf->SetFont('DejaVu','',15);
+            $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
+            $pdf->Ln();
+            $tDate=date("Y-m-d");
+            $sloDate=ProfessorController::formatDateSlo($tDate);
+            $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Ln();
 
-            $pdf->SetFont('DejaVu','',30);
-            $pdf->Cell(200,50,'VPISNI LIST ',0,0,'C');
+            $pdf->SetFont('DejaVu','',25);
+            $pdf->Cell(200,30,'VPISNI LIST ',0,0,'C');
             $pdf->Ln();
 
             $pdf->SetFont('DejaVu','',15);

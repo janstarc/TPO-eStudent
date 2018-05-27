@@ -5,6 +5,7 @@ require_once("model/UserModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
 require ("view/includes/fpdf.php");
+require_once ("view/includes/tfpdf.php");
 require ("view/includes/helveticab.php");
 
 
@@ -502,6 +503,10 @@ class AdminController {
         $filename = "data.csv";
         $f = fopen('php://memory', 'w');
 
+        $text = array("UNIVERZA V LJUBLJANI, FAKULTETA ZA RAČUNALNIŠTVO IN INFORMATIKO");
+        fputcsv($f, $text, $delimiter);
+
+
         //set column headers
         $fields = array('VpisnaStevilka','Ime', 'Priimek', 'NaslovStalnegaBivalisca', 'NaslovZaPrejemanjePoste','TelefonskaStevilka','NaslovElektronskePoste');
 
@@ -539,10 +544,12 @@ class AdminController {
 
         }
 
-        for($i=0; $i<count($fields);$i++){
-            $add=array($fields[$i],$lineData[$i]);
-            fputcsv($f, $add, $delimiter);
-        }
+        //for($i=0; $i<count($fields);$i++){
+        //    $add=array($fields[$i],$lineData[$i]);
+
+        fputcsv($f, $fields, $delimiter);
+        fputcsv($f, $lineData, $delimiter);
+        //}
 
 
         fseek($f, 0);
@@ -584,17 +591,40 @@ class AdminController {
             $lineData2 = array($value['letnik'], $value['naziv_program'], $value['sifra_evs'], $value['opis_vpisa'],$value['opis_nacin']);
         }
 
+        $pdf= new tFPDF();
+        $pdf->AddPage('');
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
-        $pdf = new FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','B',8);
-        $pdf->Cell(40,10,'Izpis osebnih podatkov studenta');
+        $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
         $pdf->Ln();
-        $pdf->BasicTable($header,$lineData);
-        $pdf->Cell(40,10,'Izpis podatkov o vpisih');
+        $tDate=date("Y-m-d");
+        $sloDate=ProfessorController::formatDateSlo($tDate);
+        $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
         $pdf->Ln();
-        $pdf->BasicTable($header2,$lineData2);
-        $pdf->Output('I','data.pdf');
+
+        $imePriimek=$studData[0]["ime"].' '.$studData[0]["priimek"];
+
+        $pdf->SetFont('DejaVu','',25);
+        $pdf->Cell(180,10,'Osebni podatki študenta: '. $imePriimek,0,0);
+        $pdf->Ln();
+        $pdf->Ln();
+
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(80,10,'Izpis osebnih podatkov studenta');
+        $pdf->Ln();
+
+        $pdf->SetFont('DejaVu','',10);
+        $pdf->BasicTableO($header,$lineData);
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Ln();
+        $pdf->Cell(80,10,'Izpis podatkov o vpisih');
+        $pdf->Ln();
+        $pdf->SetFont('DejaVu','',10);
+        $pdf->BasicTableP($header2,$lineData2);
+
+        $pdf->Output();
 
         $filename="data.pdf";
         header('Content-Type: application/pdf');
