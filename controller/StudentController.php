@@ -13,13 +13,13 @@ require_once ("view/includes/tfpdf.php");
 class StudentController {
     public static function vpisForm() {
         $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
-        // echo '<pre>' . var_export($zeton, true) . '</pre>';
         if ($zeton == null) {
             ViewHelper::render("view/DisplayMessageViewer.php", [
                 "status" => "Info",
                 "message" => "Vpisni list ste ze oddali ali ne ispolnujete pogoje za vpis v visji letnik."
             ]);
         } else {
+            echo '<pre>' . var_export($zeton, true) . '</pre>';
             if ($zeton["ID_LETNIK"] == 2) {
                 self::vpis2LForm();
             } else if ($zeton["ID_LETNIK"] == 3 && $zeton["PROSTA_IZBIRNOST"] == 0) {

@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="emso">EMŠO</label>
-                                        <input type="number" class="form-control" id="emso" name="emso" value="<?= $KandidatPodatki["emso"] ?>" required>
+                                        <input type="number" class="form-control" id="emso" name="emso" value="<?= $KandidatPodatki["emso"] ?>" maxlength="13" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="telefonska_stevilka">Telefon</label>

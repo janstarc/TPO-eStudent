@@ -2002,8 +2002,8 @@ INSERT INTO `tpo`.`naslov`(`ID_NASLOV`,`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVA`,
 INSERT INTO  `tpo`.`zeton`
 (`ID_OSEBA`, `ID_LETNIK`, `ID_STUD_LETO`, `ID_OBLIKA`, `ID_NACIN`, `ID_VRSTAVPISA`, `ID_PROGRAM`,`IZKORISCEN`, `AKTIVNOST`)
 VALUES
-  (1,1,1,1,1,1,3,0,1),
-  (4,1,1,1,1,1,3,0,1),
+  (1,1,1,1,1,1,3,1,1),
+  (4,1,1,1,1,1,3,1,1),
   (7,1,1,1,1,2,3,1,0),
   (8,1,1,1,1,1,3,1,0),
   (10,2,1,1,1,1,3,1,0),
