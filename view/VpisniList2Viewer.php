@@ -20,7 +20,6 @@
                         <?php endif; ?>
 
                         <form action="<?= BASE_URL . $formAction ?>" method="post" class="form-horizontal">
-                        TODO    <input type="hidden" name="email" value="<?= $KandidatPodatki["email"] ?>" />
                             <div class="row">
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Osebni podatki</h3>
