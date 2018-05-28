@@ -355,6 +355,19 @@ class StudentModel{
         $result = $statement->fetch();
         return $result;
     }
+    
+    public static function setZetonToIzkoriscen($id_zeton){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            UPDATE zeton
+            SET IZKORISCEN = 1
+            WHERE ID_ZETON = :id_zeton
+        ");
+
+        $statement->bindValue(":id_zeton", $id_zeton);
+        $statement->execute();
+    }
 
     public static function getIzkoriscenAktivenZeton($id_oseba){
 

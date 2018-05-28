@@ -20,13 +20,13 @@
                         <?php endif; ?>
 
                         <form action="<?= BASE_URL . $formAction ?>" method="post" class="form-horizontal">
-                            <input type="hidden" name="email" value="<?= $KandidatPodatki["email"] ?>" />
+                        TODO    <input type="hidden" name="email" value="<?= $KandidatPodatki["email"] ?>" />
                             <div class="row">
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Osebni podatki</h3>
                                     <div class="form-group">
                                         <label for="Ime">Ime</label>
-                                        <input type="text" class="form-control" id="Ime" name="Ime" value="<?= $KandidatPodatki["ime"] ?>" required disabled autofocus>
+                                        <input type="text" class="form-control" id="Ime" name="Ime" value="<?= $KandidatPodatki["ime"] ?>" required  autofocus disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="Priimek">Priimek</label>
@@ -38,92 +38,178 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="emso">EMŠO</label>
-                                        <input type="number" class="form-control" id="emso" name="emso" value="<?= $KandidatPodatki["emso"] ?>" required>
+                                        <input type="number" class="form-control" id="emso" name="emso" value="<?= $KandidatPodatki["emso"] ?>" maxlength="13" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="telefonska_stevilka">Telefon</label>
                                         <input type="number" class="form-control" id="telefonska_stevilka" name="telefonska_stevilka" value="<?= $KandidatPodatki["telefonska_stevilka"] ?>" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="id_drzava">Državljanstvo</label>
-                                        <select class="form-control" id="id_drzava" name="id_drzava" required>
-                                            <option selected disabled hidden></option>
-                                            <?php foreach ($drzave as $drzava): ?>
-                                                <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
-                                    <?php
-                                    $i = 1;
-                                    foreach ($naslove as $naslov): ?>
-                                        <input type="hidden" value="<?= $naslov["ID_NASLOV"] ?>" name="id_naslov<?= $i ?>">
-                                        <?php if ($naslov["JE_ZAVROCANJE"]==1 && $naslov["JE_STALNI"]==1): ?>
-                                            <h3>Stalni in tudi naslov za vrocanje</h3>
-                                        <?php elseif ($naslov["JE_STALNI"]==1): ?>
-                                            <h3>Stalni naslov</h3>
-                                        <?php elseif ($naslov["JE_ZAVROCANJE"]==1): ?>
-                                            <h3>(Zacasni) Naslov za vrocanje</h3>
-                                        <?php endif; ?>
-
-                                        <div class="form-group">
-                                            <label for="id_drzava<?= $i ?>">Država</label>
-                                            <select class="form-control" id="id_drzava<?= $i ?>" name="id_drzava<?= $i ?>" required>
-                                                <?php foreach ($drzave as $drzava):
-                                                    if ($naslov["ID_DRZAVA"] == $drzava["ID_DRZAVA"]): ?>
-                                                        <option selected value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
-                                                    <?php else: ?>
-                                                        <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
-                                                    <?php endif;
-                                                endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="ulica<?= $i ?>">Ulica</label>
-                                            <input type="text" class="form-control" id="ulica<?= $i ?>" name="ulica<?= $i ?>" value="<?= $naslov["ULICA"] ?>" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_posta<?= $i ?>">Kraj in poštna številka</label>
-                                            <select class="form-control" id="id_posta<?= $i ?>" name="id_posta<?= $i ?>" required>
-                                                <?php foreach ($poste as $posta):
-                                                    if ($naslov["ID_POSTA"] == $posta["ID_POSTA"]): ?>
+                                    <h3>Stalni Naslov</h3>
+                                    <input type="hidden" name="ID_NASLOV1" value="<?= $naslov[0]["ID_NASLOV"] ?>" />
+                                    <div class="form-group">
+                                        <label for="id_drzava">Država</label>
+                                        <select class="form-control" id="id_drzava" name="id_drzava" onchange="toggleDrzava();" required>
+                                            <?php foreach ($drzave as $drzava):
+                                                if ($naslov[0]["ID_DRZAVA"] == $drzava["ID_DRZAVA"]): ?>
+                                                    <option selected value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                                <?php endif;
+                                            endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ulica">Ulica</label>
+                                        <input type="text" class="form-control" id="ulica" name="ulica" value="<?= $naslov[0]["ULICA"] ?>" required>
+                                    </div>
+                                    <div class="form-group postaINobcina">
+                                        <label for="id_posta">Kraj in poštna številka</label>
+                                        <select class="form-control" id="id_posta" name="id_posta" required>
+                                            <?php if (isset($naslov[0]["ID_POSTA"])):
+                                                foreach ($poste as $posta):
+                                                    if ($naslov[0]["ID_POSTA"] == $posta["ID_POSTA"]): ?>
                                                         <option selected value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
                                                     <?php else: ?>
                                                         <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
                                                     <?php endif;
-                                                endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_obcina<?= $i ?>">Občina</label>
-                                            <select class="form-control" id="id_obcina<?= $i ?>" name="id_obcina<?= $i ?>" required>
-                                                <?php foreach ($obcine as $obcina):
-                                                    if ($naslov["ID_OBCINA"] == $obcina["ID_OBCINA"]): ?>
+                                                endforeach;
+                                            else: ?>
+                                                <option selected disabled hidden></option>
+                                                <?php foreach ($poste as $posta): ?>
+                                                    <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
+                                                <?php endforeach;
+                                            endif; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group postaINobcina">
+                                        <label for="id_obcina">Občina</label>
+                                        <select class="form-control" id="id_obcina" name="id_obcina" required>
+                                            <?php if (isset($naslov[0]["ID_OBCINA"])):
+                                                foreach ($obcine as $obcina):
+                                                    if ($naslov[0]["ID_OBCINA"] == $obcina["ID_OBCINA"]): ?>
                                                         <option selected value="<?= $obcina["ID_OBCINA"] ?>"><?= $obcina["IME_OBCINA"] ?></option>
                                                     <?php else: ?>
                                                         <option value="<?= $obcina["ID_OBCINA"] ?>"><?= $obcina["IME_OBCINA"] ?></option>
                                                     <?php endif;
-                                                endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <?php
-                                        $i=$i+1;
-                                    endforeach;
-                                    ?>
+                                                endforeach;
+                                            else: ?>
+                                                <option selected disabled hidden></option>
+                                                <?php foreach ($obcine as $obcina): ?>
+                                                    <option value="<?= $obcina["ID_OBCINA"] ?>"><?= $obcina["IME_OBCINA"] ?></option>
+                                                <?php endforeach;
+                                            endif; ?>
+                                        </select>
+                                    </div>
+                                    
+                                    <h3>Začasni naslov</h3>
+                                    <input type="hidden" name="ID_NASLOV2" value="<?= $naslov[1]["ID_NASLOV"] ?>" />
+                                    <div class="form-group">
+                                        <label for="id_drzava2">Država</label>
+                                        <select class="form-control" id="id_drzava2" name="id_drzava2" onchange="toggleDrzava2();">
+                                            <?php if (isset($naslov[1]["ID_DRZAVA"])):
+                                                foreach ($drzave as $drzava):
+                                                    if ($naslov[1]["ID_DRZAVA"] == $drzava["ID_DRZAVA"]): ?>
+                                                        <option selected value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                                    <?php else: ?>
+                                                        <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                                    <?php endif;
+                                                endforeach;
+                                            else: ?>
+                                                <option selected disabled hidden></option>
+                                                <?php foreach ($drzave as $drzava): ?>
+                                                    <option value="<?= $drzava["ID_DRZAVA"] ?>"><?= $drzava["SLOVENSKINAZIV"] ?></option>
+                                                <?php endforeach;
+                                            endif; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ulica2">Ulica</label>
+                                        <input type="text" class="form-control" id="ulica2" name="ulica2" value="<?= isset($naslov[1]["ULICA"]) ? $naslov[1]["ULICA"] : "" ?>">
+                                    </div>
+                                    <div class="form-group postaINobcina2">
+                                        <label for="id_posta2">Kraj in poštna številka</label>
+                                        <select class="form-control" id="id_posta2" name="id_posta2">
+                                            <?php if (isset($naslov[1]["ID_POSTA"])):
+                                                foreach ($poste as $posta):
+                                                    if ($naslov[1]["ID_POSTA"] == $posta["ID_POSTA"]): ?>
+                                                        <option selected value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
+                                                    <?php else: ?>
+                                                        <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
+                                                    <?php endif;
+                                                endforeach;
+                                            else: ?>
+                                                <option selected disabled hidden></option>
+                                                <?php foreach ($poste as $posta): ?>
+                                                    <option value="<?= $posta["ID_POSTA"] ?>"><?= $posta["KRAJ"]." (".$posta["ST_POSTA"].")" ?></option>
+                                                <?php endforeach;
+                                            endif; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group postaINobcina2">
+                                        <label for="id_obcina2">Občina</label>
+                                        <select class="form-control" id="id_obcina2" name="id_obcina2">
+                                            <?php if (isset($naslov[1]["ID_OBCINA"])):
+                                                foreach ($obcine as $obcina):
+                                                    if ($naslov[1]["ID_OBCINA"] == $obcina["ID_OBCINA"]): ?>
+                                                        <option selected value="<?= $obcina["ID_OBCINA"] ?>"><?= $obcina["IME_OBCINA"] ?></option>
+                                                    <?php else: ?>
+                                                        <option value="<?= $obcina["ID_OBCINA"] ?>"><?= $obcina["IME_OBCINA"] ?></option>
+                                                    <?php endif;
+                                                endforeach;
+                                            else: ?>
+                                                <option selected disabled hidden></option>
+                                                <?php foreach ($obcine as $obcina): ?>
+                                                    <option value="<?= $obcina["ID_OBCINA"] ?>"><?= $obcina["IME_OBCINA"] ?></option>
+                                                <?php endforeach;
+                                            endif; ?>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Kateri naslov zelite uporabiti za vročanje poste?</label>
+                                        <label class="radio-inline">
+                                            <?php if ($naslov[0]["JE_ZAVROCANJE"] == 1): ?>
+                                                <input type="radio" name="naslovZaVrocanje" id="stalni" value="stalni" required checked>Stalni
+                                            <?php else: ?>
+                                                <input type="radio" name="naslovZaVrocanje" id="stalni" value="stalni" required>Stalni
+                                            <?php endif; ?>
+                                        </label>
+                                        <label class="radio-inline">
+                                            <?php if (isset($naslov[1]["JE_ZAVROCANJE"]) && $naslov[1]["JE_ZAVROCANJE"] == 1): ?>
+                                                <input type="radio" name="naslovZaVrocanje" id="zacasni" value="zacasni" checked>Zacasni
+                                            <?php else: ?>
+                                                <input type="radio" name="naslovZaVrocanje" id="zacasni" value="zacasni" >Zacasni
+                                            <?php endif; ?>
+                                        </label>
+                                    </div>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Podatki o vpisu</h3>
                                     <div class="form-group">
-                                        <label for="id_naziv_program">Študijski program</label>
-                                        <select class="form-control" id="id_naziv_program" name="id_naziv_program" required disabled>
-                                            <option value=""><?= $KandidatPodatki["naziv_program"] ?></option>
+                                        <label for="ID_PROGRAM">Študijski program</label>
+                                        <select class="form-control" id="ID_PROGRAM" name="ID_PROGRAM" required disabled>
+                                            <?php foreach ($StudijskiProgrami as $StudijskiProgram):
+                                                if ($KandidatPodatki["id_program"] == $StudijskiProgram["ID_PROGRAM"]): ?>
+                                                    <option selected value="<?= $StudijskiProgram["ID_PROGRAM"] ?>"><?= $StudijskiProgram["NAZIV_PROGRAM"] ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?= $StudijskiProgram["ID_PROGRAM"] ?>"><?= $StudijskiProgram["NAZIV_PROGRAM"] ?></option>
+                                                <?php endif;
+                                            endforeach; ?>
                                         </select>
+                                        
                                     </div>
                                     <div class="form-group">
                                         <label for="ID_STUD_LETO">Študijsko leto</label>
                                         <select class="form-control" id="ID_STUD_LETO" name="ID_STUD_LETO" required disabled>
-                                            <option value=""><?= $stud_leto["STUD_LETO"] ?></option>
+                                            <?php foreach ($StudijskaLeta as $StudijskoLeto):
+                                                if ($stud_leto['ID_STUD_LETO'] == $StudijskoLeto["ID_STUD_LETO"]): ?>
+                                                    <option selected value="<?= $StudijskoLeto["ID_STUD_LETO"] ?>"><?= $StudijskoLeto["STUD_LETO"] ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?= $StudijskoLeto["ID_STUD_LETO"] ?>"><?= $StudijskoLeto["STUD_LETO"] ?></option>
+                                                <?php endif;
+                                            endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="form-group">

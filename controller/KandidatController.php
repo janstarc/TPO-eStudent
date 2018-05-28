@@ -28,7 +28,7 @@ class KandidatController {
                     $drzave = DrzavaModel::getAll();
                     $userName = UserModel::getUserName(User::getId());
                     $predmeti = PredmetModel::getAll([
-                        "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+                        "ID_STUD_LETO" => 2, //TODO create subjects for id_stud_leto=1 $KandidatPodatki["id_stud_leto"],
                         "ID_PROGRAM" => $KandidatPodatki["id_program"],
                         "ID_LETNIK" => 1
                     ]);

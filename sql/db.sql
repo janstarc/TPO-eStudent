@@ -1745,7 +1745,11 @@ INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VL
   (35,'BrankoŠ','BrankoŠ','123456','p','Branko','Šter','040502896'),
   (36,'ZoranB','ZoranB','123456','p','Zoran','Bosnič','040502896'),
   (37,'DejanL','DejanL','123456','p','Dejan','Lavbič','040502896'),
-  (38,'BojanO','BojanO','123456','p','Bojan','Orel','040502896');
+  (38,'BojanO','BojanO','123456','p','Bojan','Orel','040502896'),
+  
+  (41,'test2L','test2L','123456','s','test2L','test2L','040502896'),
+  (42,'test3L1','test3L1','123456','s','test3L1','test3L1','040502896'),
+  (43,'test3L2','test3L2','123456','s','test3L2','test3L2','040502896');
 # absolvent, pogojnoNaprej, PonavljalecNaredl7, zamenjalProgram
 # preverjanje login:
 # uporabnisko ime=testS  geslo='123456'
@@ -1755,8 +1759,12 @@ INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VL
 # Inserti preko import fila
 INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_LETO`, `IZKORISCEN`, `EMSO`, `VPISNA_STEVILKA`) VALUES
   (1,11,1,2,1,2505996500532,63150000),
-  (2,11,4,2,1,1234567891234,63150001),
-  (3,11,6,2,0,2505996500532,63150100);
+  (2,11,4,2,1,0101006500006,63150001),
+  
+  (3,11,6,1,0,0101006500006,63150100),
+  (4,11,41,1,1,0101006500006,63150101),
+  (5,11,42,1,1,0101006500006,63150102),
+  (6,11,43,1,1,0101006500006,63150102);
 
 INSERT INTO `tpo`.`PREDMET`
 (`ID_PREDMET`, `IME_PREDMET`, `AKTIVNOST`)
@@ -1961,7 +1969,17 @@ INSERT INTO `tpo`.`vpis`(`ID_VPIS`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_VR
   (18,11,1,1,1,1,2,1,63150017),
   (19,11,1,1,1,1,2,1,63150018),
   (20,11,1,1,1,1,2,1,63150019),
-  (21,11,1,1,1,1,2,1,63150020);
+  (21,11,1,1,1,1,2,1,63150020),
+  
+  
+  
+  (51,11,1,1,1,1,1,1,63150101),
+  
+  (52,11,1,1,1,1,2,1,63150102),
+  (53,11,1,2,1,1,2,1,63150102),
+  
+  (54,11,1,1,1,1,2,1,63150103),
+  (55,11,1,2,1,1,2,1,63150103);
 
 INSERT INTO `tpo`.`student`
 (`VPISNA_STEVILKA`,`ID_OSEBA`,`ID_KANDIDAT`,`ID_VPIS`,`EMSO`,`ID_PROGRAM`,
@@ -1988,16 +2006,27 @@ INSERT INTO `tpo`.`student`
   (63150017,25,2,2,1234567891228,11,120,6),
   (63150018,26,2,2,1234567891229,11,120,6),
   (63150019,27,2,2,12345678912330,11,120,6),
-  (63150020,28,2,2,12345678912331,11,120,6);
-
+  (63150020,28,2,2,12345678912331,11,120,6),
+  
+  (63150101, 41, 4, 51, 0101006500006, 11, 60, 8),
+  (63150102, 42, 5, 53, 0101006500006, 11, 120, 8),
+  (63150103, 43, 6, 55, 0101006500006, 11, 120, 9);
 
 INSERT INTO `tpo`.`naslov`(`ID_NASLOV`,`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVA`,
                            `ID_OSEBA`,`JE_ZAVROCANJE`,`JE_STALNI`,`ULICA`) VALUES
   (1,1,1,705,1,1,0,'naslovzavrocanje 13'),
   (2,1,1,705,1,0,1,'stalninaslov 12'),
   (3,2,1,705,4,0,1,'zaVrocanje Ulica 12'),
-  (4,2,1,705,4,0,1,'stalna Ulica 12');
-
+  (4,2,1,705,4,0,1,'stalna Ulica 12'),
+  
+  (11, NULL, NULL, 40, 41, 0, 1, 'Test 50, 1000 Viena'),
+  (12,    187,    61, 705, 41, 1, 1, 'Dunajska 10'),
+  
+  (13, NULL, NULL, 40, 42, 0, 1, 'Test 50, 1000 Viena'),
+  (14,    187,    61, 705, 42, 1, 1, 'Dunajska 10'),
+  
+  (15, NULL, NULL, 40, 43, 0, 1, 'Test 50, 1000 Viena'),
+  (16,    187,    61, 705, 43, 1, 1, 'Dunajska 10');
 
 INSERT INTO  `tpo`.`zeton`
 (`ID_OSEBA`, `ID_LETNIK`, `ID_STUD_LETO`, `ID_OBLIKA`, `ID_NACIN`, `ID_VRSTAVPISA`, `ID_PROGRAM`,`IZKORISCEN`, `AKTIVNOST`)
@@ -2023,7 +2052,19 @@ VALUES
   (25,2,1,1,1,1,3,1,0),
   (26,2,1,1,1,1,3,1,0),
   (27,2,1,1,1,1,3,1,0),
-  (28,2,1,1,1,1,3,1,0);
+  (28,2,1,1,1,1,3,1,0),
+  
+  (41,1,1,1,1,1,11,1,1),
+  (41,2,2,1,1,1,11,0,1),
+
+  (42,1,1,1,1,1,11,1,1),
+  (42,2,2,1,1,1,11,1,1),
+  (42,3,2,1,1,1,11,0,1),
+
+  (43,1,1,1,1,1,11,1,1),
+  (43,2,2,1,1,1,11,1,1);
+INSERT INTO  `tpo`.`zeton` (`ID_OSEBA`, `ID_LETNIK`, `ID_STUD_LETO`, `ID_OBLIKA`, `ID_NACIN`, `ID_VRSTAVPISA`, `ID_PROGRAM`,`IZKORISCEN`, `AKTIVNOST`, `PROSTA_IZBIRNOST`) VALUES
+  (43,3,2,1,1,1,11,0,1,1);
 
 INSERT INTO tpo.rok
 (ID_ROK, ID_IZVEDBA, DATUM_ROKA, CAS_ROKA, AKTIVNOST)

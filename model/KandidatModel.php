@@ -233,6 +233,28 @@ class KandidatModel {
         $statement->bindValue(":id_kandidat", $id_kandidat);
         $statement->execute();
     }
+    
+    public static function updateOsebaEmsoInTelefon($id_oseba, $emso, $telefon){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            UPDATE OSEBA
+            SET TELEFONSKA_STEVILKA = :telefonska_stevilka
+            WHERE ID_OSEBA = :oseba_id
+        ");
+        $statement->bindValue(":telefonska_stevilka", $telefon);
+        $statement->bindValue(":oseba_id", $id_oseba);
+        $statement->execute();
+        
+        $statement = $db->prepare("
+            UPDATE STUDENT
+            SET EMSO = :emso
+            WHERE ID_OSEBA = :oseba_id
+        ");
+        $statement->bindValue(":emso", $emso);
+        $statement->bindValue(":oseba_id", $id_oseba);
+        $statement->execute();
+    }
 
     public static function updateNaslov($id_naslov, $value){
         $db = DBInit::getInstance();
@@ -406,6 +428,22 @@ class KandidatModel {
         ");
 
         $statement->bindValue(":id_kandidat", $id_kandidat);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        return $result['VPISNA_STEVILKA'];
+    }
+    
+    public static function getVpisnaStevilkaWithOsebaId($id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT VPISNA_STEVILKA 
+            FROM STUDENT 
+            WHERE ID_OSEBA = :id_oseba
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
         $statement->execute();
         $result = $statement->fetch();
 

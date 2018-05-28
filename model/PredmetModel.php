@@ -34,4 +34,16 @@ class PredmetModel {
         $statement->execute();
         return $statement->fetchAll();
     }
+    
+    public static function get($id) {
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK
+            FROM PREDMET
+            WHERE ID_PREDMET = :ID_PREDMET
+        ");
+        $statement->bindValue(":ID_PREDMET", $id);
+        $statement->execute();
+        return $statement->fetch();
+    }
 }
