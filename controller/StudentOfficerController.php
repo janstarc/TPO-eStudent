@@ -240,6 +240,23 @@ class StudentOfficerController {
         }
     }
 
+    public static function kandidatiZaVisjiLetnikList($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                ViewHelper::render("view/KandidatiZaVisjiLetnik.php", [
+                    "pageTitle" => "Seznam vseh kandidatov (2018/19)",
+                    "allData" => KandidatModel::getAllNepotrjeniStudenti(),
+                    "formAction" => "kandidatiZaVisjiLetnik",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
 
     public static function vpisaniStudentiList($status = null, $message = null) {
         if (User::isLoggedIn()) {

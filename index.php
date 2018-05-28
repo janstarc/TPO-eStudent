@@ -77,7 +77,14 @@ $urls = [
         if ($method == "GET") StudentOfficerController::kandidatPreglejVpisForm($id);
         else if ($method == "POST") StudentOfficerController::kandidatiPotrdiVpisForm($id);
         else ViewHelper::error405();
-    }, "/^vpisaniStudenti$/" => function ($method) {
+    }, "/^kandidatiZaVisjiLetnik$/" => function ($method) {
+        if ($method == "GET") StudentOfficerController::kandidatiZaVisjiLetnikList();
+        else ViewHelper::error405();
+    }, "/^kandidatiZaVisjiLetnik\/(\d+)$/" => function ($method, $id) {
+        
+    }, 
+    
+    "/^vpisaniStudenti$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::vpisaniStudentiList();
         else ViewHelper::error405();
     },"/^studenti\/(\d+)$/" => function ($method, $id) {

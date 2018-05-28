@@ -263,8 +263,9 @@ class StudentController {
                 
                 $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
                 StudentModel::setZetonToIzkoriscen($zeton["ID_ZETON"]);
-                
                 $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId(User::getId());
+                KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
+                
                 $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
                 $ObvPredmeti = PredmetModel::getAllByType([
                     "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
@@ -396,8 +397,9 @@ class StudentController {
                 
                 $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
                 StudentModel::setZetonToIzkoriscen($zeton["ID_ZETON"]);
-                
                 $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId(User::getId());
+                KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
+                
                 $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
                 $ObvPredmeti = PredmetModel::getAllByType([
                     "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
@@ -412,7 +414,7 @@ class StudentController {
                     foreach ($_POST["IzbModulov"] as $key => $value) {
                         $IzbModulov = DelPredmetnikaModel::getSubjects($value);
                         KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $IzbModulov, 2); // $data["ID_STUD_LETO"]);
-                        echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
+                        //echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
                     }
                 }
                 if (isset($_POST["SplIzbPredmeti"])) {
@@ -528,8 +530,10 @@ class StudentController {
                 
                 $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
                 StudentModel::setZetonToIzkoriscen($zeton["ID_ZETON"]);
-                
+                //echo '<pre>' . var_export($zeton, true) . '</pre>';
                 $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId(User::getId());
+                KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
+                
                 $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
                 $ObvPredmeti = PredmetModel::getAllByType([
                     "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],

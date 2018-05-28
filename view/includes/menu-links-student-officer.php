@@ -19,6 +19,11 @@
                 </a>
             </li>
             <li class="mt">
+                <a href="<?= BASE_URL . "kandidatiZaVisjiLetnik" ?>">
+                    <span>Pregled kandidatov za visji letnik</span>
+                </a>
+            </li>
+            <li class="mt">
                 <a href="<?= BASE_URL . "vpisaniStudenti" ?>">
                     <span>Pregled vpisanih študentov</span>
                 </a>
