@@ -388,6 +388,7 @@ class KandidatModel {
             JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
             AND k.IZKORISCEN = 1
             AND v.POTRJENOST_VPISA = 0
+            WHERE o.VRSTA_VLOGE = 'k'
         ");
 
         $statement->execute();
@@ -545,9 +546,19 @@ class KandidatModel {
         ");
         $statement->bindValue(":id_oseba", $kandidatData['id_oseba']);
         $statement->execute();
-
     }
 
+    public static function potrdiVpisForStudentByReferent($VPISNA_STEVILKA){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare("
+            UPDATE vpis
+            SET potrjenost_vpisa = 1
+            WHERE VPISNA_STEVILKA = :VPISNA_STEVILKA AND potrjenost_vpisa = 0
+        ");
+        $statement->bindValue(":VPISNA_STEVILKA", $VPISNA_STEVILKA);
+        $statement->execute();
+    }
+    
     // Funkcijo klicati SAMO KO JE STUDENT ZE KREIRAN!
     public static function getVpisnaFromKandidatId($id_kandidat){
 

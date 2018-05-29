@@ -46,4 +46,17 @@ class PredmetModel {
         $statement->execute();
         return $statement->fetch();
     }
+    
+    public static function getAllByStudent($VPISNA_STEVILKA) {
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT p.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK
+            FROM predmeti_studenta AS ps
+            JOIN PREDMET AS p ON ps.ID_PREDMET = p.ID_PREDMET
+            WHERE VPISNA_STEVILKA = :VPISNA_STEVILKA
+        ");
+        $statement->bindValue(":VPISNA_STEVILKA", $VPISNA_STEVILKA);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 }

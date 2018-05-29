@@ -485,6 +485,162 @@ class StudentOfficerController {
             self::kandidatiPotrdiVpisForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
         }
     }
+    
+    public static function studentPreglejVpisForm($id, $status = null, $message = null) {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsStudentOfficer()){
+                $KandidatPodatki = KandidatModel::getStudentPodatki($id);
+                $stud_leto = KandidatModel::getStudijskoLeto($KandidatPodatki["id_stud_leto"]);
+                $obcine = ObcinaModel::getAll();
+                $poste = PostaModel::getAll();
+                $drzave = DrzavaModel::getAll();
+                $userName = UserModel::getUserName($id);
+                
+                $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
+                // TODO getAllByStudent() return all subjects, filter by letnik is needed
+                $predmeti = PredmetModel::getAllByStudent($VPISNA_STEVILKA);
+
+                ViewHelper::render("view/VpisniListPotrditevViewer.php", [
+                    "pageTitle" => "Potrdi vpisni list izbranega kandidata za visji letnik",
+                    "formAction" => "kandidatiZaVisjiLetnik",
+                    "id" => $id,
+                    "KandidatPodatki" => $KandidatPodatki,
+                    "stud_leto" => $stud_leto,
+                    "StudijskaLeta" => StudijskoLetoModel::getAll(),
+                    "StudijskiProgrami" => StudijskiProgramModel::getAll(),
+                    "obcine" => $obcine,
+                    "poste" => $poste,
+                    "drzave" => $drzave,
+                    "naslov" => KandidatModel::getKandidatVseNaslove($id),
+                    "userName" => $userName,
+                    "predmeti" => $predmeti,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+    
+    public static function studentPotrdiVpisForm($id) {
+        $data = filter_input_array(INPUT_POST, [
+            "Ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "Priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "ID_PROGRAM" => [
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => [
+                    'min_range' => 1
+                ]
+            ],
+            "ID_STUD_LETO" => [
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => [
+                    'min_range' => 1
+                ]
+            ],
+            
+            "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id_drzava" => [
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => [
+                    'min_range' => 1
+                ]
+            ],
+            "ulica" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "ID_NASLOV1" => [
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => [
+                    'min_range' => 1
+                ]
+            ],
+            "ID_NASLOV2" => [
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => [
+                    'min_range' => 1
+                ]
+            ]
+        ]);
+        
+        if($data["id_drzava"] == 705) {
+            $data = $data + filter_input_array(INPUT_POST, [
+                "id_posta" => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => [
+                        'min_range' => 1
+                    ]
+                ],
+                "id_obcina" => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => [
+                        'min_range' => 1
+                    ]
+                ]
+            ]);
+        }
+        
+        if (Validation::checkValues($data)) {
+            $data = $data + filter_input_array(INPUT_POST, [
+                "id_drzava2" => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => [
+                        'min_range' => 1
+                    ]
+                ],
+                "ulica2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            ]);
+            if($data["id_drzava2"] == 705) {
+                $data = $data + filter_input_array(INPUT_POST, [
+                    "id_posta2" => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => [
+                            'min_range' => 1
+                        ]
+                    ],
+                    "id_obcina2" => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => [
+                            'min_range' => 1
+                        ]
+                    ]
+                ]);
+            }
+            $idKandidat = KandidatModel::getKandidatIdWithUserId($id);
+            $id_vpis = KandidatModel::getVpisId($idKandidat);
+            KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
+            KandidatModel::updateOsebaEmsoInTelefon($id, $data["emso"], $data["telefonska_stevilka"]);
+            KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
+            KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
+            
+            KandidatModel::updateNaslov($data["ID_NASLOV1"], [
+                "id_drzava" => $data["id_drzava"],
+                "ulica" => $data["ulica"],
+                "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
+                "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
+                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
+            ]);
+            KandidatModel::updateNaslov($data["ID_NASLOV2"], [
+                "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
+                "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
+                "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
+                "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
+                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
+            ]);
+            $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
+            KandidatModel::potrdiVpisForStudentByReferent($VPISNA_STEVILKA);
+            
+            ViewHelper::render("view/DisplayMessageViewer.php", [
+                "status" => "Success",
+                "message" => "Uspesno ste potrdili vpis izbranega kandidata."
+            ]);
+        } else {
+            self::kandidatiPotrdiVpisForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
+        }
+    }
 
     public static function ZetonForm1($status = null, $message = null) {
         if (User::isLoggedIn()) {

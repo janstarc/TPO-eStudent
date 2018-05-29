@@ -276,13 +276,13 @@ class StudentController {
                 
                 // TODO ID STUD LETO
                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, 2); // $data["ID_STUD_LETO"]);
-                if (isset($_POST["ModIzbPredmeti"])) {
-                    $ModIzbPredmeti = array();
-                    foreach ($_POST["ModIzbPredmeti"] as $key => $value) {
-                        $ModIzbPredmeti[] = PredmetModel::get($value);
+                if (isset($_POST["StrIzbPredmeti"])) {
+                    $StrIzbPredmeti = array();
+                    foreach ($_POST["StrIzbPredmeti"] as $key => $value) {
+                        $StrIzbPredmeti[] = PredmetModel::get($value);
                     }
-                    // echo '<pre>' . var_export($ModIzbPredmeti, true) . '</pre>';
-                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ModIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
+                    // echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
+                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $StrIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
                 }
                 if (isset($_POST["SplIzbPredmeti"])) {
                     $SplIzbPredmeti = array();
@@ -544,13 +544,13 @@ class StudentController {
                 
                 // TODO ID STUD LETO
                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, 2); // $data["ID_STUD_LETO"]);
-                if (isset($_POST["StrIzbPredmeti"])) {
-                    $StrIzbPredmeti = array();
-                    foreach ($_POST["StrIzbPredmeti"] as $key => $value) {
-                        $StrIzbPredmeti[] = PredmetModel::get($value);
+                if (isset($_POST["ModIzbPredmeti"])) {
+                    $ModIzbPredmeti = array();
+                    foreach ($_POST["ModIzbPredmeti"] as $key => $value) {
+                        $ModIzbPredmeti[] = PredmetModel::get($value);
                     }
-                    // echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
-                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $StrIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
+                    // echo '<pre>' . var_export($ModIzbPredmeti, true) . '</pre>';
+                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ModIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
                 }
                 if (isset($_POST["SplIzbPredmeti"])) {
                     $SplIzbPredmeti = array();
