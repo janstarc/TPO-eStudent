@@ -343,6 +343,23 @@ class KandidatModel {
         $statement->execute();
     }
     
+    public static function potrdiVpisStudent($vpisna_stevilka, $zeton){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            INSERT INTO `vpis`(`id_program`, `id_nacin`, `id_stud_leto`, `id_vrstavpisa`, `id_oblika`, `id_letnik`, `potrjenost_vpisa`, `vpisna_stevilka`)
+            VALUES (:id_program, :id_nacin, :id_stud_leto, :id_vrstavpisa, :id_oblika, :id_letnik, 0, :vpisna_stevilka)
+        ");
+        $statement->bindValue(":id_program", $zeton['ID_PROGRAM']);
+        $statement->bindValue(":id_nacin", $zeton['ID_NACIN']);
+        $statement->bindValue(":id_stud_leto", $zeton['ID_STUD_LETO']);
+        $statement->bindValue(":id_vrstavpisa", $zeton['ID_VRSTAVPISA']);
+        $statement->bindValue(":id_oblika", $zeton['ID_OBLIKA']);
+        $statement->bindValue(":id_letnik", $zeton['ID_LETNIK']);
+        $statement->bindValue(":vpisna_stevilka", $vpisna_stevilka);
+        $statement->execute();
+    }
+    
     public static function jeVpisniListZeOddan($id_oseba){
         $db = DBInit::getInstance();
 
@@ -371,6 +388,24 @@ class KandidatModel {
             JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
             AND k.IZKORISCEN = 1
             AND v.POTRJENOST_VPISA = 0
+            WHERE o.VRSTA_VLOGE = 'k'
+        ");
+
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        return $result;
+    }
+    
+    public static function getAllNepotrjeniStudenti(){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT o.ime, o.priimek, o.id_oseba, v.vpisna_stevilka
+            FROM vpis AS v
+            JOIN student AS s ON v.VPISNA_STEVILKA = s.VPISNA_STEVILKA
+            JOIN oseba AS o ON s.ID_OSEBA = o.ID_OSEBA
+            WHERE v.POTRJENOST_VPISA = 0
         ");
 
         $statement->execute();
@@ -511,9 +546,19 @@ class KandidatModel {
         ");
         $statement->bindValue(":id_oseba", $kandidatData['id_oseba']);
         $statement->execute();
-
     }
 
+    public static function potrdiVpisForStudentByReferent($VPISNA_STEVILKA){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare("
+            UPDATE vpis
+            SET potrjenost_vpisa = 1
+            WHERE VPISNA_STEVILKA = :VPISNA_STEVILKA AND potrjenost_vpisa = 0
+        ");
+        $statement->bindValue(":VPISNA_STEVILKA", $VPISNA_STEVILKA);
+        $statement->execute();
+    }
+    
     // Funkcijo klicati SAMO KO JE STUDENT ZE KREIRAN!
     public static function getVpisnaFromKandidatId($id_kandidat){
 
