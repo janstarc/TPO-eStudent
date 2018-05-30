@@ -265,6 +265,19 @@ $urls = [
         if ($method == "POST") AdminController::addIzvajalec3($id,$id2);
         else ViewHelper::error405();
     },
+    "/^PodatkiIzvajalcevAdd$/" => function ($method) {
+        if ($method == "GET") AdminController::getFormIzvajalec();
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcevAdd\/leto\/(\d+)$/" => function ($method,$id) {
+        if ($method == "GET") AdminController::getFormPredmetIzvajalec($id);
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcevAdd\/leto\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {
+        if ($method == "GET") AdminController::getNewIzvajalec($id,$id2);
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/leto\/(\d+)\/(\d+)\/dodaj$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::addIzvajalec($id,$id2);
+        else ViewHelper::error405();
+    },
 
     "/^izpitniRok\/profesor$/" => function ($method) {
         if ($method == "GET") ProfessorController::izpitniRokAllForm();

@@ -323,14 +323,14 @@ class ProfesorDB
         $db = DBInit::getInstance();
 
 
-        $statement = $db->prepare(
+       /* $statement = $db->prepare(
             "UPDATE IZVEDBA_PREDMETA 
                       SET
                      ID_OSEBA1 = :id_oseba
                     WHERE  ID_PREDMET = :id_predmet AND ID_STUD_LETO=:id_leto"
         );
 
-        if($statement->rowCount()==0){
+        if($statement->rowCount()==0){*/
 
             $statement2 = $db->prepare(
                 "INSERT INTO IZVEDBA_PREDMETA 
@@ -345,7 +345,7 @@ class ProfesorDB
             $statement2->execute();
             return true;
 
-        }
+      /*  }
 
         $statement->bindValue(":id_predmet", $id_predmet);
         $statement->bindValue(":id_leto", $id_leto);
@@ -354,7 +354,7 @@ class ProfesorDB
 
         $statement->execute();
 
-        return true;
+        return true;*/
     }
 
     public static function IzvajalecAdd2($id_predmet,$id_leto,$id_oseba)

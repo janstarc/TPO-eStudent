@@ -401,11 +401,42 @@ class AdminController {
         }
     }
 
+    public static function addIzvajalec($id_leto,$id_predmet){
+        $data = filter_input_array(INPUT_POST, [
+            "imePriimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                $razdeli=explode(" ",$data["imePriimek"]);
+
+                $ime=$razdeli[0];
+                $priimek=$razdeli[1];
+                $id_oseba=$razdeli[2];
+                // var_dump($ime);
+                //  var_dump($priimek);
+                //  var_dump($id_oseba);
+
+                ProfesorDB::IzvajalecAdd($id_predmet,$id_leto,$id_oseba);
+                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
 
     public static function getFormIzvajalec(){
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsAdmin()) {
-                ViewHelper::render("view/PodatkiIzvajalcevAdd.php", [
+                ViewHelper::render("view/PodatkiIzvajalcevLetoAdd.php", [
+                    "pageTitle" => "Seznam vseh študijski leta",
+                    "allData" => PredmetModel::getAllLeta(),
+                    "formAction" => "PodatkiIzvajalcevAdd/leto"
                 ]);
             } else {
                 ViewHelper::error403();
@@ -415,6 +446,38 @@ class AdminController {
         }
     }
 
+
+    public static function getFormPredmetIzvajalec($id_leto){
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+                ViewHelper::render("view/PodatkiIzvajalcevPredmetAdd.php", [
+                    "pageTitle" => "Seznam vseh predmetov",
+                    "allData" => PredmetModel::getAllSubjects(),
+                    "id_leto" => $id_leto,
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function getNewIzvajalec($id_leto,$id_predmet){
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+                ViewHelper::render("view/PodatkiIzvajalcevAdd.php", [
+                    "id_leto" => $id_leto,
+                    "id_predmet" => $id_predmet,
+                    "profesori" => IzvedbaPredmetaModel::getAllProfesori(),
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
 
     // Render user form
     public static function UvozPodatkov(){
