@@ -416,7 +416,8 @@ class StudentOfficerController {
                 ]
             ]);
         }
-        
+        // echo '<pre>' . var_export($_POST, true) . '</pre>';
+        // echo '<pre>' . var_export($data, true) . '</pre>';
         if (Validation::checkValues($data)) {
             $data = $data + filter_input_array(INPUT_POST, [
                 "id_drzava2" => [
