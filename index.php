@@ -204,22 +204,65 @@ $urls = [
         if ($method == "POST") AdminController::searchByVpisna();
         else ViewHelper::error405();
     }, "/^PodatkiIzvajalcev$/" => function ($method) {
-        if ($method == "GET") AdminController::PregledPodatkovOIzvajalcih();
+        if ($method == "GET") AdminController::PregledIzvajalcevIzbiraLeto();
         else ViewHelper::error405();
-    }, "/^PodatkiIzvajalcev\/subjectSearch$/" => function ($method) {
+    }, "/^PodatkiIzvajalcev\/leto\/(\d+)$/" => function ($method,$id) {
+        if ($method == "GET") AdminController::PregledIzvajalcevIzbiraPredmet($id);
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/leto\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {
+        if ($method == "GET") AdminController::prikazIzvajalcev($id,$id2);
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/subjectSearch$/" => function ($method) {
         if ($method == "POST") AdminController::searchBySubject();
         else ViewHelper::error405();
-    }, "/^PodatkiIzvajalcev\/edit$/" => function ($method) {
-        if ($method == "POST") AdminController::editIzvajalec();
+    }, "/^PodatkiIzvajalcev\/editForm\/(\d+)\/(\d+)\/edit$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::editIzvajalec($id,$id2);
         else ViewHelper::error405();
-    },"/^PodatkiIzvajalcev\/editForm$/" => function ($method) {
-        if ($method == "POST") AdminController::editFormIzvajalec();
+    },"/^PodatkiIzvajalcev\/editForm\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::editFormIzvajalec($id,$id2);
         else ViewHelper::error405();
-    },"/^PodatkiIzvajalcevAdd$/" => function ($method) {
+    },
+    "/^PodatkiIzvajalcev\/editFirst\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::editFirstIzvajalecForm($id,$id2);
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/editFirst\/(\d+)\/(\d+)\/edit$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::editFirstIzvajalec($id,$id2);
+        else ViewHelper::error405();
+    },
+    "/^PodatkiIzvajalcev\/editSecond\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::editSecondIzvajalecForm($id,$id2);
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/editSecond\/(\d+)\/(\d+)\/edit$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::editSecondIzvajalec($id,$id2);
+        else ViewHelper::error405();
+    },
+    "/^PodatkiIzvajalcev\/editThird\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::editThirdIzvajalecForm($id,$id2);
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/editThird\/(\d+)\/(\d+)\/edit$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::editThirdIzvajalec($id,$id2);
+        else ViewHelper::error405();
+    },
+    "/^PodatkiIzvajalcev\/deleteSecond\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::deleteSecondIzvajalec($id,$id2);
+        else ViewHelper::error405();
+    },
+    "/^PodatkiIzvajalcev\/deleteThird\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::deleteThirdIzvajalec($id,$id2);
+        else ViewHelper::error405();
+    },
+
+    "/^PodatkiIzvajalcevAdd1$/" => function ($method) {
         if ($method == "GET") AdminController::getFormIzvajalec();
         else ViewHelper::error405();
-    },"/^PodatkiIzvajalcev\/dodaj$/" => function ($method) {
-        if ($method == "POST") AdminController::addIzvajalec();
+    },"/^PodatkiIzvajalcev\/leto\/(\d+)\/(\d+)\/dodaj1$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::addIzvajalec1($id,$id2);
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/leto\/(\d+)\/(\d+)\/dodaj2$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::addIzvajalec2($id,$id2);
+        else ViewHelper::error405();
+    },"/^PodatkiIzvajalcev\/leto\/(\d+)\/(\d+)\/dodaj3$/" => function ($method,$id,$id2) {
+        if ($method == "POST") AdminController::addIzvajalec3($id,$id2);
         else ViewHelper::error405();
     },
 

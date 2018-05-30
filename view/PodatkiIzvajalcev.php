@@ -12,52 +12,151 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="content-panel">
-                        <h3>Iskanje predmeta za trenutno studijsko leto</h3>
+                        <h3>Podatki o izvajalcih</h3>
                         <br>
-                        <form class="subject" action="<?= BASE_URL . "PodatkiIzvajalcev/subjectSearch" ?>" method="post">
-                            <input type="text" placeholder="IŠČI PO PREDMETU..." name="searchSubject">
-                            <button type="submit">Išči</button>
-                        </form>
-                        <br>
-                        <br>
-                        <hr>
-                        <h4>Prikaz predmeta</h4>
-                        <br>
-                        <br>
-                        <br>
+                        <h5>Izvajalec 1</h5>
                         <table id="table-subject" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
-                                <th>Predmet</th>
-                                <th>Ime izvajalca</th>
-                                <th>Priimek izvajalca</th>
-                                <th>Email</th>
-                                <th>Telefon</th>
-                                <th>Uredi</th>
-
+                                <th>Ime in priimek izvajalca</th>
+                                <th>Spremeni izvajalec</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <?php if(count($first)==0): ?>
+                                <tr>
+                                    <td>
+                                        <form action="<?= BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet. "/dodaj1" ?>" method="post">
+                                            <select class="form-control" name="imePriimek" onchange="this.form.submit()">
+                                                <option selected disabled hidden></option>
+                                                <?php foreach ($profesori as $i=>$data): ?>
+                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <!--<input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />-->
+                                        </form>
 
-                            <?php
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            <?php else:
                           //  var_dump($subjects);
-                            foreach($subjects as $key=>$value): ?>
+                            foreach($first as $key=>$value): ?>
 
                                 <tr>
-                                    <td><?php echo $value['IME_PREDMET']; ?></td>
-                                    <td><?php echo $value['IME'] ; ?></td>
-                                    <td><?php echo $value['PRIIMEK'] ; ?></td>
-                                    <td><?php echo $value['EMAIL']; ?></td>
-                                    <td><?php echo $value['TELEFONSKA_STEVILKA']; ?></td>
+                                    <td><?php echo $value['IME'] .' '.$value["PRIIMEK"] ; ?></td>
                                     <td>
-                                        <form action="<?= BASE_URL . "PodatkiIzvajalcev/editForm" ?>" method="post">
+                                        <form action="<?= BASE_URL . "PodatkiIzvajalcev/editFirst/".$id_leto."/".$id_predmet ?>" method="post">
                                             <input type="hidden" name="urediId" value="<?= $value['ID_OSEBA'] ?>" />
-                                            <input type="hidden" name="predmetId" value="<?= $value['ID_PREDMET'] ?>" />
-                                            <input class="btn btn-primary btn-sm" type="submit" value="Uredi" />
+                                            <input class="btn btn-primary btn-sm" type="submit" value="Spremeni izvajalec" />
                                         </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+
+                        <h5>Izvajalec 2</h5>
+                        <table id="table-subject2" class="table table-striped table-advance table-hover">
+                            <thead>
+                            <tr>
+                                <th>Ime in priimek izvajalca</th>
+                                <th>Spremeni izvajalec</th>
+                                <th>Izbriši izvajalec</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if(count($second)==0): ?>
+                                <tr>
+                                    <td>
+                                        <form action="<?= BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet. "/dodaj2" ?>" method="post">
+                                            <select class="form-control" name="imePriimek2" onchange="this.form.submit()">
+                                                <option selected disabled hidden></option>
+                                                <?php foreach ($profesori as $i=>$data): ?>
+                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <!--<input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />-->
+                                        </form>
+
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
+                            <?php else:
+                                //  var_dump($subjects);
+                                foreach($second as $key=>$value): ?>
+
+                                    <tr>
+                                        <td><?php echo $value['IME'] .' '.$value["PRIIMEK"] ; ?></td>
+                                        <td>
+                                            <form action="<?= BASE_URL . "PodatkiIzvajalcev/editSecond/".$id_leto."/".$id_predmet ?>" method="post">
+                                                <input type="hidden" name="urediId" value="<?= $value['ID_OSEBA'] ?>" />
+                                                <input class="btn btn-primary btn-sm" type="submit" value="Spremeni izvajalec" />
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="<?= BASE_URL . "PodatkiIzvajalcev/deleteSecond/".$id_leto."/".$id_predmet ?>" method="post">
+                                                <input type="hidden" name="urediId" value="<?= $value['ID_OSEBA'] ?>" />
+                                                <input class="btn btn-primary btn-sm" type="submit" value="Izbriši izvajalec" />
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+
+                        <h5>Izvajalec 3</h5>
+                        <table id="table-subject3" class="table table-striped table-advance table-hover">
+                            <thead>
+                            <tr>
+                                <th>Ime in priimek izvajalca</th>
+                                <th>Spremeni izvajalec</th>
+                                <th>Izbriši izvajalec</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if(count($third)==0): ?>
+                                <tr>
+                                    <td>
+                                        <form action="<?= BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet. "/dodaj3" ?>" method="post">
+                                            <select class="form-control" name="imePriimek3" onchange="this.form.submit()">
+                                                <option selected disabled hidden></option>
+                                                <?php foreach ($profesori as $i=>$data): ?>
+                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <!--<input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />-->
+                                        </form>
+
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php else:
+                                //  var_dump($subjects);
+                                foreach($third as $key=>$value): ?>
+
+                                    <tr>
+                                        <td><?php echo $value['IME'] .' '.$value["PRIIMEK"] ; ?></td>
+                                        <td>
+                                            <form action="<?= BASE_URL . "PodatkiIzvajalcev/editThird/".$id_leto."/".$id_predmet ?>" method="post">
+                                                <input type="hidden" name="urediId" value="<?= $value['ID_OSEBA'] ?>" />
+                                                <input class="btn btn-primary btn-sm" type="submit" value="Spremeni izvajalec" />
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="<?= BASE_URL . "PodatkiIzvajalcev/deleteThird/".$id_leto."/".$id_predmet ?>" method="post">
+                                                <input type="hidden" name="urediId" value="<?= $value['ID_OSEBA'] ?>" />
+                                                <input class="btn btn-primary btn-sm" type="submit" value="Izbriši izvajalec" />
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                             </tbody>
                         </table>
 

@@ -188,13 +188,53 @@ class ProfesorDB
         }
     }
 
-    public static function IzvajalecEdit($ime, $priimek, $email, $tel, $id_predmet)
+    public static function IzvajalecEdit($ime,$priimek,$email,$uporabnisko_ime,$telefonska_stevlika,$id_predmet,$id_leto,$id_oseba)
     {
+        /*var_dump($ime);
+        var_dump($priimek);
+        var_dump($email);
+        var_dump($uporabnisko_ime);
+        var_dump($telefonska_stevlika);
+        var_dump($id_predmet);
+        var_dump($id_leto);
+        var_dump($id_oseba);*/
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "UPDATE izvedba_predmeta as ip 
+            JOIN oseba as o ON ip.ID_OSEBA1=o.ID_OSEBA
+            SET
+            o.IME = :ime,
+            o.PRIIMEK = :priimek,
+            o.EMAIL = :email,
+            o.UPORABNISKO_IME = :uporabnisko_ime,
+            o.TELEFONSKA_STEVILKA=:telefonska_stevilka,
+            ip.ID_OSEBA1=:id_oseba
+            WHERE  ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto"
+        );
+        $statement->bindValue(":ime", $ime);
+        $statement->bindValue(":priimek", $priimek);
+        $statement->bindValue(":email", $email);
+        $statement->bindValue(":uporabnisko_ime", $uporabnisko_ime);
+        $statement->bindValue(":telefonska_stevilka", $telefonska_stevlika);
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+        $statement->bindValue(":id_oseba", $id_oseba);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            var_dump($e);
+            return false;
+        }
+
         /*  var_dump($ime);
           var_dump($priimek);
           var_dump($email);
-          var_dump($tel);*/
+          var_dump($tel);
         $db = DBInit::getInstance();
+
+
 
         for ($i = 0; $i < count($ime); $i++) {
 
@@ -254,7 +294,7 @@ class ProfesorDB
             }
 
 
-            /* $statement = $db -> prepare(
+             $statement = $db -> prepare(
                  "UPDATE OSEBA
                  SET
              IME = :ime,
@@ -270,30 +310,125 @@ class ProfesorDB
             $statement->bindValue(":email", $email[$i]);
             $statement->bindValue(":tel", $tel[$i]);
              $statement->execute();
-             echo "bteh4eh46j";*/
-        }
+             echo "bteh4eh46j";
+        }*/
 
         return true;
 
 
     }
 
-    public static function IzvajalecAdd($ime, $priimek, $email, $geslo, $telefon)
+    public static function IzvajalecAdd($id_predmet,$id_leto,$id_oseba)
     {
         $db = DBInit::getInstance();
 
 
         $statement = $db->prepare(
-            "INSERT INTO OSEBA
-        (IME,PRIIMEK,EMAIL,GESLO,VRSTA_VLOGE,TELEFONSKA_STEVILKA)
-        VALUES(:ime,:priimek,:email,:geslo,'p',:telefon);"
+            "UPDATE IZVEDBA_PREDMETA 
+                      SET
+                     ID_OSEBA1 = :id_oseba
+                    WHERE  ID_PREDMET = :id_predmet AND ID_STUD_LETO=:id_leto"
         );
 
-        $statement->bindValue(":ime", $ime);
-        $statement->bindValue(":priimek", $priimek);
-        $statement->bindValue(":email", $email);
-        $statement->bindValue(":geslo", $geslo);
-        $statement->bindValue(":telefon", $telefon);
+        if($statement->rowCount()==0){
+
+            $statement2 = $db->prepare(
+                "INSERT INTO IZVEDBA_PREDMETA 
+              (ID_STUD_LETO, ID_OSEBA1, ID_OSEBA2,ID_OSEBA3, ID_PREDMET)
+               VALUES (:id_leto, :id_oseba, NULL, NULL, :id_predmet)
+               "
+            );
+
+            $statement2->bindValue(":id_predmet", $id_predmet);
+            $statement2->bindValue(":id_leto", $id_leto);
+            $statement2->bindValue(":id_oseba", $id_oseba);
+            $statement2->execute();
+            return true;
+
+        }
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+        $statement->bindValue(":id_oseba", $id_oseba);
+
+
+        $statement->execute();
+
+        return true;
+    }
+
+    public static function IzvajalecAdd2($id_predmet,$id_leto,$id_oseba)
+    {
+        $db = DBInit::getInstance();
+
+
+        $statement = $db->prepare(
+            "UPDATE IZVEDBA_PREDMETA 
+                      SET
+                     ID_OSEBA2 = :id_oseba
+                    WHERE  ID_PREDMET = :id_predmet AND ID_STUD_LETO=:id_leto"
+        );
+
+        /*if($statement->rowCount()==0){
+
+            $statement2 = $db->prepare(
+                "INSERT INTO IZVEDBA_PREDMETA 
+              (ID_STUD_LETO, ID_OSEBA1, ID_OSEBA2,ID_OSEBA3, ID_PREDMET)
+               VALUES (:id_leto, NULL, :id_oseba, NULL, :id_predmet)
+               "
+            );
+
+            $statement2->bindValue(":id_predmet", $id_predmet);
+            $statement2->bindValue(":id_leto", $id_leto);
+            $statement2->bindValue(":id_oseba", $id_oseba);
+            $statement2->execute();
+            return true;
+
+        }*/
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+        $statement->bindValue(":id_oseba", $id_oseba);
+
+
+        $statement->execute();
+
+        return true;
+    }
+
+    public static function IzvajalecAdd3($id_predmet,$id_leto,$id_oseba)
+    {
+        $db = DBInit::getInstance();
+
+
+        $statement = $db->prepare(
+            "UPDATE IZVEDBA_PREDMETA 
+                      SET
+                     ID_OSEBA3 = :id_oseba
+                    WHERE  ID_PREDMET = :id_predmet AND ID_STUD_LETO=:id_leto"
+        );
+
+       /* if($statement->rowCount()==0){
+
+            $statement2 = $db->prepare(
+                "INSERT INTO IZVEDBA_PREDMETA 
+              (ID_STUD_LETO, ID_OSEBA1, ID_OSEBA2,ID_OSEBA3, ID_PREDMET)
+               VALUES (:id_leto, NULL, NULL, :id_oseba, :id_predmet)
+               "
+            );
+
+            $statement2->bindValue(":id_predmet", $id_predmet);
+            $statement2->bindValue(":id_leto", $id_leto);
+            $statement2->bindValue(":id_oseba", $id_oseba);
+            $statement2->execute();
+            return true;
+
+        }*/
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+        $statement->bindValue(":id_oseba", $id_oseba);
+
 
         $statement->execute();
 
@@ -650,5 +785,115 @@ class ProfesorDB
         return $statement->fetchAll();
     }
 
+    public static function FirstIzvajalecEdit($id_predmet,$id_leto,$id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "UPDATE izvedba_predmeta as ip 
+            SET
+            ip.ID_OSEBA1=:id_oseba
+            WHERE  ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto"
+        );
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+        $statement->bindValue(":id_oseba", $id_oseba);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            var_dump($e);
+            return false;
+        }
+        return true;
+    }
+    public static function SecondIzvajalecEdit($id_predmet,$id_leto,$id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "UPDATE izvedba_predmeta as ip 
+            SET
+            ip.ID_OSEBA2=:id_oseba
+            WHERE  ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto"
+        );
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+        $statement->bindValue(":id_oseba", $id_oseba);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            var_dump($e);
+            return false;
+        }
+        return true;
+    }
+    public static function ThirdIzvajalecEdit($id_predmet,$id_leto,$id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "UPDATE izvedba_predmeta as ip 
+            SET
+            ip.ID_OSEBA3=:id_oseba
+            WHERE  ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto"
+        );
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+        $statement->bindValue(":id_oseba", $id_oseba);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            var_dump($e);
+            return false;
+        }
+        return true;
+    }
+
+    public static function deleteSecondIzvajalec($id_leto,$id_predmet){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "UPDATE izvedba_predmeta as ip 
+            SET
+            ip.ID_OSEBA2=NULL
+            WHERE  ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto"
+        );
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            var_dump($e);
+            return false;
+        }
+        return true;
+    }
+
+    public static function deleteThirdIzvajalec($id_leto,$id_predmet){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "UPDATE izvedba_predmeta as ip 
+            SET
+            ip.ID_OSEBA3=NULL
+            WHERE  ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto"
+        );
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+        try{
+            $statement->execute();
+            return true;
+        } catch (Exception $e){
+            var_dump($e);
+            return false;
+        }
+        return true;
+    }
 }
 

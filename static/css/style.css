@@ -2224,3 +2224,18 @@ h4 {
 .prijava1:hover .tooltiptext {
     visibility: visible;
 }
+h5 {
+    margin-left: 20px;
+}
+
+h3 {
+    margin-left: 60px;
+}
+
+#table-subject2{
+    margin-left: 20px;
+}
+
+#table-subject3{
+    margin-left: 20px;
+}

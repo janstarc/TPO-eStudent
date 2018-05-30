@@ -22,10 +22,10 @@
                             <input type="text" class="form-control" name="priimek" placeholder="Priimek izvajalca" required >
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="email" placeholder="Email izvajalca"" >
+                            <input type="text" class="form-control" name="email" placeholder="Email izvajalca" >
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="geslo" placeholder="Geslo izvajalca"" >
+                            <input type="text" class="form-control" name="username" placeholder="Uporabniško ime izvajalca" >
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" name="telefon" placeholder="Telefonska stevilka izvajalca" >

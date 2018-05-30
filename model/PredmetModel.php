@@ -64,4 +64,28 @@ class PredmetModel {
         $result = $statement->fetchAll();
         return $result;
     }
+
+    public static function getAllSubjects(){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT p.SIFRA_PREDMET,p.IME_PREDMET,p.ID_PREDMET
+            FROM predmet as p
+            ");
+        $statement->execute();
+        $result = $statement->fetchAll();
+        return $result;
+    }
+
+    public static function getAllLeta(){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT s.ID_STUD_LETO,s.STUD_LETO
+            FROM studijsko_leto as s
+            ");
+        $statement->execute();
+        $result = $statement->fetchAll();
+        return $result;
+    }
+
+
 }

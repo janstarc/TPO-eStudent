@@ -40,6 +40,74 @@ class AdminController {
         ]);
     }
 
+    public static function PregledIzvajalcevIzbiraPredmet($id_leto,$status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+
+
+                $allData=StudentOfficerDB::getPredmetiZaStudLeto($id_leto);
+
+                ViewHelper::render("view/PodatkiIzvajalcevPredmet.php", [
+                    "pageTitle" => "Seznam vseh predmetov",
+                    "allData" => $allData,
+                    "id_leto" => $id_leto,
+                    "status" => $status,
+                    "message" => $message,
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function PregledIzvajalcevIzbiraLeto($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+
+                ViewHelper::render("view/PodatkiIzvajalcevLeto.php", [
+                    "pageTitle" => "Seznam vseh študijski leta",
+                    "allData" => PredmetModel::getAllLeta(),
+                    "formAction" => "PodatkiIzvajalcev/leto",
+                    "status" => $status,
+                    "message" => $message,
+
+
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function prikazIzvajalcev($id_leto,$id_predmet,$status = null, $message = null){
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+
+                $profesori=IzvedbaPredmetaModel::getAllProfesori();
+                ViewHelper::render("view/PodatkiIzvajalcev.php", [
+                    "first" => IzvedbaPredmetaModel::getFirst($id_predmet,$id_leto),
+                    "second" => IzvedbaPredmetaModel::getSecond($id_predmet,$id_leto),
+                    "third" => IzvedbaPredmetaModel::getThird($id_predmet,$id_leto),
+                    "status" => $status,
+                    "message" => $message,
+                    "profesori" => $profesori,
+                    "id_predmet" => $id_predmet,
+                    "id_leto" => $id_leto
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+
+
     public static function pregledPodatkovOIzvajalcih() {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsAdmin()) {
@@ -68,39 +136,19 @@ class AdminController {
 
 
 
-    public static function editFormIzvajalec() {
+    public static function editFormIzvajalec($id_predmet,$id_leto) {
 
-        $data = filter_input_array(INPUT_POST, [
-            "predmetId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-        ]);
-        //var_dump($data["predmetId"]);
-        //echo"Alo";
-         //var_dump($data);
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
-                $subjectProfessors=ProfesorDB::getSubjectProfessors($data["predmetId"]);
-                $profData=array();
-               // for($i=0;$i<count($subjectProfessors);$i++){
-                 foreach ($subjectProfessors as $val){
-              //      echo "htnw4";
-                   //  echo $val;
-                     if($val!=NULL){
-                        $temp=ProfesorDB::getOneIzvajalec($val);
-                     //  var_dump($temp);
-                    //   var_dump($temp[0]["IME"]);
-                        array_push($profData,$temp[0]);
-                    }
 
-                }
-
-               // var_dump($profData);
-
-
+               $getIzvajalec1= IzvedbaPredmetaModel::getFirst($id_predmet,$id_leto);
+              // var_dump($getIzvajalec1);
                 ViewHelper::render("view/PodatkiIzvajalcevForm.php", [
-                    "professors" => ProfesorDB::getAllProfessors(),
-                    "profData" => $profData,
-                    "predmetId" => $data["predmetId"]
-                ]);
+                    "getIzvajalec1" => $getIzvajalec1,
+                    "profesori" => IzvedbaPredmetaModel::getAllProfesori(),
+                    "id_predmet" => $id_predmet,
+                    "id_leto" => $id_leto
+                    ]);
             }else{
                 ViewHelper::error403();
             }
@@ -109,61 +157,242 @@ class AdminController {
         }
     }
 
-    public static function editIzvajalec() {
+    public static function editIzvajalec($id_predmet,$id_leto) {
         $data = filter_input_array(INPUT_POST, [
-            'predmetId' => [
-                'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
-            ],
-            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "uporabnisko_ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "telefon" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
 
         ]);
 
-        //array(5) { ["urediId"]=> string(1) "2" ["ime"]=> string(9) "Jan, Lina" ["priimek"]=> string(9) "Ban,Yolo," ["email"]=> string(12) "testP,testP1" ["telefon"]=> string(10) "030030030," }
-        $ime=explode(",",$data["ime"]);
-        $ime=array_map('trim',$ime);
-        $ime=array_filter($ime);
-        $priimek=explode(",",$data["priimek"]);
-        $priimek=array_map('trim',$priimek);
-        $priimek=array_filter($priimek);
-        $email=explode(",",$data["email"]);
-        $email=array_map('trim',$email);
-        $email=array_filter($email);
-        $telefon=explode(",",$data["telefon"]);
-        $telefon=array_map('trim',$telefon);
-        $telefon=array_filter($telefon);
-
-
-        $size=count($ime);
-        if(!(count($priimek)==$size && count($email)==$size && count($telefon)==$size)){
-            echo "ERROR!";
-            return ;
-        }
-        ProfesorDB::IzvajalecEdit($ime,$priimek,$email,$telefon,$data["predmetId"]);
-        ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev");
+        $razdeli=explode(" ",$data["imePriimek"]);
+        var_dump($razdeli);
+        $ime=$razdeli[0];
+        $priimek=$razdeli[1];
+        $id_oseba=$razdeli[2];
+        $email=$data["email"];
+        $uporabnisko_ime=$data["uporabnisko_ime"];
+        $telefon=$data["telefonska_stevilka"];
+        ProfesorDB::IzvajalecEdit($ime,$priimek,$email,$uporabnisko_ime,$telefon,$id_predmet,$id_leto,$id_oseba);
+        ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_predmet."/".$id_leto);
 
     }
 
-    public static function addIzvajalec(){
 
+    public static function editFirstIzvajalec($id_leto,$id_predmet) {
         $data = filter_input_array(INPUT_POST, [
-            "ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "geslo" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "telefon" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "imePriimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
         ]);
+
+        $razdeli=explode(" ",$data["imePriimek"]);
+        //var_dump($razdeli);
+        $id_oseba=$razdeli[2];
+
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ProfesorDB::FirstIzvajalecEdit($id_predmet,$id_leto,$id_oseba);
+                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editFirstIzvajalecForm($id_leto,$id_predmet) {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                ViewHelper::render("view/PodatkiIzvajalcevForm.php", [
+                    "profesori" => IzvedbaPredmetaModel::getAllProfesori(),
+                    "id_predmet" => $id_predmet,
+                    "id_leto" => $id_leto
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+
+    }
+
+
+    public static function editSecondIzvajalec($id_leto,$id_predmet) {
+        $data = filter_input_array(INPUT_POST, [
+            "imePriimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+        ]);
+
+        $razdeli=explode(" ",$data["imePriimek"]);
+        //var_dump($razdeli);
+        $id_oseba=$razdeli[2];
+
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ProfesorDB::SecondIzvajalecEdit($id_predmet,$id_leto,$id_oseba);
+                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editSecondIzvajalecForm($id_leto,$id_predmet) {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                ViewHelper::render("view/PodatkiIzvajalcevForm2.php", [
+                    "profesori" => IzvedbaPredmetaModel::getAllProfesori(),
+                    "id_predmet" => $id_predmet,
+                    "id_leto" => $id_leto
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+
+    }
+
+    public static function editThirdIzvajalec($id_leto,$id_predmet) {
+        $data = filter_input_array(INPUT_POST, [
+            "imePriimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+
+        ]);
+
+        $razdeli=explode(" ",$data["imePriimek"]);
+        //var_dump($razdeli);
+        $id_oseba=$razdeli[2];
+
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+                ProfesorDB::ThirdIzvajalecEdit($id_predmet,$id_leto,$id_oseba);
+                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function editThirdIzvajalecForm($id_leto,$id_predmet) {
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                ViewHelper::render("view/PodatkiIzvajalcevForm3.php", [
+                    "profesori" => IzvedbaPredmetaModel::getAllProfesori(),
+                    "id_predmet" => $id_predmet,
+                    "id_leto" => $id_leto
+                ]);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+
+    }
+
+
+    public static function deleteSecondIzvajalec($id_leto,$id_predmet){
+        ProfesorDB::deleteSecondIzvajalec($id_leto,$id_predmet);
+        ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+    }
+
+    public static function deleteThirdIzvajalec($id_leto,$id_predmet){
+        ProfesorDB::deleteThirdIzvajalec($id_leto,$id_predmet);
+        ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+    }
+
+    public static function addIzvajalec1($id_leto,$id_predmet){
+        $data = filter_input_array(INPUT_POST, [
+            "imePriimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+
 
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
 
-                ProfesorDB::IzvajalecAdd($data["ime"],$data["priimek"],$data["email"],$data["geslo"],$data["telefon"]);
-                ViewHelper::render("view/PodatkiIzvajalcevAdd.php", [
+                $razdeli=explode(" ",$data["imePriimek"]);
 
-                ]);
+                $ime=$razdeli[0];
+                $priimek=$razdeli[1];
+                $id_oseba=$razdeli[2];
+               // var_dump($ime);
+              //  var_dump($priimek);
+              //  var_dump($id_oseba);
+
+                ProfesorDB::IzvajalecAdd($id_predmet,$id_leto,$id_oseba);
+                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addIzvajalec2($id_leto,$id_predmet){
+        $data = filter_input_array(INPUT_POST, [
+            "imePriimek2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                $razdeli=explode(" ",$data["imePriimek2"]);
+
+                $ime=$razdeli[0];
+                $priimek=$razdeli[1];
+                $id_oseba=$razdeli[2];
+                // var_dump($ime);
+                //  var_dump($priimek);
+                //  var_dump($id_oseba);
+
+                ProfesorDB::IzvajalecAdd2($id_predmet,$id_leto,$id_oseba);
+                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+            }else{
+                ViewHelper::error403();
+            }
+        }else{
+            ViewHelper::error401();
+        }
+    }
+
+    public static function addIzvajalec3($id_leto,$id_predmet){
+        $data = filter_input_array(INPUT_POST, [
+            "imePriimek3" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        ]);
+
+
+        if (User::isLoggedIn()){
+            if (User::isLoggedInAsAdmin()){
+
+                $razdeli=explode(" ",$data["imePriimek3"]);
+
+                $ime=$razdeli[0];
+                $priimek=$razdeli[1];
+                $id_oseba=$razdeli[2];
+                // var_dump($ime);
+                //  var_dump($priimek);
+                //  var_dump($id_oseba);
+
+                ProfesorDB::IzvajalecAdd3($id_predmet,$id_leto,$id_oseba);
+                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
             }else{
                 ViewHelper::error403();
             }

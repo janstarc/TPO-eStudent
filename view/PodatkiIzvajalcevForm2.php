@@ -49,21 +49,21 @@
             <div class="row">
                 <div class="col-xs-12 col-md-6">
                     <br>
-                   <h4>Spremeni podatki o izvajalec</h4>
+                    <h4>Spremeni podatki o izvajalec</h4>
                     <br>
                     <br>
                     <br>
-                   <form action="<?= BASE_URL . "PodatkiIzvajalcev/editFirst/".$id_leto."/".$id_predmet."/edit"?>" method="post"  class="form-horizontal">
+                    <form action="<?= BASE_URL . "PodatkiIzvajalcev/editSecond/".$id_leto."/".$id_predmet."/edit"?>" method="post"  class="form-horizontal">
 
                         <label>Vseh izvajalcev:
-                        <div class="form-group">
-                            <select class="form-control" name="imePriimek">
-                                <option selected disabled hidden></option>
-                                <?php foreach ($profesori as $i=>$data): ?>
-                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
+                            <div class="form-group">
+                                <select class="form-control" name="imePriimek">
+                                    <option selected disabled hidden></option>
+                                    <?php foreach ($profesori as $i=>$data): ?>
+                                        <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                         </label>
 
                         <button id="gumb" class="btn btn-theme btn-block" type="submit">Spremeni</button>

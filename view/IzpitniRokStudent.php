@@ -13,9 +13,9 @@
     }
     //TODO : HARD-CODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     $datum=new DateTime();
-    $datum->setDate(2018,9,1);
+    $datum->setDate(2018,9,3);
 
-    $datumString="2018-09-01";
+    $datumString="2018-09-03";
 
     ?>
 
@@ -38,12 +38,7 @@
             });
         };*/
 
-        var jeDisabled=function(id){
-            if(document.getElementById("id")==true){
-                return 1;
-            }
-        }
-    </script>
+       </script>
 
 </head>
 <body>

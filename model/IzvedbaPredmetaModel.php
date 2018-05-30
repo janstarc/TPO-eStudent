@@ -51,4 +51,82 @@ class IzvedbaPredmetaModel {
             throw new InvalidArgumentException("No subject with $ime_predmeta");
         }
     }
+
+    public static function getFirst($id_predmet,$id_leto){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                SELECT o.IME, o.PRIIMEK,o.UPORABNISKO_IME,o.EMAIL, o.TELEFONSKA_STEVILKA,o.ID_OSEBA
+                FROM izvedba_predmeta as ip
+                JOIN oseba as o ON o.ID_OSEBA=ip.ID_OSEBA1
+                WHERE ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto
+              
+        ");
+
+        $statement->bindParam(":id_predmet", $id_predmet);
+        $statement->bindParam(":id_leto", $id_leto);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        return $results;
+
+    }
+
+    public static function getSecond($id_predmet,$id_leto){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                SELECT o.IME, o.PRIIMEK,o.UPORABNISKO_IME,o.EMAIL, o.TELEFONSKA_STEVILKA,o.ID_OSEBA
+                FROM izvedba_predmeta as ip
+                JOIN oseba as o ON o.ID_OSEBA=ip.ID_OSEBA2
+                WHERE ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto
+              
+        ");
+
+        $statement->bindParam(":id_predmet", $id_predmet);
+        $statement->bindParam(":id_leto", $id_leto);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        return $results;
+
+    }
+
+    public static function getThird($id_predmet,$id_leto){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                SELECT o.IME, o.PRIIMEK,o.UPORABNISKO_IME,o.EMAIL, o.TELEFONSKA_STEVILKA,o.ID_OSEBA
+                FROM izvedba_predmeta as ip
+                JOIN oseba as o ON o.ID_OSEBA=ip.ID_OSEBA3
+                WHERE ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto
+              
+        ");
+
+        $statement->bindParam(":id_predmet", $id_predmet);
+        $statement->bindParam(":id_leto", $id_leto);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        return $results;
+    }
+
+    public static function getAllProfesori(){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                SELECT o.IME, o.PRIIMEK,o.ID_OSEBA
+                FROM oseba as o
+                WHERE o.VRSTA_VLOGE='p'
+              
+        ");
+
+        $statement->bindParam(":id_predmet", $id_predmet);
+        $statement->bindParam(":id_leto", $id_leto);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        return $results;
+
+    }
 }
