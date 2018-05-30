@@ -25,11 +25,11 @@
                                     <h3>Osebni podatki</h3>
                                     <div class="form-group">
                                         <label for="Ime">Ime</label>
-                                        <input type="text" class="form-control" id="Ime" name="Ime" value="<?= $KandidatPodatki["ime"] ?>" required  autofocus>
+                                        <input type="text" pattern="[^0-9]*" class="form-control" id="Ime" name="Ime" value="<?= $KandidatPodatki["ime"] ?>" required  autofocus>
                                     </div>
                                     <div class="form-group">
                                         <label for="Priimek">Priimek</label>
-                                        <input type="text" class="form-control" id="Priimek" name="Priimek" value="<?= $KandidatPodatki["priimek"] ?>" required >
+                                        <input type="text" pattern="[^0-9]*" class="form-control" id="Priimek" name="Priimek" value="<?= $KandidatPodatki["priimek"] ?>" required >
                                     </div>
                                     <div class="form-group">
                                         <label for="Email">Email</label>

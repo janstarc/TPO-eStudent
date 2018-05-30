@@ -252,7 +252,7 @@
                             <div class="row">
                                 <div class="col-xs-12 col-md-6 offset-md-3">
                                     <div class="form-group">
-                                        <label for="ModIzbPredmeti">ModIzbPredmeti</label>
+                                        <label for="ModIzbPredmeti"><big>Modulski izbirni predmeti</big></b> (izberite skupno 36KT)</label>
                                         <select class="form-control selectpicker" multiple id="ModIzbPredmeti" name="ModIzbPredmeti[]">
                                             <?php foreach ($ModIzbPredmeti as $ModIzbPredmet): ?>
                                                 <option value="<?= $ModIzbPredmet["ID_PREDMET"] ?>"><?= $ModIzbPredmet["IME_PREDMET"]." (".$ModIzbPredmet["ST_KREDITNIH_TOCK"].")" ?></option>
@@ -261,7 +261,7 @@
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="SplIzbPredmeti">SplIzbPredmeti</label>
+                                        <label for="SplIzbPredmeti"><big>Splošni izbirni predmeti</big></b> (izberite skupno 6KT)</label>
                                         <select class="form-control selectpicker" multiple id="SplIzbPredmeti" name="SplIzbPredmeti[]">
                                             <?php foreach ($SplIzbPredmeti as $SplIzbPredmet): ?>
                                                 <option value="<?= $SplIzbPredmet["ID_PREDMET"] ?>"><?= $SplIzbPredmet["IME_PREDMET"]." (".$SplIzbPredmet["ST_KREDITNIH_TOCK"].")" ?></option>

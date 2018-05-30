@@ -303,22 +303,22 @@ class StudentController {
                             
                             ViewHelper::render("view/DisplayMessageViewer.php", [
                                 "status" => "Success",
-                                "message" => "Vpisni list ste uspesno oddali. Prosim pocakajte potrditev referenta."
+                                "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
                             ]);
                         } else {
-                            self::vpis2LForm("Failure", "Napaka, potrebna je izbira od natancno 1 StrIzbPredmet in 1 SplIzbPredmet. Poskusite znova.");
+                            self::vpis2LForm("Failure", "Napaka! Potrebna je izbira 6 KT splošnih izbirnih predmetov in 6KT strokovnih izbirnih predmetov. Poskusite znova.");
                         }
                     } else {
-                        self::vpis2LForm("Failure", "Napaka, preslikava posta-obcina za zacasni naslov ni veljavna. Poskusite znova.");
+                        self::vpis2LForm("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
                     }
                 } else {
-                    self::vpis2LForm("Failure", "Napaka, preslikava posta-obcina za stalni naslov ni veljavna. Poskusite znova.");
+                    self::vpis2LForm("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
                 }
             } else {
-                self::vpis2LForm("Failure", "Napaka, emso st. ni veljavna. Poskusite znova.");
+                self::vpis2LForm("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
             }
         } else {
-            self::vpis2LForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
+            self::vpis2LForm("Failure", "Napaka! Vnos ni veljaven. Poskusite znova.");
         }
     }
     
@@ -455,22 +455,22 @@ class StudentController {
                             
                             ViewHelper::render("view/DisplayMessageViewer.php", [
                                 "status" => "Success",
-                                "message" => "Vpisni list ste uspesno oddali. Prosim pocakajte potrditev referenta."
+                                "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
                             ]);
                         } else {
-                            self::vpis3L1Form("Failure", "Napaka, potrebna je izbira od natancno 2 modulov in 1 izbirni predmet. Poskusite znova.");
+                            self::vpis3L1Form("Failure", "Napaka, potrebna je izbira 2 modulov in za 6KT splošnih izbirnih predmetov. Poskusite znova.");
                         }
                     } else {
-                        self::vpis3L1Form("Failure", "Napaka, preslikava posta-obcina za zacasni naslov ni veljavna. Poskusite znova.");
+                        self::vpis3L1Form("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
                     }
                 } else {
-                    self::vpis3L1Form("Failure", "Napaka, preslikava posta-obcina za stalni naslov ni veljavna. Poskusite znova.");
+                    self::vpis3L1Form("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
                 }
             } else {
-                self::vpis3L1Form("Failure", "Napaka, emso st. ni veljavna. Poskusite znova.");
+                self::vpis3L1Form("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
             }
         } else {
-            self::vpis3L1Form("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
+            self::vpis3L1Form("Failure", "Napaka! Vnos ni veljaven. Poskusite znova.");
         }
     }
     
@@ -610,22 +610,22 @@ class StudentController {
                             
                             ViewHelper::render("view/DisplayMessageViewer.php", [
                                 "status" => "Success",
-                                "message" => "Vpisni list ste uspesno oddali. Prosim pocakajte potrditev referenta."
+                                "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
                             ]);
                         } else {
-                            self::vpis3L2Form("Failure", "Napaka, potrebna je izbira od natancno 7 predmetov, od katerih 7 ModIzbPredmeti ali 6 ModIzbPredmeti in 1 strIzbPredmeti. Poskusite znova.");
+                            self::vpis3L2Form("Failure", "Napaka! Potrebna je izbira natančno 42KT, od katerih je 42KT modulskih ali 36KT modulskih in 6KT splošnih izbirnih. Poskusite znova.");
                         }
                     } else {
-                        self::vpis3L2Form("Failure", "Napaka, preslikava posta-obcina za zacasni naslov ni veljavna. Poskusite znova.");
+                        self::vpis3L2Form("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
                     }
                 } else {
-                    self::vpis3L2Form("Failure", "Napaka, preslikava posta-obcina za stalni naslov ni veljavna. Poskusite znova.");
+                    self::vpis3L2Form("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
                 }
             } else {
-                self::vpis3L2Form("Failure", "Napaka, emso st. ni veljavna. Poskusite znova.");
+                self::vpis3L2Form("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
             }
         } else {
-            self::vpis3L2Form("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
+            self::vpis3L2Form("Failure", "Napaka! Vnos ni veljaven. Poskusite znova.");
         }
     }
 
