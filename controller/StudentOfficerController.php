@@ -443,46 +443,64 @@ class StudentOfficerController {
                     ]
                 ]);
             }
-            $idKandidat = KandidatModel::getKandidatIdWithUserId($id);
-            $id_vpis = KandidatModel::getVpisId($idKandidat);
-            KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
-            KandidatModel::updateEmso($idKandidat, $data['emso']);
-            KandidatModel::updateTelefon($idKandidat, $data['telefonska_stevilka']);
-            KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
-            KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
-            
-            KandidatModel::updateNaslov($data["ID_NASLOV1"], [
-                "id_drzava" => $data["id_drzava"],
-                "ulica" => $data["ulica"],
-                "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
-                "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
-                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
-            ]);
-            
-            KandidatModel::updateNaslov($data["ID_NASLOV2"], [
-                "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
-                "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
-                "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
-                "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
-                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
-            ]);
-            
-            $predmeti = PredmetModel::getAll([
-                "ID_STUD_LETO" => 2, //TODO create subjects for id_stud_leto=1 $data["ID_STUD_LETO"],
-                "ID_PROGRAM" => $data["ID_PROGRAM"],
-                "ID_LETNIK" => 1
-            ]);
-            
-            KandidatModel::potrdiVpisReferent($idKandidat);
-            $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithKandidatId($idKandidat);
-            KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $predmeti, $data["ID_STUD_LETO"]);
-            
-            ViewHelper::render("view/DisplayMessageViewer.php", [
-                "status" => "Success",
-                "message" => "Uspesno ste potrdili vpis izbranega kandidata."
-            ]);
+            if (Validation::verifyEMSO($data["emso"])) {
+                if (($data["id_drzava"] != 705 &&
+                (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
+                (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
+                || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
+                    if (($data["id_drzava2"] != 705 &&
+                    (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
+                    (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
+                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
+                        $idKandidat = KandidatModel::getKandidatIdWithUserId($id);
+                        $id_vpis = KandidatModel::getVpisId($idKandidat);
+                        KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
+                        KandidatModel::updateEmso($idKandidat, $data['emso']);
+                        KandidatModel::updateTelefon($idKandidat, $data['telefonska_stevilka']);
+                        KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
+                        KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
+                        
+                        KandidatModel::updateNaslov($data["ID_NASLOV1"], [
+                            "id_drzava" => $data["id_drzava"],
+                            "ulica" => $data["ulica"],
+                            "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
+                            "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
+                            "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
+                        ]);
+                        
+                        KandidatModel::updateNaslov($data["ID_NASLOV2"], [
+                            "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
+                            "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
+                            "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
+                            "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
+                            "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
+                        ]);
+                        
+                        $predmeti = PredmetModel::getAll([
+                            "ID_STUD_LETO" => 2, //TODO create subjects for id_stud_leto=1 $data["ID_STUD_LETO"],
+                            "ID_PROGRAM" => $data["ID_PROGRAM"],
+                            "ID_LETNIK" => 1
+                        ]);
+                        
+                        KandidatModel::potrdiVpisReferent($idKandidat);
+                        $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithKandidatId($idKandidat);
+                        KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $predmeti, $data["ID_STUD_LETO"]);
+                        
+                        ViewHelper::render("view/DisplayMessageViewer.php", [
+                            "status" => "Success",
+                            "message" => "Uspesno ste potrdili vpis izbranega kandidata."
+                        ]);
+                    } else {
+                        self::kandidatPreglejVpisForm($id, "Failure", "Napaka, preslikava posta-obcina za zacasni naslov ni veljavna. Poskusite znova.");
+                    }
+                } else {
+                    self::kandidatPreglejVpisForm($id, "Failure", "Napaka, preslikava posta-obcina za stalni naslov ni veljavna. Poskusite znova.");
+                }
+            } else {
+                self::kandidatPreglejVpisForm($id, "Failure", "Napaka, emso st. ni veljavna. Poskusite znova.");
+            }
         } else {
-            self::kandidatiPotrdiVpisForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
+            self::kandidatPreglejVpisForm($id, "Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
         }
     }
     
@@ -609,36 +627,54 @@ class StudentOfficerController {
                     ]
                 ]);
             }
-            $idKandidat = KandidatModel::getKandidatIdWithUserId($id);
-            $id_vpis = KandidatModel::getVpisId($idKandidat);
-            KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
-            KandidatModel::updateOsebaEmsoInTelefon($id, $data["emso"], $data["telefonska_stevilka"]);
-            KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
-            KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
-            
-            KandidatModel::updateNaslov($data["ID_NASLOV1"], [
-                "id_drzava" => $data["id_drzava"],
-                "ulica" => $data["ulica"],
-                "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
-                "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
-                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
-            ]);
-            KandidatModel::updateNaslov($data["ID_NASLOV2"], [
-                "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
-                "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
-                "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
-                "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
-                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
-            ]);
-            $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
-            KandidatModel::potrdiVpisForStudentByReferent($VPISNA_STEVILKA);
-            
-            ViewHelper::render("view/DisplayMessageViewer.php", [
-                "status" => "Success",
-                "message" => "Uspesno ste potrdili vpis izbranega kandidata."
-            ]);
+            if (Validation::verifyEMSO($data["emso"])) {
+                if (($data["id_drzava"] != 705 &&
+                (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
+                (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
+                || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
+                    if (($data["id_drzava2"] != 705 &&
+                    (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
+                    (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
+                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
+                        $idKandidat = KandidatModel::getKandidatIdWithUserId($id);
+                        $id_vpis = KandidatModel::getVpisId($idKandidat);
+                        KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
+                        KandidatModel::updateOsebaEmsoInTelefon($id, $data["emso"], $data["telefonska_stevilka"]);
+                        KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
+                        KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
+                        
+                        KandidatModel::updateNaslov($data["ID_NASLOV1"], [
+                            "id_drzava" => $data["id_drzava"],
+                            "ulica" => $data["ulica"],
+                            "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
+                            "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
+                            "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
+                        ]);
+                        KandidatModel::updateNaslov($data["ID_NASLOV2"], [
+                            "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
+                            "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
+                            "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
+                            "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
+                            "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
+                        ]);
+                        $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
+                        KandidatModel::potrdiVpisForStudentByReferent($VPISNA_STEVILKA);
+                        
+                        ViewHelper::render("view/DisplayMessageViewer.php", [
+                            "status" => "Success",
+                            "message" => "Uspesno ste potrdili vpis izbranega kandidata."
+                        ]);
+                    } else {
+                        self::studentPreglejVpisForm($id, "Failure", "Napaka, preslikava posta-obcina za zacasni naslov ni veljavna. Poskusite znova.");
+                    }
+                } else {
+                    self::studentPreglejVpisForm($id, "Failure", "Napaka, preslikava posta-obcina za stalni naslov ni veljavna. Poskusite znova.");
+                }
+            } else {
+                self::studentPreglejVpisForm($id, "Failure", "Napaka, emso st. ni veljavna. Poskusite znova.");
+            }
         } else {
-            self::kandidatiPotrdiVpisForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
+            self::studentPreglejVpisForm($id, "Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
         }
     }
 
