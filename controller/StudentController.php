@@ -4,6 +4,7 @@ require_once("model/UserModel.php");
 require_once("model/StudentModel.php");
 require_once("model/PredmetModel.php");
 require_once("model/DataForExportModel.php");
+require_once("model/NasloveData.php");
 require_once("model/DelPredmetnikaModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
@@ -14,9 +15,11 @@ class StudentController {
     public static function vpisForm() {
         $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
         if ($zeton == null) {
-            ViewHelper::render("view/DisplayMessageViewer.php", [
+            ViewHelper::render("view/VpisniListPDFViewer.php", [
+                "vloga"=> "student",
+                "id"=> User::getId(),
                 "status" => "Info",
-                "message" => "Vpisni list ste ze oddali ali ne ispolnujete pogoje za vpis v visji letnik."
+                "message" => "Vpisni list ste ze oddali. Prosim pocakajte potrditev referenta."
             ]);
         } else {
             // echo '<pre>' . var_export($zeton, true) . '</pre>';
@@ -858,5 +861,142 @@ class StudentController {
         }else{
             ViewHelper::error401();
         }
+    }
+
+
+    public static function exportPDFTiskaj($id){
+        $studentId = KandidatModel::getKandidatIdWithUserId($id);
+        $studData = KandidatModel::getKandidatPodatki($studentId);
+        //Osebni podatki
+        $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon');
+        $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $studData["emso"], $studData['telefonska_stevilka']);
+
+        //Naslov za vrocanje in stalni naslov
+        $naslove=KandidatModel::getKandidatVseNaslove($id);
+        $header1 = array('Ulica', 'Pošta', 'Občina','Država');
+
+        $naslovStalnegaBivalisca=NULL;
+        $naslovPrejemanje=NULL;
+        $zacasniNaslov=NULL;
+        foreach ($naslove as $key => $value) {
+            if($value["ID_POSTA"]==NULL){
+                $posta='';
+            }else{
+                $gPosta=NasloveData::getPosta($value["ID_POSTA"]);
+                $posta=$gPosta[0]["ST_POSTA"].' '.$gPosta[0]["KRAJ"];
+            }
+
+            if($value["ID_OBCINA"]==NULL){
+                $obcina='';
+            }else{
+                $gObcina=NasloveData::getObcina($value["ID_OBCINA"]);
+                $obcina=$gObcina[0]["IME_OBCINA"];
+            }
+
+            if($value["ID_DRZAVA"]==NULL){
+                $drzava='';
+            }else{
+                $gDrzava=NasloveData::getDrzava($value["ID_DRZAVA"]);
+                //var_dump($gDrzava);
+                $drzava=$gDrzava[0]["SLOVENSKINAZIV"];;
+            }
+
+            if ($value['JE_STALNI'] == 1) {
+                $naslovStalnegaBivalisca=array($value['ULICA'],$posta,$obcina,$drzava);
+            }else{
+                $zacasniNaslov=array($value["ULICA"],$posta,$obcina,$drzava);
+            }
+
+            if ($value['JE_ZAVROCANJE'] == 1) {
+                $naslovPrejemanje=array($value['ULICA'],$posta,$obcina,$drzava);
+            }
+        }
+
+
+          //Podatki o vpisu
+        $vpisData=DataForExportModel::getVpisPodatki($studentId);
+        $studLetoVpisna=DataForExportModel::getStudijskoLetoAndVpisna($studentId);
+        $username=$studData['uporabnisko_ime'];
+        $header2=array('Štidijski program','Študijsko leto','Vpisna Številka','Uporabniško ime','Način študija','Vrsta študija','Letnik','Oblika Študija');
+        $lineData2=array($vpisData['NAZIV_PROGRAM'],$studLetoVpisna['STUD_LETO'],$studLetoVpisna['VPISNA_STEVILKA'],$username,$vpisData["OPIS_NACIN"],$vpisData["OPIS_VPISA"],$vpisData["LETNIK"],$vpisData["NAZIV_OBLIKA"]);
+
+
+        //Predmetnik
+        $header3=array('Ime predmeta','Šifra predmeta','KT','Izvajalec');
+        $imena=array();
+        $lineData3=array();
+        $sifre=array();
+        $izvajalec=array();
+
+        $predmete=DataForExportModel::getPredmete($studLetoVpisna['STUD_LETO'],$vpisData['ID_PROGRAM'],$studLetoVpisna['ID_LETNIK']);
+
+        for($i=0; $i<count($predmete);$i++){
+            $imena[$i]=$predmete[$i]['IME_PREDMET'];
+            $sifre[$i]=$predmete[$i]['ID_PREDMET'];
+            $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
+            $getIzvajalec=DataForExportModel::getIzvajalec($sifre[$i],$studLetoVpisna['STUD_LETO']);
+
+            $izvajalec[$i]=$getIzvajalec["IME"] . " " . $getIzvajalec["PRIIMEK"];
+        }
+
+        $pdf= new tFPDF();
+        $pdf->AddPage();
+        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+
+        $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
+        $pdf->Ln();
+        $tDate=date("Y-m-d");
+        $sloDate=self::formatDateSlo($tDate);
+        $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $pdf->Ln();
+
+
+        $pdf->SetFont('DejaVu','',30);
+        $pdf->Cell(200,50,'VPISNI LIST ',0,0,'C');
+        $pdf->Ln();
+
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(80,10,'Osebni podatki študenta',0,0,'C');
+        $pdf->Cell(100,10,'Podatki o vpisu',0,0,'C');
+        $pdf->Ln();
+        $pdf->SetFont('DejaVu','',8);
+        $pdf->BasicTable4($header,$lineData,$header2,$lineData2);
+        $pdf->Ln();
+
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(80,10,'Stalni naslov',0,0,'C');
+        $pdf->Cell(100,10,'Začasni naslov',0,0,'C');
+        $pdf->Ln();
+        $pdf->SetFont('DejaVu','',8);
+        $pdf->BasicTable4($header1,$naslovStalnegaBivalisca,$header1,$zacasniNaslov);
+        $pdf->Ln();
+        $pdf->Ln();
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(80,10,'Naslov za prejemanje',0,0,'C');
+        $pdf->Ln();
+        $pdf->SetFont('DejaVu','',8);
+        $pdf->BasicTable($header1,$naslovPrejemanje);
+        $pdf->Ln();
+
+        $pdf->AddPage();
+
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(180,10,'Predmetnik študenta',0,0,'C');
+        $pdf->Ln();
+        $pdf->SetFont('DejaVu','',8);
+        $pdf->BasicTable2($header3,$imena,$lineData3,$sifre,$izvajalec);
+
+        $pdf->Output();
+
+        $filename="data.pdf";
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+    }
+
+    public static function formatDateSlo($date){
+        list($d, $m, $y) = explode('-', $date);
+        return $y.".".$m.".".$d;
     }
 }

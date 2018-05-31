@@ -96,6 +96,9 @@ $urls = [
     },"/^studenti\/(\d+)\/exportPDF$/" => function($method,$id) {
         if ($method == "POST") StudentController::exportPDF($id);
     },
+    "/^studenti\/(\d+)\/exportPDFTiskaj$/" => function($method,$id) {
+        if ($method == "POST") StudentController::exportPDFTiskaj($id);
+    },
     "/^studenti\/(\d+)\/exportPDF6$/" => function($method,$id) {
         if ($method == "POST") StudentController::exportPDF6($id);
     },

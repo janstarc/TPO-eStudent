@@ -22,8 +22,13 @@ class DataForExportModel
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            SELECT p.NAZIV_PROGRAM, s.VPISNA_STEVILKA, p.ID_PROGRAM
+            SELECT p.NAZIV_PROGRAM, s.VPISNA_STEVILKA, p.ID_PROGRAM,n.OPIS_NACIN,o.NAZIV_OBLIKA,l.LETNIK,v3.OPIS_VPISA
             FROM student AS s, program AS p 
+            JOIN vpis v ON p.ID_PROGRAM = v.ID_PROGRAM
+            JOIN nacin_studija n ON v.ID_NACIN = n.ID_NACIN
+            JOIN oblika_studija o ON v.ID_OBLIKA = o.ID_OBLIKA
+            JOIN letnik l ON v.ID_LETNIK = l.ID_LETNIK
+            JOIN vrsta_vpisa v3 ON v.ID_VRSTAVPISA = v3.ID_VRSTAVPISA
             WHERE s.id_kandidat = :id_kandidat and s.ID_PROGRAM=p.ID_PROGRAM
         ");
 

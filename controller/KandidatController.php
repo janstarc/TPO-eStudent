@@ -15,7 +15,9 @@ class KandidatController {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsCandidate()) {
                 if (KandidatModel::jeVpisniListZeOddan(User::getId())) {
-                    ViewHelper::render("view/DisplayMessageViewer.php", [
+                    ViewHelper::render("view/VpisniListPDFViewer.php", [
+                        "vloga"=> "kandidat",
+                        "id"=> User::getId(),
                         "status" => "Info",
                         "message" => "Vpisni list ste ze oddali. Prosim pocakajte potrditev referenta."
                     ]);
