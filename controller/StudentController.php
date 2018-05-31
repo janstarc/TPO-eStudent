@@ -303,8 +303,10 @@ class StudentController {
                                 // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
                                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
                             }
-                            
+
                             ViewHelper::render("view/DisplayMessageViewer.php", [
+                                "vloga"=> "student",
+                                "id"=> User::getId(),
                                 "status" => "Success",
                                 "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
                             ]);
@@ -455,8 +457,10 @@ class StudentController {
                                 // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
                                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
                             }
-                            
+
                             ViewHelper::render("view/DisplayMessageViewer.php", [
+                                "vloga"=> "student",
+                                "id"=> User::getId(),
                                 "status" => "Success",
                                 "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
                             ]);
@@ -610,8 +614,10 @@ class StudentController {
                                 // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
                                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
                             }
-                            
+
                             ViewHelper::render("view/DisplayMessageViewer.php", [
+                                "vloga"=> "student",
+                                "id"=> User::getId(),
                                 "status" => "Success",
                                 "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
                             ]);
@@ -863,7 +869,6 @@ class StudentController {
         }
     }
 
-
     public static function exportPDFTiskaj($id){
         $studentId = KandidatModel::getKandidatIdWithUserId($id);
         $studData = KandidatModel::getKandidatPodatki($studentId);
@@ -928,20 +933,22 @@ class StudentController {
         $sifre=array();
         $izvajalec=array();
 
-        $predmete=DataForExportModel::getPredmete($studLetoVpisna['STUD_LETO'],$vpisData['ID_PROGRAM'],$studLetoVpisna['ID_LETNIK']);
+        $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
+        // TODO getAllByStudent() return all subjects, filter by letnik is needed
+        $predmete = PredmetModel::getAllByStudent($VPISNA_STEVILKA);
+//        $predmete=DataForExportModel::getPredmete($studLetoVpisna['STUD_LETO'],$vpisData['ID_PROGRAM'],$studLetoVpisna['ID_LETNIK']);
 
         for($i=0; $i<count($predmete);$i++){
             $imena[$i]=$predmete[$i]['IME_PREDMET'];
             $sifre[$i]=$predmete[$i]['ID_PREDMET'];
             $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
             $getIzvajalec=DataForExportModel::getIzvajalec($sifre[$i],$studLetoVpisna['STUD_LETO']);
-
             $izvajalec[$i]=$getIzvajalec["IME"] . " " . $getIzvajalec["PRIIMEK"];
         }
 
         $pdf= new tFPDF();
         $pdf->AddPage();
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);

@@ -95,12 +95,15 @@ $urls = [
         else ViewHelper::error405();
     },"/^studenti\/(\d+)\/exportPDF$/" => function($method,$id) {
         if ($method == "POST") StudentController::exportPDF($id);
+        else ViewHelper::error405();
     },
     "/^studenti\/(\d+)\/exportPDFTiskaj$/" => function($method,$id) {
         if ($method == "POST") StudentController::exportPDFTiskaj($id);
+        else ViewHelper::error405();
     },
     "/^studenti\/(\d+)\/exportPDF6$/" => function($method,$id) {
         if ($method == "POST") StudentController::exportPDF6($id);
+        else ViewHelper::error405();
     },
 
     "/^ElektronskiIndeks$/" => function ($method) {
