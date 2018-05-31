@@ -334,9 +334,18 @@ class AdminController {
                // var_dump($ime);
               //  var_dump($priimek);
               //  var_dump($id_oseba);
+                $id_oseba1=ProfesorDB::GetIzvajalec1($id_leto,$id_predmet);
+                $id_oseba2=ProfesorDB::GetIzvajalec2($id_leto,$id_predmet);
+                $id_oseba3=ProfesorDB::GetIzvajalec3($id_leto,$id_predmet);
 
-                ProfesorDB::IzvajalecAdd($id_predmet,$id_leto,$id_oseba);
-                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+                if($id_oseba1!=$id_oseba2 && $id_oseba1!=$id_oseba3 && $id_oseba2!=$id_oseba3){
+                    ProfesorDB::IzvajalecAdd($id_predmet,$id_leto,$id_oseba);
+                    ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+                }else{
+                    echo "NAPAKA";
+                }
+
+
             }else{
                 ViewHelper::error403();
             }
@@ -351,6 +360,7 @@ class AdminController {
         ]);
 
 
+
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
 
@@ -363,8 +373,26 @@ class AdminController {
                 //  var_dump($priimek);
                 //  var_dump($id_oseba);
 
-                ProfesorDB::IzvajalecAdd2($id_predmet,$id_leto,$id_oseba);
-                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+                $id_oseba1=ProfesorDB::GetIzvajalec1($id_leto,$id_predmet);
+                $id_oseba2=ProfesorDB::GetIzvajalec2($id_leto,$id_predmet);
+                $id_oseba3=ProfesorDB::GetIzvajalec3($id_leto,$id_predmet);
+
+              /*  var_dump($id_oseba);
+                var_dump($id_oseba1["ID_OSEBA1"]);
+                var_dump($id_oseba2["ID_OSEBA2"]);
+                var_dump($id_oseba3["ID_OSEBA3"]);*/
+
+
+                if($id_oseba == $id_oseba1["ID_OSEBA1"] || $id_oseba == $id_oseba2["ID_OSEBA2"] || $id_oseba == $id_oseba3["ID_OSEBA3"]){
+                    //echo "NAPAKA";
+                    ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+
+                }else{
+                    ProfesorDB::IzvajalecAdd2($id_predmet,$id_leto,$id_oseba);
+                    ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+                }
+
+
             }else{
                 ViewHelper::error403();
             }
@@ -391,8 +419,20 @@ class AdminController {
                 //  var_dump($priimek);
                 //  var_dump($id_oseba);
 
-                ProfesorDB::IzvajalecAdd3($id_predmet,$id_leto,$id_oseba);
-                ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+                $id_oseba1=ProfesorDB::GetIzvajalec1($id_leto,$id_predmet);
+                $id_oseba2=ProfesorDB::GetIzvajalec2($id_leto,$id_predmet);
+                $id_oseba3=ProfesorDB::GetIzvajalec3($id_leto,$id_predmet);
+
+                if($id_oseba == $id_oseba1["ID_OSEBA1"] || $id_oseba == $id_oseba2["ID_OSEBA2"] || $id_oseba == $id_oseba3["ID_OSEBA3"]){
+                    //echo "NAPAKA";
+                    ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+
+                }else{
+                    ProfesorDB::IzvajalecAdd3($id_predmet,$id_leto,$id_oseba);
+                    ViewHelper::redirect(BASE_URL . "PodatkiIzvajalcev/leto/".$id_leto."/".$id_predmet);
+                }
+
+
             }else{
                 ViewHelper::error403();
             }

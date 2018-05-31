@@ -75,6 +75,10 @@ $urls = [
     "/^studenti\/(\d+)\/exportPDF6$/" => function($method,$id) {
         if ($method == "POST") StudentController::exportPDF6($id);
     },
+    "/^vpis\/Tiskaj$/" => function ($method) {
+        if ($method == "POST") StudentController::exportPDF();
+        else ViewHelper::error405();
+    },
 
     "/^ElektronskiIndeks$/" => function ($method) {
         if ($method == "GET") StudentController::elektronskiIndeksForm();

@@ -33,13 +33,14 @@ class StudentController {
         }
     }
 
-    public static function exportPDF($id){
+    public static function exportPDF(){
+        $id=User::getId1();
         $studentId = KandidatModel::getKandidatIdWithUserId($id);
         $studData = KandidatModel::getKandidatPodatki($studentId);
         $emso=DataForExportModel::getEmso($studentId);
         //Osebni podatki
         $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon','Državljanstvo');
-        $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $emso['EMSO'], $studData['telefonska_stevilka'],"Slovenija");
+        $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $emso['EMSO'], $studData['telefonska_stevilka'],"Afganistan");
 
         //Naslov za vrocanje in stalni naslov
         $naslove=KandidatModel::getOsebaVseNaslove($studentId);
@@ -83,7 +84,7 @@ class StudentController {
 
         $pdf= new tFPDF();
         $pdf->AddPage();
-        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);
@@ -179,7 +180,7 @@ class StudentController {
         $pdf= new tFPDF();
         for($i=0;$i<6;$i++){
             $pdf->AddPage();
-            $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+            $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 
             $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
             $pdf->SetFont('DejaVu','',15);

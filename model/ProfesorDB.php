@@ -895,5 +895,53 @@ class ProfesorDB
         }
         return true;
     }
+
+    public static function GetIzvajalec1($id_leto,$id_predmet){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "SELECT ip.ID_OSEBA1
+            FROM izvedba_predmeta as ip 
+            WHERE  ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto"
+        );
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+
+        $statement->execute();
+        return $statement->fetch();
+    }
+
+    public static function GetIzvajalec2($id_leto,$id_predmet){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "SELECT ip.ID_OSEBA2
+            FROM izvedba_predmeta as ip 
+            WHERE  ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto"
+        );
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+
+        $statement->execute();
+        return $statement->fetch();
+    }
+
+    public static function GetIzvajalec3($id_leto,$id_predmet){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare(
+            "SELECT ip.ID_OSEBA3
+            FROM izvedba_predmeta as ip 
+            WHERE  ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:id_leto"
+        );
+
+        $statement->bindValue(":id_predmet", $id_predmet);
+        $statement->bindValue(":id_leto", $id_leto);
+
+        $statement->execute();
+        return $statement->fetch();
+    }
 }
 

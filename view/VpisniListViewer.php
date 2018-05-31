@@ -163,6 +163,11 @@
                                     <button id="btn" class="btn btn-theme btn-block" type="submit">Oddaj</button>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 offset-md-3" action="<?= BASE_URL . "vpis/Tiskaj" ?>" method="post">
+                                    <button id="btn" class="btn btn-theme btn-block" type="submit">Tiskanje vpisnega lista</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </section>
