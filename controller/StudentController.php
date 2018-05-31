@@ -304,7 +304,7 @@ class StudentController {
                                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
                             }
 
-                            ViewHelper::render("view/DisplayMessageViewer.php", [
+                            ViewHelper::render("view/VpisniListPDFViewer.php", [
                                 "vloga"=> "student",
                                 "id"=> User::getId(),
                                 "status" => "Success",
@@ -458,7 +458,7 @@ class StudentController {
                                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
                             }
 
-                            ViewHelper::render("view/DisplayMessageViewer.php", [
+                            ViewHelper::render("view/VpisniListPDFViewer.php", [
                                 "vloga"=> "student",
                                 "id"=> User::getId(),
                                 "status" => "Success",
@@ -615,7 +615,7 @@ class StudentController {
                                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
                             }
 
-                            ViewHelper::render("view/DisplayMessageViewer.php", [
+                            ViewHelper::render("view/VpisniListPDFViewer.php", [
                                 "vloga"=> "student",
                                 "id"=> User::getId(),
                                 "status" => "Success",
