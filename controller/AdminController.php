@@ -697,17 +697,17 @@ class AdminController {
 
                 $krneki = $splitted[$i];
                 if($i == 0){
-                    $temp['ime'] = mb_substr($krneki, 0, 29, 'UTF-8');
-                    $temp['priimek'] = mb_substr($krneki, 31, 30, 'UTF-8');
-                    $temp['program'] = mb_substr($krneki, 61,7, 'UTF-8');
-                    $temp['email'] = mb_substr($krneki, 68, 60, 'UTF-8');
-                    $temp['username'] = mb_substr($krneki, 68, 6, 'UTF-8');
+                    $temp['ime'] = rtrim(mb_substr($krneki, 0, 29, 'UTF-8'));
+                    $temp['priimek'] = rtrim(mb_substr($krneki, 31, 30, 'UTF-8'));
+                    $temp['program'] = rtrim(mb_substr($krneki, 61,7, 'UTF-8'));
+                    $temp['email'] = rtrim(mb_substr($krneki, 68, 60, 'UTF-8'));
+                    $temp['username'] = rtrim(mb_substr($krneki, 68, 6, 'UTF-8'));
                 } else {
-                    $temp['ime'] = mb_substr($krneki, 0, 30, 'UTF-8');
-                    $temp['priimek'] = mb_substr($krneki, 30, 30, 'UTF-8');
-                    $temp['program'] = mb_substr($krneki, 60,7, 'UTF-8');
-                    $temp['email'] = mb_substr($krneki, 67, 60, 'UTF-8');
-                    $temp['username'] = mb_substr($krneki, 67, 6, 'UTF-8');
+                    $temp['ime'] = rtrim(mb_substr($krneki, 0, 30, 'UTF-8'));
+                    $temp['priimek'] = rtrim(mb_substr($krneki, 30, 30, 'UTF-8'));
+                    $temp['program'] = rtrim(mb_substr($krneki, 60,7, 'UTF-8'));
+                    $temp['email'] = rtrim(mb_substr($krneki, 67, 60, 'UTF-8'));
+                    $temp['username'] = rtrim(mb_substr($krneki, 67, 6, 'UTF-8'));
                 }
 
                 $temp['duplikat'] = "NE";
