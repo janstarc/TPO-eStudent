@@ -598,11 +598,14 @@ class AdminController {
 
                 $splitted = self::splitInput($fileContent);
                 $sizeSplitted = count($splitted);
+                //var_dump($splitted);
 
                 $mainArray = null;
                 if ($sizeSplitted > 0) {
                     $mainArray = self::generateMainArray($splitted, $sizeSplitted);
+                    //self::generateMainArray2($splitted);
                     //var_dump($mainArray);
+
 
                     if (is_array($mainArray)) {
 
@@ -685,24 +688,55 @@ class AdminController {
 
     // Checks length constraints of each input, returns associative array
     public static function generateMainArray($splitted, $sizeSplitted){
-
             $mainArray = array();
             $temp = array();
 
-            for($i = 0; $i < $sizeSplitted; $i++){
+            //var_dump($sizeSplitted);
+            //var_dump($splitted);
+            for($i = 0; $i < $sizeSplitted; $i++) {
 
-                $temp['ime'] = rtrim(substr($splitted[$i], 0, 30));
-                $temp['priimek'] = rtrim(substr($splitted[$i], 30, 30));
-                $temp['program'] = rtrim(substr($splitted[$i], 60,7));
-                $temp['email'] = rtrim(substr($splitted[$i], 67, 60));
+                $krneki = $splitted[$i];
+                if($i == 0){
+                    $temp['ime'] = mb_substr($krneki, 0, 29, 'UTF-8');
+                    $temp['priimek'] = mb_substr($krneki, 31, 30, 'UTF-8');
+                    $temp['program'] = mb_substr($krneki, 61,7, 'UTF-8');
+                    $temp['email'] = mb_substr($krneki, 68, 60, 'UTF-8');
+                    $temp['username'] = mb_substr($krneki, 68, 6, 'UTF-8');
+                } else {
+                    $temp['ime'] = mb_substr($krneki, 0, 30, 'UTF-8');
+                    $temp['priimek'] = mb_substr($krneki, 30, 30, 'UTF-8');
+                    $temp['program'] = mb_substr($krneki, 60,7, 'UTF-8');
+                    $temp['email'] = mb_substr($krneki, 67, 60, 'UTF-8');
+                    $temp['username'] = mb_substr($krneki, 67, 6, 'UTF-8');
+                }
+
                 $temp['duplikat'] = "NE";
                 $temp['tipDuplikata'] = "/";
                 $temp['update'] = "NE";
                 $temp['izkoriscen'] = "NE";
+                //var_dump($temp);
 
                 array_push($mainArray, $temp);
             }
             return $mainArray;
+    }
+
+    public static function generateMainArray2($splitted){
+
+        $mainArray=[];
+        $temp=[];
+
+        foreach ($splitted as $key => $value){
+            $temp['ime'] = mb_substr($value, 0, 30, 'UTF-8');
+            $temp['priimek'] = mb_substr($value, 30, 30, 'UTF-8');
+            $temp['program'] = mb_substr($value, 60,7, 'UTF-8');
+            $temp['email'] =mb_substr($value, 67, 60, 'UTF-8');
+            $temp['duplikat'] = "NE";
+            $temp['tipDuplikata'] = "/";
+            $temp['update'] = "NE";
+            $temp['izkoriscen'] = "NE";
+            var_dump($temp);
+        }
     }
 
     // Generates vpisna, username, pass, returns enriched associative array
@@ -713,17 +747,10 @@ class AdminController {
         foreach ($mainArray as $key => $value){
 
             $vpisna = rand(63180000, 63189999);
-
-            $imePrva = strtolower(substr($value['ime'], 0, 1));
-            $priimekPrva = strtolower(substr($value['priimek'], 0, 1));
-            $randomUn = rand(1000, 9999);
-            $username = $imePrva.$priimekPrva.$randomUn;
-
             $pass = self::generatePass(6);
 
             if($value['duplikat'] == "NE"){
                 $value['vpisna'] = $vpisna;
-                $value['username'] = $username;
                 $value['password'] = $pass;
             } else {
                 $value['vpisna'] = "";
