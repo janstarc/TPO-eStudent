@@ -89,7 +89,7 @@
 
                     </div>
                     <hr>
-                    <form class=example2  action="<?= BASE_URL . "PredmetAdd" ?>" method='post'>
+                    <form class=example2  action="<?= BASE_URL . "PredmetAdd" ?>" method='get'>
                         <input type="hidden" name="id" value="<?= $row["ID_PREDMET"] ?>" />
                         <button type=submit >Dodaj nov predmet</button>
                     </form>
