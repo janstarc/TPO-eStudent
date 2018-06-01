@@ -15,7 +15,9 @@ class KandidatController {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsCandidate()) {
                 if (KandidatModel::jeVpisniListZeOddan(User::getId())) {
-                    ViewHelper::render("view/DisplayMessageViewer.php", [
+                    ViewHelper::render("view/VpisniListPDFViewer.php", [
+                        "vloga"=> "kandidat",
+                        "id"=> User::getId(),
                         "status" => "Info",
                         "message" => "Vpisni list ste ze oddali. Prosim pocakajte potrditev referenta."
                     ]);
@@ -28,7 +30,7 @@ class KandidatController {
                     $drzave = DrzavaModel::getAll();
                     $userName = UserModel::getUserName(User::getId());
                     $predmeti = PredmetModel::getAll([
-                        "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+                        "ID_STUD_LETO" => 2, //TODO create subjects for id_stud_leto=1 $KandidatPodatki["id_stud_leto"],
                         "ID_PROGRAM" => $KandidatPodatki["id_program"],
                         "ID_LETNIK" => 1
                     ]);
@@ -56,120 +58,111 @@ class KandidatController {
     }
     
     public static function vpis() {
-        $data2 = filter_input_array(INPUT_POST, [
-            "optradio" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+//            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+        $data = filter_input_array(INPUT_POST, [
+            "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id_drzava" => [
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => [
+                    'min_range' => 1
+                ]
+            ],
+            "ulica" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-        if (Validation::checkValues($data2)) {
-            if ($data2["optradio"]=="je_zavrocanje" || $data2["optradio"]=="ni_zavrocanje") {
-                if ($data2["optradio"]=="je_zavrocanje") {
-                    $data = filter_input_array(INPUT_POST, [
-                        "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                        "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                        "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                        "id_drzava" => [
-                            'filter' => FILTER_VALIDATE_INT,
-                            'options' => [
-                                'min_range' => 1
-                            ]
-                        ],
-                        "ulica" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                        "hisna_stevilka" => [
-                            'filter' => FILTER_VALIDATE_INT,
-                            'options' => [
-                                'min_range' => 1
-                            ]
-                        ],
-                        "id_posta" => [
-                            'filter' => FILTER_VALIDATE_INT,
-                            'options' => [
-                                'min_range' => 1
-                            ]
+        
+        if($data["id_drzava"] == 705) {
+            $data = $data + filter_input_array(INPUT_POST, [
+                "id_posta" => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => [
+                        'min_range' => 1
+                    ]
+                ],
+                "id_obcina" => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => [
+                        'min_range' => 1
+                    ]
+                ]
+            ]);
+        }
+        
+        if (Validation::checkValues($data)) {
+            $data = $data + filter_input_array(INPUT_POST, [
+                "id_drzava2" => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => [
+                        'min_range' => 1
+                    ]
+                ],
+                "ulica2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            ]);
+            if($data["id_drzava2"] == 705) {
+                $data = $data + filter_input_array(INPUT_POST, [
+                    "id_posta2" => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => [
+                            'min_range' => 1
                         ]
-                    ]);
-                } else if ($data2["optradio"]=="ni_zavrocanje") {
-                    $data = filter_input_array(INPUT_POST, [
-                        "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                        "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                        "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                        "id_drzava" => [
-                            'filter' => FILTER_VALIDATE_INT,
-                            'options' => [
-                                'min_range' => 1
-                            ]
-                        ],
-                        "ulica" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                        "hisna_stevilka" => [
-                            'filter' => FILTER_VALIDATE_INT,
-                            'options' => [
-                                'min_range' => 1
-                            ]
-                        ],
-                        "id_posta" => [
-                            'filter' => FILTER_VALIDATE_INT,
-                            'options' => [
-                                'min_range' => 1
-                            ]
-                        ],
-                        "ulica2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-                        "hisna_stevilka2" => [
-                            'filter' => FILTER_VALIDATE_INT,
-                            'options' => [
-                                'min_range' => 1
-                            ]
-                        ],
-                        "id_posta2" => [
-                            'filter' => FILTER_VALIDATE_INT,
-                            'options' => [
-                                'min_range' => 1
-                            ]
+                    ],
+                    "id_obcina2" => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => [
+                            'min_range' => 1
                         ]
-                    ]);
-                }
-                
-                if (Validation::checkValues($data)) {
-                    $idKandidat = KandidatModel::getKandidatIdWithEmail($data["email"]);
-                    KandidatModel::updateEmso($idKandidat, $data["emso"]);
-                    KandidatModel::updateTelefon($idKandidat, $data["telefonska_stevilka"]);
-                    if ($data2["optradio"]=="je_zavrocanje") {
+                    ]
+                ]);
+            }
+            
+            if (Validation::verifyEMSO($data["emso"])) {
+                if (($data["id_drzava"] != 705 &&
+                (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
+                (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
+                || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
+                    if (($data["id_drzava2"] != 705 &&
+                    (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
+                    (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
+                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
+                        $idKandidat = KandidatModel::getKandidatIdWithUserId(User::getId());
+                        KandidatModel::updateEmso($idKandidat, $data["emso"]);
+                        KandidatModel::updateTelefon($idKandidat, $data["telefonska_stevilka"]);
+                        
                         KandidatModel::insertNaslov($idKandidat, [
-                            "id_posta" => $data["id_posta"],
                             "id_drzava" => $data["id_drzava"],
-                            "je_zavrocanje" => 1,
-                            "je_stalni" => 1,
+                            "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
+                            "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
                             "ulica" => $data["ulica"],
-                            "hisna_stevilka" => $data["hisna_stevilka"]
-                        ]);
-                    } else if ($data2["optradio"]=="ni_zavrocanje") {
-                        KandidatModel::insertNaslov($idKandidat, [
-                            "id_posta" => $data["id_posta"],
-                            "id_drzava" => $data["id_drzava"],
-                            "je_zavrocanje" => 0,
-                            "je_stalni" => 1,
-                            "ulica" => $data["ulica"],
-                            "hisna_stevilka" => $data["hisna_stevilka"]
+                            "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0),
+                            "je_stalni" => 1
                         ]);
                         KandidatModel::insertNaslov($idKandidat, [
-                            "id_posta" => $data["id_posta2"],
-                            "id_drzava" => $data["id_drzava"],
-                            "je_zavrocanje" => 1,
-                            "je_stalni" => 0,
-                            "ulica" => $data["ulica2"],
-                            "hisna_stevilka" => $data["hisna_stevilka2"]
+                            "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
+                            "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
+                            "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
+                            "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
+                            "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0),
+                            "je_stalni" => 0
                         ]);
+                        
+                        KandidatModel::potrdiVpisKandidat($idKandidat);
+                        
+                        ViewHelper::render("view/DisplayMessageViewer.php", [
+                            "status" => "Success",
+                            "message" => "Vpisni list ste uspesno oddali. Prosim pocakajte potrditev referenta."
+                        ]);
+                    } else {
+                        self::vpisForm("Failure", "Napaka, preslikava posta-obcina za zacasni naslov ni veljavna. Poskusite znova.");
                     }
-                    KandidatModel::potrdiVpisKandidat($idKandidat);
-                    ViewHelper::render("view/DisplayMessageViewer.php", [
-                        "status" => "Success",
-                        "message" => "Vpisni list ste uspesno oddali. Prosim pocakajte potrditev referenta."
-                    ]);
                 } else {
-                    self::vpisForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
+                    self::vpisForm("Failure", "Napaka, preslikava posta-obcina za stalni naslov ni veljavna. Poskusite znova.");
                 }
             } else {
-                self::vpisForm("Failure", "Napaka, potrebno je izbira med je ali ni stalni naslov tudi za vrocanje. Poskusite znova.");
+                self::vpisForm("Failure", "Napaka, emso st. ni veljavna. Poskusite znova.");
             }
         } else {
-            self::vpisForm("Failure", "Napaka, potrebno je izbira med je ali ni stalni naslov tudi za vrocanje. Poskusite znova.");
+            self::vpisForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
         }
     }
 }

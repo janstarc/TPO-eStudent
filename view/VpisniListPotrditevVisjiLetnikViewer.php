@@ -19,17 +19,17 @@
                             </div>
                         <?php endif; ?>
 
-                        <form action="<?= BASE_URL . $formAction . "/" . $id ?>" method="post" class="form-horizontal">
+                        <form action="<?= BASE_URL . $formAction ?>" method="post" class="form-horizontal">
                             <div class="row">
                                 <div class="col-xs-12 col-md-4">
                                     <h3>Osebni podatki</h3>
                                     <div class="form-group">
                                         <label for="Ime">Ime</label>
-                                        <input type="text" pattern="[^0-9]*" class="form-control" id="Ime" name="Ime" value="<?= $KandidatPodatki["ime"] ?>" required  autofocus>
+                                        <input type="text" class="form-control" id="Ime" name="Ime" value="<?= $KandidatPodatki["ime"] ?>" required  autofocus disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="Priimek">Priimek</label>
-                                        <input type="text" pattern="[^0-9]*" class="form-control" id="Priimek" name="Priimek" value="<?= $KandidatPodatki["priimek"] ?>" required >
+                                        <input type="text" class="form-control" id="Priimek" name="Priimek" value="<?= $KandidatPodatki["priimek"] ?>" required disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="Email">Email</label>
@@ -188,7 +188,7 @@
                                     <h3>Podatki o vpisu</h3>
                                     <div class="form-group">
                                         <label for="ID_PROGRAM">Študijski program</label>
-                                        <select class="form-control" id="ID_PROGRAM" name="ID_PROGRAM" required>
+                                        <select class="form-control" id="ID_PROGRAM" name="ID_PROGRAM" required disabled>
                                             <?php foreach ($StudijskiProgrami as $StudijskiProgram):
                                                 if ($KandidatPodatki["id_program"] == $StudijskiProgram["ID_PROGRAM"]): ?>
                                                     <option selected value="<?= $StudijskiProgram["ID_PROGRAM"] ?>"><?= $StudijskiProgram["NAZIV_PROGRAM"] ?></option>
@@ -201,7 +201,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="ID_STUD_LETO">Študijsko leto</label>
-                                        <select class="form-control" id="ID_STUD_LETO" name="ID_STUD_LETO" required>
+                                        <select class="form-control" id="ID_STUD_LETO" name="ID_STUD_LETO" required disabled>
                                             <?php foreach ($StudijskaLeta as $StudijskoLeto):
                                                 if ($stud_leto['ID_STUD_LETO'] == $StudijskoLeto["ID_STUD_LETO"]): ?>
                                                     <option selected value="<?= $StudijskoLeto["ID_STUD_LETO"] ?>"><?= $StudijskoLeto["STUD_LETO"] ?></option>
@@ -222,17 +222,17 @@
                                 </div>
                             </div>
 
-                                <div class="row">
-                                    <div class="col-xs-12 col-md-6 offset-md-3">
-                                        <h3>Predmetnik študenta</h3>
-                                        <table id="table-subject" class="table table-striped table-advance table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th>Ime predmeta</th>
-                                                <th>St. KT</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 offset-md-3">
+                                    <h3>Tvoji predmetnik</h3>
+                                    <table id="table-subject" class="table table-striped table-advance table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Ime predmeta</th>
+                                            <th>St. KKT</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
                                         <?php $vsota=0;
                                         foreach($predmeti as $predmet):
                                             $vsota+=$predmet['ST_KREDITNIH_TOCK']; ?>
@@ -245,16 +245,15 @@
                                             <td>Skupno st. KKT</td>
                                             <td><?php echo $vsota; ?></td>
                                         </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-md-6 offset-md-3">
-                                        <button id="btn" class="btn btn-theme btn-block" type="submit">Potrdi</button>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 offset-md-3">
+                                    <button id="btn" class="btn btn-theme btn-block" type="submit">Oddaj</button>
                                 </div>
+                            </div>
                         </form>
                     </div>
                 </section>

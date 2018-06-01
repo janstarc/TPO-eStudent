@@ -55,6 +55,22 @@ $urls = [
         if ($method == "GET") KandidatController::vpisForm();
         else if ($method == "POST") KandidatController::vpis();
         else ViewHelper::error405();
+    }, "/^vpisNasledniLetnik$/" => function ($method) {
+        if ($method == "GET") StudentController::vpisForm();
+        else if ($method == "POST") StudentController::vpis();
+        else ViewHelper::error405();
+    }, "/^vpis2L$/" => function ($method) {
+        if ($method == "GET") StudentController::vpis2LForm();
+        else if ($method == "POST") StudentController::vpis2L();
+        else ViewHelper::error405();
+    }, "/^vpis3L1$/" => function ($method) {
+        if ($method == "GET") StudentController::vpis3L1Form();
+        else if ($method == "POST") StudentController::vpis3L1();
+        else ViewHelper::error405();
+    }, "/^vpis3L2$/" => function ($method) {
+        if ($method == "GET") StudentController::vpis3L2Form();
+        else if ($method == "POST") StudentController::vpis3L2();
+        else ViewHelper::error405();
     }, "/^kandidati$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::kandidatiList();
         else ViewHelper::error405();
@@ -62,7 +78,16 @@ $urls = [
         if ($method == "GET") StudentOfficerController::kandidatPreglejVpisForm($id);
         else if ($method == "POST") StudentOfficerController::kandidatiPotrdiVpisForm($id);
         else ViewHelper::error405();
-    }, "/^vpisaniStudenti$/" => function ($method) {
+    }, "/^kandidatiZaVisjiLetnik$/" => function ($method) {
+        if ($method == "GET") StudentOfficerController::kandidatiZaVisjiLetnikList();
+        else ViewHelper::error405();
+    }, "/^kandidatiZaVisjiLetnik\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::studentPreglejVpisForm($id);
+        else if ($method == "POST") StudentOfficerController::studentPotrdiVpisForm($id);
+        else ViewHelper::error405();
+    }, 
+    
+    "/^vpisaniStudenti$/" => function ($method) {
         if ($method == "GET") StudentOfficerController::vpisaniStudentiList();
         else ViewHelper::error405();
     },"/^studenti\/(\d+)$/" => function ($method, $id) {
@@ -71,9 +96,15 @@ $urls = [
         else ViewHelper::error405();
     },"/^studenti\/(\d+)\/exportPDF$/" => function($method,$id) {
         if ($method == "POST") StudentController::exportPDF($id);
+        else ViewHelper::error405();
+    },
+    "/^studenti\/(\d+)\/exportPDFTiskaj$/" => function($method,$id) {
+        if ($method == "POST") StudentController::exportPDFTiskaj($id);
+        else ViewHelper::error405();
     },
     "/^studenti\/(\d+)\/exportPDF6$/" => function($method,$id) {
         if ($method == "POST") StudentController::exportPDF6($id);
+        else ViewHelper::error405();
     },
     "/^vpis\/Tiskaj$/" => function ($method) {
         if ($method == "POST") StudentController::exportPDF();

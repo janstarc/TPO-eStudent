@@ -339,6 +339,36 @@ class StudentModel{
         return $result['id_vpis'];
     }
 
+    public static function getLastNeIzkoriscenZeton($id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT *
+            FROM zeton AS z
+            WHERE z.ID_OSEBA = :id_oseba
+            AND z.IZKORISCEN = 0
+            AND z.AKTIVNOST = 1
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result;
+    }
+    
+    public static function setZetonToIzkoriscen($id_zeton){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            UPDATE zeton
+            SET IZKORISCEN = 1
+            WHERE ID_ZETON = :id_zeton
+        ");
+
+        $statement->bindValue(":id_zeton", $id_zeton);
+        $statement->execute();
+    }
+
     public static function getIzkoriscenAktivenZeton($id_oseba){
 
         $db = DBInit::getInstance();

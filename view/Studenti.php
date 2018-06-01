@@ -90,7 +90,7 @@
                                     <td><?php echo $data['priimek']; ?></td>
                                     <td><?php echo $data['vpisna_stevilka']; ?></td>
                                     <td>
-                                        <form action="<?= BASE_URL . $formAction . "/" . $data['id_oseba'] ?>" method="get">
+                                        <form action="<?= BASE_URL . "studenti/".$data['id_oseba']."/exportPDFTiskaj" ?>" method="post">
                                             <input class="btn btn-primary btn-sm" type="submit" value="Preglej" />
                                         </form>
                                     </td>
