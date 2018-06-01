@@ -29,10 +29,6 @@
                         "sClass": "center",
                         "bSortable": true,
                         "sType":"slo"
-                    },{
-                        "sClass": "center",
-                        "bSortable": true,
-                        "sType":"slo"
                     }
                 ],
                 // Ordering v prvem stolpcu
@@ -114,10 +110,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <?php
-
-
+                        <?php
                             $count = 0;
                             foreach ($vpisani as $row) {
                             $count +=1;

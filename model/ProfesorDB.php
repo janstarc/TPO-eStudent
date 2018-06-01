@@ -323,38 +323,38 @@ class ProfesorDB
         $db = DBInit::getInstance();
 
 
-       /* $statement = $db->prepare(
-            "UPDATE IZVEDBA_PREDMETA 
-                      SET
-                     ID_OSEBA1 = :id_oseba
-                    WHERE  ID_PREDMET = :id_predmet AND ID_STUD_LETO=:id_leto"
-        );
+        /* $statement = $db->prepare(
+             "UPDATE IZVEDBA_PREDMETA
+                       SET
+                      ID_OSEBA1 = :id_oseba
+                     WHERE  ID_PREDMET = :id_predmet AND ID_STUD_LETO=:id_leto"
+         );
 
-        if($statement->rowCount()==0){*/
+         if($statement->rowCount()==0){*/
 
-            $statement2 = $db->prepare(
-                "INSERT INTO IZVEDBA_PREDMETA 
+        $statement2 = $db->prepare(
+            "INSERT INTO IZVEDBA_PREDMETA 
               (ID_STUD_LETO, ID_OSEBA1, ID_OSEBA2,ID_OSEBA3, ID_PREDMET)
                VALUES (:id_leto, :id_oseba, NULL, NULL, :id_predmet)
                "
-            );
+        );
 
-            $statement2->bindValue(":id_predmet", $id_predmet);
-            $statement2->bindValue(":id_leto", $id_leto);
-            $statement2->bindValue(":id_oseba", $id_oseba);
-            $statement2->execute();
-            return true;
+        $statement2->bindValue(":id_predmet", $id_predmet);
+        $statement2->bindValue(":id_leto", $id_leto);
+        $statement2->bindValue(":id_oseba", $id_oseba);
+        $statement2->execute();
+        return true;
 
-      /*  }
+        /*  }
 
-        $statement->bindValue(":id_predmet", $id_predmet);
-        $statement->bindValue(":id_leto", $id_leto);
-        $statement->bindValue(":id_oseba", $id_oseba);
+          $statement->bindValue(":id_predmet", $id_predmet);
+          $statement->bindValue(":id_leto", $id_leto);
+          $statement->bindValue(":id_oseba", $id_oseba);
 
 
-        $statement->execute();
+          $statement->execute();
 
-        return true;*/
+          return true;*/
     }
 
     public static function IzvajalecAdd2($id_predmet,$id_leto,$id_oseba)
@@ -408,22 +408,22 @@ class ProfesorDB
                     WHERE  ID_PREDMET = :id_predmet AND ID_STUD_LETO=:id_leto"
         );
 
-       /* if($statement->rowCount()==0){
+        /* if($statement->rowCount()==0){
 
-            $statement2 = $db->prepare(
-                "INSERT INTO IZVEDBA_PREDMETA 
-              (ID_STUD_LETO, ID_OSEBA1, ID_OSEBA2,ID_OSEBA3, ID_PREDMET)
-               VALUES (:id_leto, NULL, NULL, :id_oseba, :id_predmet)
-               "
-            );
+             $statement2 = $db->prepare(
+                 "INSERT INTO IZVEDBA_PREDMETA
+               (ID_STUD_LETO, ID_OSEBA1, ID_OSEBA2,ID_OSEBA3, ID_PREDMET)
+                VALUES (:id_leto, NULL, NULL, :id_oseba, :id_predmet)
+                "
+             );
 
-            $statement2->bindValue(":id_predmet", $id_predmet);
-            $statement2->bindValue(":id_leto", $id_leto);
-            $statement2->bindValue(":id_oseba", $id_oseba);
-            $statement2->execute();
-            return true;
+             $statement2->bindValue(":id_predmet", $id_predmet);
+             $statement2->bindValue(":id_leto", $id_leto);
+             $statement2->bindValue(":id_oseba", $id_oseba);
+             $statement2->execute();
+             return true;
 
-        }*/
+         }*/
 
         $statement->bindValue(":id_predmet", $id_predmet);
         $statement->bindValue(":id_leto", $id_leto);
@@ -943,5 +943,88 @@ class ProfesorDB
         $statement->execute();
         return $statement->fetch();
     }
+
+    public static function getAllStudents($program, $leto){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                SELECT DISTINCT *
+                FROM  STUDENT s, OSEBA o, VPIS v 
+                WHERE s.ID_OSEBA = o.ID_OSEBA and v.ID_STUD_LETO = :leto and v.ID_PROGRAM = :program
+                and v.VPISNA_STEVILKA = s.VPISNA_STEVILKA ");
+        $statement->bindParam(":leto", $leto);
+        $statement->bindParam(":program", $program);
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+
+    }
+
+    public static function getStudData($id)
+    {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT IME, PRIIMEK, s.VPISNA_STEVILKA, STUD_LETO, NAZIV_PROGRAM, ID_LETNIK, OPIS_VPISA, OPIS_NACIN
+from oseba o
+  JOIN student s ON o.ID_OSEBA = s.ID_OSEBA
+  JOIN vpis v ON s.VPISNA_STEVILKA = v.VPISNA_STEVILKA
+  JOIN studijsko_leto l ON v.ID_STUD_LETO = l.ID_STUD_LETO
+  JOIN program p ON s.ID_PROGRAM = p.ID_PROGRAM
+  join vrsta_vpisa v3 ON v.ID_VRSTAVPISA = v3.ID_VRSTAVPISA
+  JOIN nacin_studija n ON v.ID_NACIN = n.ID_NACIN
+
+WHERE o.ID_OSEBA = s.ID_OSEBA and o.ID_OSEBA = :id
+order by STUD_LETO DESC LIMIT 1 
+        ");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        return $statement->fetch();
+    }
+
+    public static function getOcenePoLetih($id)
+    {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            select l.ID_STUD_LETO, l.STUD_LETO, v.ID_LETNIK
+from student s
+  join vpis v ON s.VPISNA_STEVILKA = v.VPISNA_STEVILKA
+  JOIN studijsko_leto l ON v.ID_STUD_LETO = l.ID_STUD_LETO
+
+where s.ID_OSEBA = :id
+        ");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $leta = $statement->fetchAll();
+
+        $all = [];
+
+        foreach ($leta as $row){
+            $db = DBInit::getInstance();
+
+            $statement = $db->prepare("
+            select SUM(ST_KREDITNIH_TOCK) as SUM, avg(studenta.OCENA) as AVG 
+            from student s
+            JOIN predmeti_studenta studenta ON s.VPISNA_STEVILKA = studenta.VPISNA_STEVILKA
+            JOIN predmet p ON studenta.ID_PREDMET = p.ID_PREDMET
+            
+            
+            where s.ID_OSEBA = :id and studenta.ID_STUD_LETO = :leto and studenta.OCENA > 0
+        ");
+            $statement->bindParam(":id", $id);
+            $statement->bindParam(":leto", $row['ID_STUD_LETO']);
+            $statement->execute();
+            $podatki = $statement->fetch();
+            $row['SUM'] = $podatki['SUM'];
+            $row['AVG'] = $podatki['AVG'];
+            array_push($all, $row);
+        }
+
+        return $all;
+    }
+
+
 }
 

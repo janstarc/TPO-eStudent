@@ -25,15 +25,12 @@
                     {
                         "sClass": "center",
                         "bSortable": true,
+                        "sType":"slo"
                     },{
                         "sClass": "center",
                         "bSortable": true,
                         "sType":"slo"
                     }, {
-                        "sClass": "center",
-                        "bSortable": true,
-                        "sType":"slo"
-                    },{
                         "sClass": "center",
                         "bSortable": true,
                         "sType":"slo"
@@ -109,7 +106,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+
                             <?php
 
 

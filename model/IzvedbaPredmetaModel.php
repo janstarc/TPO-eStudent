@@ -7,7 +7,7 @@ class IzvedbaPredmetaModel {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            SELECT ip.ID_IZVEDBA, p.ID_PREDMET, p.IME_PREDMET
+            SELECT ip.ID_IZVEDBA, p.ID_PREDMET, p.IME_PREDMET, ID_OSEBA1, ID_OSEBA2, ID_OSEBA3
             FROM IZVEDBA_PREDMETA as ip
             JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
             WHERE ID_STUD_LETO = :idCurrentYear

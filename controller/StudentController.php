@@ -9,6 +9,7 @@ require_once("model/NasloveData.php");
 require_once("model/DelPredmetnikaModel.php");
 require_once("model/User.php");
 require_once("ViewHelper.php");
+require_once("model/KartotecniListDB.php");
 require_once ("view/includes/tfpdf.php");
 
 
@@ -715,7 +716,7 @@ class StudentController {
 
         $pdf= new tFPDF();
         $pdf->AddPage();
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);
@@ -812,7 +813,7 @@ class StudentController {
         $pdf= new tFPDF();
         for($i=0;$i<6;$i++){
             $pdf->AddPage();
-            $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+            $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
             $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
             $pdf->SetFont('DejaVu','',15);
@@ -872,6 +873,7 @@ class StudentController {
                 $IdYear = StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
                 $roki = RokModel::getAllByEnrolledStudent(User::getId(), $IdYear["ID_STUD_LETO"]);
                 $vpisna=PrijavaModel::getVpisna(User::getId1());
+
                 $zapPolaganj=PrijavaModel::getZapStPolaganj($vpisna["VPISNA_STEVILKA"]);
                 //var_dump($roki);
                 if (empty($roki)) {
@@ -879,7 +881,7 @@ class StudentController {
                     $message = "Trenutno ni razpisanih izpitne roke.";
                 }
                 ViewHelper::render("view/IzpitniRokStudent.php", [
-                    "pageTitle" => "Seznam vse roke",
+                    "pageTitle" => "Seznam vseh rokov",
                     "roki" => $roki,
                     "formAction" => "izpitniRok/student/",
                     "status" => $status,
@@ -1367,4 +1369,188 @@ class StudentController {
         list($d, $m, $y) = explode('-', $date);
         return $y.".".$m.".".$d;
     }
+
+    public static function kartotecniListForm1($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudent()) {
+                $ID_STUDENT = User::getId();
+                ViewHelper::render("view/KartotecniListChooseStudent.php", [
+                    "pageTitle" => "Izberite pogled",
+                    "allData" => StudentModel::getAllStudents($ID_STUDENT),
+                    "formAction" => "kartotecniListS/pogled" ,
+                    "status" => $status,
+                    "oseba" => 2,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+    public static function kartotecniListForm2($id3, $id4, $status = null, $message = null)
+    {
+
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudent()) {
+                $studData = KartotecniListDB::getStudData($id3);
+                $ocenePoLetih = KartotecniListDB::getOcenePoLetih($id3);
+
+                $title = "Prosimo izberite program študenta " . $studData[0]['IME'] . " " . $studData[0]['PRIIMEK'] . "  (" .
+                    $studData[0]['VPISNA_STEVILKA'] . ")";
+
+                if ($id4 == 1) {
+                    $data = KartotecniListDB::getAllPolaganja($id3);
+                } else {
+                    $data = KartotecniListDB::getZadnjaPolaganja($id3);
+                }
+                $program = $data[1];
+                $data = $data[0];
+                $programi = array();
+                foreach ($program as $key=>$value):
+                    if (!in_array($key, $programi)){
+                        array_push($programi, $key);
+                    }
+
+                endforeach;
+
+                if(count($program) > 1){
+                    $programi = KartotecniListDB::getProgrami($programi);
+                    ViewHelper::render("view/KartotecniListStudentChoose.php", [
+                        "pageTitle" => $title,
+                        "allData" => $programi,
+                        "formAction" => $id4."/program",
+                        "studData" => $studData,
+                        "ocene" => $ocenePoLetih,
+                        "status" => $status,
+                        "oseba" => 1,
+                        "message" => $message
+                    ]);
+                }
+                else {
+                    self::kartotecniListForm3($programi[0],$id3, $id4, $status, $message);}
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+    public static function kartotecniListForm3($program,  $id3, $id4, $status = null, $message = null)
+    {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudent()) {
+                $studData = KartotecniListDB::getStudData($id3);
+                $ocenePoLetih = KartotecniListDB::getOcenePoLetih($id3);
+
+                $title = "Kartotečni list študenta " . $studData[0]['IME'] . " " . $studData[0]['PRIIMEK'] . "  (" .
+                    $studData[0]['VPISNA_STEVILKA'] . ")";
+
+                if ($id4 == 1) {
+                    $data = KartotecniListDB::getAllPolaganja($id3);
+                } else {
+                    $data = KartotecniListDB::getZadnjaPolaganja($id3);
+                }
+
+                $data = $data[0];
+                $midData = array();
+                $midStudData = array();
+                if ($program != 0) {
+
+                    foreach ($data as $key => $value):
+                        if($value[0]['ID_PROGRAM'] == $program){
+                            $midData[$key] = $value;
+                        }
+                    endforeach;
+
+                    foreach ($studData as $value):
+
+                        if($value['ID_PROGRAM'] == $program){
+                            array_push($midStudData, $value);
+                        }
+                    endforeach;
+                    $data = $midData;
+                    $studData = $midStudData;
+                }
+
+
+                ViewHelper::render("view/KartotecniListShowStudent.php", [
+                    "pageTitle" => $title,
+                    "allData" => $data,
+                    "formAction" => "studentID",
+                    "studData" => $studData,
+                    "ocene" => $ocenePoLetih,
+                    "status" => $status,
+                    "oseba" => 1,
+                    "student" => $id3,
+                    "pogled" => $id4,
+                    "program" => $program,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+    public static function kartotecniListForm5( $id3, $id4, $program,$status = null, $message = null)
+    {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudent()) {
+                $studData = KartotecniListDB::getStudData($id3);
+                $ocenePoLetih = KartotecniListDB::getOcenePoLetih($id3);
+
+                $title = "Kartotečni list študenta " . $studData[0]['IME'] . " " . $studData[0]['PRIIMEK'] . "  (" .
+                    $studData[0]['VPISNA_STEVILKA'] . ")";
+
+                if ($id4 == 1) {
+                    $data = KartotecniListDB::getAllPolaganja($id3);
+                } else {
+                    $data = KartotecniListDB::getZadnjaPolaganja($id3);
+                }
+
+                $data = $data[0];
+                $midData = array();
+                $midStudData = array();
+                if ($program != 0) {
+
+                    foreach ($data as $key => $value):
+                        if($value[0]['ID_PROGRAM'] == $program){
+                            $midData[$key] = $value;
+                        }
+                    endforeach;
+
+                    foreach ($studData as $value):
+
+                        if($value['ID_PROGRAM'] == $program){
+                            array_push($midStudData, $value);
+                        }
+                    endforeach;
+                    $data = $midData;
+                    $studData = $midStudData;
+                }
+
+                ViewHelper::render("view/KartotecniListShowStudent.php", [
+                    "pageTitle" => $title,
+                    "allData" => $data,
+                    "formAction" => "studentID",
+                    "studData" => $studData,
+                    "ocene" => $ocenePoLetih,
+                    "status" => $status,
+                    "oseba" => 1,
+                    "student" => $id3,
+                    "pogled" => $id4,
+                    "program" => $program,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
 }

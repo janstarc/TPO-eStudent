@@ -56,6 +56,8 @@
             <li class="mt">
                 <a href="<?= BASE_URL . "VnosKoncnihOcenR" ?>">
                     <span>Končne ocene</span>
+                <a href="<?= BASE_URL . "kartotecniList" ?>">
+                    <span>Kartotečni list</span>
                 </a>
             </li>
         </ul>

@@ -23,9 +23,11 @@
                                 <table id="table-subject" class="table table-striped table-advance table-hover">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Predmet</th>
                                         <th>Datum</th>
                                         <th>Cas</th>
+                                        <th>Stevilo prijavljenih</th>
                                         <th>Uredi</th>
                                         <th>Deaktiviraj</th>
                                     </tr>
@@ -37,28 +39,29 @@
                                             <td><?php echo $rok['IME_PREDMET']; ?></td>
                                             <td>
                                                 <?php
-                                                    list($y, $m, $d) = explode('-', $rok["DATUM_ROKA"]);
-                                                    echo $d."-".$m."-".$y;
+                                                list($y, $m, $d) = explode('-', $rok["DATUM_ROKA"]);
+                                                echo $d."-".$m."-".$y;
                                                 ?>
                                             </td>
                                             <td><?php echo $rok['CAS_ROKA']; ?></td>
+                                            <td><?php echo $rok['StevlioPrijavljenih']; ?></td>
                                             <td>
-                                                <form action="<?= BASE_URL . $formAction . "edit/" . $rok["ID_ROK"] ?>" method="get">
+                                                <form action="<?= BASE_URL . $formAction .  "/edit/" . $rok["ID_ROK"] ?>" method="get">
                                                     <input class="btn btn-primary btn-sm" type="submit" value="Uredi" />
                                                 </form>
                                             </td>
                                             <td>
-                                                <form  action="<?= BASE_URL . $formAction . "toogleActivated" ?>" method="post">
+                                                <form  action="<?= BASE_URL . $formAction .  "/toogleActivated" ?>" method="post">
                                                     <input type="hidden" name="activateId" value="<?= $rok["ID_ROK"] ?>" />
                                                     <?php if(!$rok["AKTIVNOST"]) : ?>
                                                         <input class="btn btn-success btn-sm" type="submit" value="Activate" />
                                                     <?php else : ?>
-                                                        <input class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
+                                                        <input onclick="return confirm('Pozor! S klikom na \'OK\' boste odjavili vse prijavljene študente!');" class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
                                                     <?php endif; ?>
                                                 </form>
                                             </td>
                                         </tr>
-                                    <?php $i = $i + 1; endforeach; ?>
+                                        <?php $i = $i + 1; endforeach; ?>
                                     </tbody>
                                 </table>
 

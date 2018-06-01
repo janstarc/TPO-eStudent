@@ -24,8 +24,11 @@
                 </a>
             </li>
             <li class="mt">
+
                 <a href="<?= BASE_URL . "izpitniRok/student" ?>">
                     <span>Prijava na izpitu</span>
+                <a href="<?= BASE_URL . "kartotecniListS" ?>">
+                    <span>Kartotečni list</span>
                 </a>
             </li>
             <li class="mt">

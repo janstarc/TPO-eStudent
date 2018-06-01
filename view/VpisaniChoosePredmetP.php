@@ -78,7 +78,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+
                             <?php
                             $n = 0;
                             foreach ($predmeti as $row) {

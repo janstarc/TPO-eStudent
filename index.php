@@ -491,6 +491,67 @@ $urls = [
         else ViewHelper::error405();
     },
 
+
+
+    //kartotečni list - referent
+    "/^kartotecniList$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::kartotecniListForm1();
+        else ViewHelper::error405();
+    },"/^kartotecniList\/programID\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::kartotecniListForm2($id);
+        else ViewHelper::error405();
+    },"/^kartotecniList\/exportCSV$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::kartotecniListExportCSV();
+        else ViewHelper::error405();
+    },"/^kartotecniList\/exportPDF$/" => function ($method) {
+        if ($method == "POST") StudentOfficerController::kartotecniListExportPDF();
+        else ViewHelper::error405();
+    },"/^kartotecniList\/programID\/(\d+)\/letoID\/(\d+)$/" => function ($method, $id1, $id2) {
+        if ($method == "GET") StudentOfficerController::kartotecniListForm3($id1, $id2);
+        else ViewHelper::error405();
+    },"/^kartotecniList\/programID\/(\d+)\/letoID\/(\d+)\/studentID\/(\d+)\/(\d+)$/" => function ($method, $id1, $id2, $id3, $id4) {
+        if ($method == "GET") StudentOfficerController::kartotecniListForm4($id1, $id2, $id3, $id4);
+        else ViewHelper::error405();
+    },"/^kartotecniList\/programID\/(\d+)\/letoID\/(\d+)\/studentID\/(\d+)\/(\d+)\/program\/(\d+)$/" => function ($method, $id1, $id2, $id3, $id4, $id5) {
+        if ($method == "GET") StudentOfficerController::kartotecniListForm5($id5, $id1, $id2, $id3, $id4);
+        else ViewHelper::error405();
+    },
+    //kartotecni list - student
+    "/^kartotecniListS$/" => function($method) {
+        if ($method == "GET") StudentController::kartotecniListForm1();
+        else ViewHelper::error405();
+    },"/^kartotecniListS\/pogled\/(\d+)\/(\d+)$/" => function($method, $id1, $id2) {
+        if ($method == "GET") StudentController::kartotecniListForm2($id1, $id2);
+        else ViewHelper::error405();
+    },"/^kartotecniListS\/pogled\/(\d+)\/(\d+)\/program\/(\d+)$/" => function($method, $id1, $id2, $id3) {
+        if ($method == "GET") StudentController::kartotecniListForm5($id1, $id2, $id3);
+        else ViewHelper::error405();
+    },
+
+    //kartotečni list - referent
+    "/^kartotecniListP$/" => function($method) {
+        if ($method == "GET") ProfessorController::kartotecniListForm1();
+        else ViewHelper::error405();
+    },"/^kartotecniListP\/programID\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") ProfessorController::kartotecniListForm2($id);
+        else ViewHelper::error405();
+    },"/^kartotecniListP\/exportCSV$/" => function ($method) {
+        if ($method == "POST") ProfessorController::kartotecniListExportCSV();
+        else ViewHelper::error405();
+    },"/^kartotecniListP\/exportPDF$/" => function ($method) {
+        if ($method == "POST") ProfessorController::kartotecniListExportPDF();
+        else ViewHelper::error405();
+    },"/^kartotecniListP\/programID\/(\d+)\/letoID\/(\d+)$/" => function ($method, $id1, $id2) {
+        if ($method == "GET") ProfessorController::kartotecniListForm3($id1, $id2);
+        else ViewHelper::error405();
+    },"/^kartotecniListP\/programID\/(\d+)\/letoID\/(\d+)\/studentID\/(\d+)\/(\d+)$/" => function ($method, $id1, $id2, $id3, $id4) {
+        if ($method == "GET") ProfessorController::kartotecniListForm4($id1, $id2, $id3, $id4);
+        else ViewHelper::error405();
+    },"/^kartotecniListP\/programID\/(\d+)\/letoID\/(\d+)\/studentID\/(\d+)\/(\d+)\/program\/(\d+)$/" => function ($method, $id1, $id2, $id3, $id4, $id5) {
+        if ($method == "GET") ProfessorController::kartotecniListForm5($id5, $id1, $id2, $id3, $id4);
+        else ViewHelper::error405();
+    },
+
     "/^zeton\/EMSOSearch$/" => function ($method) {
     if ($method == "POST") StudentOfficerController::searchByEMSO();
     else ViewHelper::error405();

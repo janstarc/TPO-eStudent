@@ -48,6 +48,11 @@
                     <span>Dodaj Izpitni Rok</span>
                 </a>
             </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "kartotecniListP" ?>">
+                    <span>Kartotečni list</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

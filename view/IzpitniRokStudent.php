@@ -13,9 +13,11 @@
     }
     //TODO : HARD-CODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     $datum=new DateTime();
-    $datum->setDate(2018,9,3);
 
-    $datumString="2018-09-03";
+    $datum->setDate(2017,9,1);
+
+    $datumString="2017-09-01";
+
 
     ?>
 

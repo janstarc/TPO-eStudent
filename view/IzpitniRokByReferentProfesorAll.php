@@ -3,6 +3,17 @@
 <html lang="en">
     <head>
         <?php include("view/includes/head.php"); ?>
+        <script>
+            function myFunction() {
+                var txt;
+                if (confirm("Pozor! S klikom na 'ok' boste odjavili tudi vse prijavljene študente!")) {
+                    txt = "You pressed OK!";
+                } else {
+                    window.refresh()
+                }
+                document.getElementById("demo").innerHTML = txt;
+            }
+        </script>
     </head>
     <body>
         <section id="container">
@@ -34,6 +45,7 @@
                                         <th>Predmet</th>
                                         <th>Datum</th>
                                         <th>Cas</th>
+                                        <th>Stevilo prijavljenih</th>
                                         <th>Uredi</th>
                                         <th>Deaktiviraj</th>
                                     </tr>
@@ -50,6 +62,7 @@
                                                 ?>
                                             </td>
                                             <td><?php echo $rok['CAS_ROKA']; ?></td>
+                                            <td><?php echo $rok['StevlioPrijavljenih']; ?></td>
                                             <td>
                                                 <form action="<?= BASE_URL . $formAction . $idOseba . "/edit/" . $rok["ID_ROK"] ?>" method="get">
                                                     <input class="btn btn-primary btn-sm" type="submit" value="Uredi" />
@@ -61,7 +74,7 @@
                                                     <?php if(!$rok["AKTIVNOST"]) : ?>
                                                         <input class="btn btn-success btn-sm" type="submit" value="Activate" />
                                                     <?php else : ?>
-                                                        <input class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
+                                                        <input onclick="return confirm('Pozor! S klikom na \'OK\' boste odjavili vse prijavljene študente!');" class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
                                                     <?php endif; ?>
                                                 </form>
                                             </td>

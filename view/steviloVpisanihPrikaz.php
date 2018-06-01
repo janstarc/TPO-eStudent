@@ -27,6 +27,7 @@
                     {
                         "sClass": "center",
                         "bSortable": true,
+                        "sType":"slo"
                     },{
                         "sClass": "center",
                         "bSortable": true,
@@ -38,10 +39,6 @@
                     },{
                         "sClass": "center",
                         "bSortable": true,
-                        "sType":"slo"
-                    },{
-                        "sClass": "center",
-                        "bSortable": false,
                         "sType":"slo"
                     }
                 ],
@@ -92,14 +89,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+
                             <?php
                             $n = 0;
                             foreach ($allData as $row) {
                             $n += 1 ;
                             $izvedba = $row["IME_PREDMET"];
                             $id =$row["ID_PREDMET"];
-                            $profesor = $row['IME'] . $row['PRIIMEK']
+                            $profesor = $row['IME'] ." ". $row['PRIIMEK']
                             ?>
                         <tr>
                             <td><?= $n       ?></td>

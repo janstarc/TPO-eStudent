@@ -59,13 +59,24 @@ class RokModel {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            INSERT INTO ROK (ID_IZVEDBA, DATUM_ROKA, CAS_ROKA, AKTIVNOST)
-            VALUES (:idIzvedbaPredmeta, :date, :time, 1)
+            SELECT * FROM izvedba_predmeta where ID_IZVEDBA = :id
+        ");$statement->bindParam(":id", $idIzvedbaPredmeta);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            INSERT INTO ROK (ID_IZVEDBA, DATUM_ROKA, CAS_ROKA, AKTIVNOST,ID_OSEBA_IZPRASEVALEC1, ID_OSEBA_IZPRASEVALEC2, ID_OSEBA_IZPRASEVALEC3)
+            VALUES (:idIzvedbaPredmeta, :date, :time, 1, :r1, :r2, :r3)
         ");
         
         $statement->bindParam(":idIzvedbaPredmeta", $idIzvedbaPredmeta, PDO::PARAM_INT);
         $statement->bindParam(":date", $date);
         $statement->bindParam(":time", $time);
+        $statement->bindParam(":r1", $result['ID_OSEBA1']);
+        $statement->bindParam(":r2", $result['ID_OSEBA2']);
+        $statement->bindParam(":r3", $result['ID_OSEBA3']);
         $statement->execute();
     }
     
@@ -87,14 +98,29 @@ class RokModel {
         $statement->bindParam(":idUser", $idUser, PDO::PARAM_INT);
         $statement->bindParam(":idCurrentYear", $idCurrentYear, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetchAll();
+        $rezult =  $statement->fetchAll();
+        $all = array();
+        foreach ($rezult as $row):
+
+            $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT COUNT(*) as STP from prijava WHERE ID_ROK = :rok
+        ");
+        $statement->bindParam(":rok", $row['ID_ROK'] ) ;
+        $statement->execute();
+        $row['StevlioPrijavljenih'] = $statement->fetchColumn();
+        array_push($all, $row);
+        endforeach;
+        return $all;
     }
     
     public static function get($idRok) {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            SELECT r.ID_ROK, ip.ID_IZVEDBA, ip.ID_STUD_LETO, p.ID_PREDMET, p.IME_PREDMET, r.DATUM_ROKA, r.CAS_ROKA
+            SELECT r.ID_ROK, ip.ID_IZVEDBA, ip.ID_STUD_LETO, p.ID_PREDMET, p.IME_PREDMET, r.DATUM_ROKA, r.CAS_ROKA,
+            r.ID_OSEBA_IZPRASEVALEC1, r.ID_OSEBA_IZPRASEVALEC2, r.ID_OSEBA_IZPRASEVALEC3, ip.ID_OSEBA1, ip.ID_OSEBA2, ip.ID_OSEBA3
             FROM IZVEDBA_PREDMETA as ip
             JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
             JOIN ROK as r ON r.ID_IZVEDBA = ip.ID_IZVEDBA
@@ -199,7 +225,7 @@ class RokModel {
         JOIN rok as r ON ip.ID_IZVEDBA = r.ID_IZVEDBA
         JOIN student as s ON s.VPISNA_STEVILKA=ps.VPISNA_STEVILKA
         LEFT JOIN prijava pr ON r.ID_ROK = pr.ID_ROK
-        WHERE s.ID_OSEBA=:idUser AND (ps.OCENA<=5 OR ps.OCENA IS NULL)
+        WHERE s.ID_OSEBA=:idUser AND (ps.OCENA<=5 OR ps.OCENA IS NULL) and r.AKTIVNOST = '1'
         ORDER BY DATUM_ROKA, CAS_ROKA
     ");
         $statement->bindParam(":idUser", $idUser, PDO::PARAM_INT);
@@ -207,6 +233,61 @@ class RokModel {
         return $statement->fetchAll();
     }
 
+    public static function odjaviStudente($id, $idOseba)
+    {
+        $date ="2018-05-31 10:00:00";
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+       SELECT * FROM rok WHERE ID_ROK = :rok
+    ");
+
+        $statement->bindParam(":rok", $id);
+        $statement->execute();
+        $akt = $statement->fetchAll()[0]['AKTIVNOST'];
+
+        if ($akt == "0") {
 
 
-}
+            $db = DBInit::getInstance();
+
+            // TODO ocena == null OR ocena == 5
+            $statement = $db->prepare("
+           SELECT * FROM prijava WHERE ID_ROK = :rok  AND ID_OSEBA_ODJAVITELJ is NULL 
+        ");
+            $statement->bindParam(":rok", $id);
+            $statement->execute();
+            $prijave = $statement->fetchAll();
+
+
+            foreach ($prijave as $item):
+
+                $db = DBInit::getInstance();
+                $statement = $db->prepare("
+                     DELETE from prijava where ID_PRIJAVA = :id
+    
+              ");
+                $statement->bindParam(":id", $item['ID_PRIJAVA']);
+                $statement->execute();
+
+            endforeach;
+        }
+    }
+
+
+
+
+}/*$statement = $db->prepare("
+                     UPDATE `prijava` SET
+                     ZAP_ST_POLAGANJ=:st1,
+                     ZAP_ST_POLAGANJ_LETOS=:st2,
+                     DATUM_ODJAVE=:datum,
+                     ID_OSEBA_ODJAVITELJ=:idOseba
+                     WHERE ID_PRIJAVA = :id
+
+              ");
+                $statement->bindParam(":st1", $item['ZAP_ST_POLAGANJ']);
+                $statement->bindParam(":st2", $item['ZAP_ST_POLAGANJ_LETOS']);
+                $statement->bindParam(":datum", $date);
+                $statement->bindParam(":id", $item['ID_PRIJAVA']);
+                $statement->bindParam(":idOseba",$idOseba );
+                $statement->execute();*/

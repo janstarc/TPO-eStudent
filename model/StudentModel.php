@@ -447,5 +447,21 @@ class StudentModel{
         return $result;
     }
 
+    public static function getAllStudents($id){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+                SELECT DISTINCT *
+FROM  STUDENT s, OSEBA o, VPIS v
+WHERE s.ID_OSEBA = o.ID_OSEBA and s.ID_OSEBA = :id
+      and v.VPISNA_STEVILKA = s.VPISNA_STEVILKA ORDER BY v.ID_STUD_LETO DESC LIMIT 1");
+        $statement->bindParam(":id", $id);
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+
+    }
+
 
 }

@@ -8,6 +8,7 @@ require_once("model/KandidatModel.php");
 require_once("model/UserModel.php");
 require_once("model/User.php");
 require_once("includes/Validation.php");
+require_once("model/KartotecniListDB.php");
 require_once("ViewHelper.php");
 require_once ("view/includes/tfpdf.php");
 
@@ -206,10 +207,11 @@ class StudentOfficerController {
                 ]);
                 if (Validation::checkValues($data)) {
                     RokModel::toogleActivated($data['activateId']);
+                    RokModel::odjaviStudente($data['activateId'], User::getId());
                     if(RokModel::isActivated($data['activateId'])) {
                         self::izpitniRokAllForm($id, "Success", "Rok aktiviran.");
                     } else {
-                        self::izpitniRokAllForm($id, "Success", "Rok deaktiviran, uspešno odjavljenih " . rand(1, 10) . " študentov.");
+                        self::izpitniRokAllForm($id, "Success", "Rok deaktiviran, vsi prijavljeni študentje so bili odjavljeni.");
                     }
                 } else {
                     self::izpitniRokAllForm($id, "Failure", "Error toogling activity of the exam.");
@@ -1376,6 +1378,7 @@ class StudentOfficerController {
     }
 
 
+
     /********* VNOS OCEN IZPITNEGA ROKA *********/
 
     public static function vnosOcenIzpitaChooseLeto($status = null, $message = null) {
@@ -1387,6 +1390,7 @@ class StudentOfficerController {
                     "allData" => StudijskoLetoModel::getAll(),
                     "formAction" => "VnosOcenIzpitaR/leto",
                     "status" => $status,
+
                     "message" => $message
                 ]);
             } else {
@@ -1396,6 +1400,28 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
+
+    public static function kartotecniListForm1($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+
+                ViewHelper::render("view/KartotecniListChooseProgram.php", [
+                    "pageTitle" => "Izberite program",
+                    "allData" => StudijskoLetoModel::getAllProgram(),
+                    "formAction" => "kartotecniList/programID",
+                    "status" => $status,
+                    "oseba" => 1,
+
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
 
     public static function vnosOcenIzpitaIzberiPredmetInRok($id_stud_leto) {
         if (User::isLoggedIn()){
@@ -1535,6 +1561,154 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
+
+    public static function kartotecniListForm2($id, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = StudijskoLetoModel::getAll();
+
+                ViewHelper::render("view/KartotecniListChooseLeto.php", [
+                    "pageTitle" => "Izberite študijsko leto",
+                    "allData" => $data,
+                    "formAction" => $id."/letoID",
+                    "status" => $status,
+                    "oseba" => 1,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+    public static function kartotecniListForm3($id1, $id2, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+
+                ViewHelper::render("view/KartotecniListChooseStudent.php", [
+                    "pageTitle" => "Izberite študenta",
+                    "allData" => KartotecniListDB::getAllStudents($id1, $id2),
+                    "formAction" => "kartotecniList/programID/" . $id1."/letoID/".$id2."/studentID",
+                    "status" => $status,
+                    "oseba" => 1,
+
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function kartotecniListForm4($id1, $id2, $id3, $id4, $status = null, $message = null)
+    {
+
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $studData = KartotecniListDB::getStudData($id3);
+                $ocenePoLetih = KartotecniListDB::getOcenePoLetih($id3);
+
+                $title = "Prosimo izberite program študenta " . $studData[0]['IME'] . " " . $studData[0]['PRIIMEK'] . "  (" .
+                    $studData[0]['VPISNA_STEVILKA'] . ")";
+
+                if ($id4 == 1) {
+                    $data = KartotecniListDB::getAllPolaganja($id3);
+                } else {
+                    $data = KartotecniListDB::getZadnjaPolaganja($id3);
+                }
+                $program = $data[1];
+                $data = $data[0];
+                $programi = array();
+                foreach ($program as $key=>$value):
+                    if (!in_array($key, $programi)){
+                        array_push($programi, $key);
+                    }
+
+                endforeach;
+
+                if(count($program) > 1){
+                    $programi = KartotecniListDB::getProgrami($programi);
+                    ViewHelper::render("view/KartotecniListStudentChoose.php", [
+                        "pageTitle" => $title,
+                        "allData" => $programi,
+                        "formAction" => $id4."/program",
+                        "studData" => $studData,
+                        "ocene" => $ocenePoLetih,
+                        "status" => $status,
+                        "oseba" => 1,
+                        "message" => $message
+                    ]);
+                }
+                else {
+                self::kartotecniListForm5($programi[0], $id1, $id2,$id3, $id4, $status, $message);}
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+    public static function kartotecniListForm5($program, $id1, $id2, $id3, $id4, $status = null, $message = null)
+    {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $studData = KartotecniListDB::getStudData($id3);
+                $ocenePoLetih = KartotecniListDB::getOcenePoLetih($id3);
+
+                $title = "Kartotečni list študenta " . $studData[0]['IME'] . " " . $studData[0]['PRIIMEK'] . "  (" .
+                    $studData[0]['VPISNA_STEVILKA'] . ")";
+
+                if ($id4 == 1) {
+                    $data = KartotecniListDB::getAllPolaganja($id3);
+                } else {
+                    $data = KartotecniListDB::getZadnjaPolaganja($id3);
+                }
+
+                $data = $data[0];
+                $midData = array();
+                $midStudData = array();
+                if ($program != 0) {
+
+                    foreach ($data as $key => $value):
+                        if($value[0]['ID_PROGRAM'] == $program){
+                            $midData[$key] = $value;
+                        }
+                    endforeach;
+
+                    foreach ($studData as $value):
+
+                        if($value['ID_PROGRAM'] == $program){
+                            array_push($midStudData, $value);
+                        }
+                    endforeach;
+                    $data = $midData;
+                    $studData = $midStudData;
+                }
+
+                ViewHelper::render("view/KartotecniListShowStudent.php", [
+                    "pageTitle" => $title,
+                    "allData" => $data,
+                    "formAction" => "studentID",
+                    "studData" => $studData,
+                    "ocene" => $ocenePoLetih,
+                    "status" => $status,
+                    "oseba" => 1,
+                    "student" => $id3,
+                    "pogled" => $id4,
+                    "program" => $program,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
 
     public static function vnosKoncnihOcenIzberiPredmetInRok($id_stud_leto) {
         if (User::isLoggedIn()){
@@ -1730,4 +1904,235 @@ class StudentOfficerController {
         list($d, $m, $y) = explode('-', $date);
         return $y.".".$m.".".$d;
     }
+
+    public static function kartotecniListExportPDF(){
+        $input = filter_input_array(INPUT_POST, [
+            "student" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "pogled" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "program" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+        $program = $input['program'];
+        $studData = KartotecniListDB::getStudData($input['student']);
+
+        $ocenePoLetih = KartotecniListDB::getOcenePoLetih($input['student']);
+        if ($input['pogled'] == 1){
+            $data = KartotecniListDB::getAllPolaganja($input['student']);
+        } else {
+            $data = KartotecniListDB::getZadnjaPolaganja($input['student']);
+        }
+            $data = $data[0];
+
+        if ($program != 0) {
+            $midData = array();
+            $midStudData = array();
+            foreach ($data as $key => $value):
+
+                if($value[0]['ID_PROGRAM'] == $program){
+                    $midData[$key] = $value;
+                }
+            endforeach;
+
+            foreach ($studData as $value):
+
+                if($value['ID_PROGRAM'] == $program){
+                    array_push($midStudData, $value);
+                }
+            endforeach;
+            $data = $midData;
+            $studData = $midStudData;
+        }
+
+
+        $list = array_keys($data);
+
+        $mainHead = "Kartotečni list študenta " . $studData[0]['IME'] . " " . $studData[0]['PRIIMEK'] . "  (" .
+            $studData[0]['VPISNA_STEVILKA'] . ")";
+        $pdf= new tFPDF();
+        $pdf->AddPage('');
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+        $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
+        $pdf->Ln();
+        $tDate=date("Y-m-d");
+        $sloDate=ProfessorController::formatDateSlo($tDate);
+        $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $pdf->Ln();
+        $pdf->SetFont('DejaVu','',14);
+        $pdf->Cell(180,10, $mainHead,0,0);
+        $pdf->Ln();
+        $pdf->Ln();
+        for ( $i = 0; $i< sizeof($studData); $i++){
+
+            $header = array('Študijsko leto', 'Študijski program', 'Letnik', 'Vrsta vpisa', 'Način študija');
+            $lineData = array($studData[$i]['STUD_LETO'], $studData[$i]['NAZIV_PROGRAM'], $studData[$i]['STUD_LETO'],
+                $studData[$i]['ID_LETNIK'],$studData[$i]['OPIS_VPISA'],$studData[$i]['OPIS_NACIN']);
+            $pdf->Ln();
+            $pdf->SetFont('DejaVu','',10);
+            $pdf->BasicTableO($header,$lineData);
+            $pdf->SetFont('DejaVu','',12);
+            $pdf->Ln();
+
+
+            $header2 = array('Šifra predmeta', 'Ime predmeta', 'KT/U', 'Izpraševalec/ci', 'Datum izpita', 'št.polaganj', 'ocena');
+            $lineData2=null;
+            $c = -1;
+            $all = array();
+            foreach ($data[$list[$i]] as $key => $value){
+                if($value['DATUM_ROKA'] != "/") {
+                    list($d, $m, $y) = explode('-', $value['DATUM_ROKA']);
+                    $datum = $y . "." . $m . "." . $d;
+                }
+                else $datum = "";
+
+                if($datum != ""){
+                    $izvajalci = $value['izvajalci'];
+                    $polaganja = $value['ZAP_ST_POLAGANJ']."/".$value['ZAP_ST_POLAGANJ_LETOS'];
+                    $ocena = $value['OCENA_IZPITA'];
+                }
+                else{
+                    $izvajalci = "";
+                    $polaganja = "";
+                    $ocena = "";
+                }
+
+                $c+=1;
+                $lineData2 = array($value['SIFRA_PREDMET'], $value['IME_PREDMET'], $value['ST_KREDITNIH_TOCK'],
+                    $izvajalci,$datum, $polaganja, $ocena );
+                array_push($all, $lineData2);
+            }
+            $pdf->Ln();
+            $pdf->SetFont('DejaVu','',8);
+            $pdf->BasicTableHKT($header2,$all);
+            $pdf->AddPage('');
+        }
+        $noga = array("#", "Studijsko leto","Letnik", "KT/U", "Ocena");
+        $pdf->Ln();
+        $pdf->SetFont('DejaVu','',8);
+        $pdf->BasicTableH5($noga, $ocenePoLetih);
+
+
+        $pdf->Output();
+        $filename="data.pdf";
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+    }
+
+    public static function kartotecniListexportCSV(){
+        $input = filter_input_array(INPUT_POST, [
+            "student" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "pogled" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "program" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+        $filename = "data.csv";
+        $f = fopen('php://memory', 'w');
+        $delimiter =",";
+        $program = $input['program'];
+        $studData = KartotecniListDB::getStudData($input['student']);
+
+        $ocenePoLetih = KartotecniListDB::getOcenePoLetih($input['student']);
+        if ($input['pogled'] == 1){
+            $data = KartotecniListDB::getAllPolaganja($input['student']);
+        } else {
+            $data = KartotecniListDB::getZadnjaPolaganja($input['student']);
+        }
+        $data = $data[0];
+
+        if ($program != 0) {
+            $midData = array();
+            $midStudData = array();
+            foreach ($data as $key => $value):
+
+                if($value[0]['ID_PROGRAM'] == $program){
+                    $midData[$key] = $value;
+                }
+            endforeach;
+
+            foreach ($studData as $value):
+
+                if($value['ID_PROGRAM'] == $program){
+                    array_push($midStudData, $value);
+                }
+            endforeach;
+            $data = $midData;
+            $studData = $midStudData;
+        }
+        $tDate=date("Y-m-d");
+        $sloDate=ProfessorController::formatDateSlo($tDate);
+
+        $list = array_keys($data);
+
+        $mainHead = array("Kartotečni list študenta " . $studData[0]['IME'] . " " . $studData[0]['PRIIMEK'] . "  (" .
+            $studData[0]['VPISNA_STEVILKA'] . ")");
+        fputcsv($f, $mainHead, $delimiter);
+        fputcsv($f, array(), $delimiter);
+        fputcsv($f, array(), $delimiter);
+
+
+        for ( $i = 0; $i< sizeof($studData); $i++){
+
+            $header = array('Študijsko leto', 'Študijski program', 'Letnik', 'Vrsta vpisa', 'Način študija');
+            $lineData = array($studData[$i]['STUD_LETO'], $studData[$i]['NAZIV_PROGRAM'], $studData[$i]['STUD_LETO'],
+                $studData[$i]['ID_LETNIK'],$studData[$i]['OPIS_VPISA'],$studData[$i]['OPIS_NACIN']);
+            fputcsv($f, array(), $delimiter);
+            fputcsv($f, $header, $delimiter);
+            fputcsv($f, $lineData, $delimiter);
+
+            fputcsv($f, array(), $delimiter);
+
+
+            $header2 = array('Šifra predmeta', 'Ime predmeta', 'KT/U', 'Izpraševalec/ci', 'Datum izpita', 'št.polaganj', 'ocena');
+            fputcsv($f, $header2, $delimiter);
+            $lineData2=null;
+            $c = -1;
+            $all = array();
+            foreach ($data[$list[$i]] as $key => $value){
+                if($value['DATUM_ROKA'] != "/") {
+                    list($d, $m, $y) = explode('-', $value['DATUM_ROKA']);
+                    $datum = $y . "." . $m . "." . $d;
+                }
+                else $datum = "";
+
+                if($datum != ""){
+                    $izvajalci = $value['izvajalci'];
+                    $polaganja = $value['ZAP_ST_POLAGANJ']."/".$value['ZAP_ST_POLAGANJ_LETOS'];
+                    $ocena = $value['OCENA_IZPITA'];
+                }
+                else{
+                    $izvajalci = "";
+                    $polaganja = "";
+                    $ocena = "";
+                }
+
+                $c+=1;
+                $lineData2 = array($value['SIFRA_PREDMET'], $value['IME_PREDMET'], $value['ST_KREDITNIH_TOCK'],
+                    $izvajalci,$datum, $polaganja, $ocena );
+                fputcsv($f, $lineData2, $delimiter);
+            }
+            fputcsv($f, array(), $delimiter);
+            fputcsv($f, array(), $delimiter);
+
+        }
+        fputcsv($f, array(), $delimiter);
+
+
+        $noga = array("Studijsko leto","Letnik", "KT/U", "Ocena");
+        fputcsv($f, $noga, $delimiter );
+            foreach ($ocenePoLetih as $row):
+                $lineData = array($row['STUD_LETO'], $row['ID_LETNIK'], $row['SUM'], $row['AVG']);
+                fputcsv($f, $lineData, $delimiter);
+
+
+                endforeach;
+
+
+        fseek($f, 0);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+        fpassthru($f);
+    }
+
+
+
+
 }
