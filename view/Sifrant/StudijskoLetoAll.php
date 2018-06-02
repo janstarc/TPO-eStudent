@@ -54,7 +54,7 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Prikaz študijskih let</h4>
+                        <h4>Seznam študijskih let</h4>
                         <br>
                         <br>
                         <br>
@@ -68,7 +68,7 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Studijsko leto</th>
+                                <th>Študijsko leto</th>
                                 <th>Šifra</th>
                                 <th>Uredi</th>
                             </tr>

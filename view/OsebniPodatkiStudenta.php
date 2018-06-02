@@ -1,6 +1,7 @@
 <?php
     $resultFound = false;
     if(!empty($studData)) $resultFound = true;
+    //var_dump($studData);
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +84,7 @@
                         <br>
                         <hr>
                             <div id="tables" <?php if ($resultFound){ echo 'style="display:none;"'; } ?>>
-                                <p>Izbrani študent ne obstaja, ali pa so njegovi podatki nepopolni! (Manjkajo atributi iz queryjev)</p>
+                                <p>&ensp;Iskani študent ne obstaja</p>
                             </div>
                             <div id="tables" <?php if (!$resultFound){ echo 'style="display:none;"'; } ?>>
                                 <h2>Podatki študenta</h2>
@@ -100,48 +101,56 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Podatek o studentu</th>
+                                        <th>Podatek o študentu</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td>Vpisna številka</td>
+                                        <td><b>Vpisna številka</td>
                                         <td><?= $studData['0']['vpisna_stevilka'] ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Ime in priimek</td>
-                                        <td><?= $studData['0']['ime']." ".$studData['0']['priimek'] ?></td>
+                                        <td><b>Ime</td>
+                                        <td><?= $studData['0']['ime'] ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Naslov stalnega bivališča</td>
+                                        <td><b>Priimek</td>
+                                        <td><?= $studData['0']['priimek'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Naslov stalnega bivališča</td>
                                         <td>
                                             <?php
                                                 foreach ($studData as $key => $value) {
-                                                    if($value['je_stalni'] == 1){
-                                                        echo $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj']."</br>";
+                                                    if(isset($value['je_stalni']) && $value['je_stalni'] == 1){
+                                                        echo $value['ulica'].", ".$value['st_posta']." ".$value['kraj'].", ".$value['SLOVENSKINAZIV']." (".$value['TRIMESTNAKODA'].")</br>";
+                                                    } else {
+                                                        echo "Ni podatka";
                                                     }
                                                 }
                                             ?>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Naslov za prejemanje pošte</td>
+                                        <td><b>Naslov začasnega bivališča</td>
                                         <td>
                                             <?php
                                                 foreach ($studData as $key => $value) {
-                                                    if($value['je_zavrocanje'] == 1){
-                                                        echo $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj']."</br>";
+                                                    if(isset($value['je_stalni']) && $value['je_stalni'] == 0){
+                                                        echo $value['ulica'].", ".$value['st_posta']." ".$value['kraj'].", ".$value['SLOVENSKINAZIV']." (".$value['TRIMESTNAKODA'].")</br>";
+                                                    } else {
+                                                        echo "Ni podatka";
                                                     }
                                                 }
                                             ?>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Telefonska številka</td>
+                                        <td><b>Telefonska številka</td>
                                         <td><?= $studData['0']['telefonska_stevilka'] ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Naslov elektronske poste</td>
+                                        <td><b>Naslov elektronske poste</td>
                                         <td><?= $studData['0']['email'] ?></td>
                                     </tr>
                                     </tbody>

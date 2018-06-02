@@ -67,7 +67,7 @@ class AdminController {
             if (User::isLoggedInAsAdmin()) {
 
                 ViewHelper::render("view/PodatkiIzvajalcevLeto.php", [
-                    "pageTitle" => "Seznam vseh študijski leta",
+                    "pageTitle" => "Seznam vseh študijskih let",
                     "allData" => PredmetModel::getAllLeta(),
                     "formAction" => "PodatkiIzvajalcev/leto",
                     "status" => $status,

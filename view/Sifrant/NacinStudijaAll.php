@@ -61,7 +61,7 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Prikaz vseh nacinov studij</h4>
+                        <h4>Seznam načinov študija</h4>
                         <br>
                         <br>
                         <br>
@@ -77,7 +77,7 @@
                                 <th>#</th>
                                 <th>Opis nacin</th>
                                 <th>Šifra</th>
-                                <th>Angleski opis nacina</th>
+                                <th>Angleški opis načina</th>
                                 <th>Uredi</th>
                                 <th>Deaktiviraj</th>
                             </tr>
@@ -102,9 +102,9 @@
                                         <form  action="<?= BASE_URL . "NacinStudijaAll/toogleActivated" ?>" method="post">
                                             <input type="hidden" name="activateId" value="<?= $value["ID_NACIN"] ?>" />
                                             <?php if(!$value["AKTIVNOST"]) : ?>
-                                                <input class="btn btn-success btn-sm" type="submit" value="Activate" />
+                                                <input class="btn btn-success btn-sm" type="submit" value="Aktiviraj" />
                                             <?php else : ?>
-                                                <input class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
+                                                <input class="btn btn-danger btn-sm" type="submit" value="Deaktiviraj" />
                                             <?php endif; ?>
                                         </form>
                                     </td>

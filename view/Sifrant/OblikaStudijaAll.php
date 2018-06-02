@@ -63,7 +63,7 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Prikaz vseh oblik studija</h4>
+                        <h4>Seznam oblik študija</h4>
                         <br>
                         <br>
                         <br>
@@ -79,7 +79,7 @@
                                 <th>#</th>
                                 <th>Naziv opisa</th>
                                 <th>Šifra</th>
-                                <th>Angleski opis oblika</th>
+                                <th>Angleški opis oblike</th>
                                 <th>Uredi</th>
                                 <th>Deaktiviraj</th>
                             </tr>
@@ -102,9 +102,9 @@
                                         <form  action="<?= BASE_URL . "OblikaStudijaAll/toogleActivated" ?>" method="post">
                                             <input type="hidden" name="activateId" value="<?= $value["ID_OBLIKA"] ?>" />
                                             <?php if(!$value["AKTIVNOST"]) : ?>
-                                                <input class="btn btn-success btn-sm" type="submit" value="Activate" />
+                                                <input class="btn btn-success btn-sm" type="submit" value="Aktiviraj" />
                                             <?php else : ?>
-                                                <input class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
+                                                <input class="btn btn-danger btn-sm" type="submit" value="Deaktiviraj" />
                                             <?php endif; ?>
                                         </form>
                                     </td>

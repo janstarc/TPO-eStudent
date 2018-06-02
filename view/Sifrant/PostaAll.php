@@ -59,7 +59,7 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Prikaz poste</h4>
+                        <h4>Seznam pošt s poštnimi številkami</h4>
                         <br>
                         <br>
                         <br>
@@ -73,7 +73,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Številka poste</th>
+                                    <th>Številka pošte</th>
                                     <th>Kraj</th>
                                     <th>Uredi</th>
                                     <th>Deaktiviraj</th>
@@ -97,9 +97,9 @@
                                         <form  action="<?= BASE_URL . "PostaAll/toogleActivated" ?>" method="post">
                                             <input type="hidden" name="activateId" value="<?= $value["ID_POSTA"] ?>" />
                                             <?php if(!$value["AKTIVNOST"]) : ?>
-                                                <input class="btn btn-success btn-sm" type="submit" value="Activate" />
+                                                <input class="btn btn-success btn-sm" type="submit" value="Aktiviraj" />
                                             <?php else : ?>
-                                                <input class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
+                                                <input class="btn btn-danger btn-sm" type="submit" value="Deaktiviraj" />
                                             <?php endif; ?>
                                         </form>
                                     </td>

@@ -286,11 +286,13 @@ $urls = [
         if ($method == "POST") AdminController::deleteThirdIzvajalec($id,$id2);
         else ViewHelper::error405();
     },
-
+    /*
     "/^PodatkiIzvajalcevAdd1$/" => function ($method) {
         if ($method == "GET") AdminController::getFormIzvajalec();
         else ViewHelper::error405();
-    },"/^PodatkiIzvajalcev\/leto\/(\d+)\/(\d+)\/dodaj1$/" => function ($method,$id,$id2) {
+    },
+    */
+    "/^PodatkiIzvajalcev\/leto\/(\d+)\/(\d+)\/dodaj1$/" => function ($method,$id,$id2) {
         if ($method == "POST") AdminController::addIzvajalec1($id,$id2);
         else ViewHelper::error405();
     },"/^PodatkiIzvajalcev\/leto\/(\d+)\/(\d+)\/dodaj2$/" => function ($method,$id,$id2) {
@@ -300,10 +302,13 @@ $urls = [
         if ($method == "POST") AdminController::addIzvajalec3($id,$id2);
         else ViewHelper::error405();
     },
+    /*
     "/^PodatkiIzvajalcevAdd$/" => function ($method) {
         if ($method == "GET") AdminController::getFormIzvajalec();
         else ViewHelper::error405();
-    },"/^PodatkiIzvajalcevAdd\/leto\/(\d+)$/" => function ($method,$id) {
+    },*/
+
+    "/^PodatkiIzvajalcevAdd\/leto\/(\d+)$/" => function ($method,$id) {
         if ($method == "GET") AdminController::getFormPredmetIzvajalec($id);
         else ViewHelper::error405();
     },"/^PodatkiIzvajalcevAdd\/leto\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {

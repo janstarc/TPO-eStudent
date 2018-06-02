@@ -19,7 +19,7 @@
                             <thead>
                             <tr>
                                 <th>Ime in priimek izvajalca</th>
-                                <th>Spremeni izvajalec</th>
+                                <th>Spremeni izvajalca</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -62,8 +62,8 @@
                             <thead>
                             <tr>
                                 <th>Ime in priimek izvajalca</th>
-                                <th>Spremeni izvajalec</th>
-                                <th>Izbriši izvajalec</th>
+                                <th>Spremeni izvajalca</th>
+                                <th>Izbriši izvajalca</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -94,13 +94,13 @@
                                         <td>
                                             <form action="<?= BASE_URL . "PodatkiIzvajalcev/editSecond/".$id_leto."/".$id_predmet ?>" method="post">
                                                 <input type="hidden" name="urediId" value="<?= $value['ID_OSEBA'] ?>" />
-                                                <input class="btn btn-primary btn-sm" type="submit" value="Spremeni izvajalec" />
+                                                <input class="btn btn-primary btn-sm" type="submit" value="Spremeni izvajalca" />
                                             </form>
                                         </td>
                                         <td>
                                             <form action="<?= BASE_URL . "PodatkiIzvajalcev/deleteSecond/".$id_leto."/".$id_predmet ?>" method="post">
                                                 <input type="hidden" name="urediId" value="<?= $value['ID_OSEBA'] ?>" />
-                                                <input class="btn btn-primary btn-sm" type="submit" value="Izbriši izvajalec" />
+                                                <input class="btn btn-primary btn-sm" type="submit" value="Izbriši izvajalca" />
                                             </form>
                                         </td>
                                     </tr>
@@ -114,8 +114,8 @@
                             <thead>
                             <tr>
                                 <th>Ime in priimek izvajalca</th>
-                                <th>Spremeni izvajalec</th>
-                                <th>Izbriši izvajalec</th>
+                                <th>Spremeni izvajalca</th>
+                                <th>Izbriši izvajalca</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -151,7 +151,7 @@
                                         <td>
                                             <form action="<?= BASE_URL . "PodatkiIzvajalcev/deleteThird/".$id_leto."/".$id_predmet ?>" method="post">
                                                 <input type="hidden" name="urediId" value="<?= $value['ID_OSEBA'] ?>" />
-                                                <input class="btn btn-primary btn-sm" type="submit" value="Izbriši izvajalec" />
+                                                <input class="btn btn-primary btn-sm" type="submit" value="Izbriši izvajalca" />
                                             </form>
                                         </td>
                                     </tr>

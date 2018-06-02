@@ -133,7 +133,7 @@ class SifrantController
         $data = filter_input_array(INPUT_POST, [
             "activateId" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
         ]);
-        var_dump($data);
+        //var_dump($data);
         if (User::isLoggedIn()){
             if (User::isLoggedInAsAdmin()){
 

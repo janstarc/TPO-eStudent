@@ -51,7 +51,7 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Prikaz stevilke letnikov</h4>
+                        <h4>Seznam letnikov</h4>
                         <br>
                         <br>
                         <br>

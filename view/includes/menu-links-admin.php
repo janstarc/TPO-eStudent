@@ -30,14 +30,16 @@
             </li>
             <li class="mt">
                 <a href="<?= BASE_URL . "PodatkiIzvajalcev" ?>">
-                    <span>Izvajalci - Pregled</span>
+                    <span>Urejanje izvajalcev</span>
                 </a>
             </li>
+            <!--
             <li class="mt">
                 <a href="<?= BASE_URL . "PodatkiIzvajalcevAdd" ?>">
                     <span>Izvajalci - Dodaj</span>
                 </a>
             </li>
+            -->
             <li class="mt">
                 <a href="<?= BASE_URL . "DelPredmetnikaAll" ?>">
                     <span>Del predmetnika - Pregled</span>

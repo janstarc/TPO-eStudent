@@ -56,7 +56,7 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <hr>
-                        <h4>Prikaz vrste vpise</h4>
+                        <h4>Seznam vrst vpisa</h4>
                         <br>
                         <br>
                         <br>
@@ -94,9 +94,9 @@
                                         <form  action="<?= BASE_URL . "VrstaVpisaAll/toogleActivated" ?>" method="post">
                                             <input type="hidden" name="activateId" value="<?= $value["ID_VRSTAVPISA"] ?>" />
                                             <?php if(!$value["AKTIVNOST"]) : ?>
-                                                <input class="btn btn-success btn-sm" type="submit" value="Activate" />
+                                                <input class="btn btn-success btn-sm" type="submit" value="Aktiviraj" />
                                             <?php else : ?>
-                                                <input class="btn btn-danger btn-sm" type="submit" value="Deactivate" />
+                                                <input class="btn btn-danger btn-sm" type="submit" value="Deaktiviraj" />
                                             <?php endif; ?>
                                         </form>
                                     </td>

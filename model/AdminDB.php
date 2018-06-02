@@ -11,16 +11,16 @@ class AdminDB {
 
         // TODO ulica, hisna_stevilka, naslov_za_posiljanje, telefon, email
         $statement = $db -> prepare(
-            "SELECT s.vpisna_stevilka, o.ime, o.priimek, n.ulica, n.hisna_stevilka, n.je_stalni, p.st_posta, p.kraj, n.je_zavrocanje, o.email, o.telefonska_stevilka 
-                        FROM student AS s, 
-                              posta AS p,
-                              naslov AS n,
-                              oseba AS o
+            "SELECT s.vpisna_stevilka, o.ime, o.priimek, n.ulica, d.SLOVENSKINAZIV, d.TRIMESTNAKODA, n.je_stalni, p.st_posta, p.kraj, n.je_zavrocanje, o.email, o.telefonska_stevilka 
+                        FROM student AS s
+                        JOIN oseba o on s.ID_OSEBA = o.ID_OSEBA
+                        LEFT JOIN naslov n on o.ID_OSEBA = n.ID_OSEBA
+                        LEFT JOIN drzava d on n.ID_DRZAVA = d.ID_DRZAVA
+                        LEFT JOIN posta p on n.ID_POSTA = p.ID_POSTA                        
                         WHERE s.vpisna_stevilka = :vpisna_stevilka
-                        AND s.id_oseba = n.id_oseba
-                        AND n.id_posta = p.id_posta
-                        AND s.id_oseba = o.id_oseba"
+                       "
         );
+
 
         $statement->bindParam(":vpisna_stevilka", $vpisna_stevilka);
         $statement->execute();
