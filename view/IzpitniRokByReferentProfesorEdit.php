@@ -10,7 +10,7 @@
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
-                <div class="col-xs-12 col-md-6 offset-md-3">
+                <div class="col-xs-12 col-md-8 offset-md-2">
                     <h2><?= $pageTitle ?></h2>
                     <?php if(isset($status)): ?>
                         <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">

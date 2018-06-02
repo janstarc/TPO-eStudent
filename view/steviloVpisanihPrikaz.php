@@ -61,8 +61,8 @@
     <section id="main-content">
         <section class="wrapper">
             <br>
-            <br>  <br>
-            <br>
+            <h2>Število vpisanih v predmete</h2>
+            
             <div class="row"><form  action="<?= BASE_URL . "steviloVpisanih/exportCSV" ?>" method="post">
                     <input type="hidden" name="id1" value="<?= $id1 ?>"/>
                     <input type="hidden" name="id2" value="<?= $id2 ?>"/>
@@ -76,7 +76,7 @@
 
                     <input id="pdf" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v PDF"/>
                 </form>
-                <div  class="col-xs-12 col-md-6">
+                <div  class="col-xs-12 col-md-12">
 
                     <table id="table-subject" class="table table-striped table-advance table-hover">
                         <thead>

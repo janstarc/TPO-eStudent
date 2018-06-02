@@ -44,8 +44,8 @@
                                         <th>#</th>
                                         <th>Predmet</th>
                                         <th>Datum</th>
-                                        <th>Cas</th>
-                                        <th>Stevilo prijavljenih</th>
+                                        <th>Čas</th>
+                                        <th>Število prijavljenih</th>
                                         <th>Uredi</th>
                                         <th>Deaktiviraj</th>
                                     </tr>

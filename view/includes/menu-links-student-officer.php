@@ -15,12 +15,12 @@
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
                 <a href="<?= BASE_URL . "kandidati" ?>">
-                    <span>Pregled kandidatov</span>
+                    <span>Pregled vpisov - novi študenti</span>
                 </a>
             </li>
             <li class="mt">
                 <a href="<?= BASE_URL . "kandidatiZaVisjiLetnik" ?>">
-                    <span>Pregled kandidatov za visji letnik</span>
+                    <span>Pregled vpisov - višji letnik</span>
                 </a>
             </li>
             <li class="mt">
@@ -30,7 +30,7 @@
             </li>
             <li class="mt">
                 <a href="<?= BASE_URL . "steviloVpisanih" ?>">
-                    <span>Število vpisanih</span>
+                    <span>Število vpisanih v predmete (pregled po predmetih)</span>
                 </a>
             </li>
             <li class="mt">

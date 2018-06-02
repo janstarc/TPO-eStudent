@@ -106,11 +106,11 @@ class StudentOfficerController {
                 $roki = RokModel::getAll($id, $IdYear);
                 if (empty($roki)) {
                     $status = "Info";
-                    $message = "Ni podatkov v podatkovna baza. Ustvarite vsaj enega.";
+                    $message = "Ni podatkov v podatkovni bazi. Ustvarite vsaj enega.";
                 }
 
                 ViewHelper::render("view/IzpitniRokByReferentProfesorAll.php", [
-                    "pageTitle" => "Seznam vse roke",
+                    "pageTitle" => "Seznam vseh rokov",
                     "roki" => $roki,
                     "idOseba" => $id,
                     "formAction" => "izpitniRok/referent/chooseProfesor/",
@@ -130,7 +130,7 @@ class StudentOfficerController {
             if (User::isLoggedInAsStudentOfficer()){
                 $rok = RokModel::get($id2);
                 ViewHelper::render("view/IzpitniRokByReferentProfesorEdit.php", [
-                    "pageTitle" => "Spremeni izbranega izpitnega roka",
+                    "pageTitle" => "Sprememba izbranega izpitnega roka",
                     "getId" => $rok,
                     "IdIzvedbaPredmeta" => IzvedbaPredmetaModel::getIdIzvedbaPredmetaByProfesor($id1, $rok["ID_STUD_LETO"]),
                     "formAction" => "izpitniRok/referent/chooseProfesor/".$id1."/",
@@ -228,7 +228,7 @@ class StudentOfficerController {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
                 ViewHelper::render("view/Kandidati.php", [
-                    "pageTitle" => "Seznam vseh kandidatov (2018/19)",
+                    "pageTitle" => "Seznam vpisov novih študentov",
                     "allData" => KandidatModel::getAllCandidates(),
                     "formAction" => "kandidati",
                     "status" => $status,
@@ -246,7 +246,7 @@ class StudentOfficerController {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
                 ViewHelper::render("view/KandidatiZaVisjiLetnik.php", [
-                    "pageTitle" => "Seznam vseh kandidatov (2018/19)",
+                    "pageTitle" => "Seznam vpisov v višji letnik",
                     "allData" => KandidatModel::getAllNepotrjeniStudenti(),
                     "formAction" => "kandidatiZaVisjiLetnik",
                     "status" => $status,

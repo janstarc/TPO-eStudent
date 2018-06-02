@@ -168,11 +168,11 @@
                             <table id="table-a" class="table table-striped table-advance table-hover">
                                 <thead>
                                 <tr>
-                                    <th>študijsko leto</th>
-                                    <th>študijski program</th>
-                                    <th>letnik</th>
-                                    <th>vrsta vpisa</th>
-                                    <th>način študija</th>
+                                    <th>Študijsko leto</th>
+                                    <th>Študijski program</th>
+                                    <th>Letnik</th>
+                                    <th>Vrsta vpisa</th>
+                                    <th>Način študija</th>
 
                                 </tr>
                                 </thead>
@@ -199,10 +199,10 @@
                                 <th>#</th>
                                 <th>Šifra predmeta</th>
                                 <th>Ime predmeta</th>
-                                <th>st. kreditnih točk</th>
+                                <th>Št. kreditnih točk</th>
                                 <th>Izpraševalec/ci</th>
                                 <th>Datum opravljanja izpita</th>
-                                <th>št. polaganja</th>
+                                <th>Št. polaganja</th>
                                 <th>Ocena predmeta</th>
 
 

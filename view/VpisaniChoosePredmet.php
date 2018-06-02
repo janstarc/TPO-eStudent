@@ -62,8 +62,8 @@
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
-                <div  class="col-xs-12 col-md-6">
-                    <h3>Izberite predmet </h3>
+                <div  class="col-xs-12 col-md-12">
+                    <h3>Seznam predmetov s številom vpisanih študentov </h3>
                         <table id="table-subject" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
