@@ -19,6 +19,11 @@
                 </a>
             </li>
             <li class="mt">
+                <a href="<?= BASE_URL . "OsebniPodatkiStudenta" ?>">
+                    <span>Osebni Podatki Študenta</span>
+                </a>
+            </li>
+            <li class="mt">
                 <a href="<?= BASE_URL . "VnosIzpitov" ?>">
                     <span>Vnos Izpitov</span>
                 </a>

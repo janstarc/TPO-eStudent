@@ -55,7 +55,7 @@
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
-                <div  class="col-xs-12 col-md-6">
+                <div  class="col-xs-12 col-md-12">
                     <br>
                     <?php $data = [$predmet["ID_PREDMET"],$predmet["IME_PREDMET"],$leto,count($vpisani)]?>
                     <h2>Seznam vpisanih</h2>

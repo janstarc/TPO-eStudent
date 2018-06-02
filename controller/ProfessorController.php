@@ -504,7 +504,7 @@ class ProfessorController {
                 }
                 
                 ViewHelper::render("view/IzpitniRokProfesorAll.php", [
-                    "pageTitle" => "Seznam vse roke",
+                    "pageTitle" => "Seznam vseh rokov",
                     "roki" => $roki,
                     "formAction" => "izpitniRok/profesor/",
                     "idOseba" => User::getId(),

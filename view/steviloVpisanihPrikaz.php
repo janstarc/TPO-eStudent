@@ -62,7 +62,7 @@
         <section class="wrapper">
             <br>
             <h2>Število vpisanih v predmete</h2>
-            
+
             <div class="row"><form  action="<?= BASE_URL . "steviloVpisanih/exportCSV" ?>" method="post">
                     <input type="hidden" name="id1" value="<?= $id1 ?>"/>
                     <input type="hidden" name="id2" value="<?= $id2 ?>"/>

@@ -64,8 +64,8 @@
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
-                <div  class="col-xs-12 col-md-6">
-                    <h3>Izberite predmet </h3>
+                <div  class="col-xs-12 col-md-12">
+                    <h3>Seznam predmetov, ki jih izvajate </h3>
                     <table id="table-subject" class="table table-striped table-advance table-hover">
                         <thead>
                         <tr>
@@ -85,7 +85,7 @@
                             $n += 1 ;
                             $izvedba = $row["IME_PREDMET"];
                             $id =$row["ID_PREDMET"];
-                            $profesor = $row['IME'] . $row['PRIIMEK']
+                            $profesor = $row['IME'] ." ". $row['PRIIMEK'];
                             ?>
                         <tr>
                             <td><?= $n       ?></td>

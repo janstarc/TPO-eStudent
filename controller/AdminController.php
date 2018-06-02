@@ -12,7 +12,7 @@ require ("view/includes/helveticab.php");
 class AdminController {
     public static function pregledOsebnihPodatkovStudenta() {
         if (User::isLoggedIn()){
-            if (User::isLoggedInAsAdmin()){
+            if (User::isLoggedInAsAdmin() || User::isLoggedInAsProfessor()){
                 ViewHelper::render("view/OsebniPodatkiStudenta.php", [
                     "namesAndSurnames" => AdminDB::getAllNames()
                 ]);

@@ -53,7 +53,8 @@
 <body>
 <section id="container">
     <?php
-        include("view/includes/menu-links-admin.php");
+        if(User::isLoggedInAsAdmin()) include("view/includes/menu-links-admin.php");
+        else if(User::isLoggedInAsProfessor()) include ("view/includes/menu-links-professor.php");
     ?>
     <section id="main-content">
         <section class="wrapper">

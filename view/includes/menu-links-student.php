@@ -15,25 +15,25 @@
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
                 <a href="<?= BASE_URL . "ElektronskiIndeks" ?>">
-                    <span>ElektronskiIndeks</span>
+                    <span>Elektronski Indeks</span>
                 </a>
             </li>
             <li class="mt">
                 <a href="<?= BASE_URL . "PregledIzpitovStudent" ?>">
-                    <span>PregledIzpitovStudent</span>
+                    <span>Pregled Izpitov Študent</span>
                 </a>
             </li>
             <li class="mt">
 
                 <a href="<?= BASE_URL . "izpitniRok/student" ?>">
-                    <span>Prijava na izpitu</span>
+                    <span>Prijava na izpit</span>
                 <a href="<?= BASE_URL . "kartotecniListS" ?>">
                     <span>Kartotečni list</span>
                 </a>
             </li>
             <li class="mt">
                 <a href="<?= BASE_URL . "vpisNasledniLetnik" ?>">
-                    <span>Vpis v nasledni letnik</span>
+                    <span>Vpis v naslednji letnik</span>
                 </a>
             </li>
         </ul>

@@ -878,7 +878,7 @@ class StudentController {
                 //var_dump($roki);
                 if (empty($roki)) {
                     $status = "Info";
-                    $message = "Trenutno ni razpisanih izpitne roke.";
+                    $message = "Trenutno ni razpisanih izpitnih rokov.";
                 }
                 ViewHelper::render("view/IzpitniRokStudent.php", [
                     "pageTitle" => "Seznam vseh rokov",
