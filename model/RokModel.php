@@ -224,7 +224,7 @@ class RokModel {
         JOIN izvedba_predmeta AS ip ON p.ID_PREDMET = ip.ID_PREDMET
         JOIN rok as r ON ip.ID_IZVEDBA = r.ID_IZVEDBA
         JOIN student as s ON s.VPISNA_STEVILKA=ps.VPISNA_STEVILKA
-        LEFT JOIN prijava pr ON r.ID_ROK = pr.ID_ROK
+        LEFT JOIN prijava pr ON r.ID_ROK = pr.ID_ROK AND s.VPISNA_STEVILKA=pr.VPISNA_STEVILKA AND pr.DATUM_ODJAVE IS NULL
         WHERE s.ID_OSEBA=:idUser AND (ps.OCENA<=5 OR ps.OCENA IS NULL) and r.AKTIVNOST = '1'
         ORDER BY DATUM_ROKA, CAS_ROKA
     ");
