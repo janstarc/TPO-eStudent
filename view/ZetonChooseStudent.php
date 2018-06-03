@@ -51,6 +51,9 @@
                         }, {
                             "sClass": "center",
                             "bSortable": false
+                        }, {
+                            "sClass": "center",
+                            "bSortable": false
                         }
                     ],
                     // Ordering v prvem stolpcu
@@ -100,7 +103,9 @@
                                     </thead>
                                     <tbody>
                                     <?php $n = 0;
+
                                     foreach($allData as $data):
+
                                         $n+=1;?>
                                         <tr>
                                             <td><?php echo $n ?></td>
@@ -110,7 +115,7 @@
                                             <td><?php echo $data['ID_LETNIK']; ?></td>
                                             <td><?php echo $data['VSOTA_OPRAVLJENIH_KREDITNIH_TOCK']; ?></td>
 
-                                            <td><form  action="<?= BASE_URL . "zetoni/add" ?>" method="post">
+                                            <td><form  <?php if ($data['pogoj2'] == 0 and $data['pogoj1'] == 0){ echo 'style="display:none;"';} ?>  action="<?= BASE_URL . "zetoni/add" ?>" method="post">
                                                     <input type="hidden" name="IdOseba" value="<?= $data['ID_OSEBA'] ?>" />
                                                     <input type="hidden" name="Leto" value="<?= $id ?>" />
                                                     <input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />

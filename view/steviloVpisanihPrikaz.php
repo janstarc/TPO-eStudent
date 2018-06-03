@@ -40,6 +40,14 @@
                         "sClass": "center",
                         "bSortable": true,
                         "sType":"slo"
+                    },{
+                        "sClass": "center",
+                        "bSortable": true,
+                        "sType":"slo"
+                    },{
+                        "sClass": "center",
+                        "bSortable": true,
+                        "sType":"slo"
                     }
                 ],
                 // Ordering v prvem stolpcu
@@ -76,7 +84,9 @@
 
                     <input id="pdf" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v PDF"/>
                 </form>
+
                 <div  class="col-xs-12 col-md-12">
+
 
                     <table id="table-subject" class="table table-striped table-advance table-hover">
                         <thead>
@@ -84,25 +94,32 @@
                             <th>#</th>
                             <th>Šifra predmeta</th>
                             <th>Ime predmeta</th>
-                            <th>Ime glavnega predavatelja</th>
+                            <th>1. Izvajalec predmeta</th>
+                            <th>2. Izvajalec predmeta</th>
+                            <th>3. Izvajalec predmeta</th>
                             <th>Stevilo Vpisanih</th>
                         </tr>
                         </thead>
                         <tbody>
 
                             <?php
+
                             $n = 0;
                             foreach ($allData as $row) {
                             $n += 1 ;
                             $izvedba = $row["IME_PREDMET"];
                             $id =$row["ID_PREDMET"];
-                            $profesor = $row['IME'] ." ". $row['PRIIMEK']
+                            $profesor1 = $row['i1'] ." ". $row['p1'];
+                            $profesor2 = $row['i2'] ." ". $row['p2'];
+                            $profesor3 = $row['i3'] ." ". $row['p3'];
                             ?>
                         <tr>
                             <td><?= $n       ?></td>
                             <td><?= $row['ID_PREDMET'] ?></td>
                             <td><?= $izvedba?></td>
-                            <td><?= $profesor ?></td>
+                            <td><?= $profesor1 ?></td>
+                            <td><?= $profesor2 ?></td>
+                            <td><?= $profesor3 ?></td>
                             <td><?= $row["COUNT"] ?></td>
 
 

@@ -62,14 +62,15 @@
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
+
                 <div  class="col-xs-12 col-md-12">
                     <h3>Seznam predmetov s številom vpisanih študentov </h3>
+
                         <table id="table-subject" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Šifra predmeta</th>
-                                <th>Šifra izvajanja</th>
                                 <th>Ime predmeta</th>
                                 <th>Ime glavnega predavatelja</th>
                                 <th>Izberi predmet</th>
@@ -88,7 +89,6 @@
                             <tr>
                                 <td></td>
                                 <td><?= $row['ID_PREDMET'] ?></td>
-                                <td><?= $row['ID_IZVEDBA'] ?></td>
                                 <td><?= $izvedba?></td>
                                 <td><?= $profesor ?></td>
 

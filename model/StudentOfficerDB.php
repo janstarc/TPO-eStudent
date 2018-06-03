@@ -26,25 +26,31 @@ class StudentOfficerDB
             throw new InvalidArgumentException("No subject with $id");
         }
     }
-    public static function ChangeAktivnost($idZeton,$aktivnost){
 
-    $db = DBInit::getInstance();
 
-    if($aktivnost == "0") {
-        $set = 1;
-    }
-    else{$set = 0;}
-
-        $statement = $db->prepare("UPDATE ZETON SET
-        AKTIVNOST = :aktivnost
-        where  ID_ZETON = :idZeton
-        ");
-        $statement->bindParam(":aktivnost", $set);
-        $statement->bindParam(":idZeton", $idZeton);
+    public static function toogleActivated ($id){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT AKTIVNOST FROM zeton WHERE ID_ZETON = :id");
+        $statement->bindValue(":id", $id);
         $statement->execute();
+        $is_activated_str = ($statement->fetch())["AKTIVNOST"];
 
-    return true;
+        if ($is_activated_str === '1')
+            $is_activated = '0';
+        else
+            $is_activated = '1';
+
+        $statement2 = $db->prepare("
+            UPDATE zeton
+            SET AKTIVNOST = :is_activated
+            WHERE ID_ZETON = :id
+        ");
+        $statement2->bindValue(":id", $id);
+        $statement2->bindParam(":is_activated", $is_activated);
+        $statement2->execute();
     }
+
+
 
     public static function getAll(){
         $all = [];
@@ -95,6 +101,19 @@ class StudentOfficerDB
         $statement = $db->prepare("
             SELECT ID_OSEBA FROM zeton 
             WHERE ID_ZETON = :id
+        ");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
+    public static function getProgram($id)
+    {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT NAZIV_PROGRAM FROM program 
+            WHERE ID_PROGRAM = :id
         ");
         $statement->bindParam(":id", $id);
         $statement->execute();
@@ -180,7 +199,7 @@ order by STUD_LETO DESC LIMIT 1
         }
     }
     public static function dodajNov($id){
-
+        var_dump("dkgbdikgvbsdkrgbrdl");
         $db = DBInit::getInstance();
         $statement = $db->prepare("
            SELECT * FROM `zeton` WHERE id_oseba = :oseba
@@ -199,7 +218,7 @@ order by STUD_LETO DESC LIMIT 1
 
             $db = DBInit::getInstance();
             $statement = $db->prepare("
-            SELECT AVG(ocena) 
+            SELECT AVG(ocena)  as ocena
             FROM predmeti_studenta p, student s, oseba o 
             WHERE o.ID_OSEBA=:id and s.ID_OSEBA = o.ID_OSEBA 
             and p.VPISNA_STEVILKA = s.VPISNA_STEVILKA
@@ -207,8 +226,12 @@ order by STUD_LETO DESC LIMIT 1
 
             $statement->bindParam(":id", $id);
             $statement->execute();
-            $ocena = $statement->fetchAll()[0];
+            $vn = $statement->fetchAll()[0]['ocena'];
 
+            $ocena = explode(".", $vn)[0];
+            $vrsta = 1;
+
+            echo("<script>console.log('datasdsaa: : ', ".$ocena . ");</script>");
             if ($ocena >8.5) $izbirnost = 1;
             else $izbirnost = 0;
             $statement = $db->prepare("
@@ -235,7 +258,7 @@ order by STUD_LETO DESC LIMIT 1
             $statement->bindParam(":letnik", $letnik);
             $statement->bindParam(":leto", $leto);
             $statement->bindParam(":oblika", $data['ID_OBLIKA']);
-            $statement->bindParam(":vrstaVpisa", $data['ID_VRSTAVPISA']);
+            $statement->bindParam(":vrstaVpisa", $vrsta);
             $statement->bindParam(":nacin", $data['ID_NACIN']);
             $statement->bindParam(":program", $data['ID_PROGRAM']);
             $statement->bindParam(":izbirnost", $izbirnost);
@@ -287,7 +310,7 @@ order by STUD_LETO DESC LIMIT 1
         $data = $statement->fetchAll()[0];
         $data['ID_VRSTAVPISA'] = 2 ;
         $db = DBInit::getInstance();
-        $letnik =$data['ID_LETNIK']+1;
+        $letnik =$data['ID_LETNIK'];
         $leto = $data['ID_STUD_LETO']+1;
         if ($letnik >3) $letnik = 3;
 
@@ -489,10 +512,11 @@ order by STUD_LETO DESC LIMIT 1
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-                    SELECT * FROM predmetnik pr, predmet p, studijsko_leto s, letnik l, program po , izvedba_predmeta i, oseba o
-        where pr.ID_PREDMET = p.ID_PREDMET and pr.ID_STUD_LETO = s.ID_STUD_LETO and i.ID_STUD_LETO = pr.ID_STUD_LETO 
-        and pr.ID_LETNIK = l.ID_LETNIK and pr.ID_PROGRAM = po.ID_PROGRAM and i.ID_PREDMET = p.ID_PREDMET
-        and :letnik = l.ID_LETNIK and :program = pr.ID_PROGRAM and s.ID_STUD_LETO = :leto and i.ID_OSEBA1 = o.ID_OSEBA");
+                    SELECT p.ID_PREDMET, p.IME_PREDMET, o.IME as i1, o.PRIIMEK as p1, o2.IME as i2, o2.PRIIMEK as p2, o3.IME as i3, o3.PRIIMEK as p3 FROM predmetnik pr, predmet p, studijsko_leto s, letnik l, program po , oseba o, izvedba_predmeta i LEFT JOIN oseba o2 ON i.ID_OSEBA2 = o2.ID_OSEBA LEFT JOIN oseba o3 on i.ID_OSEBA3 = o3.ID_OSEBA
+where pr.ID_PREDMET = p.ID_PREDMET and pr.ID_STUD_LETO = s.ID_STUD_LETO and i.ID_STUD_LETO = pr.ID_STUD_LETO
+      and pr.ID_LETNIK = l.ID_LETNIK and pr.ID_PROGRAM = po.ID_PROGRAM and i.ID_PREDMET = p.ID_PREDMET
+      and :letnik = l.ID_LETNIK and :program = pr.ID_PROGRAM and s.ID_STUD_LETO = :leto
+      and i.ID_OSEBA1 = o.ID_OSEBA");
         $statement->bindParam(":leto", $leto);
         $statement->bindParam(":program", $program);
         $statement->bindParam(":letnik", $letnik);
@@ -500,7 +524,10 @@ order by STUD_LETO DESC LIMIT 1
 
         $retultat = $statement->fetchAll();
 
-
+/*SELECT * FROM predmetnik pr, predmet p, studijsko_leto s, letnik l, program po , izvedba_predmeta i, oseba o
+        where pr.ID_PREDMET = p.ID_PREDMET and pr.ID_STUD_LETO = s.ID_STUD_LETO and i.ID_STUD_LETO = pr.ID_STUD_LETO
+        and pr.ID_LETNIK = l.ID_LETNIK and pr.ID_PROGRAM = po.ID_PROGRAM and i.ID_PREDMET = p.ID_PREDMET
+        and :letnik = l.ID_LETNIK and :program = pr.ID_PROGRAM and s.ID_STUD_LETO = :leto and i.ID_OSEBA1 = o.ID_OSEBA*/
         foreach ($retultat as $var) {
 
             $db = DBInit::getInstance();
@@ -772,9 +799,12 @@ where s.ID_OSEBA = :id
 
         $statement->bindParam(":id", $id);
         $statement->execute();
-        $check = $statement->fetchAll()[0];
+        $check = $statement->fetchAll();
+        if(count($check)<1) return 0;
+        $check = $check[0];
 
         if($check['IZKORISCEN'] == "0") return 0;
+        if($check['AKTIVNOST'] == "0") return 0;
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("  

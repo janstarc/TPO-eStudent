@@ -77,8 +77,8 @@ where s.ID_OSEBA = :id
 
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("SELECT SIFRA_PREDMET, IME_PREDMET, o.IME, o2.IME as p2i, o2.PRIIMEK as p2p, o3.IME as p3i,
-o3.PRIIMEK as p3p, o4.IME as p4i, o4.PRIIMEK as p4p, OCENA, predmeta.ID_IZVEDBA,
+        $statement = $db->prepare("SELECT SIFRA_PREDMET, IME_PREDMET, o.IME, o2.IME as p2i, o2.PRIIMEK as p2p, o2.SIFRA_IZVAJALCA as p2s, o3.IME as p3i,
+o3.PRIIMEK as p3p, o3.SIFRA_IZVAJALCA as p3s, o4.IME as p4i, o4.PRIIMEK as p4p, o4.SIFRA_IZVAJALCA as p4s, OCENA, predmeta.ID_IZVEDBA,
 l.STUD_LETO as leto, v.ID_PROGRAM, v.ID_VPIS, p.ST_KREDITNIH_TOCK
 from oseba o
 JOIN student s ON o.ID_OSEBA = s.ID_OSEBA
@@ -101,11 +101,11 @@ where o.ID_OSEBA = :id and predmeta.ID_STUD_LETO = studenta.ID_STUD_LETO and v.I
         $out = [];
         foreach ($all as $row){
             $i = 0;
-            $row['izvajalci'] = $row['p2i']." ". $row['p2p'];
+            $row['izvajalci'] = $row['p2i']." ". $row['p2p']."  (".$row['p2s'].")";
             if ($row['p3i'] != null){
-                $row['izvajalci'] = $row['izvajalci']. ", " . $row['p3i']." ". $row['p3p'];
+                $row['izvajalci'] = $row['izvajalci']. ", " . $row['p3i']." ". $row['p3p']."  (".$row['p3s'].")";
                 if ($row['p4i'] != null){
-                    $row['izvajalci'] = $row['izvajalci']. ", " . $row['p4i']." ". $row['p4p'];
+                    $row['izvajalci'] = $row['izvajalci']. ", " . $row['p4i']." ". $row['p4p']."  (".$row['p4s'].")";
                 }
             }
             $db = DBInit::getInstance();
@@ -180,8 +180,8 @@ where o.ID_OSEBA = :id and predmeta.ID_STUD_LETO = studenta.ID_STUD_LETO and v.I
 
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("SELECT SIFRA_PREDMET, IME_PREDMET, o.IME, o2.IME as p2i, o2.PRIIMEK as p2p, o3.IME as p3i,
-o3.PRIIMEK as p3p, o4.IME as p4i, o4.PRIIMEK as p4p, OCENA, predmeta.ID_IZVEDBA,
+        $statement = $db->prepare("SELECT SIFRA_PREDMET, IME_PREDMET, o.IME, o2.IME as p2i, o2.PRIIMEK as p2p, o2.SIFRA_IZVAJALCA as p2s, o3.IME as p3i,
+o3.PRIIMEK as p3p, o3.SIFRA_IZVAJALCA as p3s, o4.IME as p4i, o4.PRIIMEK as p4p, o4.SIFRA_IZVAJALCA as p4s, OCENA, predmeta.ID_IZVEDBA,
 l.STUD_LETO as leto, v.ID_PROGRAM, v.ID_VPIS, p.ST_KREDITNIH_TOCK
 from oseba o
 JOIN student s ON o.ID_OSEBA = s.ID_OSEBA
@@ -204,11 +204,11 @@ where o.ID_OSEBA = :id and predmeta.ID_STUD_LETO = studenta.ID_STUD_LETO and v.I
         $out = [];
         foreach ($all as $row){
             $i = 0;
-            $row['izvajalci'] = $row['p2i']." ". $row['p2p'];
+            $row['izvajalci'] = $row['p2i']." ". $row['p2p']."  (".$row['p2s'].")";
             if ($row['p3i'] != null){
-                $row['izvajalci'] = $row['izvajalci']. ", " . $row['p3i']." ". $row['p3p'];
+                $row['izvajalci'] = $row['izvajalci']. ", " . $row['p3i']." ". $row['p3p']."  (".$row['p3s'].")";
                 if ($row['p4i'] != null){
-                    $row['izvajalci'] = $row['izvajalci']. ", " . $row['p4i']." ". $row['p4p'];
+                    $row['izvajalci'] = $row['izvajalci']. ", " . $row['p4i']." ". $row['p4p']."  (".$row['p4s'].")";
                 }
             }
             $db = DBInit::getInstance();

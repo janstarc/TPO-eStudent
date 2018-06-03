@@ -820,7 +820,7 @@ class StudentOfficerController {
 
                 ]);
 
-                StudentOfficerDB::ToogleActivate($data["IdZeton"]);
+                StudentOfficerDB::ToogleActivated($data["IdZeton"]);
                 ViewHelper::redirect(BASE_URL . "zetoni/prikaz/".$data["IdOseba"]);
 
             } else {
@@ -1304,6 +1304,9 @@ class StudentOfficerController {
             "id3" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
         ]);
+        $leto = StudentOfficerDB::getLeto($data['id1']);
+        $letnik = $data['id3'];
+        $program = StudentOfficerDB::getProgram($data['id2']);
 
         $data = StudentOfficerDB::getPredmetiSteviloVpisanih($data['id1'], $data['id2'], $data['id3']);
 
@@ -1316,16 +1319,22 @@ class StudentOfficerController {
 
         $fields = array();
         fputcsv($f, $fields, $delimiter);
-        $fields = array("Izpis podatkov o številu vpisanih");
+        $fields = array("Izpis podatkov o številu vpisanih študentov:");
         fputcsv($f, $fields, $delimiter);
-        $fields = array('Šifra predmeta','Ime predmeta', 'Ime glavnega profesorja', 'Število vpisanih študentov');
+        $fields = array("Študijsko leto: '. $leto");
+        fputcsv($f, $fields, $delimiter);
+        $fields = array("Študijski program: ' . $program");
+        fputcsv($f, $fields, $delimiter);
+        $fields = array("Letnik: '. $letnik");
+        fputcsv($f, $fields, $delimiter);
+        $fields = array('Šifra predmeta','Ime predmeta', '1. izvajalec', '2. izvajalec', '2. izvajalec', 'Št. šutdentov');
         fputcsv($f, $fields, $delimiter);
 
         $all = [];
         $lineData2=null;
         foreach ($data as $key => $value){
 
-            $lineData2 = array($value["ID_PREDMET"],$value["IME_PREDMET"],  $value["IME"]." ".$value["PRIIMEK"], $value["COUNT"]);
+            $lineData2 = array($value["ID_PREDMET"],$value["IME_PREDMET"],  $value["i1"]." ".$value["p1"],  $value["i2"]." ".$value["p2"],  $value["i3"]." ".$value["p3"], $value["COUNT"]);
             fputcsv($f, $lineData2, $delimiter);
         }
 
@@ -1343,14 +1352,17 @@ class StudentOfficerController {
             "id3" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
 
         ]);
+        $leto = StudentOfficerDB::getLeto($data['id1']);
+        $letnik = $data['id3'];
+        $program = StudentOfficerDB::getProgram($data['id2']);
 
         $data = StudentOfficerDB::getPredmetiSteviloVpisanih($data['id1'], $data['id2'], $data['id3']);
-        $header2 = array('Šifra predmeta','Ime predmeta', 'Ime glavnega profesorja', 'Število vpisanih študentov');
+        $header2 = array('Šifra predmeta','Ime predmeta', '1. izvajalec', '2. izvajalec', '3. izvajalec', 'Št. šutdentov');
 
        $all = [];
         foreach ($data as $key => $value){
 
-            $lineData2 = array($value["ID_PREDMET"],$value["IME_PREDMET"],  $value["IME"]." ".$value["PRIIMEK"], $value["COUNT"]);
+            $lineData2 = array($value["ID_PREDMET"],$value["IME_PREDMET"],  $value["i1"]." ".$value["p1"],  $value["i2"]." ".$value["p2"],  $value["i3"]." ".$value["p3"], $value["COUNT"]);
             array_push($all, $lineData2);
         }
 
@@ -1366,10 +1378,13 @@ class StudentOfficerController {
         $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
         $pdf->Ln();
         $pdf->SetFont('DejaVu','',10);
-        $pdf->Cell(40,10,'Izpis podatkov o številu vpisanih:');
+        $pdf->Cell(40,10,'Izpis podatkov o številu vpisanih študentov:');$pdf->Ln();
+        $pdf->Cell(40,10,'Študijsko leto: '. $leto);$pdf->Ln();
+        $pdf->Cell(40,10,'Študijski program: ' . $program);$pdf->Ln();
+        $pdf->Cell(40,10,'Letnik: '. $letnik);$pdf->Ln();
 
         $pdf->Ln();
-        $pdf->BasicTableHSt($header2,$all);
+        $pdf->BasicTableHSt2($header2,$all);
         $pdf->Output();
 
         $filename="data.pdf";
