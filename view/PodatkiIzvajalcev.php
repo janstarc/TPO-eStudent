@@ -30,7 +30,7 @@
                                             <select class="form-control" name="imePriimek" onchange="this.form.submit()">
                                                 <option selected disabled hidden></option>
                                                 <?php foreach ($profesori as $i=>$data): ?>
-                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?></option>
+                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .'('.$data["SIFRA_IZVAJALCA"].')'?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                             <!--<input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />-->
@@ -74,7 +74,7 @@
                                             <select class="form-control" name="imePriimek2" onchange="this.form.submit()">
                                                 <option selected disabled hidden></option>
                                                 <?php foreach ($profesori as $i=>$data): ?>
-                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?></option>
+                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .'('.$data["SIFRA_IZVAJALCA"].')'?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                             <!--<input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />-->
@@ -126,7 +126,7 @@
                                             <select class="form-control" name="imePriimek3" onchange="this.form.submit()">
                                                 <option selected disabled hidden></option>
                                                 <?php foreach ($profesori as $i=>$data): ?>
-                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?></option>
+                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .'('.$data["SIFRA_IZVAJALCA"].')'?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                             <!--<input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />-->
