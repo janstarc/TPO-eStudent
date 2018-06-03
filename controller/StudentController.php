@@ -907,7 +907,7 @@ class StudentController {
                 $IdYear = StudijskoLetoModel::getIdOfYear(CURRENT_YEAR);
                 $id_predmet = PrijavaModel::getIzpitniRok($IdYear["ID_STUD_LETO"],$data1["rokId"]);
                 $vpisna=PrijavaModel::getVpisna(User::getId1());
-                $data=PrijavaModel::prijavaAdd($vpisna["VPISNA_STEVILKA"], $data1["rokId"],$id_predmet["ID_PREDMET"]);
+                PrijavaModel::prijavaAdd($vpisna["VPISNA_STEVILKA"], $data1["rokId"],$id_predmet["ID_PREDMET"]);
 
                 ViewHelper::redirect(BASE_URL . "izpitniRok/student");
             }else{
@@ -1311,7 +1311,7 @@ class StudentController {
 
         $pdf= new tFPDF();
         $pdf->AddPage();
-        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);

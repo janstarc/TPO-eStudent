@@ -919,23 +919,47 @@ class AdminController {
         fputcsv($f, $text, $delimiter);
 
 
-        //set column headers
-        $fields = array('VpisnaStevilka','Ime', 'Priimek', 'NaslovStalnegaBivalisca', 'NaslovZaPrejemanjePoste','TelefonskaStevilka','NaslovElektronskePoste');
+        $fields = array('Vpisna številka','Ime', 'Priimek', 'Naslov Stalnega Bivališča', 'Začasni naslov','Telefonska številka','Naslov elektronske pošte');
+
+        $id=PrijavaModel::getIdPoVpisna($studData[0]["vpisna_stevilka"]);
+        $naslove=KandidatModel::getKandidatVseNaslove($id["ID_OSEBA"]);
 
 
-        $naslovStalnegaBivalisca=null;
-        $naslovPrejemanje=null;
-        foreach ($studData as $key => $value) {
-            if($value['je_stalni'] == 1 ){
-                $naslovStalnegaBivalisca= $value['ulica'].$value['hisna_stevilka'].", ".$value['st_posta'].$value['kraj'];
+        $naslovStalnegaBivalisca=NULL;
+        $naslovPrejemanje=NULL;
+        $zacasniNaslov=NULL;
+        foreach ($naslove as $key => $value) {
+            if($value["ID_POSTA"]==NULL){
+                $posta='';
+            }else{
+                $gPosta=NasloveData::getPosta($value["ID_POSTA"]);
+                $posta=$gPosta[0]["ST_POSTA"].' '.$gPosta[0]["KRAJ"];
             }
 
-            if($value['je_zavrocanje'] == 1 ){
-                $naslovPrejemanje= $value['ulica'].$value['hisna_stevilka'].", ".$value['st_posta'].$value['kraj'];
+            if($value["ID_OBCINA"]==NULL){
+                $obcina='';
+            }else{
+                $gObcina=NasloveData::getObcina($value["ID_OBCINA"]);
+                $obcina=$gObcina[0]["IME_OBCINA"];
+            }
+
+            if($value["ID_DRZAVA"]==NULL){
+                $drzava='';
+            }else{
+                $gDrzava=NasloveData::getDrzava($value["ID_DRZAVA"]);
+                //var_dump($gDrzava);
+                $drzava=$gDrzava[0]["SLOVENSKINAZIV"];;
+            }
+
+            if ($value['JE_STALNI'] == 1) {
+                $naslovStalnegaBivalisca=$value["ULICA"].' '.$posta.' '.$obcina.' '.$drzava;
+            }else{
+                $zacasniNaslov=$value["ULICA"].' '.$posta.' '.$obcina.' '.$drzava;
             }
         }
 
-        $lineData = array($value['vpisna_stevilka'], $value['ime'], $value['priimek'], $naslovStalnegaBivalisca,$naslovPrejemanje, $value['telefonska_stevilka'], $value['email']);
+
+        $lineData = array($studData[0]['vpisna_stevilka'], $studData[0]['ime'], $studData[0]['priimek'], $naslovStalnegaBivalisca,$zacasniNaslov, $studData[0]['telefonska_stevilka'], $studData[0]['email']);
 
         $text = array("Izpis osebnih podatkov studenta");
         fputcsv($f, $text, $delimiter);
@@ -948,7 +972,7 @@ class AdminController {
         fputcsv($f, $fields, $delimiter);
         $fields = array("Izpis podatkov o vpisih");
         fputcsv($f, $fields, $delimiter);
-        $fields = array('Letnik','NazivProgram', 'SifraPrograma', 'VrstaVpisa', 'NacinStudija');
+        $fields = array('Letnik','Naziv program', 'Šifra programa', 'Vrsta vpisa', 'Nacin študija');
 
 
         foreach ($vpisData as $key => $value){
@@ -982,21 +1006,49 @@ class AdminController {
         $studData = AdminDB::getStudentData($data["searchVpisna"]);
         $vpisData = AdminDB::getEnrollmentDetails($data["searchVpisna"]);
 
-        $header = array('VpisnaStevilka','Ime', 'Priimek', 'NaslovStalnegaBivalisca', 'NaslovZaPrejemanjePoste','TelefonskaStevilka','NaslovElektronskePoste');
+        $header = array('Vpisna številka','Ime', 'Priimek', 'Naslov Stalnega Bivališča', 'Začasni naslov','Telefonska številka','Naslov elektronske pošte');
 
-        foreach ($studData as $key => $value) {
-            if($value['je_stalni'] == 1 ){
-                $naslovStalnegaBivalisca= $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj'];
+        $id=PrijavaModel::getIdPoVpisna($studData[0]["vpisna_stevilka"]);
+        $naslove=KandidatModel::getKandidatVseNaslove($id["ID_OSEBA"]);
+
+
+        $naslovStalnegaBivalisca=NULL;
+        $naslovPrejemanje=NULL;
+        $zacasniNaslov=NULL;
+        foreach ($naslove as $key => $value) {
+            if($value["ID_POSTA"]==NULL){
+                $posta='';
+            }else{
+                $gPosta=NasloveData::getPosta($value["ID_POSTA"]);
+                $posta=$gPosta[0]["ST_POSTA"].' '.$gPosta[0]["KRAJ"];
             }
 
-            if($value['je_zavrocanje'] == 1 ){
-                $naslovPrejemanje= $value['ulica']." ".$value['hisna_stevilka'].", ".$value['st_posta']." ".$value['kraj'];
+            if($value["ID_OBCINA"]==NULL){
+                $obcina='';
+            }else{
+                $gObcina=NasloveData::getObcina($value["ID_OBCINA"]);
+                $obcina=$gObcina[0]["IME_OBCINA"];
+            }
+
+            if($value["ID_DRZAVA"]==NULL){
+                $drzava='';
+            }else{
+                $gDrzava=NasloveData::getDrzava($value["ID_DRZAVA"]);
+                //var_dump($gDrzava);
+                $drzava=$gDrzava[0]["SLOVENSKINAZIV"];;
+            }
+
+            if ($value['JE_STALNI'] == 1) {
+                $naslovStalnegaBivalisca=$value["ULICA"].' '.$posta.' '.$obcina.' '.$drzava;
+            }else{
+                $zacasniNaslov=$value["ULICA"].' '.$posta.' '.$obcina.' '.$drzava;
             }
         }
 
-        $lineData = array($value['vpisna_stevilka'], $value['ime'], $value['priimek'], $naslovStalnegaBivalisca,$naslovPrejemanje, $value['telefonska_stevilka'], $value['email']);
 
-        $header2 = array('Letnik','NazivProgram', 'SifraPrograma', 'VrstaVpisa', 'NacinStudija');
+        $lineData = array($studData[0]['vpisna_stevilka'], $studData[0]['ime'], $studData[0]['priimek'], $naslovStalnegaBivalisca,$zacasniNaslov, $studData[0]['telefonska_stevilka'], $studData[0]['email']);
+
+        $header2 = array('Letnik','Naziv program', 'Šifra programa', 'Vrsta vpisa', 'Nacin študija');
 
         $lineData2=null;
         foreach ($vpisData as $key => $value){
@@ -1005,7 +1057,7 @@ class AdminController {
 
         $pdf= new tFPDF();
         $pdf->AddPage('');
-        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);
@@ -1028,7 +1080,7 @@ class AdminController {
         $pdf->Ln();
 
         $pdf->SetFont('DejaVu','',10);
-        $pdf->BasicTableO($header,$lineData);
+        $pdf->BasicTableOsebni($header,$lineData);
         $pdf->SetFont('DejaVu','',15);
         $pdf->Ln();
         $pdf->Cell(80,10,'Izpis podatkov o vpisih');

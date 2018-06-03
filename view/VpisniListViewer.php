@@ -144,6 +144,22 @@
                                         <label for="UPORABNISKO_IME">Uporabniško Ime</label>
                                         <input type="text" class="form-control" id="word" name="UPORABNISKO_IME" value="<?= $userName ?>" required disabled>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="VRSTA_VPISA">Vrsta vpisa</label>
+                                        <input type="text" class="form-control" id="word" name="VRSTA_VPISA" value="<?= $KandidatPodatki["OPIS_VPISA"] ?>" required disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="NACIN_STUDIJA">Način študija</label>
+                                        <input type="text" class="form-control" id="word" name="NACIN_STUDIJA" value="<?= $KandidatPodatki["OPIS_NACIN"] ?>" required disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="LETNIK">Letnik</label>
+                                        <input type="text" class="form-control" id="word" name="LETNIK" value="<?= $KandidatPodatki["LETNIK"] ?>" required disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="OBLIKA_STUDIJA">Oblika študija</label>
+                                        <input type="text" class="form-control" id="word" name="OBLIKA_STUDIJA" value="<?= $KandidatPodatki["NAZIV_OBLIKA"] ?>" required disabled>
+                                    </div>
                                 </div>
                             </div>
 
@@ -178,11 +194,6 @@
                             <div class="row">
                                 <div class="col-xs-12 col-md-6 offset-md-3">
                                     <button id="btn" class="btn btn-theme btn-block" type="submit">Oddaj</button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-6 offset-md-3" action="<?= BASE_URL . "vpis/Tiskaj" ?>" method="post">
-                                    <button id="btn" class="btn btn-theme btn-block" type="submit">Tiskanje vpisnega lista</button>
                                 </div>
                             </div>
                         </form>

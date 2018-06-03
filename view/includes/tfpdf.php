@@ -1334,6 +1334,15 @@ class tFPDF
 
     }
 
+    function BasicTableOsebni($header,$lineData){
+        for($i=0; $i<count($header);$i++) {
+            $this->Cell(75, 7, $header[$i], 1);
+            $this->Cell(95, 7, $lineData[$i], 1);
+            $this->Ln();
+        }
+
+    }
+
     function BasicTableH($header,$lineData){
         $this->Cell(20, 7, "#", 1);
         foreach($header as $col) {

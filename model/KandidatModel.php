@@ -74,11 +74,16 @@ class KandidatModel {
 
         $statement = $db -> prepare("
             SELECT o.id_oseba, o.ime, o.priimek, o.email,o.uporabnisko_ime, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
-                    p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto, k.ID_KANDIDAT
+                    p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto, k.ID_KANDIDAT,v3.OPIS_VPISA, l.LETNIK,n.OPIS_NACIN,o2.NAZIV_OBLIKA
             FROM oseba AS o 
             JOIN kandidat AS k ON k.id_oseba = o.id_oseba
             JOIN program AS p ON k.id_program = p.id_program
             JOIN studijsko_leto AS s ON k.id_stud_leto = s.id_stud_leto
+            JOIN vpis v ON p.ID_PROGRAM = v.ID_PROGRAM
+            JOIN vrsta_vpisa v3 ON v.ID_VRSTAVPISA = v3.ID_VRSTAVPISA
+            JOIN letnik l ON v.ID_LETNIK = l.ID_LETNIK
+            JOIN nacin_studija n ON v.ID_NACIN = n.ID_NACIN
+            JOIN oblika_studija o2 ON v.ID_OBLIKA = o2.ID_OBLIKA
             WHERE k.id_kandidat = :id_kandidat
         ");
 
@@ -93,12 +98,17 @@ class KandidatModel {
 
         $statement = $db -> prepare("
             SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
-                    p.st_semestrov, sl.stud_leto, s.vpisna_stevilka, s.emso, v.id_stud_leto, v.ID_VRSTAVPISA, v.ID_OBLIKA, v.ID_LETNIK, v.ID_NACIN
+                    p.st_semestrov, sl.stud_leto, s.vpisna_stevilka, s.emso, v.id_stud_leto, v.ID_VRSTAVPISA, v.ID_OBLIKA, v.ID_LETNIK, v.ID_NACIN,
+                    o2.NAZIV_OBLIKA,n.OPIS_NACIN,v3.OPIS_VPISA,l.LETNIK
             FROM oseba AS o 
             JOIN student AS s ON s.ID_OSEBA = o.ID_OSEBA
             JOIN vpis AS v ON v.VPISNA_STEVILKA = s.VPISNA_STEVILKA
             JOIN program AS p ON v.ID_PROGRAM = p.ID_PROGRAM
             JOIN studijsko_leto AS sl ON v.ID_STUD_LETO = sl.ID_STUD_LETO
+            JOIN oblika_studija o2 ON v.ID_OBLIKA = o2.ID_OBLIKA
+            JOIN nacin_studija n ON v.ID_NACIN = n.ID_NACIN
+            JOIN vrsta_vpisa v3 ON v.ID_VRSTAVPISA = v3.ID_VRSTAVPISA
+            JOIN letnik l ON v.ID_LETNIK = l.ID_LETNIK
             WHERE o.ID_OSEBA = :id_oseba
         ");
 

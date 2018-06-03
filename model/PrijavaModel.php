@@ -220,4 +220,17 @@ class PrijavaModel
 
     }
 
+    public static function getIdPoVpisna($vpisna){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+        SELECT s.ID_OSEBA
+        FROM student as s 
+        WHERE s.VPISNA_STEVILKA =:vpisna
+    ");
+        $statement->bindParam(":vpisna", $vpisna);
+
+        $statement->execute();
+        return $statement->fetch();
+    }
+
 }
