@@ -1325,6 +1325,17 @@ class tFPDF
 
     }
 
+    function BasicTablePotrdilo($header,$lineData){
+
+        for($i=0; $i<count($header);$i++) {
+            $this->Cell(50, 7, '', 0,0,'L');
+            $this->Cell(50, 7, $header[$i], 0,0,'L');
+            $this->Cell(50, 7, $lineData[$i], 0,0,'L');
+            $this->Ln();
+        }
+
+    }
+
     function BasicTableO($header,$lineData){
         for($i=0; $i<count($header);$i++) {
             $this->Cell(70, 7, $header[$i], 1);

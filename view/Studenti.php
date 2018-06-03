@@ -39,6 +39,12 @@
                 },{
                     "sClass": "center",
                     "bSortable": false
+                },{
+                    "sClass": "center",
+                    "bSortable": false
+                },{
+                    "sClass": "center",
+                    "bSortable": false
                 }],
                 // Ordering v prvem stolpcu
                 "order": [[ 1, 'asc' ]]
@@ -78,7 +84,9 @@
                                 <th>Ime</th>
                                 <th>Priimek</th>
                                 <th>Vpisna stevilka</th>
-                                <th>Preglej vloga</th>
+                                <th>Tiskaj vpisni list</th>
+                                <th>Potrdilo o vpisu</th>
+                                <th>Potrdilo o vpisu(6)</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -94,6 +102,19 @@
                                             <input class="btn btn-primary btn-sm" type="submit" value="Preglej" />
                                         </form>
                                     </td>
+                                    <td>
+                                        <form  action="<?= BASE_URL . "studenti/". $data['id_oseba'] . "/exportPDF" ?>" method="post">
+                                            <input type="hidden" name="searchVpisna" />
+                                            <input  class="btn btn-primary btn-sm"  type="submit" value="Izpis"/>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form  action="<?= BASE_URL . "studenti/". $data['id_oseba']. "/exportPDF6" ?>" method="post">
+                                            <input type="hidden" name="searchVpisna" />
+                                            <input  class="btn btn-primary btn-sm"  type="submit" value="Izpis"/>
+                                        </form>
+                                    </td>
+
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

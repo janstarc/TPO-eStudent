@@ -1,5 +1,5 @@
 <?php
-$name='DejaVuSansCondensed';
+$name='DejaVuSans';
 $type='TTF';
 $desc=array (
   'Ascent' => 928.0,
@@ -13,7 +13,7 @@ $desc=array (
 );
 $up=-63;
 $ut=44;
-$ttffile='C:\xampp\htdocs\TPO\tpo-project\view\includes/font/unifont/DejaVuSansCondensed.ttf';
+$ttffile='C:\xampp\htdocs\TPO\tpo-project\view\includes/font/unifont/DejaVuSans.ttf';
 $originalsize=680264;
 $fontkey='dejavu';
 ?>

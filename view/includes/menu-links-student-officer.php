@@ -11,7 +11,7 @@
 </header>
 
 <aside>
-    <div id="sidebar" class="nav-collapse ">
+    <div id="sidebar" class="nav-collapse " style="overflow-y: auto;">
         <ul class="sidebar-menu" id="nav-accordion">
             <li class="mt">
                 <a href="<?= BASE_URL . "kandidati" ?>">

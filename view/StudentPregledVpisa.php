@@ -163,23 +163,8 @@
                 </div>
             </form>
 
-                <div class="row">
-                    <div class="col-xs-12 col-md-6 offset-md-3">
-                        <form  action="<?= BASE_URL . "studenti/". $id . "/exportPDF6" ?>" method="post">
-                            <input type="hidden" name="searchVpisna" />
-                            <input  class="btn btn-theme btn-block"  type="submit" value="Izpiši 6 potrdil o vpisu"/>
-                        </form>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-xs-12 col-md-6 offset-md-3">
-                        <form  action="<?= BASE_URL . "studenti/". $id . "/exportPDF" ?>" method="post">
-                            <input type="hidden" name="searchVpisna" />
-                            <input  class="btn btn-theme btn-block"  type="submit" value="Izpiši 1 potrdilo o vpisu"/>
-                        </form>
-                    </div>
-                </div>
+
             </div>
         </section>
     </section>

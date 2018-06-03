@@ -123,6 +123,9 @@ $urls = [
     }, "/^VnosIzpitov$/" => function ($method) {
         if ($method == "GET") ProfessorController::VnosIzpitovForm();
         else ViewHelper::error405();
+    },"/^tiskajVpisniList$/" => function ($method) {
+        if ($method == "GET") StudentController::gumbTiskaj();
+        else ViewHelper::error405();
     },
 
     // VNOS OCEN IZPITA

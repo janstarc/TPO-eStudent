@@ -19,15 +19,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <form action="<?= BASE_URL . "studenti/".$id."/exportPDFTiskaj"  ?>" method="post" class="form-horizontal">
 
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-md-6 offset-md-3">
-                                        <button id="btn" class="btn btn-theme btn-block" type="submit">Tiskanje</button>
-                                    </div>
-                                </div>
-                        </form>
                     </div>
                 </section>
             </section>
