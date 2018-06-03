@@ -123,9 +123,11 @@
                                         <td>
                                             <?php
                                                 foreach ($studData as $key => $value) {
-                                                    if(isset($value['je_stalni']) && $value['je_stalni'] == 1){
+                                                    if(isset($value['ulica']) && $value['je_stalni'] == 1 && $value['TRIMESTNAKODA'] == 'SVN'){
                                                         echo $value['ulica'].", ".$value['st_posta']." ".$value['kraj'].", ".$value['SLOVENSKINAZIV']." (".$value['TRIMESTNAKODA'].")</br>";
-                                                    } else {
+                                                    } else if (isset($value['ulica']) && $value['je_stalni'] == 1 && $value['TRIMESTNAKODA'] != 'SVN'){
+                                                        echo $value['ulica'].", ".$value['SLOVENSKINAZIV']." (".$value['TRIMESTNAKODA'].")</br>";
+                                                    }else if (!isset($value['ulica'])) {
                                                         echo "Ni podatka";
                                                     }
                                                 }
@@ -137,9 +139,11 @@
                                         <td>
                                             <?php
                                                 foreach ($studData as $key => $value) {
-                                                    if(isset($value['je_stalni']) && $value['je_stalni'] == 0){
+                                                    if(isset($value['ulica']) && $value['je_stalni'] == 0 && $value['TRIMESTNAKODA'] == 'SVN'){
                                                         echo $value['ulica'].", ".$value['st_posta']." ".$value['kraj'].", ".$value['SLOVENSKINAZIV']." (".$value['TRIMESTNAKODA'].")</br>";
-                                                    } else {
+                                                    } else if (isset($value['ulica']) && $value['je_stalni'] == 0 && $value['TRIMESTNAKODA'] != 'SVN'){
+                                                        echo $value['ulica'].", ".$value['SLOVENSKINAZIV']." (".$value['TRIMESTNAKODA'].")</br>";
+                                                    }else if (!isset($value['ulica'])) {
                                                         echo "Ni podatka";
                                                     }
                                                 }
