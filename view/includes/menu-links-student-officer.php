@@ -5,8 +5,19 @@
     <a href="<?= BASE_URL ?>" class="logo">
         <b>eStudent</b>
     </a>
+
     <a href="<?= BASE_URL . "logout" ?>" class="logo float-right">
-        <b>Logout</b>
+        <b>
+            Vloga:
+            <?php
+            if (User::isLoggedInAsAdmin()) echo "admin";
+            else if (User::isLoggedInAsProfessor()) echo "profesor";
+            else if (User::isLoggedInAsStudent()) echo "student";
+            else if (User::isLoggedInAsStudentOfficer()) echo "referent";
+            else if (User::isLoggedInAsCandidate()) echo "kandidat";
+            echo " | Logout (".User::getEmail().")";
+            ?>
+        </b>
     </a>
 </header>
 

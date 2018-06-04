@@ -43,20 +43,20 @@ class StudentController {
         $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
         
         $ObvPredmeti = PredmetModel::getAllByType([
-            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
-            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
             "ID_LETNIK" => 2,
             "TIP" => 'o'
         ]);
         $StrIzbPredmeti = PredmetModel::getAllByType([
-            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
-            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
             "ID_LETNIK" => 2,
             "TIP" => 'st'
         ]);
         $SplIzbPredmeti = PredmetModel::getAllByType([
-            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
-            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
             "ID_LETNIK" => 2,
             "TIP" => 'sp'
         ]);
@@ -91,15 +91,15 @@ class StudentController {
         $drzave = DrzavaModel::getAll();
         
         $ObvPredmeti = PredmetModel::getAllByType([
-            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
-            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
             "ID_LETNIK" => 3,
             "TIP" => 'o'
         ]);
         $IzbModulov = DelPredmetnikaModel::getAllModulov();
         $SplIzbPredmeti = PredmetModel::getAllByType([
-            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
-            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
             "ID_LETNIK" => 2,
             "TIP" => 'sp'
         ]);
@@ -134,20 +134,20 @@ class StudentController {
         $drzave = DrzavaModel::getAll();
         
         $ObvPredmeti = PredmetModel::getAllByType([
-            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
-            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
             "ID_LETNIK" => 3,
             "TIP" => 'o'
         ]);
         $ModIzbPredmeti = PredmetModel::getAllByType([
-            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
-            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
             "ID_LETNIK" => 3,
             "TIP" => 'm'
         ]);
         $SplIzbPredmeti = PredmetModel::getAllByType([
-            "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
-            "ID_PROGRAM" => 11, //$KandidatPodatki["id_program"],
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
             "ID_LETNIK" => 2,
             "TIP" => 'sp'
         ]);
@@ -281,21 +281,20 @@ class StudentController {
                             
                             $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
                             $ObvPredmeti = PredmetModel::getAllByType([
-                                "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+                                "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
                                 "ID_PROGRAM" => $KandidatPodatki["id_program"],
                                 "ID_LETNIK" => 2,
                                 "TIP" => 'o'
                             ]);
                             
-                            // TODO ID STUD LETO
-                            KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, 2); // $data["ID_STUD_LETO"]);
+                            KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
                             if (isset($_POST["StrIzbPredmeti"])) {
                                 $StrIzbPredmeti = array();
                                 foreach ($_POST["StrIzbPredmeti"] as $key => $value) {
                                     $StrIzbPredmeti[] = PredmetModel::get($value);
                                 }
                                 // echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
-                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $StrIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
+                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $StrIzbPredmeti, $data["ID_STUD_LETO"]);
                             }
                             if (isset($_POST["SplIzbPredmeti"])) {
                                 $SplIzbPredmeti = array();
@@ -303,7 +302,7 @@ class StudentController {
                                     $SplIzbPredmeti[] = PredmetModel::get($value);
                                 }
                                 // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
-                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
+                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, $data["ID_STUD_LETO"]);
                             }
 
                             ViewHelper::render("view/VpisniListPDFViewer.php", [
@@ -436,18 +435,17 @@ class StudentController {
                             
                             $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
                             $ObvPredmeti = PredmetModel::getAllByType([
-                                "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+                                "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
                                 "ID_PROGRAM" => $KandidatPodatki["id_program"],
                                 "ID_LETNIK" => 3,
                                 "TIP" => 'o'
                             ]);
                             
-                            // TODO ID STUD LETO
-                            KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, 2); // $data["ID_STUD_LETO"]);
+                            KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
                             if (isset($_POST["IzbModulov"])) {
                                 foreach ($_POST["IzbModulov"] as $key => $value) {
                                     $IzbModulov = DelPredmetnikaModel::getSubjects($value);
-                                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $IzbModulov, 2); // $data["ID_STUD_LETO"]);
+                                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $IzbModulov, $data["ID_STUD_LETO"]);
                                     //echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
                                 }
                             }
@@ -457,7 +455,7 @@ class StudentController {
                                     $SplIzbPredmeti[] = PredmetModel::get($value);
                                 }
                                 // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
-                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
+                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, $data["ID_STUD_LETO"]);
                             }
 
                             ViewHelper::render("view/VpisniListPDFViewer.php", [
@@ -592,21 +590,20 @@ class StudentController {
                             
                             $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
                             $ObvPredmeti = PredmetModel::getAllByType([
-                                "ID_STUD_LETO" => 2, //$KandidatPodatki["id_stud_leto"],
+                                "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
                                 "ID_PROGRAM" => $KandidatPodatki["id_program"],
                                 "ID_LETNIK" => 3,
                                 "TIP" => 'o'
                             ]);
                             
-                            // TODO ID STUD LETO
-                            KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, 2); // $data["ID_STUD_LETO"]);
+                            KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
                             if (isset($_POST["ModIzbPredmeti"])) {
                                 $ModIzbPredmeti = array();
                                 foreach ($_POST["ModIzbPredmeti"] as $key => $value) {
                                     $ModIzbPredmeti[] = PredmetModel::get($value);
                                 }
                                 // echo '<pre>' . var_export($ModIzbPredmeti, true) . '</pre>';
-                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ModIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
+                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ModIzbPredmeti, $data["ID_STUD_LETO"]);
                             }
                             if (isset($_POST["SplIzbPredmeti"])) {
                                 $SplIzbPredmeti = array();
@@ -614,7 +611,7 @@ class StudentController {
                                     $SplIzbPredmeti[] = PredmetModel::get($value);
                                 }
                                 // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
-                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, 2); // $data["ID_STUD_LETO"]);
+                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, $data["ID_STUD_LETO"]);
                             }
 
                             ViewHelper::render("view/VpisniListPDFViewer.php", [
@@ -1233,13 +1230,13 @@ class StudentController {
             $sifre[$i]=$predmete[$i]['SIFRA_PREDMET'];
             $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
             $idPredmet=$predmete[$i]['ID_PREDMET'];
-            $getIzvajalec=DataForExportModel::getIzvajalec($idPredmet[$i],$studLetoVpisna['STUD_LETO']);
+            $getIzvajalec=DataForExportModel::getIzvajalec($idPredmet,$studLetoVpisna['STUD_LETO']);
             $izvajalec[$i]=$getIzvajalec["IME"] . " " . $getIzvajalec["PRIIMEK"];
         }
 
         $pdf= new tFPDF();
         $pdf->AddPage();
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);

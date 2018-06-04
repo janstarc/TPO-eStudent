@@ -9,6 +9,7 @@ class PostaModel {
             SELECT *
             FROM POSTA
             WHERE AKTIVNOST = 1
+            ORDER BY KRAJ
         ");
         $statement->execute();
         return $statement->fetchAll();
