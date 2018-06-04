@@ -305,11 +305,10 @@ $urls = [
         if ($method == "POST") AdminController::addIzvajalec3($id,$id2);
         else ViewHelper::error405();
     },
-    /*
     "/^PodatkiIzvajalcevAdd$/" => function ($method) {
         if ($method == "GET") AdminController::getFormIzvajalec();
         else ViewHelper::error405();
-    },*/
+    },
 
     "/^PodatkiIzvajalcevAdd\/leto\/(\d+)$/" => function ($method,$id) {
         if ($method == "GET") AdminController::getFormPredmetIzvajalec($id);
