@@ -14,7 +14,44 @@ class StudentModel{
         ");
         $statement->bindParam(":idStudLeto", $idStudLeto, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetchAll();
+        $res =  $statement->fetchAll();
+        $all = array();
+        #var_dump($res[0]);
+        foreach ($res as $row):
+
+            $db = DBInit::getInstance();
+
+            $statement = $db->prepare("
+                    select SUM(p.ST_KREDITNIH_TOCK) as krediti from student s
+            JOIN predmeti_studenta studenta ON s.VPISNA_STEVILKA = studenta.VPISNA_STEVILKA
+            JOIN predmet p ON studenta.ID_PREDMET = p.ID_PREDMET
+            where studenta.OCENA > 5 and s.ID_OSEBA = :id    
+    ");
+            $statement->bindParam(":id", $row['ID_OSEBA']);
+            $statement->execute();
+            $row['KREDITI'] = $statement->fetchColumn();
+            if($row['KREDITI'] == "") $row['KREDITI'] = 0;
+
+            $db = DBInit::getInstance();
+            $statement = $db->prepare("
+                   select z.IZKORISCEN from student s
+                    join zeton z ON s.ID_OSEBA = z.ID_OSEBA
+                    WHERE s.ID_OSEBA = :id
+                    ORDER BY ID_STUD_LETO DESC LIMIT 1
+    ");
+            $statement->bindParam(":id", $row['ID_OSEBA']);
+            $statement->execute();
+            $row['IZKORISCEN'] = $statement->fetchColumn();
+
+        array_push($all, $row);
+
+
+
+
+        endforeach;
+
+
+        return $all;
     }
 
         // To check, ce sploh lahko vidi obrazec za vpis

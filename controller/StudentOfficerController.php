@@ -1348,7 +1348,7 @@ class StudentOfficerController {
         $leto = StudentOfficerDB::getLeto($data['idLeto']);
         $predmet = StudentOfficerDB::getPredmet($data['idPredmet']);
         $vpisani = count($main);
-        $header = array('Šifra predmeta','Ime predmeta', 'Študijsko leto', 'Število vpisanih študentov');
+        $header = array('Šifra predmeta','Ime predmeta', 'Študijsko leto', 'Število vpisanih');
         $lineData = array($predmet["ID_PREDMET"] , $predmet["IME_PREDMET"], $leto, $vpisani);
 
         $header2 = array('Vpisna številka','Priimek in ime', 'Vrsta vpisa');
@@ -1376,7 +1376,7 @@ class StudentOfficerController {
         $pdf->SetFont('DejaVu','',10);
         $pdf->Cell(40,10,'Izpis podatkov o predmetu');
         $pdf->Ln();
-        $pdf->BasicTableH2($header,$lineData);
+        $pdf->BasicTableH4($header,$lineData);
         $pdf->Cell(40,10,'Izpis podatkov o vpisanih');
         $pdf->Ln();
         $pdf->BasicTableH($header2,$all);
@@ -2253,14 +2253,17 @@ class StudentOfficerController {
     public static function exportCSV3(){
 
         $data = filter_input_array(INPUT_POST, [
-            "idLeto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "idPredmet"=> ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "id1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id3" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
 
-        $main = StudentOfficerDB::getVpisani($data['idPredmet'],$data['idLeto']);
-        $leto = StudentOfficerDB::getLeto($data['idLeto']);
-        $predmet = StudentOfficerDB::getPredmet($data['idPredmet']);
-        $vpisani = count($main);
+        $id1 = $data['id1'];
+        $id2 = $data['id2'];
+        $id3 = $data['id3'];
+        $data = StudijskoLetoModel::getbyLetnik($id1, $id2, $id3);
+        $leto = StudentOfficerDB::getLeto($id1);
+        $program = StudentOfficerDB::getProgram($id2);
 
         $delimiter = ",";
         $filename = "data.csv";
@@ -2269,8 +2272,8 @@ class StudentOfficerController {
         $text = array("UNIVERZA V LJUBLJANI, FAKULTETA ZA RAČUNALNIŠTVO IN INFORMATIKO");
         fputcsv($f, $text, $delimiter);
 
-        $fields = array('Šifra predmeta','Ime predmeta', 'Študijsko leto', 'Število vpisanih studentov');
-        $lineData = array($predmet["ID_PREDMET"] , $predmet["IME_PREDMET"], $leto, $vpisani);
+        $fields   =  array('Program', 'Študijsko leto', 'letnik');
+        $lineData =  array($program, $leto , $id3);
 
         $text = array("Izpis osebnih podatkov študenta");
         fputcsv($f, $text, $delimiter);
@@ -2281,14 +2284,14 @@ class StudentOfficerController {
 
         $fields = array();
         fputcsv($f, $fields, $delimiter);
-        $fields = array("Izpis podatkov o vpisih");
+        $fields = array("Izpis podatkov o vpisu:");
         fputcsv($f, $fields, $delimiter);
         $fields = array('Vpisna številka','Priimek in ime', 'Vrsta vpisa');
         fputcsv($f, $fields, $delimiter);
 
         $all = [];
         $lineData2=null;
-        foreach ($main as $key => $value){
+        foreach ($data as $key => $value){
 
             $lineData2 = array($value["VPISNA_STEVILKA"],$value["PRIIMEK"]." ". $value["IME"], $value["OPIS_VPISA"]);
             fputcsv($f, $lineData2, $delimiter);
@@ -2315,7 +2318,7 @@ class StudentOfficerController {
         $program = StudentOfficerDB::getProgram($id2);
 
 
-        $header = array('Program', 'Študijsko leto', 'letnik');
+        $header =  array('Program', 'Študijsko leto', 'letnik');
         $lineData = array($program, $leto , $id3);
 
         $header2 = array('Vpisna številka','Priimek in ime', 'Vrsta vpisa');
@@ -2341,10 +2344,10 @@ class StudentOfficerController {
         $pdf->Ln();
 
         $pdf->SetFont('DejaVu','',10);
-        $pdf->Cell(40,10,'Izpis podatkov o predmetu');
+        $pdf->Cell(40,10,'Izpis podatkov o vpisu:');
         $pdf->Ln();
         $pdf->BasicTableH3($header,$lineData);
-        $pdf->Cell(40,10,'Izpis podatkov o vpisanih');
+        $pdf->Cell(40,10,'Izpis podatkov o vpisanih:');
         $pdf->Ln();
         $pdf->BasicTableH($header2,$all);
 
