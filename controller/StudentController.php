@@ -709,7 +709,7 @@ class StudentController {
         $studData = KandidatModel::getKandidatPodatki($studentId);
         $emso=DataForExportModel::getEmso($studentId);
         //Osebni podatki
-        $header = array('Priimek, ime', 'Vpisna številka', 'Email', 'EMŠO','Državljanstvo');
+        $header = array('Priimek, ime', 'Vpisna številka', 'Email', 'EMŠO','Datum Rojstva');
         $priimekIme=$studData['priimek'].', '.$studData['ime'];
         $studLetoVpisna=DataForExportModel::getStudijskoLetoAndVpisna($studentId);
 
@@ -724,7 +724,7 @@ class StudentController {
             }
         }
 
-        $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'],$drzava);
+        $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'],"DODAJ DATUMA");
         //Podatki o vpisu
         $vpisData=DataForExportModel::getVpisPodatki($studentId);
         $header2=array('Štidijski program','Študijsko leto','Nacin študija','Obliika študija','Vrsta vpisa','Letnik');
@@ -772,7 +772,7 @@ class StudentController {
         $studData = KandidatModel::getKandidatPodatki($studentId);
         $emso=DataForExportModel::getEmso($studentId);
         //Osebni podatki
-        $header = array('Priimek, ime', 'Vpisna številka', 'Email', 'EMŠO','Državljanstvo');
+        $header = array('Priimek, ime', 'Vpisna številka', 'Email', 'EMŠO','Datum rojstva');
         $priimekIme=$studData['priimek'].', '.$studData['ime'];
         $studLetoVpisna=DataForExportModel::getStudijskoLetoAndVpisna($studentId);
 
@@ -787,7 +787,7 @@ class StudentController {
             }
         }
 
-        $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'],$drzava);
+        $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'],"DODAJ DATUMA");
         //Podatki o vpisu
         $vpisData=DataForExportModel::getVpisPodatki($studentId);
         $header2=array('Štidijski program','Študijsko leto','Nacin študija','Obliika študija','Vrsta vpisa','Letnik');
@@ -797,7 +797,7 @@ class StudentController {
         $pdf= new tFPDF();
         for($i=0;$i<6;$i++){
             $pdf->AddPage();
-            $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+            $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
             $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
             $pdf->SetFont('DejaVu','',15);
@@ -1208,8 +1208,8 @@ class StudentController {
         $studentId = KandidatModel::getKandidatIdWithUserId($id);
         $studData = KandidatModel::getKandidatPodatki($studentId);
         //Osebni podatki
-        $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon');
-        $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $studData["emso"], $studData['telefonska_stevilka']);
+        $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon','Datum rojstva');
+        $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $studData["emso"], $studData['telefonska_stevilka'],"DODAJ DATUM");
 
         //Naslov za vrocanje in stalni naslov
         $naslove=KandidatModel::getKandidatVseNaslove($id);

@@ -62,6 +62,8 @@ class AdminController {
         }
     }
 
+
+
     public static function PregledIzvajalcevIzbiraLeto($status = null, $message = null) {
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsAdmin()) {
@@ -556,7 +558,32 @@ class AdminController {
         }
     }
 
-    public static function getNewIzvajalec($id_leto,$id_predmet){
+    public static function getIzbiraDelPremdetnika($id_leto,$id_predmet,$status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsAdmin()) {
+
+
+                $allData=StudentOfficerDB::getDelPredmetnikai();
+
+                //var_dump($allData);
+                
+                ViewHelper::render("view/PodatkiIzvajalcevDelPredmetnikaAdd.php", [
+                    "pageTitle" => "Seznam vseh delov predmetnika",
+                    "allData" => $allData,
+                    "id_leto" => $id_leto,
+                    "id_predmet" => $id_predmet,
+                    "status" => $status,
+                    "message" => $message,
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function getNewIzvajalec($id_leto,$id_predmet,$id){
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsAdmin()) {
                 ViewHelper::render("view/PodatkiIzvajalcevAdd.php", [
@@ -1069,7 +1096,7 @@ class AdminController {
 
         $pdf= new tFPDF();
         $pdf->AddPage('');
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);

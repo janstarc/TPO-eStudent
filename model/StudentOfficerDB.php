@@ -909,4 +909,16 @@ where s.ID_OSEBA = :id
         return $statement->fetchAll();
     }
 
+    public static function getDelPredmetnikai(){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+            SELECT NAZIV_DELAPREDMETNIKA,TIP,ID_DELPREDMETNIKA
+            FROM del_predmetnika
+          
+        ");
+
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
 }

@@ -17,6 +17,7 @@
             <?php if($jeIzkoriscen==0): ?>
             <form action="<?= BASE_URL . "studenti/".$id."/exportPDFTiskaj"  ?>" method="post" class="form-horizontal">
                 <div class="row">
+                    <h4>Ne morete natisniti vpisni list dokler ni oddan!</h4>
                     <div class="col-xs-12 col-md-6 offset-md-3">
                         <button id="btn" class="btn btn-theme btn-block" type="submit" style="display: none">Tiskanje</button>
                     </div>

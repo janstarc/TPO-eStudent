@@ -14,7 +14,7 @@
                 <div class="col-xs-12 col-md-6 offset-md-3">
                     <br><br>
                     <h2><?= $pageTitle ?></h2>
-                    <p>Izberi predmet</p>
+                    <p>Izberi del predmetnika</p>
                     <?php if(isset($status)): ?>
                         <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -26,7 +26,7 @@
                         <select class="form-control" name="ID_STUD_LETO" onchange="location = this.value;">
                             <option selected disabled hidden></option>
                             <?php foreach ($allData as $data): ?>
-                                <option value="<?= $id_leto . "/". $data["ID_PREDMET"]  ?>"><?= $data["IME_PREDMET"] ."(".$data["SIFRA_PREDMET"].")" ?></option>
+                                <option value="<?= $id_predmet."/".$data["ID_DELPREDMETNIKA"] ?>"><?= $data["NAZIV_DELAPREDMETNIKA"] ."(".$data["TIP"].")" ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
