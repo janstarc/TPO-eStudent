@@ -45,7 +45,7 @@
                 </a>
             </li><li class="mt">
                 <a href="<?= BASE_URL . "steviloVpisanihLetniki" ?>">
-                    <span>Število vpisanih po letnikih</span>
+                    <span>Seznam vpisanih v letnike</span>
                 </a>
             </li>
             <li class="mt">

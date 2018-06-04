@@ -74,7 +74,7 @@ class StudentController {
             "obcine" => $obcine,
             "poste" => $poste,
             "drzave" => $drzave,
-            "naslov" => KandidatModel::getKandidatVseNaslove(User::getId()),
+            "naslov" => KandidatModel::getStudentVseNaslove(User::getId()),
             "predmeti" => $ObvPredmeti,
             "StrIzbPredmeti" => $StrIzbPredmeti,
             "SplIzbPredmeti" => $SplIzbPredmeti,
@@ -117,7 +117,7 @@ class StudentController {
             "obcine" => $obcine,
             "poste" => $poste,
             "drzave" => $drzave,
-            "naslov" => KandidatModel::getKandidatVseNaslove(User::getId()),
+            "naslov" => KandidatModel::getStudentVseNaslove(User::getId()),
             "predmeti" => $ObvPredmeti,
             "IzbModulov" => $IzbModulov,
             "SplIzbPredmeti" => $SplIzbPredmeti,
@@ -165,7 +165,7 @@ class StudentController {
             "obcine" => $obcine,
             "poste" => $poste,
             "drzave" => $drzave,
-            "naslov" => KandidatModel::getKandidatVseNaslove(User::getId()),
+            "naslov" => KandidatModel::getStudentVseNaslove(User::getId()),
             "predmeti" => $ObvPredmeti,
             "ModIzbPredmeti" => $ModIzbPredmeti,
             "SplIzbPredmeti" => $SplIzbPredmeti,
@@ -488,6 +488,9 @@ class StudentController {
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            // TODO Hardcoded - DELETE
+            "ID_STUD_LETO" => 3,
+            // TODO HARDCODED
             "id_drzava" => [
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => [
@@ -508,6 +511,7 @@ class StudentController {
                 ]
             ]
         ]);
+
         
         if($data["id_drzava"] == 705) {
             $data = $data + filter_input_array(INPUT_POST, [
@@ -691,7 +695,7 @@ class StudentController {
 
         $pdf= new tFPDF();
         $pdf->AddPage();
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);
@@ -1080,7 +1084,7 @@ class StudentController {
 
     public static function findDatumPrejnegaRoka($roki,$id_rok, $id_predmet){
         foreach ($roki as $i=>$rok){
-            if($rok["ID_PREDMET"]==$id_predmet && $rok["ID_ROK"]!=$id_rok && $rok["OCENA_IZPITA"]==5){
+            if($rok["ID_PREDMET"]==$id_predmet && $rok["ID_ROK"]!=$id_rok && $rok["OCENA_IZPITA"]<=5){
                 return $rok["DATUM_ROKA"];
             }
         }
@@ -1244,7 +1248,7 @@ class StudentController {
 
         $pdf= new tFPDF();
         $pdf->AddPage();
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);

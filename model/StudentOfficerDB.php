@@ -231,7 +231,7 @@ order by STUD_LETO DESC LIMIT 1
             $ocena = explode(".", $vn)[0];
             $vrsta = 1;
 
-            echo("<script>console.log('datasdsaa: : ', ".$ocena . ");</script>");
+           // echo("<script>console.log('datasdsaa: : ', ".$ocena . ");</script>");
             if ($ocena >8.5) $izbirnost = 1;
             else $izbirnost = 0;
             $statement = $db->prepare("

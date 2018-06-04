@@ -487,7 +487,7 @@ class StudentOfficerController {
 
                         KandidatModel::potrdiVpisReferent($idKandidat);
                         $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithKandidatId($idKandidat);
-                        var_dump($VPISNA_STEVILKA);
+                        //var_dump($VPISNA_STEVILKA);
                         KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $predmeti, $data["ID_STUD_LETO"]);
 
                         ViewHelper::render("view/DisplayMessageViewer.php", [
@@ -842,7 +842,7 @@ class StudentOfficerController {
                 ]);
 
                 StudentOfficerDB::dodajNov($data["IdOseba"]);
-                echo("<script>console.log('data: : );</script>");
+                //echo("<script>console.log('data: : );</script>");
                 ViewHelper::redirect(BASE_URL . "zetoni/".$data["Leto"]);
 
             } else {

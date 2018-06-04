@@ -6,7 +6,11 @@
     </head>
     <body>
         <section id="container">
-            <?php include("view/includes/menu-links-professor.php"); ?>
+            <?php
+                if(User::isLoggedInAsProfessor())include("view/includes/menu-links-professor.php");
+                if(User::isLoggedInAsStudentOfficer())include("view/includes/menu-links-student-officer.php");
+
+            ?>
                 <section id="main-content">
                     <section class="wrapper">
                         <div class="row">

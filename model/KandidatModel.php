@@ -175,6 +175,23 @@ class KandidatModel {
         $result = $statement->fetchAll();
         return $result;
     }
+
+    public static function getStudentVseNaslove($id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db -> prepare("
+            SELECT n.ID_NASLOV, n.ID_DRZAVA, n.ID_POSTA, n.ID_OBCINA, n.ULICA, n.JE_ZAVROCANJE, n.JE_STALNI
+            FROM naslov AS n
+            JOIN oseba AS o ON n.ID_OSEBA = o.ID_OSEBA
+            JOIN student AS s ON s.ID_OSEBA = o.ID_OSEBA
+            WHERE o.ID_OSEBA = :id_oseba
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        return $result;
+    }
     
     public static function getOsebaVseNaslove($id_oseba){
         $db = DBInit::getInstance();
@@ -606,6 +623,7 @@ class KandidatModel {
     public static function insertPredmetiKandidat($VPISNA_STEVILKA, $predmeti, $id_stud_leto){
         $db = DBInit::getInstance();
 
+        var_dump($VPISNA_STEVILKA." ".$predmeti." ".$id_stud_leto);
         foreach ($predmeti as $key => $value){
             $statement = $db -> prepare("
                 INSERT INTO predmeti_studenta (VPISNA_STEVILKA, ID_PREDMET, ID_STUD_LETO)
