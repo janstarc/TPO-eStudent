@@ -635,4 +635,19 @@ class KandidatModel {
             $statement->execute();
         }
     }
+
+    public static function jeIzkoriscen($id){
+        $db = DBInit::getInstance();
+        $statement = $db -> prepare("
+            SELECT k.IZKORISCEN
+            FROM kandidat AS k
+            JOIN oseba o ON k.ID_OSEBA = o.ID_OSEBA
+            WHERE k.ID_OSEBA =:id
+        ");
+
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result['IZKORISCEN'];
+    }
 }

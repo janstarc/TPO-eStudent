@@ -718,7 +718,8 @@ class StudentController {
         $pdf->BasicTablePotrdilo($header2,$lineData2);
         $pdf->Ln();
         $pdf->Ln();
-
+        $pdf->SetY(265);
+        $pdf->Cell(0, 10, 'Page '.$pdf->PageNo().'/'.$pdf->PageNo(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
 
         $pdf->Output();
 
@@ -780,6 +781,10 @@ class StudentController {
             $pdf->BasicTablePotrdilo($header2,$lineData2);
             $pdf->Ln();
             $pdf->Ln();
+            $pdf->SetX(180);
+            $pdf->SetY(265);
+            $pdf->AliasNbPages('{totalPages}');
+            $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
 
         }
 
@@ -1287,6 +1292,12 @@ class StudentController {
         $pdf->BasicTable($header1,$naslovPrejemanje);
         $pdf->Ln();
 
+        $pdf->SetX(180);
+        $pdf->SetY(265);
+        $pdf->AliasNbPages('{totalPages}');
+        $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
+
+
         $pdf->AddPage();
 
         $pdf->SetFont('DejaVu','',15);
@@ -1294,6 +1305,11 @@ class StudentController {
         $pdf->Ln();
         $pdf->SetFont('DejaVu','',8);
         $pdf->BasicTable2($header3,$imena,$lineData3,$sifre,$izvajalec);
+
+        $pdf->SetX(180);
+        $pdf->SetY(265);
+        $pdf->AliasNbPages('{totalPages}');
+        $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
 
         $pdf->Output();
 
@@ -1492,8 +1508,12 @@ class StudentController {
 
     public static function gumbTiskaj(){
         $id=User::getId();
+        $jeIzkoriscen=KandidatModel::jeIzkoriscen($id);
+       // var_dump($id);
+      //  var_dump($jeIzkoriscen);
         ViewHelper::render("view/TiskajGumb.php", [
-            "id" => $id
+            "id" => $id,
+            "jeIzkoriscen" => $jeIzkoriscen
         ]);
     }
 

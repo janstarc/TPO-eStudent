@@ -1380,6 +1380,12 @@ class StudentOfficerController {
         $pdf->Cell(40,10,'Izpis podatkov o vpisanih');
         $pdf->Ln();
         $pdf->BasicTableH($header2,$all);
+
+        $pdf->SetX(180);
+        $pdf->SetY(265);
+        $pdf->AliasNbPages('{totalPages}');
+        $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
+
         $pdf->Output();
 
         $filename="data.pdf";
@@ -1477,6 +1483,12 @@ class StudentOfficerController {
 
         $pdf->Ln();
         $pdf->BasicTableHSt2($header2,$all);
+
+        $pdf->SetX(180);
+        $pdf->SetY(265);
+        $pdf->AliasNbPages('{totalPages}');
+        $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
+
         $pdf->Output();
 
         $filename="data.pdf";
@@ -2335,6 +2347,11 @@ class StudentOfficerController {
         $pdf->Cell(40,10,'Izpis podatkov o vpisanih');
         $pdf->Ln();
         $pdf->BasicTableH($header2,$all);
+
+        $pdf->SetX(180);
+        $pdf->SetY(265);
+        $pdf->AliasNbPages('{totalPages}');
+        $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
         $pdf->Output();
 
         $filename="data.pdf";

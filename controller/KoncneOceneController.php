@@ -184,6 +184,11 @@ class KoncneOceneController
             $pdf->Ln();
         }
 
+        $pdf->SetX(180);
+        $pdf->SetY(265);
+        $pdf->AliasNbPages('{totalPages}');
+        $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
+
         $pdf->Output();
 
 
@@ -367,6 +372,12 @@ class KoncneOceneController
             }
             $pdf->Ln();
         }
+
+
+        $pdf->SetX(180);
+        $pdf->SetY(265);
+        $pdf->AliasNbPages('{totalPages}');
+        $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
 
         $pdf->Output();
 
