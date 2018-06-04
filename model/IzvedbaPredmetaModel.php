@@ -115,7 +115,7 @@ class IzvedbaPredmetaModel {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-                SELECT o.IME, o.PRIIMEK,o.ID_OSEBA
+                SELECT o.IME, o.PRIIMEK,o.ID_OSEBA, o.SIFRA_IZVAJALCA
                 FROM oseba as o
                 WHERE o.VRSTA_VLOGE='p'
               

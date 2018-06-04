@@ -109,10 +109,12 @@
                         </div>
                         <form  action="<?= BASE_URL . "IzpisKoncnihOcenP/leto/". $rok_data["ID_STUD_LETO"] . "/seznamStudentov/exportCSV" ?>" method="post">
                             <input type="hidden" name="id_predmet" value="<?= $id_predmet ?>"/>
+                            <input type="hidden" name="id_rok" value="<?= $id_rok ?>"/>
                             <input id="csv" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v CSV"/>
                         </form>
                         <form  action="<?= BASE_URL . "IzpisKoncnihOcenP/leto/". $rok_data["ID_STUD_LETO"] . "/seznamStudentov/exportPDF" ?>" method="post">
                             <input type="hidden" name="id_predmet" value="<?= $id_predmet ?>"/>
+                            <input type="hidden" name="id_rok" value="<?= $id_rok ?>"/>g
                             <input id="pdf" class="btn btn-primary btn-sm"  type="submit" value="Izvozi v PDF"/>
                         </form>
                         <table id="tabelaOcen" class="table table-bordered table-striped table-condensed">

@@ -60,7 +60,7 @@
                                 <select class="form-control" name="imePriimek">
                                     <option selected disabled hidden></option>
                                     <?php foreach ($profesori as $i=>$data): ?>
-                                        <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?></option>
+                                        <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .'('.$data["SIFRA_IZVAJALCA"].')'?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
