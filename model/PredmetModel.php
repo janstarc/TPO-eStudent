@@ -6,7 +6,7 @@ class PredmetModel {
     public static function getAll($data) {
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT PREDMET.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK
+            SELECT PREDMET.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK, SIFRA_PREDMET
             FROM PREDMET
             JOIN PREDMETNIK ON PREDMET.ID_PREDMET = PREDMETNIK.ID_PREDMET
             WHERE ID_LETNIK = :ID_LETNIK AND ID_STUD_LETO = :ID_STUD_LETO AND ID_PROGRAM = :ID_PROGRAM AND PREDMET.AKTIVNOST = 1

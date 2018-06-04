@@ -7,13 +7,15 @@
 </head>
 <body>
 <section id="container">
-    <?php include("view/includes/menu-links-student.php"); ?>
+    <?php if(User::isLoggedInAsStudent())
+        include("view/includes/menu-links-student.php");
+        else  include("view/includes/menu-links-kandidat.php");
+    ?>
     <section id="main-content">
         <section class="wrapper">
 
+            
             <form action="<?= BASE_URL . "studenti/".$id."/exportPDFTiskaj"  ?>" method="post" class="form-horizontal">
-
-
                 <div class="row">
                     <div class="col-xs-12 col-md-6 offset-md-3">
                         <button id="btn" class="btn btn-theme btn-block" type="submit">Tiskanje</button>

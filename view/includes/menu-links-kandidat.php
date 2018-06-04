@@ -29,6 +29,11 @@
                     <span>Vpisni List</span>
                 </a>
             </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "tiskajVpisniList" ?>">
+                    <span>Natisni vpisni list</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

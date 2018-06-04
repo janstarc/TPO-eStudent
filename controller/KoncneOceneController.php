@@ -112,7 +112,7 @@ class KoncneOceneController
 
         $pdf= new tFPDF();
         $pdf->AddPage('L');
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->SetFont('DejaVu','',15);
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
@@ -296,7 +296,7 @@ class KoncneOceneController
 
         $pdf= new tFPDF();
         $pdf->AddPage('L');
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->SetFont('DejaVu','',15);
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');

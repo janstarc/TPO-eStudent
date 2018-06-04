@@ -1210,7 +1210,8 @@ class StudentController {
         $studLetoVpisna=DataForExportModel::getStudijskoLetoAndVpisna($studentId);
         $username=$studData['uporabnisko_ime'];
         $header2=array('Štidijski program','Študijsko leto','Vpisna Številka','Uporabniško ime','Način študija','Vrsta študija','Letnik','Oblika Študija');
-        $lineData2=array($vpisData['NAZIV_PROGRAM'],$studLetoVpisna['STUD_LETO'],$studLetoVpisna['VPISNA_STEVILKA'],$username,$vpisData["OPIS_NACIN"],$vpisData["OPIS_VPISA"],$vpisData["LETNIK"],$vpisData["NAZIV_OBLIKA"]);
+        //$lineData2=array($vpisData['NAZIV_PROGRAM'],$studLetoVpisna['STUD_LETO'],$studLetoVpisna['VPISNA_STEVILKA'],$username,$vpisData["OPIS_NACIN"],$vpisData["OPIS_VPISA"],$vpisData["LETNIK"],$vpisData["NAZIV_OBLIKA"]);
+        $lineData2=array($studData['naziv_program'],$studData['stud_leto'],$studData['vpisna_stevilka'],$username,$studData["OPIS_NACIN"],$studData["OPIS_VPISA"],$studData["LETNIK"],$studData["NAZIV_OBLIKA"]);
 
 
         //Predmetnik
@@ -1222,8 +1223,15 @@ class StudentController {
 
         $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
         // TODO getAllByStudent() return all subjects, filter by letnik is needed
-        $predmete = PredmetModel::getAllByStudent($VPISNA_STEVILKA);
-//        $predmete=DataForExportModel::getPredmete($studLetoVpisna['STUD_LETO'],$vpisData['ID_PROGRAM'],$studLetoVpisna['ID_LETNIK']);
+/*        $predmete = PredmetModel::getAllByStudent($VPISNA_STEVILKA);
+        $predmete=DataForExportModel::getPredmete($studLetoVpisna['STUD_LETO'],$vpisData['ID_PROGRAM'],$studLetoVpisna['ID_LETNIK']);
+*/
+
+        $predmete = PredmetModel::getAll([
+            "ID_STUD_LETO" => $studData["id_stud_leto"],
+            "ID_PROGRAM" => $studData["id_program"],
+            "ID_LETNIK" => 1
+        ]);
 
         for($i=0; $i<count($predmete);$i++){
             $imena[$i]=$predmete[$i]['IME_PREDMET'];
@@ -1236,7 +1244,7 @@ class StudentController {
 
         $pdf= new tFPDF();
         $pdf->AddPage();
-        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);
