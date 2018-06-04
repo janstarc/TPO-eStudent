@@ -89,7 +89,7 @@ class PredmetModel {
     public static function getAllByType($data) {
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT PREDMET.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK
+            SELECT DEL_PREDMETNIKA.ID_DELPREDMETNIKA, PREDMET.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK, SIFRA_PREDMET
             FROM PREDMET
             JOIN PREDMETNIK ON PREDMET.ID_PREDMET = PREDMETNIK.ID_PREDMET
             JOIN DEL_PREDMETNIKA ON DEL_PREDMETNIKA.ID_DELPREDMETNIKA = PREDMETNIK.ID_DELPREDMETNIKA
@@ -106,7 +106,7 @@ class PredmetModel {
     public static function get($id) {
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK
+            SELECT ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK, SIFRA_PREDMET
             FROM PREDMET
             WHERE ID_PREDMET = :ID_PREDMET
         ");

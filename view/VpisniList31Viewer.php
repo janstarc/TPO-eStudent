@@ -272,6 +272,13 @@
                                         <select class="form-control selectpicker" multiple id="IzbModulov" name="IzbModulov[]">
                                             <?php foreach ($IzbModulov as $IzbModul): ?>
                                                 <option value="<?= $IzbModul["ID_DELPREDMETNIKA"] ?>"><?= $IzbModul["NAZIV_DELAPREDMETNIKA"]." (".$IzbModul["SKUPNOSTEVILOKT"].")" ?></option>
+                                                
+                                                <?php foreach ($ModulPredmeti as $ModulPredmet):
+                                                    if ($IzbModul["ID_DELPREDMETNIKA"] == $ModulPredmet["ID_DELPREDMETNIKA"]): ?>    
+                                                        <option disabled><?= "- ".$ModulPredmet["SIFRA_PREDMET"].": ".$ModulPredmet["IME_PREDMET"]." (".$ModulPredmet["ST_KREDITNIH_TOCK"].")" ?></option>
+                                                    <?php endif;
+                                                endforeach; ?>
+                                                
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -280,7 +287,7 @@
                                         <label for="SplIzbPredmeti"><b><big>Splošni izbirni predmeti</big></b> (izberite skupno 6KT)</label>
                                         <select class="form-control selectpicker" multiple id="SplIzbPredmeti" name="SplIzbPredmeti[]">
                                             <?php foreach ($SplIzbPredmeti as $SplIzbPredmet): ?>
-                                                <option value="<?= $SplIzbPredmet["ID_PREDMET"] ?>"><?= $SplIzbPredmet["IME_PREDMET"]." (".$SplIzbPredmet["ST_KREDITNIH_TOCK"].")" ?></option>
+                                                <option value="<?= $SplIzbPredmet["ID_PREDMET"] ?>"><?= $SplIzbPredmet["SIFRA_PREDMET"].": ".$SplIzbPredmet["IME_PREDMET"]." (".$SplIzbPredmet["ST_KREDITNIH_TOCK"].")" ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>

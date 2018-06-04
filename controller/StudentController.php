@@ -97,6 +97,13 @@ class StudentController {
             "TIP" => 'o'
         ]);
         $IzbModulov = DelPredmetnikaModel::getAllModulov();
+        
+        $ModulPredmeti = DelPredmetnikaModel::getAllSubjectsByType([
+            "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+            "ID_PROGRAM" => $KandidatPodatki["id_program"],
+            "ID_LETNIK" => 3,
+            "TIP" => 'm'
+        ]);
         $SplIzbPredmeti = PredmetModel::getAllByType([
             "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
             "ID_PROGRAM" => $KandidatPodatki["id_program"],
@@ -105,6 +112,7 @@ class StudentController {
         ]);
         // echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
         // echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
+        // echo '<pre>' . var_export($ModulPredmeti, true) . '</pre>';
         // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
         
         ViewHelper::render("view/VpisniList31Viewer.php", [
@@ -120,6 +128,7 @@ class StudentController {
             "naslov" => KandidatModel::getStudentVseNaslove(User::getId()),
             "predmeti" => $ObvPredmeti,
             "IzbModulov" => $IzbModulov,
+            "ModulPredmeti" => $ModulPredmeti,
             "SplIzbPredmeti" => $SplIzbPredmeti,
             "status" => $status,
             "message" => $message
@@ -287,6 +296,8 @@ class StudentController {
                                 "TIP" => 'o'
                             ]);
                             
+                            // TODO
+                            //$data["ID_STUD_LETO"]=$KandidatPodatki["id_stud_leto"];
                             KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
                             if (isset($_POST["StrIzbPredmeti"])) {
                                 $StrIzbPredmeti = array();

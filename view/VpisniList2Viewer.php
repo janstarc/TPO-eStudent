@@ -271,7 +271,7 @@
                                         <label for="StrIzbPredmeti"><b><big>Strokovni izbirni predmeti</big></b> (izberite skupno 6KT)</label>
                                         <select class="form-control selectpicker" multiple id="StrIzbPredmeti" name="StrIzbPredmeti[]">
                                             <?php foreach ($StrIzbPredmeti as $StrIzbPredmet): ?>
-                                                <option value="<?= $StrIzbPredmet["ID_PREDMET"] ?>"><?= $StrIzbPredmet["IME_PREDMET"]." (".$StrIzbPredmet["ST_KREDITNIH_TOCK"].")" ?></option>
+                                                <option value="<?= $StrIzbPredmet["ID_PREDMET"] ?>"><?= $StrIzbPredmet["SIFRA_PREDMET"].": ".$StrIzbPredmet["IME_PREDMET"]." (".$StrIzbPredmet["ST_KREDITNIH_TOCK"].") ".$StrIzbPredmet["SIFRA_PREDMET"] ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -280,7 +280,7 @@
                                         <label for="SplIzbPredmeti"><b><big>Splošni izbirni predmeti</big></b> (izberite skupno 6KT)</label>
                                         <select class="form-control selectpicker" multiple id="SplIzbPredmeti" name="SplIzbPredmeti[]">
                                             <?php foreach ($SplIzbPredmeti as $SplIzbPredmet): ?>
-                                                <option value="<?= $SplIzbPredmet["ID_PREDMET"] ?>"><?= $SplIzbPredmet["IME_PREDMET"]." (".$SplIzbPredmet["ST_KREDITNIH_TOCK"].")" ?></option>
+                                                <option value="<?= $SplIzbPredmet["ID_PREDMET"] ?>"><?= $SplIzbPredmet["SIFRA_PREDMET"].": ".$SplIzbPredmet["IME_PREDMET"]." (".$SplIzbPredmet["ST_KREDITNIH_TOCK"].")" ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>

@@ -623,7 +623,7 @@ class KandidatModel {
     public static function insertPredmetiKandidat($VPISNA_STEVILKA, $predmeti, $id_stud_leto){
         $db = DBInit::getInstance();
 
-        var_dump($VPISNA_STEVILKA." ".$predmeti." ".$id_stud_leto);
+        //var_dump($VPISNA_STEVILKA." ".$predmeti." ".$id_stud_leto);
         foreach ($predmeti as $key => $value){
             $statement = $db -> prepare("
                 INSERT INTO predmeti_studenta (VPISNA_STEVILKA, ID_PREDMET, ID_STUD_LETO)

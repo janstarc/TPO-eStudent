@@ -169,6 +169,7 @@
                                     <table id="table-subject" class="table table-striped table-advance table-hover">
                                         <thead>
                                         <tr>
+                                            <th>Sifra predmeta</th>
                                             <th>Ime predmeta</th>
                                             <th>St. KKT</th>
                                         </tr>
@@ -178,11 +179,13 @@
                                         foreach($predmeti as $predmet):
                                             $vsota+=$predmet['ST_KREDITNIH_TOCK']; ?>
                                             <tr>
+                                                <td><?php echo $predmet['SIFRA_PREDMET']; ?></td>
                                                 <td><?php echo $predmet['IME_PREDMET']; ?></td>
                                                 <td><?php echo $predmet['ST_KREDITNIH_TOCK']; ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                         <tr>
+                                            <td></td>
                                             <td>Skupno st. KKT</td>
                                             <td><?php echo $vsota; ?></td>
                                         </tr>
