@@ -335,7 +335,7 @@ class SifrantDB
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
             "INSERT INTO predmet
-        (ID_PREDMET,IME_PREDMET,AKTIVNOST)
+        (SIFRA_PREDMET,IME_PREDMET,AKTIVNOST)
         VALUES(:id,:ime,1);"
         );
         $statement->bindValue(":ime", $ime);
@@ -916,7 +916,7 @@ class SifrantDB
         $db = DBInit::getInstance();
 
         $statement = $db->prepare(
-            "SELECT p.ID_PREDMET, p.IME_PREDMET
+            "SELECT p.ID_PREDMET, p.IME_PREDMET, p.SIFRA_PREDMET
             FROM PREDMET as p
             WHERE p.ID_PREDMET = :id "
         );

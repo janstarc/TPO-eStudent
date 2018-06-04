@@ -260,12 +260,31 @@ class StudentOfficerController {
         }
     }
 
-    public static function vpisaniStudentiList($status = null, $message = null) {
+    public static function seznamVpisanihChooseLeto($status = null, $message = null){
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsStudentOfficer()) {
-                ViewHelper::render("view/Studenti.php", [
-                    "pageTitle" => "Seznam vpisanih študentov (2017/18)",
-                    "allData" => KandidatModel::getAllVpisaniStudenti(),
+                ViewHelper::render("view/SeznamVpisanihChooseLeto.php", [
+                    "pageTitle" => "Izberi študijsko leto",
+                    "allData" => StudijskoLetoModel::getAll(),
+                    "formAction" => "kandidati",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+
+    public static function vpisaniStudentiList($id, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                ViewHelper::render("view/SeznamVpisanih.php", [
+                    "pageTitle" => "Seznam vpisanih študentov",
+                    "allData" => KandidatModel::getAllVpisaniStudenti($id),
                     "formAction" => "kandidati",
                     "status" => $status,
                     "message" => $message

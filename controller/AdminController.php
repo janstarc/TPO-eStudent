@@ -739,6 +739,13 @@ class AdminController {
         }
     }
 
+    public static function isUniqueVpisnaInMainArray($mainArray, $vpisna){
+        foreach ($mainArray as $key => $value){
+            if(isset($value['vpisna']) && $value['vpisna'] == $vpisna) return false;
+        }
+        return true;
+    }
+
     // Generates vpisna, username, pass, returns enriched associative array
     public static function generateVpisnaUnPass($mainArray){
 
@@ -746,7 +753,12 @@ class AdminController {
 
         foreach ($mainArray as $key => $value){
 
-            $vpisna = rand(63180000, 63189999);
+            $vpisna = "";
+            while(true){
+                $vpisna = rand(63180000, 63189999);
+                if(AdminDB::isUniqueVpisna($vpisna) && self::isUniqueVpisnaInMainArray($mainArray, $vpisna)) break;
+            }
+
             $pass = self::generatePass(6);
 
             if($value['duplikat'] == "NE"){
@@ -787,7 +799,7 @@ class AdminController {
 
         $data = $_SESSION['mainArray'];
         UserModel::insertNewCandidate($data);
-        $result = UserModel::getAllCandidates();
+        $result = UserModel::getAllNeizkorisceniKandidati();
         //var_dump($result);
         ViewHelper::render("view/UvozPodatkovSuccess.php", [
             "result" => $result,

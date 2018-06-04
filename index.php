@@ -88,7 +88,10 @@ $urls = [
     }, 
     
     "/^vpisaniStudenti$/" => function ($method) {
-        if ($method == "GET") StudentOfficerController::vpisaniStudentiList();
+        if ($method == "GET") StudentOfficerController::seznamVpisanihChooseLeto();
+        else ViewHelper::error405();
+    },"/^vpisaniStudenti\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::vpisaniStudentiList($id);
         else ViewHelper::error405();
     },"/^studenti\/(\d+)$/" => function ($method, $id) {
         if ($method == "GET") StudentOfficerController::studentVpisPreglejForm($id);

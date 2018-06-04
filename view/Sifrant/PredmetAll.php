@@ -86,7 +86,7 @@
                                 <tr>
                                     <td></td>
                                     <td><?php echo $value['IME_PREDMET']; ?></td>
-                                    <td><?php echo $value['ID_PREDMET']; ?></td>
+                                    <td><?php echo $value['SIFRA_PREDMET']; ?></td>
                                     <td>
                                         <form action="<?= BASE_URL . "PredmetAll/editForm" ?>" method="post">
                                             <input type="hidden" name="urediId" value="<?= $value['ID_PREDMET'] ?>" />

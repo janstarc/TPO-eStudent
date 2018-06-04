@@ -221,5 +221,21 @@ class AdminDB {
 
     }
 
+    public static function isUniqueVpisna($vpisna){
+
+        $db = DBInit::getInstance();
+        $statement = $db ->prepare("
+            SELECT s.VPISNA_STEVILKA AS V1, k.VPISNA_STEVILKA AS V2
+            FROM student AS s, kandidat AS k
+            WHERE s.VPISNA_STEVILKA = :vpisna
+            OR k.VPISNA_STEVILKA = :vpisna"
+        );
+        $statement->bindValue(":vpisna", $vpisna);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        if(empty($result)) return true;
+        return false;
+    }
 
 }

@@ -596,7 +596,7 @@ class ProfesorDB
         ");
         $statement->bindValue(":id_prijava", $id_prijava);
         $statement->execute();
-        $result = $statement->fetch();
+        $result = $statement->fetchAll();
 
         $statement = $db->prepare("
             UPDATE predmeti_studenta
@@ -605,7 +605,8 @@ class ProfesorDB
         ");
 
         $statement->bindValue(":ocena", $ocena);
-        $statement->bindValue(":id_predmetistudenta", $result["ID_PREDMETISTUDENTA"]);
+        //$statement->bindValue(":id_predmetistudenta", 1372);
+        $statement->bindValue(":id_predmetistudenta", $result[0]["ID_PREDMETISTUDENTA"]);
         $statement->execute();
     }
 

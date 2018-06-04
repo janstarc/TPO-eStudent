@@ -219,6 +219,24 @@ class UserModel {
         return $result;
     }
 
+    public static function getAllNeizkorisceniKandidati(){
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare(
+            "SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.geslo, k.vpisna_stevilka, k.izkoriscen, p.naziv_program, p.id_program, p.sifra_evs, k.izkoriscen
+                        FROM kandidat k, program p, oseba o 
+                        WHERE k.id_program = p.id_program
+                        AND o.id_oseba = k.id_oseba
+                        AND k.IZKORISCEN = 0"
+        );
+
+        $statement->execute();
+        $result = $statement->fetchAll();
+
+        return $result;
+    }
+
     // ime, priimek, email, program --> 0/1 is update?
     public static function isUpdate($value){
 
