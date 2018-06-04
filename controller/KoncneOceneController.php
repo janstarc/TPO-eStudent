@@ -111,7 +111,7 @@ class KoncneOceneController
        // var_dump($prijavljeniStudenti);
 
         $pdf= new tFPDF();
-        $pdf->AddPage('L');
+        $pdf->AddPage('');
         $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->SetFont('DejaVu','',15);
@@ -125,12 +125,12 @@ class KoncneOceneController
         $pdf->Ln();
 
 
-        $pdf->SetFont('DejaVu','',25);
-        $pdf->Cell(250,10,'Pregled seznama študentov s končnimi ocenami',0,0,'C');
+        $pdf->SetFont('DejaVu','',18);
+        $pdf->Cell(180,10,'Pregled seznama študentov s končnimi ocenami',0,0,'C');
         $pdf->Ln();
         $pdf->Ln();
 
-        $pdf->SetFont('DejaVu','',14);
+        $pdf->SetFont('DejaVu','',12);
         $pdf->Cell(120,10,'Predmet: ' . $predmet,0);
         $pdf->Ln();
         $pdf->Cell(120,10,'Izvajalec/i: ' . $izvajalci,0);
@@ -141,11 +141,11 @@ class KoncneOceneController
         $pdf->Ln();
 
         $pdf->SetFont('DejaVu','',8);
-        $fields=array("Vpisna številka","Ime","Priimek","Št. polaganj (skupno)","Št. polaganj (letos)","Točke izpita","Ocena izpita");
+        $fields=array("Vpisna številka","Ime","Priimek","Skupno polaganj","Letos polaganj","Točke izpita","Ocena izpita");
 
-        $pdf->Cell(35, 7, "#", 1);
+        $pdf->Cell(7, 7, "#", 1);
         foreach($fields as $col) {
-            $pdf->Cell(35, 7, $col, 1);
+            $pdf->Cell(25, 7, $col, 1);
 
         }
         $pdf->Ln();
@@ -176,9 +176,9 @@ class KoncneOceneController
                 $ocena = $value["OCENA_IZPITA"];
             }
             $lineData = array($value["VPISNA_STEVILKA"], $value["IME"], $value["PRIIMEK"], $zapPolaganj, $zapPolaganjLetos, $tocke, $ocena);
-            $pdf->Cell(35, 7, $i, 1);
+            $pdf->Cell(25, 7, $i, 1);
             foreach($lineData as $col) {
-                $pdf->Cell(35, 7, $col, 1);
+                $pdf->Cell(25, 7, $col, 1);
 
             }
             $pdf->Ln();
@@ -300,7 +300,7 @@ class KoncneOceneController
         // var_dump($prijavljeniStudenti);
 
         $pdf= new tFPDF();
-        $pdf->AddPage('L');
+        $pdf->AddPage('');
         $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 
         $pdf->SetFont('DejaVu','',15);
@@ -314,12 +314,12 @@ class KoncneOceneController
         $pdf->Ln();
 
 
-        $pdf->SetFont('DejaVu','',25);
-        $pdf->Cell(250,10,'Pregled seznama študentov s končnimi ocenami',0,0,'C');
+        $pdf->SetFont('DejaVu','',18);
+        $pdf->Cell(180,10,'Pregled seznama študentov s končnimi ocenami',0,0,'C');
         $pdf->Ln();
         $pdf->Ln();
 
-        $pdf->SetFont('DejaVu','',14);
+        $pdf->SetFont('DejaVu','',12);
         $pdf->Cell(120,10,'Predmet: ' . $predmet,0);
         $pdf->Ln();
         $pdf->Cell(120,10,'Izvajalec/i: ' . $izvajalci,0);
@@ -332,9 +332,9 @@ class KoncneOceneController
         $pdf->SetFont('DejaVu','',8);
         $fields=array("Vpisna številka","Ime","Priimek","Št. polaganj (skupno)","Št. polaganj (letos)","Točke izpita","Ocena izpita");
 
-        $pdf->Cell(35, 7, "#", 1);
+        $pdf->Cell(25, 7, "#", 1);
         foreach($fields as $col) {
-            $pdf->Cell(35, 7, $col, 1);
+            $pdf->Cell(25, 7, $col, 1);
 
         }
         $pdf->Ln();
@@ -365,9 +365,9 @@ class KoncneOceneController
                 $ocena = $value["OCENA_IZPITA"];
             }
             $lineData = array($value["VPISNA_STEVILKA"], $value["IME"], $value["PRIIMEK"], $zapPolaganj, $zapPolaganjLetos, $tocke, $ocena);
-            $pdf->Cell(35, 7, $i, 1);
+            $pdf->Cell(25, 7, $i, 1);
             foreach($lineData as $col) {
-                $pdf->Cell(35, 7, $col, 1);
+                $pdf->Cell(25, 7, $col, 1);
 
             }
             $pdf->Ln();
