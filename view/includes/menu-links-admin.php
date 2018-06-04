@@ -44,13 +44,11 @@
                     <span>Urejanje izvajalcev</span>
                 </a>
             </li>
-            <!--
             <li class="mt">
                 <a href="<?= BASE_URL . "PodatkiIzvajalcevAdd" ?>">
-                    <span>Izvajalci - Dodaj</span>
+                    <span>Dodajanje izvedbe predmeta</span>
                 </a>
             </li>
-            -->
             <li class="mt">
                 <a href="<?= BASE_URL . "DelPredmetnikaAll" ?>">
                     <span>Del predmetnika - Pregled</span>
