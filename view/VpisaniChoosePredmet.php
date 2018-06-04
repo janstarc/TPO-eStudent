@@ -10,10 +10,7 @@
 
             var oTable = $("#table-subject").DataTable({
                 // Custom definicije za vsak stolpec
-                "aoColumns": [ {
-                        "sClass": "center",
-                        "bSortable": false
-                    }, {
+                "aoColumns": [  {
                         "sClass": "center",
                         "bSortable": true,
                         "sType":"slo"

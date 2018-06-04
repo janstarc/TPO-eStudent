@@ -56,6 +56,24 @@ class StudijskoLetoModel {
         $res = $statement->fetchAll();
         return $res;
     }
+
+    public static function getbyLetnik($id1, $id2, $id3) {
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("
+           SELECT DISTINCT v.VPISNA_STEVILKA, o.PRIIMEK, o.IME, v3.OPIS_VPISA  from oseba o
+JOIN student s ON o.ID_OSEBA = s.ID_OSEBA
+JOIN vpis v on v.VPISNA_STEVILKA = s.VPISNA_STEVILKA
+JOIN vrsta_vpisa v3 ON v.ID_VRSTAVPISA = v3.ID_VRSTAVPISA
+where v.ID_PROGRAM = :program and v.ID_STUD_LETO = :leto and v.ID_LETNIK = :letnik
+        ");
+        $statement->bindValue(":leto", $id1);
+        $statement->bindValue(":program", $id2);
+        $statement->bindValue(":letnik", $id3);
+        $statement->execute();
+        $res = $statement->fetchAll();
+
+        return $res;
+    }
     public static function getAllLetnik() {
         $db = DBInit::getInstance();
         $statement = $db->prepare("

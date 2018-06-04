@@ -498,8 +498,26 @@ $urls = [
         if ($method == "POST") StudentOfficerController::exportPDF2();
         else ViewHelper::error405();
     },
-
-
+    //STEVILO VPISANIH PO LETNIKU
+    "/^steviloVpisanihLetniki$/" => function($method) {
+        if ($method == "GET") StudentOfficerController::SteviloVpisanihLetnikiForm1();
+        else ViewHelper::error405();
+    }, "/^steviloVpisanihLetniki\/params\/(\d+)$/" => function ($method, $id) {
+        if ($method == "GET") StudentOfficerController::SteviloVpisanihLetnikiForm2($id);
+        else ViewHelper::error405();
+    }, "/^steviloVpisanihLetniki\/params\/(\d+)\/(\d+)$/" => function ($method, $id1, $id2) {
+        if ($method == "GET") StudentOfficerController::SteviloVpisanihLetnikiForm3($id1, $id2);
+        else ViewHelper::error405();
+    }, "/^steviloVpisanihLetniki\/params\/(\d+)\/(\d+)\/(\d+)$/" => function ($method, $id1, $id2,$id3) {
+        if ($method == "GET") StudentOfficerController::SteviloVpisanihLetnikiForm4($id1, $id2, $id3);
+        else ViewHelper::error405();
+    },"/^steviloVpisanihLetniki\/exportCSV$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportCSV3();
+        else ViewHelper::error405();
+    }, "/^steviloVpisanihLetniki\/exportPDF$/" => function($method) {
+        if ($method == "POST") StudentOfficerController::exportPDF3();
+        else ViewHelper::error405();
+    },
 
     //kartotečni list - referent
     "/^kartotecniList$/" => function($method) {

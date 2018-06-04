@@ -61,7 +61,8 @@
             <div class="row">
                 <div  class="col-xs-12 col-md-12">
                     <br>
-                    <?php $data = [$predmet["ID_PREDMET"],$predmet["IME_PREDMET"],$leto,count($vpisani)]?>
+                    <?php
+                    $data = [$predmet["ID_PREDMET"],$predmet["IME_PREDMET"],$leto,count($vpisani)]?>
                     <h2>Seznam vpisanih</h2>
                     <form  action="<?= BASE_URL . "VpisaniPrikaz/exportCSV" ?>" method="post">
                         <input type="hidden" name="idLeto" value="<?= $idLeto ?>"/>

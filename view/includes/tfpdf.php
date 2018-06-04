@@ -1497,6 +1497,27 @@ class tFPDF
         }
         $this->Ln();
 
+    }function BasicTableH3($header,$lineData){
+
+        foreach($header as $i=>$col) {
+
+                $this->Cell(65, 7, $col, 1);
+
+            //$this->Cell(55, 7, $col, 1);
+        }
+        $this->Ln();
+        // Data
+
+
+        foreach ($lineData as $i=>$col) {
+
+                $this->Cell(65, 7, $col, 1);
+
+            //$this->Cell(55, 7, $col, 1);
+
+        }
+        $this->Ln();
+
     }
 
     function BasicTableH5($header,$lineData){

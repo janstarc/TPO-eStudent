@@ -199,7 +199,7 @@ order by STUD_LETO DESC LIMIT 1
         }
     }
     public static function dodajNov($id){
-        var_dump("dkgbdikgvbsdkrgbrdl");
+        //_dump("dkgbdikgvbsdkrgbrdl");
         $db = DBInit::getInstance();
         $statement = $db->prepare("
            SELECT * FROM `zeton` WHERE id_oseba = :oseba
@@ -557,8 +557,9 @@ where pr.ID_PREDMET = p.ID_PREDMET and pr.ID_STUD_LETO = s.ID_STUD_LETO and i.ID
         $statement->bindParam(":id", $id);
         $statement->execute();
 
-        return $statement->fetchAll()[0];
+        $rez =  $statement->fetch();
 
+        return $rez;
     }
 
     public static function getVpisani($predmet, $leto ){

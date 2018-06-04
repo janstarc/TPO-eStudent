@@ -115,7 +115,7 @@
                                             <td><?php echo $data['ID_LETNIK']; ?></td>
                                             <td><?php echo $data['VSOTA_OPRAVLJENIH_KREDITNIH_TOCK']; ?></td>
 
-                                            <td><form  <?php if ($data['pogoj2'] == 0 and $data['pogoj1'] == 0){ echo 'style="display:none;"';} ?>  action="<?= BASE_URL . "zetoni/add" ?>" method="post">
+                                            <td><form  <?php #if ($data['pogoj2'] == 0 and $data['pogoj1'] == 0){ echo 'style="display:none;"';} ?>  action="<?= BASE_URL . "zetoni/add" ?>" method="post">
                                                     <input type="hidden" name="IdOseba" value="<?= $data['ID_OSEBA'] ?>" />
                                                     <input type="hidden" name="Leto" value="<?= $id ?>" />
                                                     <input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />

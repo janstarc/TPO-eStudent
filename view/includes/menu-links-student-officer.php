@@ -32,6 +32,10 @@
                 <a href="<?= BASE_URL . "steviloVpisanih" ?>">
                     <span>Število vpisanih v predmete (pregled po predmetih)</span>
                 </a>
+            </li><li class="mt">
+                <a href="<?= BASE_URL . "steviloVpisanihLetniki" ?>">
+                    <span>Število vpisanih po letnikih</span>
+                </a>
             </li>
             <li class="mt">
                 <a href="<?= BASE_URL . "vpisPredmet/" ?>">

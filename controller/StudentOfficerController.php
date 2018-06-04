@@ -30,7 +30,7 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
-    
+
     public static function izpitniRokForm($id, $status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
@@ -277,7 +277,7 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
-    
+
     public static function kandidatPreglejVpisForm($id, $status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
@@ -379,7 +379,7 @@ class StudentOfficerController {
                     'min_range' => 1
                 ]
             ],
-            
+
             "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "id_drzava" => [
                 'filter' => FILTER_VALIDATE_INT,
@@ -401,60 +401,60 @@ class StudentOfficerController {
                 ]
             ]
         ]);
-        
+
         if($data["id_drzava"] == 705) {
             $data = $data + filter_input_array(INPUT_POST, [
-                "id_posta" => [
-                    'filter' => FILTER_VALIDATE_INT,
-                    'options' => [
-                        'min_range' => 1
-                    ]
-                ],
-                "id_obcina" => [
-                    'filter' => FILTER_VALIDATE_INT,
-                    'options' => [
-                        'min_range' => 1
-                    ]
-                ]
-            ]);
-        }
-        // echo '<pre>' . var_export($_POST, true) . '</pre>';
-        // echo '<pre>' . var_export($data, true) . '</pre>';
-        if (Validation::checkValues($data)) {
-            $data = $data + filter_input_array(INPUT_POST, [
-                "id_drzava2" => [
-                    'filter' => FILTER_VALIDATE_INT,
-                    'options' => [
-                        'min_range' => 1
-                    ]
-                ],
-                "ulica2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
-            ]);
-            if($data["id_drzava2"] == 705) {
-                $data = $data + filter_input_array(INPUT_POST, [
-                    "id_posta2" => [
+                    "id_posta" => [
                         'filter' => FILTER_VALIDATE_INT,
                         'options' => [
                             'min_range' => 1
                         ]
                     ],
-                    "id_obcina2" => [
+                    "id_obcina" => [
                         'filter' => FILTER_VALIDATE_INT,
                         'options' => [
                             'min_range' => 1
                         ]
                     ]
                 ]);
+        }
+        // echo '<pre>' . var_export($_POST, true) . '</pre>';
+        // echo '<pre>' . var_export($data, true) . '</pre>';
+        if (Validation::checkValues($data)) {
+            $data = $data + filter_input_array(INPUT_POST, [
+                    "id_drzava2" => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => [
+                            'min_range' => 1
+                        ]
+                    ],
+                    "ulica2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+                ]);
+            if($data["id_drzava2"] == 705) {
+                $data = $data + filter_input_array(INPUT_POST, [
+                        "id_posta2" => [
+                            'filter' => FILTER_VALIDATE_INT,
+                            'options' => [
+                                'min_range' => 1
+                            ]
+                        ],
+                        "id_obcina2" => [
+                            'filter' => FILTER_VALIDATE_INT,
+                            'options' => [
+                                'min_range' => 1
+                            ]
+                        ]
+                    ]);
             }
             if (Validation::verifyEMSO($data["emso"])) {
                 if (($data["id_drzava"] != 705 &&
-                (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
-                (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
-                || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
+                        (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
+                        (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL)
+                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
                     if (($data["id_drzava2"] != 705 &&
-                    (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
-                    (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
-                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
+                            (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
+                            (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL)
+                        || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
                         $idKandidat = KandidatModel::getKandidatIdWithUserId($id);
                         $id_vpis = KandidatModel::getVpisId($idKandidat);
                         KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
@@ -462,7 +462,7 @@ class StudentOfficerController {
                         KandidatModel::updateTelefon($idKandidat, $data['telefonska_stevilka']);
                         KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
                         KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
-                        
+
                         KandidatModel::updateNaslov($data["ID_NASLOV1"], [
                             "id_drzava" => $data["id_drzava"],
                             "ulica" => $data["ulica"],
@@ -470,7 +470,7 @@ class StudentOfficerController {
                             "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
                             "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
                         ]);
-                        
+
                         KandidatModel::updateNaslov($data["ID_NASLOV2"], [
                             "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
                             "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
@@ -478,17 +478,17 @@ class StudentOfficerController {
                             "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
                             "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
                         ]);
-                        
+
                         $predmeti = PredmetModel::getAll([
                             "ID_STUD_LETO" => 2, //TODO create subjects for id_stud_leto=1 $data["ID_STUD_LETO"],
                             "ID_PROGRAM" => $data["ID_PROGRAM"],
                             "ID_LETNIK" => 1
                         ]);
-                        
+
                         KandidatModel::potrdiVpisReferent($idKandidat);
                         $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithKandidatId($idKandidat);
                         KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $predmeti, $data["ID_STUD_LETO"]);
-                        
+
                         ViewHelper::render("view/DisplayMessageViewer.php", [
                             "status" => "Success",
                             "message" => "Uspesno ste potrdili vpis izbranega kandidata."
@@ -506,7 +506,7 @@ class StudentOfficerController {
             self::kandidatPreglejVpisForm($id, "Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
         }
     }
-    
+
     public static function studentPreglejVpisForm($id, $status = null, $message = null) {
         if (User::isLoggedIn()){
             if (User::isLoggedInAsStudentOfficer()){
@@ -516,7 +516,7 @@ class StudentOfficerController {
                 $poste = PostaModel::getAll();
                 $drzave = DrzavaModel::getAll();
                 $userName = UserModel::getUserName($id);
-                
+
                 $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
                 // TODO getAllByStudent() return all subjects, filter by letnik is needed
                 $predmeti = PredmetModel::getAllByStudent($VPISNA_STEVILKA);
@@ -545,7 +545,7 @@ class StudentOfficerController {
             ViewHelper::error401();
         }
     }
-    
+
     public static function studentPotrdiVpisForm($id) {
         $data = filter_input_array(INPUT_POST, [
             "Ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
@@ -564,7 +564,7 @@ class StudentOfficerController {
                     'min_range' => 1
                 ]
             ],
-            
+
             "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "id_drzava" => [
                 'filter' => FILTER_VALIDATE_INT,
@@ -586,66 +586,66 @@ class StudentOfficerController {
                 ]
             ]
         ]);
-        
+
         if($data["id_drzava"] == 705) {
             $data = $data + filter_input_array(INPUT_POST, [
-                "id_posta" => [
-                    'filter' => FILTER_VALIDATE_INT,
-                    'options' => [
-                        'min_range' => 1
-                    ]
-                ],
-                "id_obcina" => [
-                    'filter' => FILTER_VALIDATE_INT,
-                    'options' => [
-                        'min_range' => 1
-                    ]
-                ]
-            ]);
-        }
-        
-        if (Validation::checkValues($data)) {
-            $data = $data + filter_input_array(INPUT_POST, [
-                "id_drzava2" => [
-                    'filter' => FILTER_VALIDATE_INT,
-                    'options' => [
-                        'min_range' => 1
-                    ]
-                ],
-                "ulica2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
-            ]);
-            if($data["id_drzava2"] == 705) {
-                $data = $data + filter_input_array(INPUT_POST, [
-                    "id_posta2" => [
+                    "id_posta" => [
                         'filter' => FILTER_VALIDATE_INT,
                         'options' => [
                             'min_range' => 1
                         ]
                     ],
-                    "id_obcina2" => [
+                    "id_obcina" => [
                         'filter' => FILTER_VALIDATE_INT,
                         'options' => [
                             'min_range' => 1
                         ]
                     ]
                 ]);
+        }
+
+        if (Validation::checkValues($data)) {
+            $data = $data + filter_input_array(INPUT_POST, [
+                    "id_drzava2" => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => [
+                            'min_range' => 1
+                        ]
+                    ],
+                    "ulica2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+                ]);
+            if($data["id_drzava2"] == 705) {
+                $data = $data + filter_input_array(INPUT_POST, [
+                        "id_posta2" => [
+                            'filter' => FILTER_VALIDATE_INT,
+                            'options' => [
+                                'min_range' => 1
+                            ]
+                        ],
+                        "id_obcina2" => [
+                            'filter' => FILTER_VALIDATE_INT,
+                            'options' => [
+                                'min_range' => 1
+                            ]
+                        ]
+                    ]);
             }
             if (Validation::verifyEMSO($data["emso"])) {
                 if (($data["id_drzava"] != 705 &&
-                (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
-                (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
-                || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
+                        (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
+                        (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL)
+                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
                     if (($data["id_drzava2"] != 705 &&
-                    (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
-                    (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
-                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
+                            (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
+                            (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL)
+                        || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
                         $idKandidat = KandidatModel::getKandidatIdWithUserId($id);
                         $id_vpis = KandidatModel::getVpisId($idKandidat);
                         KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
                         KandidatModel::updateOsebaEmsoInTelefon($id, $data["emso"], $data["telefonska_stevilka"]);
                         KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
                         KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
-                        
+
                         KandidatModel::updateNaslov($data["ID_NASLOV1"], [
                             "id_drzava" => $data["id_drzava"],
                             "ulica" => $data["ulica"],
@@ -662,7 +662,7 @@ class StudentOfficerController {
                         ]);
                         $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
                         KandidatModel::potrdiVpisForStudentByReferent($VPISNA_STEVILKA);
-                        
+
                         ViewHelper::render("view/DisplayMessageViewer.php", [
                             "status" => "Success",
                             "message" => "Uspesno ste potrdili vpis izbranega kandidata."
@@ -728,7 +728,7 @@ class StudentOfficerController {
                         $value['pogoj1'] = 0;
                         $value['pogoj2'] = 0;
                     }
-                   $value['pogoj'] = StudentOfficerDB::PreveriOcene($value['VPISNA_STEVILKA']);
+                    $value['pogoj'] = StudentOfficerDB::PreveriOcene($value['VPISNA_STEVILKA']);
                 }
 
                 ViewHelper::render("view/ZetonChooseStudent.php", [
@@ -902,9 +902,9 @@ class StudentOfficerController {
             StudentOfficerDB::ChangeAktivnost($data["idZeton"],$data["Aktivnost"]);
         }
         echo("<script>console.log('data: : ', ".$data['searchEMSO'] . ");</script>");
-                ViewHelper::render("view/Zeton.php", [
-                    "zetoni" => StudentOfficerDB::SearchEMSO($data["searchEMSO"])
-                ]);
+        ViewHelper::render("view/Zeton.php", [
+            "zetoni" => StudentOfficerDB::SearchEMSO($data["searchEMSO"])
+        ]);
 
     }
 
@@ -913,7 +913,7 @@ class StudentOfficerController {
             "idZeton" =>["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "LETNIK" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-        if($data["LETNIK"] != 3){ 
+        if($data["LETNIK"] != 3){
             if(StudentOfficerDB::isUnique($data["idZeton"])){
                 StudentOfficerDB::dodajNov(StudentOfficerDB::ZetonData($data["idZeton"]));
                 self::Zeton("Success", "Uspesno ste dodali nov zeton.");
@@ -1001,6 +1001,97 @@ class StudentOfficerController {
                 ViewHelper::error403();
             }
         }else{
+            ViewHelper::error401();
+        }
+    }
+    public static function SteviloVpisanihLetnikiForm1($status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+
+                ViewHelper::render("view/steviloVpisanih.php", [
+                    "pageTitle" => "Seznam vseh študijskih let",
+                    "allData" => StudijskoLetoModel::getAll(),
+                    "formAction" => "steviloVpisanihLetniki/params",
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    }
+
+    public static function SteviloVpisanihLetnikiForm2($id, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = StudijskoLetoModel::getAllProgram();
+                if(count($data) == 0){
+                    $status = 1;
+                    $message = "V tem letu še ni predmetov";
+                }
+                ViewHelper::render("view/steviloVpisanihProgram.php", [
+                    "pageTitle" => "Seznam vseh študijskih programov",
+                    "allData" => StudijskoLetoModel::getAllProgram(),
+                    "formAction" => $id,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
+            ViewHelper::error401();
+        }
+    } public static function SteviloVpisanihLetnikiForm3($id1, $id2, $status = null, $message = null) {
+    if (User::isLoggedIn()) {
+        if (User::isLoggedInAsStudentOfficer()) {
+            $data = StudijskoLetoModel::getAllLetnik();
+            if(count($data) == 0){
+                $status = 1;
+                $message = "V tem letu še ni predmetov";
+            }
+            ViewHelper::render("view/steviloVpisanihLetnik.php", [
+                "pageTitle" => "Seznam vseh letnikov",
+                "allData" => StudijskoLetoModel::getAllLetnik(),
+                "formAction" => $id2,
+                "status" => $status,
+                "message" => $message
+            ]);
+        } else {
+            ViewHelper::error403();
+        }
+    } else {
+        ViewHelper::error401();
+    }
+}
+
+    public static function SteviloVpisanihLetnikiForm4($id1, $id2, $id3, $status = null, $message = null) {
+        if (User::isLoggedIn()) {
+            if (User::isLoggedInAsStudentOfficer()) {
+                $data = StudijskoLetoModel::getbyLetnik($id1, $id2, $id3);
+                if(count($data) == 0){
+                    $status = 1;
+                    $message = "V tem letu še ni predmetov";
+                }
+                $leto = StudentOfficerDB::getLeto($id1);
+                $program = StudentOfficerDB::getProgram($id2);
+                ViewHelper::render("view/SeznamVpisanihLetnik.php", [
+                    "pageTitle" => "Seznam vseh letnikov",
+                    "allData" => $data,
+                    "input" => [$id1, $id2, $id3],
+                    "leto" => $leto,
+                    "program" => $program,
+                    "letnik" => $id3,
+                    "formAction" => $id2,
+                    "status" => $status,
+                    "message" => $message
+                ]);
+            } else {
+                ViewHelper::error403();
+            }
+        } else {
             ViewHelper::error401();
         }
     }
@@ -1359,7 +1450,7 @@ class StudentOfficerController {
         $data = StudentOfficerDB::getPredmetiSteviloVpisanih($data['id1'], $data['id2'], $data['id3']);
         $header2 = array('Šifra predmeta','Ime predmeta', '1. izvajalec', '2. izvajalec', '3. izvajalec', 'Št. šutdentov');
 
-       $all = [];
+        $all = [];
         foreach ($data as $key => $value){
 
             $lineData2 = array($value["ID_PREDMET"],$value["IME_PREDMET"],  $value["i1"]." ".$value["p1"],  $value["i2"]." ".$value["p2"],  $value["i3"]." ".$value["p3"], $value["COUNT"]);
@@ -1658,7 +1749,7 @@ class StudentOfficerController {
                     ]);
                 }
                 else {
-                self::kartotecniListForm5($programi[0], $id1, $id2,$id3, $id4, $status, $message);}
+                    self::kartotecniListForm5($programi[0], $id1, $id2,$id3, $id4, $status, $message);}
             } else {
                 ViewHelper::error403();
             }
@@ -1935,7 +2026,7 @@ class StudentOfficerController {
         } else {
             $data = KartotecniListDB::getZadnjaPolaganja($input['student']);
         }
-            $data = $data[0];
+        $data = $data[0];
 
         if ($program != 0) {
             $midData = array();
@@ -2133,12 +2224,12 @@ class StudentOfficerController {
 
         $noga = array("Studijsko leto","Letnik", "KT/U", "Ocena");
         fputcsv($f, $noga, $delimiter );
-            foreach ($ocenePoLetih as $row):
-                $lineData = array($row['STUD_LETO'], $row['ID_LETNIK'], $row['SUM'], $row['AVG']);
-                fputcsv($f, $lineData, $delimiter);
+        foreach ($ocenePoLetih as $row):
+            $lineData = array($row['STUD_LETO'], $row['ID_LETNIK'], $row['SUM'], $row['AVG']);
+            fputcsv($f, $lineData, $delimiter);
 
 
-                endforeach;
+        endforeach;
 
 
         fseek($f, 0);
@@ -2146,7 +2237,109 @@ class StudentOfficerController {
         header('Content-Disposition: attachment; filename="' . $filename . '";');
         fpassthru($f);
     }
+    public static function exportCSV3(){
 
+        $data = filter_input_array(INPUT_POST, [
+            "idLeto" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "idPredmet"=> ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        $main = StudentOfficerDB::getVpisani($data['idPredmet'],$data['idLeto']);
+        $leto = StudentOfficerDB::getLeto($data['idLeto']);
+        $predmet = StudentOfficerDB::getPredmet($data['idPredmet']);
+        $vpisani = count($main);
+
+        $delimiter = ",";
+        $filename = "data.csv";
+        $f = fopen('php://memory', 'w');
+
+        $text = array("UNIVERZA V LJUBLJANI, FAKULTETA ZA RAČUNALNIŠTVO IN INFORMATIKO");
+        fputcsv($f, $text, $delimiter);
+
+        $fields = array('Šifra predmeta','Ime predmeta', 'Študijsko leto', 'Število vpisanih studentov');
+        $lineData = array($predmet["ID_PREDMET"] , $predmet["IME_PREDMET"], $leto, $vpisani);
+
+        $text = array("Izpis osebnih podatkov študenta");
+        fputcsv($f, $text, $delimiter);
+        fputcsv($f, $fields, $delimiter);
+        fputcsv($f, $lineData, $delimiter);
+
+
+
+        $fields = array();
+        fputcsv($f, $fields, $delimiter);
+        $fields = array("Izpis podatkov o vpisih");
+        fputcsv($f, $fields, $delimiter);
+        $fields = array('Vpisna številka','Priimek in ime', 'Vrsta vpisa');
+        fputcsv($f, $fields, $delimiter);
+
+        $all = [];
+        $lineData2=null;
+        foreach ($main as $key => $value){
+
+            $lineData2 = array($value["VPISNA_STEVILKA"],$value["PRIIMEK"]." ". $value["IME"], $value["OPIS_VPISA"]);
+            fputcsv($f, $lineData2, $delimiter);
+        }
+
+        fseek($f, 0);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+        fpassthru($f);
+    }
+
+    public static function exportPDF3(){
+        $data = filter_input_array(INPUT_POST, [
+            "id1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "id3" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+        ]);
+
+        $id1 = $data['id1'];
+        $id2 = $data['id2'];
+        $id3 = $data['id3'];
+        $data = StudijskoLetoModel::getbyLetnik($id1, $id2, $id3);
+        $leto = StudentOfficerDB::getLeto($id1);
+        $program = StudentOfficerDB::getProgram($id2);
+
+
+        $header = array('Program', 'Študijsko leto', 'letnik');
+        $lineData = array($program, $leto , $id3);
+
+        $header2 = array('Vpisna številka','Priimek in ime', 'Vrsta vpisa');
+        $all = [];
+        $lineData2=null;
+        foreach ($data as $key => $value){
+
+            $lineData2 = array($value["VPISNA_STEVILKA"],$value["PRIIMEK"]." ". $value["IME"], $value["OPIS_VPISA"]);
+            array_push($all, $lineData2);
+        }
+
+        $pdf = new tFPDF();
+        $pdf->AddPage('');
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+
+        $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
+        $pdf->SetFont('DejaVu','',15);
+        $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
+        $pdf->Ln();
+        $tDate=date("Y-m-d");
+        $sloDate=ProfessorController::formatDateSlo($tDate);
+        $pdf->Cell(0, 10, 'Datum izdaje : '.$sloDate, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $pdf->Ln();
+
+        $pdf->SetFont('DejaVu','',10);
+        $pdf->Cell(40,10,'Izpis podatkov o predmetu');
+        $pdf->Ln();
+        $pdf->BasicTableH3($header,$lineData);
+        $pdf->Cell(40,10,'Izpis podatkov o vpisanih');
+        $pdf->Ln();
+        $pdf->BasicTableH($header2,$all);
+        $pdf->Output();
+
+        $filename="data.pdf";
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+    }
 
 
 
