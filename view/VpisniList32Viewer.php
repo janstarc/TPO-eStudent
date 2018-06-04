@@ -268,7 +268,11 @@
                             <div class="row">
                                 <div class="col-xs-12 col-md-6 offset-md-3">
                                     <div class="form-group">
-                                        <label for="ModIzbPredmeti"><big>Modulski izbirni predmeti</big></b> (izberite skupno 36KT)</label>
+                                        <label><b><big>Izberirte 42KT, od katerih je 42KT modulskih<br>ali 36KT modulskih in 6KT splošnih izbirnih</big></b></label>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="ModIzbPredmeti"><big>Modulski izbirni predmeti</big></label>
                                         <select class="form-control selectpicker" multiple id="ModIzbPredmeti" name="ModIzbPredmeti[]">
                                             <?php foreach ($ModIzbPredmeti as $ModIzbPredmet): ?>
                                                 <option value="<?= $ModIzbPredmet["ID_PREDMET"] ?>"><?= $ModIzbPredmet["SIFRA_PREDMET"].": ".$ModIzbPredmet["IME_PREDMET"]." (".$ModIzbPredmet["ST_KREDITNIH_TOCK"].")" ?></option>
@@ -277,7 +281,7 @@
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="SplIzbPredmeti"><big>Splošni izbirni predmeti</big></b> (izberite skupno 6KT)</label>
+                                        <label for="SplIzbPredmeti"><big>Splošni izbirni predmeti</big></label>
                                         <select class="form-control selectpicker" multiple id="SplIzbPredmeti" name="SplIzbPredmeti[]">
                                             <?php foreach ($SplIzbPredmeti as $SplIzbPredmet): ?>
                                                 <option value="<?= $SplIzbPredmet["ID_PREDMET"] ?>"><?= $SplIzbPredmet["SIFRA_PREDMET"].": ".$SplIzbPredmet["IME_PREDMET"]." (".$SplIzbPredmet["ST_KREDITNIH_TOCK"].")" ?></option>
