@@ -6,6 +6,27 @@ class UserModel {
 /*  For creating passwords, use: http://php.net/manual/en/function.password-hash.php
     For checking passwords, use: http://php.net/manual/en/function.password-verify.php */
     
+    public static function getTypeOfUser($ID_OSEBA) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT VRSTA_VLOGE
+            FROM OSEBA
+            WHERE ID_OSEBA = :ID_OSEBA
+        ");
+
+        $statement->bindValue(":ID_OSEBA", $ID_OSEBA);
+        $statement->execute();
+
+        $user = $statement->fetch();
+
+        if($user != null){
+            return $user["VRSTA_VLOGE"];
+        } else {
+            return null;
+        }
+    }
+    
     public static function getUser($email, $password) {
         $db = DBInit::getInstance();
 

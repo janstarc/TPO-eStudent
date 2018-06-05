@@ -71,6 +71,7 @@ class DataForExportModel
         return $statement->fetchAll();
     }
 
+    // TODO fix getIzvajalec ID_STUD_LETO
     public static function getIzvajalec($id_predmet,$stud_leto) {
        // var_dump($id_predmet);
        // var_dump($stud_leto);
@@ -94,7 +95,7 @@ class DataForExportModel
         if ($IzvedbaPredmeta != null) {
             return $IzvedbaPredmeta;
         } else {
-            throw new InvalidArgumentException("No record with User id $id_predmet");
+            throw new InvalidArgumentException("No record with id_predmet $id_predmet");
         }
     }
 

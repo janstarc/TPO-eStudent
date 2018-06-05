@@ -607,10 +607,10 @@ class StudentController {
                     (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
                     (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
                     || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
-                        $sum = 0;
+                        $ModIzbPredmeti = 0;
                         if (isset($_POST["ModIzbPredmeti"])) {
                             foreach ($_POST["ModIzbPredmeti"] as $key => $value) {
-                                $sum = $sum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
+                                $ModIzbPredmeti = $ModIzbPredmeti + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
                             }
                         }
                         $SplIzbPredmetiSum = 0;
@@ -619,8 +619,7 @@ class StudentController {
                                 $SplIzbPredmetiSum = $SplIzbPredmetiSum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
                             }
                         }
-                        $sum = $sum + $SplIzbPredmetiSum;
-                        if ($sum == 42 && $SplIzbPredmetiSum == 6) {
+                        if ($ModIzbPredmeti == 42 && $SplIzbPredmetiSum == 0 || $ModIzbPredmeti == 36 && $SplIzbPredmetiSum == 6) {
                             KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"]);
                             
                             KandidatModel::updateNaslov($data["ID_NASLOV1"], [
@@ -1220,7 +1219,8 @@ class StudentController {
 
     public static function exportPDFTiskaj($id){
         $studentId = KandidatModel::getKandidatIdWithUserId($id);
-        $studData = KandidatModel::getKandidatPodatki($studentId);
+        if (UserModel::getTypeOfUser($id) == 'k') $studData = KandidatModel::getKandidatPodatki($studentId);
+        else if (UserModel::getTypeOfUser($id) == 's') $studData = KandidatModel::getStudentPodatki($id);
         //Osebni podatki
         $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon','Datum rojstva');
         $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $studData["emso"], $studData['telefonska_stevilka'],"DODAJ DATUM");
@@ -1284,18 +1284,18 @@ class StudentController {
         $izvajalec=array();
 
         $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
-        // TODO getAllByStudent() return all subjects, filter by letnik is needed
-/*        $predmete = PredmetModel::getAllByStudent($VPISNA_STEVILKA);
-        $predmete=DataForExportModel::getPredmete($studLetoVpisna['STUD_LETO'],$vpisData['ID_PROGRAM'],$studLetoVpisna['ID_LETNIK']);
-*/
 
-        $predmete = PredmetModel::getAll([
-            "ID_STUD_LETO" => $studData["id_stud_leto"],
-            "ID_PROGRAM" => $studData["id_program"],
-            "ID_LETNIK" => 1
-        ]);
+        if (UserModel::getTypeOfUser($id) == 'k')
+            $predmete = PredmetModel::getAll([
+                "ID_STUD_LETO" => $studData["id_stud_leto"],
+                "ID_PROGRAM" => $studData["id_program"],
+                "ID_LETNIK" => 1
+            ]);
+        else if (UserModel::getTypeOfUser($id) == 's')
+            $predmete = PredmetModel::getAllByStudent($studData['vpisna_stevilka'], $studData["id_stud_leto"]);
 
-        for($i=0; $i<count($predmete);$i++){
+        // TODO fix getIzvajalec ID_STUD_LETO
+        for($i=0; $i<count($predmete);$i++) {
             $imena[$i]=$predmete[$i]['IME_PREDMET'];
             $sifre[$i]=$predmete[$i]['SIFRA_PREDMET'];
             $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
