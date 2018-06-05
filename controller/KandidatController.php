@@ -152,22 +152,22 @@ class KandidatController {
                             
                             ViewHelper::render("view/DisplayMessageViewer.php", [
                                 "status" => "Success",
-                                "message" => "Vpisni list ste uspesno oddali. Prosim pocakajte potrditev referenta."
+                                "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
                             ]);
                         } else {
-                            self::vpisForm("Failure", "Napaka, preslikava posta-obcina za zacasni naslov ni veljavna. Poskusite znova.");
+                            self::vpisForm("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
                         }
                     } else {
-                        self::vpisForm("Failure", "Napaka, preslikava posta-obcina za stalni naslov ni veljavna. Poskusite znova.");
+                        self::vpisForm("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
                     }
                 } else {
-                    self::vpisForm("Failure", "Napaka, emso st. ni veljavna. Poskusite znova.");
+                    self::vpisForm("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
                 }
             } else {
                 self::vpisForm("Failure", "Napaka, datum rojstva in emso st. se ne ujemata. Poskusite znova.");
             }
         } else {
-            self::vpisForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");
+            self::vpisForm("Failure", "Napaka! Vnos ni veljaven. Poskusite znova.");
         }
     }
 }
