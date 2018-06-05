@@ -2,23 +2,23 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema tpo
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Schema mydb
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Schema tpo
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP SCHEMA IF EXISTS `tpo` ;
 
--- -----------------------------------------------------
--- Schema tpo
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Schema tpo
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 CREATE SCHEMA IF NOT EXISTS `tpo` DEFAULT CHARACTER SET utf8 ;
 USE `tpo` ;
 
--- -----------------------------------------------------
--- Table `tpo`.`del_predmetnika`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`del_predmetnika`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`del_predmetnika` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`del_predmetnika` (
@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`del_predmetnika` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`drzava`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`drzava`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`drzava` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`drzava` (
@@ -54,9 +54,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`drzava` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`predmet`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`predmet`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`predmet` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`predmet` (
@@ -72,9 +72,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`predmet` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`studijsko_leto`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`studijsko_leto`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`studijsko_leto` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`studijsko_leto` (
@@ -87,9 +87,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`studijsko_leto` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`oseba`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`oseba`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`oseba` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`oseba` (
@@ -102,7 +102,6 @@ CREATE TABLE IF NOT EXISTS `tpo`.`oseba` (
   `GESLO` CHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   `VRSTA_VLOGE` CHAR(1) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NOT NULL,
   `TELEFONSKA_STEVILKA` CHAR(20) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NULL DEFAULT NULL,
-  `DATUM_ROJSTVA` CHAR(10) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NULL DEFAULT NULL,
   `resetPwToken` VARCHAR(40) CHARACTER SET 'utf8' COLLATE 'utf8_slovenian_ci' NULL DEFAULT NULL,
   `resetPwExpiration` INT(11) NULL DEFAULT NULL,
   `resetPwUsed` TINYINT(1) NULL DEFAULT NULL,
@@ -115,9 +114,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`oseba` (
 CREATE UNIQUE INDEX `EMAIL_UNIQUE` ON `tpo`.`oseba` (`EMAIL` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`izvedba_predmeta`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`izvedba_predmeta`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`izvedba_predmeta` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`izvedba_predmeta` (
@@ -159,9 +158,9 @@ CREATE INDEX `Je_UCITELJ2_idx` ON `tpo`.`izvedba_predmeta` (`ID_OSEBA2` ASC);
 CREATE INDEX `Je_UCITELJ3_idx` ON `tpo`.`izvedba_predmeta` (`ID_OSEBA3` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`stopnja`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`stopnja`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`stopnja` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`stopnja` (
@@ -176,9 +175,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`stopnja` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`program`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`program`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`program` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`program` (
@@ -201,9 +200,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`program` (
 CREATE INDEX `FK_STOPNJA_idx` ON `tpo`.`program` (`ID_STOPNJA` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`kandidat`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`kandidat`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`kandidat` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`kandidat` (
@@ -242,9 +241,9 @@ CREATE INDEX `FK_OSEBAID_idx` ON `tpo`.`kandidat` (`ID_OSEBA` ASC);
 CREATE INDEX `FK_STUDLETOID_idx` ON `tpo`.`kandidat` (`ID_STUD_LETO` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`letnik`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`letnik`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`letnik` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`letnik` (
@@ -257,9 +256,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`letnik` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`nacin_studija`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`nacin_studija`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`nacin_studija` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`nacin_studija` (
@@ -274,9 +273,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`nacin_studija` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`posta`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`posta`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`posta` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`posta` (
@@ -292,9 +291,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`posta` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`obcina`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`obcina`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`obcina` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`obcina` (
@@ -309,9 +308,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`obcina` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`naslov`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`naslov`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`naslov` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`naslov` (
@@ -350,9 +349,9 @@ CREATE INDEX `FK_RELATIONSHIP_33` ON `tpo`.`naslov` (`ID_DRZAVA` ASC);
 CREATE INDEX `FK_RELATIONSHIP_32_idx` ON `tpo`.`naslov` (`ID_OSEBA` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`oblika_studija`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`oblika_studija`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`oblika_studija` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`oblika_studija` (
@@ -367,9 +366,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`oblika_studija` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`vrsta_vpisa`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`vrsta_vpisa`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`vrsta_vpisa` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`vrsta_vpisa` (
@@ -383,9 +382,9 @@ CREATE TABLE IF NOT EXISTS `tpo`.`vrsta_vpisa` (
   COLLATE = utf8_slovenian_ci;
 
 
--- -----------------------------------------------------
--- Table `tpo`.`vpis`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`vpis`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`vpis` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`vpis` (
@@ -435,9 +434,9 @@ CREATE INDEX `FK_RELATIONSHIP_8` ON `tpo`.`vpis` (`ID_VRSTAVPISA` ASC);
 CREATE INDEX `FK_RELATIONSHIP_9` ON `tpo`.`vpis` (`ID_NACIN` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`student`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`student`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`student` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`student` (
@@ -477,9 +476,9 @@ CREATE INDEX `FK_RELATIONSHIP_6` ON `tpo`.`student` (`ID_VPIS` ASC);
 CREATE INDEX `FK_PROGRAM_idx` ON `tpo`.`student` (`ID_PROGRAM` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`predmeti_studenta`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`predmeti_studenta`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`predmeti_studenta` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`predmeti_studenta` (
@@ -512,9 +511,9 @@ CREATE INDEX `FK_RELATIONSHIP_24` ON `tpo`.`predmeti_studenta` (`ID_PREDMET` ASC
 CREATE INDEX `FK_STUD_LETO_idx` ON `tpo`.`predmeti_studenta` (`ID_STUD_LETO` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`predmetnik`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`predmetnik`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`predmetnik` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`predmetnik` (
@@ -561,9 +560,9 @@ CREATE INDEX `FK_PREDMET_idx` ON `tpo`.`predmetnik` (`ID_PREDMET` ASC);
 CREATE INDEX `FK_DELPREDMETNIKA_idx` ON `tpo`.`predmetnik` (`ID_DELPREDMETNIKA` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`rok`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`rok`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`rok` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`rok` (
@@ -602,9 +601,9 @@ CREATE INDEX `fk_izvajalec2_idx` ON `tpo`.`rok` (`ID_OSEBA_IZPRASEVALEC2` ASC);
 CREATE INDEX `fk_izvalaec3_idx` ON `tpo`.`rok` (`ID_OSEBA_IZPRASEVALEC3` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`prijava`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`prijava`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`prijava` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`prijava` (
@@ -647,9 +646,9 @@ CREATE INDEX `FK_RELATIONSHIP_200_idx` ON `tpo`.`prijava` (`ID_OSEBA_PRIJAVITELJ
 CREATE INDEX `FK_RELATIONSHIP_201_idx` ON `tpo`.`prijava` (`ID_OSEBA_ODJAVITELJ` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`zeton`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`zeton`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`zeton` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`zeton` (
@@ -718,9 +717,9 @@ CREATE INDEX `fk_zeton_nacin_studija1_idx` ON `tpo`.`zeton` (`ID_NACIN` ASC);
 CREATE INDEX `fk_zeton_program1_idx` ON `tpo`.`zeton` (`ID_PROGRAM` ASC);
 
 
--- -----------------------------------------------------
--- Table `tpo`.`posta_obcina`
--- -----------------------------------------------------
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+--  Table `tpo`.`posta_obcina`
+--  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 DROP TABLE IF EXISTS `tpo`.`posta_obcina` ;
 
 CREATE TABLE IF NOT EXISTS `tpo`.`posta_obcina` (
@@ -1725,6 +1724,7 @@ INSERT INTO `tpo`.`program`(`ID_PROGRAM`, `ID_STOPNJA`, `SIFRA_PROGRAM`, `NAZIV_
   (20,5,'XU','Humanistika in družb.-DR. III',6,1,1);
 
 INSERT INTO `tpo`.`studijsko_leto`(`ID_STUD_LETO`, `STUD_LETO`)VALUES
+  (0,'2015/16'),
   (1,'2016/17'),
   (2,'2017/18'),
   (3,'2018/19'),
@@ -1734,1269 +1734,1950 @@ INSERT INTO `tpo`.`studijsko_leto`(`ID_STUD_LETO`, `STUD_LETO`)VALUES
   (7,'2022/23'),
   (8,'2023/24');
 
-INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`,`TELEFONSKA_STEVILKA`, `SIFRA_IZVAJALCA`)VALUES
-
-  (1,'testS', 'testS', '123456', 's', 'Janezek', 'Novakovic','040040040'             ,NULL  ),
-  (2,'testP', 'testP', '123456', 'p', 'Viljan', 'Mahnič','030030030'              ,315010),
-  (3,'testR', 'testR', '123456', 'r', 'Ancka', 'Novak','050505050'                ,NULL),
-  (4,'testS2', 'testS2', '123456', 's', '1Janezek', 'Novakovic','123581321'       ,NULL),
-  (5,'testA', 'testA', '123456', 'a', 'Admin', 'Admin','123581321'                ,NULL),
-  (6,'testK', 'testK', '123456', 'k', 'kIme', 'kPriimek','123456789'              ,NULL),
-  (7,'LukaS', 'LukaS', '123456', 's', '1PonavljalecLuka', 'An','04004001'         ,NULL),
-  (8,'Miha', 'MihaS', '123456', 's', '1MihanNad8,5', 'Ban','040040042'            ,NULL),
-  (9,'Maja', 'MajaS', '123456', 's', '1MajaPavzer', 'Cankar','040040043'          ,NULL),
-  (10,'Špela', 'ŠpelaS', '123456', 's', '2ŠpelaNad8,5', 'Čopkič','040040044'      ,NULL),
-  (11,'Sara', 'SaraS', '123456', 's', '2SaraPonavljalec', 'Dragovan','040040045' ,NULL ),
-  (12,'Nik', 'NikS', '123456', 's', '2NikPavzer', 'Engelj','040040046'           ,NULL ),
-  (13,'Marko', 'MarkoP', '123456', 'p', 'Marko', 'Poženel','040040040',315011),
-  (14,'Luka', 'LukaP', '123456', 'p', 'Luka', 'Fuerst','040040040',315012),
-
-  (15,'Jan', 'JanS', '123456', 's', '4JanAbsolvent', 'Ferlič','040040045',NULL),
-  (16,'Mojca', 'MojcaS', '123456', 's', '2MojcaPogojnoNaprej', 'Golaž','040040045',NULL),
-  (17,'Nino', 'NinoS', '123456', 's', '3Nino', 'Hovelja','040040045',NULL),
-  (18,'Jože', 'JožeS', '123456', 's', '1JožePonavljalecNaredl7', 'Indijanec','040040045',NULL),
-  (19,'Klemen', 'KlemenS', '123456', 's', '2KlemenPonavljalecNaredl4', 'Klemen','040040045',NULL),
-  (20,'Tadej', 'TadejS', '123456', 's', '2TadejZamenjalProgram', 'Lindič','040040045',NULL),
-  (21,'Jure', 'JureS', '123456', 's', 'Jure', 'Mohar','040040045',NULL),
-  (22,'Anja', 'AnjaS', '123456', 's', 'Anja', 'Novak','040040045',NULL),
-  (23,'Svit', 'SvitS', '123456', 's', 'Svit', 'Oblak','040040045',NULL),
-  (24,'David', 'DavidS', '123456', 's', 'David', 'Pahor','040040045',NULL),
-  (25,'Martin', 'MartinS', '123456', 's', 'Martin', 'Rešetič','040040045',NULL),
-  (26,'Manca', 'MancaS', '123456', 's', 'Manca', 'Srečko','040040045',NULL),
-  (27,'Tjaša', 'TjašaS', '123456', 's', 'Tjaša', 'Šenica','040040045',NULL),
-  (28,'Benjamin', 'Benjamin', '123456', 's', 'Testen', 'Dragovan','040040045',NULL),
-  (29,'GašperF','GašperF','123456','p','Gašper','Fijavž','040502896'                  ,315021),
-  (30,'PolonaO','PolonaO','123456','p','Polona','Oblak','040502896'                   ,315022),
-  (31,'VilijanM','VilijanM','123456','p','Vilijan','Mahnič','040502896'               ,315023),
-  (32,'NikolajZ','NikolajZ','123456','p','Nikolaj','Zimic','040502896'                ,315024),
-  (33,'IrenaD','IrenaD','123456','p','Irena','Drvenšek','040502896'                   ,315025),
-  (34,'BoštijanS','BoštijanS','123456','p','Boštijan','Slivnik','040502896'           ,315026),
-  (35,'BrankoŠ','BrankoŠ','123456','p','Branko','Šter','040502896'                    ,315027),
-  (36,'ZoranB','ZoranB','123456','p','Zoran','Bosnič','040502896'                     ,315028),
-  (37,'DejanL','DejanL','123456','p','Dejan','Lavbič','040502896'                     ,315029),
-  (38,'BojanO','BojanO','123456','p','Bojan','Orel','040502896'                       ,315020),
-  (39,'MajaMaja','MajaMaja','123456','s','Maja','Maja','040502806',NULL),
-  (41,'test2L','test2L','123456','s','test2L','test2L','040502896',NULL),
-  (42,'test3L1','test3L1','123456','s','test3L1','test3L1','040502896',NULL),
-  (43,'test3L2','test3L2','123456','s','test3L2','test3L2','040502896',NULL);
-
-# absolvent, pogojnoNaprej, PonavljalecNaredl7, zamenjalProgram
-# preverjanje login:
-# uporabnisko ime=testS  geslo='123456'
-# VRSTA_VLOGE: admin='a', referat='r', profesor='p', student='s' in kandidat='k'
+  /*
+  1-100 -- > Studenti
+  100-200 -- > Profesorji. Mail je: imeP@uni-lj.si
+  300 = Referent
+  400 = Admin
 
 
-# Inserti preko import fila
-INSERT INTO `tpo`.`kandidat` (`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_LETO`, `IZKORISCEN`, `EMSO`, `VPISNA_STEVILKA`) VALUES
-  (1,11,1,2,1,1706996500334,63150000),
-  (2,11,4,2,1,1706996500334,63150001),
+   */
 
-  (3,11,6,1,0,1706996500334,63150100),
-  (4,11,41,1,1,1706996500334,63150101),
-  (5,11,42,1,1,1706996500334,63150102),
-  (6,11,43,1,1,1706996500334,63150102);
+INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`,`TELEFONSKA_STEVILKA`, `SIFRA_IZVAJALCA`, `DATUM_ROJSTVA`)VALUES
+  (1,     'ab0001@student.uni-lj.si',      'ab0001',      '123456',     's',       'Ana',    'Balon',    '040040040'     ,NULL, '17-06-1996'),
+  (2,     'bc0002@student.uni-lj.si',      'bc0002',      '123456',     's',       'Borut',    'Čementarna',    '040040040'     ,NULL, '17-06-1996'  ),
+  (3,     'cd0003@student.uni-lj.si',      'cd0003',      '123456',     's',       'Cilko',    'Dobravec',    '040040040'     ,NULL, '17-06-1996'  ),
+  (4,     'de0004@student.uni-lj.si',      'de0004',      '123456',     's',       'Demir',    'Ehratatan',    '040040040'     ,NULL , '17-06-1996' ),
+  (5,     'ef0005@student.uni-lj.si',      'ef0005',      '123456',     's',       'Evelina',    'Frača',    '040040040'     ,NULL, '17-06-1996'  ),
+  (6,     'fg0006@student.uni-lj.si',      'fg0006',      '123456',     's',       'Filip',    'Granata',    '040040040'     ,NULL, '17-06-1996'  ),
+  (7,     'gh0007@student.uni-lj.si',      'gh0007',      '123456',     's',       'Gaja',    'Hurikan',    '040040040'     ,NULL, '17-06-1996'  ),
+  (8,     'hi0008@student.uni-lj.si',      'hi0008',      '123456',     's',       'Hilda',    'Ilirai',    '040040040'     ,NULL, '17-06-1996'  ),
+  (9,     'ij0009@student.uni-lj.si',      'ij0009',      '123456',     's',       'Ibrahim',    'Juvančič',    '040040040'     ,NULL, '17-06-1996'  ),
+  (10,     'jk0010@student.uni-lj.si',      'jk0010',      '123456',     's',       'Jovan',    'Klepec',    '040040040'     ,NULL, '17-06-1996'  ),
+  (11,     'kl0011@student.uni-lj.si',      'kl0011',      '123456',     's',       'Klemen',    'Lizard',    '040040040'     ,NULL, '17-06-1996'  ),
+  (12,     'lm0012@student.uni-lj.si',      'lm0012',      '123456',     's',       'LinWun',    'MunSon',    '040040040'     ,NULL, '17-06-1996'  ),
+  (13,     'mn0013@student.uni-lj.si',      'mn0013',      '123456',     's',       'Milorad',    'Namiljen',    '040040040'     ,NULL, '17-06-1996'  ),
+  (14,     'no0014@student.uni-lj.si',      'no0014',      '123456',     's',       'Nik',    'Oprašič',    '040040040'     ,NULL, '17-06-1996'  ),
+  (15,     'op0015@student.uni-lj.si',      'op0015',      '123456',     's',       'Olin',    'Polin',    '040040040'     ,NULL, '17-06-1996'  ),
 
+  /* 1. Letnik - Profesorji */
+  (100,   'gasperF@uni-lj.si',    'GašperF',    '123456',     'p',      'Gašper',     'Fijavž',   '040502896'     ,100100, NULL),
+  (101,   'polonaO@uni-lj.si',    'PolonaO',    '123456',     'p',      'Polona',     'Oblak',    '040502896'     ,100101, NULL),
+  (102,   'vilijanM@uni-lj.si',   'VilijanM',   '123456',     'p',      'Vilijan',    'Mahnič',   '040502896'     ,100102, NULL),
+  (103,   'nikolajZ@uni-lj.si',   'NikolajZ',   '123456',     'p',      'Nikolaj',    'Zimic',    '040502896'     ,100103, NULL),
+  (104,   'irenaD@uni-lj.si',     'IrenaD',     '123456',     'p',      'Irena',      'Drvenšek', '040502896'     ,100104, NULL),
+  (105,   'bostjanS@uni-lj.si',  'BoštijanS',  '123456',     'p',      'Boštijan',   'Slivnik',  '040502896'     ,100105, NULL),
+  (106,   'brankoS@uni-lj.si',    'BrankoŠ',    '123456',     'p',      'Branko',     'Šter',     '040502896'     ,100106, NULL),
+  (107,   'zoranB@uni-lj.si',     'ZoranB',     '123456',     'p',      'Zoran',      'Bosnič',   '040502896'     ,100107, NULL),
+  (108,    'dejanL@uni-lj.si',     'DejanL',     '123456',     'p',      'Dejan',      'Lavbič',   '040502896'     ,100108, NULL),
+  (109,    'bojanO@uni-lj.si',     'BojanO',     '123456',     'p',      'Bojan',      'Orel',     '040502896'     ,100109, NULL),
+
+  /* 2. Letnik - Profesorji */
+  (110,   'patricioB@uni-lj.si',    'GašperF',    '123456',     'p',      'Patricio',     'Bulič',   '040502896'     ,100110, NULL),
+  (111,   'aleksandarJ@uni-lj.si',    'aleksandarJ',    '123456',     'p',      'Aleksandar',     'Jurišič',   '040502896'     ,100111, NULL),
+  (112,   'igorK@uni-lj.si',    'igorK',    '123456',     'p',      'Igor',     'Kononenko',   '040502896'     ,100112, NULL),
+  (113,   'markoB@uni-lj.si',    'markoB',    '123456',     'p',      'Marko',     'Bajec',   '040502896'     ,100113, NULL),
+  (114,   'borutR@uni-lj.si',    'borutR',    '123456',     'p',      'Borut',     'Robič',   '040502896'     ,100114, NULL),
+  (115,   'urosL@uni-lj.si',    'urosL',    '123456',     'p',      'Uroš',     'Lotrič',   '040502896'     ,100115, NULL),
+  (116,   'nezaM@uni-lj.si',    'nezaM',    '123456',     'p',      'Neža',     'Mramor Kosta',   '040502896'     ,100116, NULL),
+  (117,   'ivanB@uni-lj.si',    'ivanB',    '123456',     'p',      'Ivan',     'Bratko',   '040502896'     ,100117, NULL),
+  (118,   'rokZ@uni-lj.si',    'rokZ',    '123456',     'p',      'Rok',     'Žitko',   '040502896'     ,100118, NULL),
+
+  /* 3. Letnik - Profesorji */
+  /* Modul: IS */
+  (119,   'tomazH@uni-lj.si',    'tomazH',    '123456',     'p',      'Tomaž',     'Hovelja',   '040502896'     ,100119, NULL),
+  (120,   'denisT@uni-lj.si',    'denisT',    '123456',     'p',      'Denis',     'Trček',   '040502896'     ,100120, NULL),
+  (121,   'blazZ@uni-lj.si',    'blazZ',    '123456',     'p',      'Blaž',     'Zupan',   '040502896'     ,100121, NULL),
+
+  /* Modul: Odvladovanje informatike */
+  (122,   'matjazK@uni-lj.si',    'tomazH',    '123456',     'p',      'Matjaž',     'Kukar',   '040502896'     ,100122, NULL),
+  (123,   'rokR@uni-lj.si',    'rokR',    '123456',     'p',      'Rok',     'Rupnik',   '040502896'     ,100123, NULL),
+
+  /* Modul: Razvoj prog. opreme */
+  (124,   'matjazJ@uni-lj.si',    'matjazJ',    '123456',     'p',      'Matjaž B',     'Jurič',   '040502896'     ,100124, NULL),
+
+  /* Modul: Računalniška omrežja */
+  (125,   'mihaM@uni-lj.si',    'mihaM',    '123456',     'p',      'Miha',     'Mraz',   '040502896'     ,100125, NULL),
+  (126,   'mojcaC@uni-lj.si',    'mojcaC',    '123456',     'p',      'Mojca',     'Ciglarič',   '040502896',100126, NULL),
+
+  /* Modul: Umetna intelignca */
+  (127,   'markoR@uni-lj.si',    'markoR',    '123456',     'p',      'Marko',     'Robnik Šikonja',   '040502896',100127, NULL),
+  (128,   'matejK@uni-lj.si',    'matejK',    '123456',     'p',      'Matej',     'Kristan',   '040502896',100128, NULL),
+  (129,   'danielS@uni-lj.si',    'danielS',    '123456',     'p',      'Daniel',     'Skočaj',   '040502896',100129, NULL),
+
+  /* Modul: Medijske tehnologije */
+  (130,   'narvikaB@uni-lj.si',    'narvikaB',    '123456',     'p',      'Narvika',     'Bovcon',   '040502896',100130, NULL),
+  (131,   'lukaS@uni-lj.si',    'lukaS',    '123456',     'p',      'Luka',     'Šajn',   '040502896',100131, NULL),
+  (132,   'matijaM@uni-lj.si',    'matijaM',    '123456',     'p',      'Matija',     'Marolt',   '040502896',100132, NULL),
+
+  (300,   'referentFri@uni-lj.si',    'referentFri',    '123456',     'r',      'Berta',     'Prijaznik',   '040502896',NULL),
+  (400,   'adminFri@uni-lj.si',    'adminFri',    '123456',     'a',      'Simon',     'Stroj',   '040502896',NULL);
+
+
+--  absolvent, pogojnoNaprej, PonavljalecNaredl7, zamenjalProgram
+--  preverjanje login:
+--  uporabnisko ime=testS  geslo='123456'
+--  VRSTA_VLOGE: admin='a', referat='r', profesor='p', student='s' in kandidat='k'
+
+
+--  Inserti preko import fila
+INSERT INTO `tpo`.`kandidat`(`ID_KANDIDAT`, `ID_PROGRAM`, `ID_OSEBA`, `ID_STUD_LETO`, `IZKORISCEN`, `EMSO`, `VPISNA_STEVILKA`) VALUES
+  (1,11, 1, 0,1,1706996500334,63150001),
+  (2,11, 2, 0,1,1706996500334,63150002),
+  (3,11, 3, 0,1,1706996500334,63150003),
+  (4,11, 4, 0,1,1706996500334,63150004),
+  (5,11, 5, 0,1,1706996500334,63150005),
+  (6,11, 6, 1,1,1706996500334,63150006),
+  (7,11, 7, 1,1,1706996500334,63150007),
+  (8,11, 8, 1,1,1706996500334,63150008),
+  (9,11, 9, 1,1,1706996500334,63150009),
+  (10,11,10,1,1,1706996500334,63150010),
+  (11,11,11,2,1,1706996500334,63150011),
+  (12,11,12,2,1,1706996500334,63150012),
+  (13,11,13,2,1,1706996500334,63150013),
+  (14,11,14,2,1,1706996500334,63150014),
+  (15,11,15,2,1,1706996500334,63150015);
+
+/*
+  1. Letnik = 10-19
+  2. Letnik
+      -Obvezni = 20-27
+      -Strokovni izbirni = 28-30
+  3. Letnik
+      -Obvezni = 31-33
+      -Moduli =
+ */
 INSERT INTO `tpo`.`PREDMET`
 (`ID_PREDMET`, `SIFRA_PREDMET`, `IME_PREDMET`, `AKTIVNOST`)
 VALUES
-  (6, 63702,'Programiranje 1', 1),
-  (9, 63202,'Osnove Matematične Analize', 1),
-  (10, 63203,'Diskretne Strukture', 1),
-  (11, 63204,'Osnove Digitalnih Vezji', 1),
-  (12, 63205,'Fizika', 1),
-  (13, 63706,'Programiranje 2', 1),
-  (14, 63207,'Linearna Algebra', 1),
-  (15, 63212,'Arhitekrura Računalniških Sistemov', 1),
-  (16, 63708,'Računalniške Komunikacije', 1),
-  (17, 63215,'Osnove Informacijskih Sistemov', 1),
+
+  /* 1. Letnik */
+  (10, 63702,'Programiranje 1', 1),
+  (11, 63202,'Osnove Matematične Analize', 1),
+  (12, 63203,'Diskretne Strukture', 1),
+  (13, 63204,'Osnove Digitalnih Vezji', 1),
+  (14, 63205,'Fizika', 1),
+  (15, 63706,'Programiranje 2', 1),
+  (16, 63207,'Linearna Algebra', 1),
+  (17, 63212,'Arhitekrura Računalniških Sistemov', 1),
+  (18, 63708,'Računalniške Komunikacije', 1),
+  (19, 63215,'Osnove Informacijskih Sistemov', 1),
+
+  /* 2. Letnik - Obvezni */
+  (20, 63711,'Algoritmi in Podatkovne Strukture 1', 1),
+  (21, 63723,'Algoritmi in Podatkovne Strukture 2', 1),
+  (22, 63208,'Osnove Podatkovnih Baz', 1),
+  (23, 63213,'Verjetnost in Statistika', 1),
+  (24, 63283,'Izračunljivost in Računska Zahtevnost', 1),
+  (25, 63216,'Teorija Informacij in Sistemov', 1),
+  (26, 63217,'Opreacijski Sistemi', 1),
+  (27, 63218,'Organizacija Računalniških Sistemov', 1),
+
+  /* 2. Letnik - Strokovni izbirni */
+  (28, 63220,'Principi Programskih Jezikov', 1),
+  (29, 63219,'Matematično modeliranje', 1),
+  (30, 63221,'Računalniške Tehnologije', 1),
+
+  /* 3. Letnik - Obvezni */
+  (31, 63214,'Osnove Umetne Inteligence', 1),
+  (32, 63248,'Ekonomika in Podjetništvo ', 1),
+  (33, 63281,'Diplomski seminar', 1),
+
+  /* 3. Letnik - Moduli */
+  (34, 63256,'Tehnologija Programske Opreme', 1),
+  (35, 63254,'Postopki Razvoja Programke Opreme', 1),
+  (36, 63255,'Spletno Progrmiranje', 1),
+
+  (37, 63249,'Elektronsko Poslovanje', 1),
+  (38, 63250,'Organizacija in Management', 1),
+  (39, 63251,'Uvod v odkrivanje znanj iz podatkov', 1),
+
+  (40, 63226,'Tehnologija Upravljanja Podatkov', 1),
+  (41, 63725,'Razvoj Informacijskih Sistemov', 1),
+  (42, 63253,'Planiranje in Upravljanje Informatike', 1),
+
+  (43, 63258,'Komunikacijski Protokoli', 1),
+  (44, 63259,'Brezžična in Mobilna Omrežja', 1),
+  (45, 63257,'Modeliranje Računalniških Omrežji', 1),
+
+  (46, 63262,'Zanesljivost in zmogljivost računalniških sistemov', 1),
+  (47, 63260,'Digitalno načrtovanje', 1),
+  (48, 63261,'Porazdeljeni sistemi', 1),
+
+  (49, 63264,'Sistemska programska oprema', 1),
+  (50, 63263,'Računska zahtevnost in hevristično programiranje', 1),
+  (51, 63265,'Prevajalniki', 1),
+
+  (52, 63268,'Razvoj Inteligentnih Sistemov', 1),
+  (53, 63266,'Inteligentni Sistemi', 1),
+  (54, 63267,'Umetno Zaznavanje', 1),
+
+  (55, 63271,'Osnove Oblikovanja', 1),
+  (56, 63270,'Multimedijski sistemi', 1),
+  (57, 63269,'Računalniška grafika in tehnologija iger', 1);
 
 
-  (18, 63711,'Algoritmi in Podatkovne Strukture 1', 1),
-  (19, 63723,'Algoritmi in Podatkovne Strukture 2', 1),
-  (20, 63208,'Osnove Podatkovnih Baz', 1),
-  (21, 63213,'Verjetnost in Statistika', 1),
-  (22, 63283,'Izračunljivost in Računska Zahtevnost', 1),
-  (23, 63216,'Teorija Informacij in Sistemov', 1),
-  (24, 63217,'Opreacijski Sistemi', 1),
-  (25, 63218,'Organizacija Računalniških Sistemov', 1),
-
-  (7, 63220,'Principi Programskih Jezikov', 1),
-  (54, 63219,'Matematično modeliranje', 1),
-  (27, 63221,'Računalniške Tehnologije', 1),
-
-
-  (1, 63256,'Tehnologija Programske Opreme', 1),
-  (2, 63254,'Postopki Razvoja Programke Opreme', 1),
-  (3, 63255,'Spletno Progrmiranje', 1),
-
-  (4, 63249,'Elektronsko Poslovanje', 1),
-  (5, 63250,'Organizacija in Management', 1),
-  (53, 63251,'Uvod v odkrivanje znanj iz podatkov', 1),
-
-  (29, 63226,'Tehnologija Upravljanja Podatkov', 1),
-  (30, 63725,'Razvoj Informacijskih Sistemov', 1),
-  (31, 63253,'Planiranje in Upravljanje Informatike', 1),
-
-  (32, 63258,'Komunikacijski Protokoli', 1),
-  (33, 63259,'Brezžična in Mobilna Omrežja', 1),
-  (34, 63257,'Modeliranje Računalniških Omrežji', 1),
-
-  (35, 63262,'Zanesljivost in zmogljivost računalniških sistemov', 1),
-  (36, 63260,'Digitalno načrtovanje', 1),
-  (37, 63261,'Porazdeljeni sistemi', 1),
-
-  (39, 63264,'Sistemska programska oprema', 1),
-  (40, 63263,'Računska zahtevnost in hevristično programiranje', 1),
-  (38, 63265,'Prevajalniki', 1),
-
-  (41, 63268,'Razvoj Inteligentnih Sistemov', 1),
-  (42, 63266,'Inteligentni Sistemi', 1),
-  (43, 63267,'Umetno Zaznavanje', 1),
-
-  (44, 63271,'Osnove Oblikovanja', 1),
-  (45, 63270,'Multimedijski sistemi', 1),
-  (46, 63269,'Računalniška grafika in tehnologija iger', 1),
-
-  (47, 63214,'Osnove Umetne Inteligence', 1),
-  (48, 63248,'Ekonomika in Podjetništvo ', 1),
-  (49, 63281,'Diplomski seminar', 1),
-
-
-  (50, 63222,'Angleški jezik nivo A', 1),
-  (51, 63745,'Angleški jezik nivo B', 1),
-  (52, 63224,'Angleški jezik nivo C', 1);
+/* Splosni izbirni predmeti: 100-naprej */
+/* 2 Inserta zato, ker imajo spodnji predmeti definirane se kreditne tocke, razlicne od default 6 */
 INSERT INTO `tpo`.`PREDMET`
 (`ID_PREDMET`, `SIFRA_PREDMET`, `IME_PREDMET`, `ST_KREDITNIH_TOCK`, `AKTIVNOST`)
 VALUES
-  (8, 63240,'Sport', 3, 1),
-  (26, 63241,'Računalništvo v praksi I', 3, 1),
-  (28, 63242,'Računalništvo v praksi II', 3, 1),
-  (55, 63284,'Tehnične veščine: Scala', 3, 1),
-  (56, 63285,'Tehnične veščine: Računalniški vid', 3, 1),
-  (57, 63767,'Tehnične veščine: OpenStack', 3, 1);
+  (100, 63240,'Šport', 3, 1),
+  (101, 63241,'Računalništvo v praksi I', 3, 1),
+  (102, 63242,'Računalništvo v praksi II', 3, 1),
+  (103, 63284,'Tehnične veščine: Scala', 3, 1),
+  (104, 63285,'Tehnične veščine: Računalniški vid', 3, 1),
+  (105, 63767,'Tehnične veščine: OpenStack', 3, 1),
+  (106, 63222,'Angleški jezik nivo A', 3, 1),
+  (107, 63745,'Angleški jezik nivo B', 3, 1),
+  (108, 63224,'Angleški jezik nivo C', 3, 1),
+  (109, 63737,'Procesna avtomatika', 3, 1),
+  (110, 64000,'Izbrana poglavja RI', 3, 1),
+  (111, 64001,'Predmeti drugih fakulete', 3, 1);
 
 INSERT INTO `tpo`.`del_predmetnika`
 (`ID_DELPREDMETNIKA`, `NAZIV_DELAPREDMETNIKA`, `SKUPNOSTEVILOKT`, `TIP`, `AKTIVNOST`)
 VALUES
-  (3, "Obvezni predmet", 6, 'o', 1),
-  (4, "Strokovni izbirni predmet", 6, 'st', 1),
-  (5, "Splosno izbirni predmet", 6, 'sp', 1),
-  (13, "Splosno izbirni predmet", 3, 'sp', 1),
+  /* Ostali tipi */
+  (1, 'Obvezni predmet', 6, 'o', 1),
+  (2, 'Strokovni izbirni predmet', 6, 'st', 1),
+  (3, 'Splosno izbirni predmet', 6, 'sp', 1),
+  (4, 'Splosno izbirni predmet', 3, 'sp', 1),
 
-  (1, "Razvoj programske opreme", 18, 'm', 1),
-  (2, "Informacijski sistemi", 18, 'm', 1),
-  (6, "Obvladovanje informatike", 18, 'm', 1),
-  (7, "duplikat", 18, 'm', 0),
-  (8, "Računalniška omrežja", 18, 'm', 1),
-  (9, "Računalniški sistemi", 18, 'm', 1),
-  (10, "Algoritmi in sistemski programi", 18, 'm', 1),
-  (11, "Umetna inteligenca", 18, 'm', 1),
-  (12, "Medijske tehnologije", 18, 'm', 1);
+  /* Moduli */
+  (10, 'Razvoj programske opreme', 18, 'm', 1),
+  (11, 'Informacijski sistemi', 18, 'm', 1),
+  (12, 'Obvladovanje informatike', 18, 'm', 1),
+  (13, 'Računalniška omrežja', 18, 'm', 1),
+  (14, 'Računalniški sistemi', 18, 'm', 1),
+  (15, 'Algoritmi in sistemski programi', 18, 'm', 1),
+  (16, 'Umetna inteligenca', 18, 'm', 1),
+  (17, 'Medijske tehnologije', 18, 'm', 1);
+
 
 INSERT INTO `tpo`.`predmetnik`
-(`ID_PREDMET`, `ID_DELPREDMETNIKA`, `ID_LETNIK`, `ID_STUD_LETO`, `ID_PROGRAM`, `AKTIVNOST`)
-VALUES
-  #ID_STUD_LETO = 1
-  (1 , 1, 3, 1, 11, 1),
-  (2 , 1, 3, 1, 11, 1),
-  (3 , 1, 3, 1, 11, 1),
-  (4 , 2, 3, 1, 11, 1),
-  (5 , 2, 3, 1, 11, 1),
-  (6 , 3, 1, 1, 11, 1),
-  (7 , 4, 2, 1, 11, 1),
+(`ID_STUD_LETO`, `ID_LETNIK`, `ID_PREDMET`, `ID_DELPREDMETNIKA`, `ID_PROGRAM`, `AKTIVNOST`) VALUES
 
-  (9 , 3, 1, 1, 11, 1),
-  (10, 3, 1, 1, 11, 1),
-  (11, 3, 1, 1, 11, 1),
-  (12, 3, 1, 1, 11, 1),
-  (13, 3, 1, 1, 11, 1),
-  (14, 3, 1, 1, 11, 1),
-  (15, 3, 1, 1, 11, 1),
-  (16, 3, 1, 1, 11, 1),
-  (17, 3, 1, 1, 11, 1),
-  (18, 3, 2, 1, 11, 1),
-  (19, 3, 2, 1, 11, 1),
-  (20, 3, 2, 1, 11, 1),
-  (21, 3, 2, 1, 11, 1),
-  (22, 3, 2, 1, 11, 1),
-  (23, 3, 2, 1, 11, 1),
-  (24, 3, 2, 1, 11, 1),
-  (25, 3, 2, 1, 11, 1),
-  
-  (27, 4, 2, 1, 11, 1),
+  /* -- -- -- -- -- -- -- --  STUD LETO 0 START -- -- -- -- -- -- -- --  */
 
-  (29, 6, 3, 1, 11, 1),
-  (30, 6, 3, 1, 11, 1),
-  (31, 6, 3, 1, 11, 1),
-  (32, 8, 3, 1, 11, 1),
-  (33, 8, 3, 1, 11, 1),
-  (34, 8, 3, 1, 11, 1),
-  (35, 9, 3, 1, 11, 1),
-  (36, 9, 3, 1, 11, 1),
-  (37, 9, 3, 1, 11, 1),
-  (38, 10,3, 1, 11, 1),
-  (39, 10,3, 1, 11, 1),
-  (40, 10,3, 1, 11, 1),
-  (41, 11,3, 1, 11, 1),
-  (42, 11,3, 1, 11, 1),
-  (43, 11,3, 1, 11, 1),
-  (44, 12,3, 1, 11, 1),
-  (45, 12,3, 1, 11, 1),
-  (46, 12,3, 1, 11, 1),
-  (47, 3, 3, 1, 11, 1),
-  (48, 3, 3, 1, 11, 1),
-  (49, 3, 3, 1, 11, 1),
+  /* STUD LETO = 0 (2015/16), 1. Letnik */
+  (0, 1, 10, 1, 11, 1),
+  (0, 1, 11, 1, 11, 1),
+  (0, 1, 12, 1, 11, 1),
+  (0, 1, 13, 1, 11, 1),
+  (0, 1, 14, 1, 11, 1),
+  (0, 1, 15, 1, 11, 1),
+  (0, 1, 16, 1, 11, 1),
+  (0, 1, 17, 1, 11, 1),
+  (0, 1, 18, 1, 11, 1),
+  (0, 1, 19, 1, 11, 1),
 
-  (53, 2, 3, 1, 11, 1),
-  (54, 4, 2, 1, 11, 1),
+  /* STUD LETO = 0 (2015/16), 2. Letnik - Obvezni */
+  (0, 2, 20, 1, 11, 1),
+  (0, 2, 21, 1, 11, 1),
+  (0, 2, 22, 1, 11, 1),
+  (0, 2, 23, 1, 11, 1),
+  (0, 2, 24, 1, 11, 1),
+  (0, 2, 25, 1, 11, 1),
+  (0, 2, 26, 1, 11, 1),
+  (0, 2, 27, 1, 11, 1),
 
-  (50, 5, 2, 1, 11, 1),
-  (50, 5, 3, 1, 11, 1),
-  (51, 5, 2, 1, 11, 1),
-  (51, 5, 3, 1, 11, 1),
-  (52, 5, 2, 1, 11, 1),
-  (52, 5, 3, 1, 11, 1),
-  (8 ,13, 2, 1, 11, 1),
-  (8 ,13, 3, 1, 11, 1),
-  (26,13, 2, 1, 11, 1),
-  (26,13, 3, 1, 11, 1),
-  (28,13, 2, 1, 11, 1),
-  (28,13, 3, 1, 11, 1),
-  (55,13, 2, 1, 11, 1),
-  (55,13, 3, 1, 11, 1),
-  (56,13, 2, 1, 11, 1),
-  (56,13, 3, 1, 11, 1),
-  (57,13, 2, 1, 11, 1),
-  (57,13, 3, 1, 11, 1),
+  /* STUD LETO = 0 (2015/16), 2. Letnik - Strokovni izbirni */
+  (0, 2, 28, 2, 11, 1),
+  (0, 2, 29, 2, 11, 1),
+  (0, 2, 30, 2, 11, 1),
 
-#ID_STUD_LETO = 2
-  (1 , 1, 3, 2, 11, 1),
-  (2 , 1, 3, 2, 11, 1),
-  (3 , 1, 3, 2, 11, 1),
-  (4 , 2, 3, 2, 11, 1),
-  (5 , 2, 3, 2, 11, 1),
-  (6 , 3, 1, 2, 11, 1),
-  (7 , 4, 2, 2, 11, 1),
+  /* STUD LETO = 0 (2015/16), 2. Letnik - Splosni izbirni */
+  (0, 2, 100, 4, 11, 1),
+  (0, 2, 101, 4, 11, 1),
+  (0, 2, 102, 4, 11, 1),
+  (0, 2, 103, 4, 11, 1),
+  (0, 2, 104, 4, 11, 1),
+  (0, 2, 105, 4, 11, 1),
+  (0, 2, 106, 4, 11, 1),
+  (0, 2, 107, 4, 11, 1),
+  (0, 2, 108, 4, 11, 1),
+  (0, 2, 109, 3, 11, 1),
+  (0, 2, 110, 3, 11, 1),
+  (0, 2, 111, 3, 11, 1),
 
-  (9 , 3, 1, 2, 11, 1),
-  (10, 3, 1, 2, 11, 1),
-  (11, 3, 1, 2, 11, 1),
-  (12, 3, 1, 2, 11, 1),
-  (13, 3, 1, 2, 11, 1),
-  (14, 3, 1, 2, 11, 1),
-  (15, 3, 1, 2, 11, 1),
-  (16, 3, 1, 2, 11, 1),
-  (17, 3, 1, 2, 11, 1),
-  (18, 3, 2, 2, 11, 1),
-  (19, 3, 2, 2, 11, 1),
-  (20, 3, 2, 2, 11, 1),
-  (21, 3, 2, 2, 11, 1),
-  (22, 3, 2, 2, 11, 1),
-  (23, 3, 2, 2, 11, 1),
-  (24, 3, 2, 2, 11, 1),
-  (25, 3, 2, 2, 11, 1),
-  
-  (27, 4, 2, 2, 11, 1),
+  /* STUD LETO = 0 (2015/16), 3. Letnik - Obvezni */
+  (0, 3, 31, 1, 11, 1),
+  (0, 3, 32, 1, 11, 1),
+  (0, 3, 33, 1, 11, 1),
 
-  (29, 6, 3, 2, 11, 1),
-  (30, 6, 3, 2, 11, 1),
-  (31, 6, 3, 2, 11, 1),
-  (32, 8, 3, 2, 11, 1),
-  (33, 8, 3, 2, 11, 1),
-  (34, 8, 3, 2, 11, 1),
-  (35, 9, 3, 2, 11, 1),
-  (36, 9, 3, 2, 11, 1),
-  (37, 9, 3, 2, 11, 1),
-  (38, 10,3, 2, 11, 1),
-  (39, 10,3, 2, 11, 1),
-  (40, 10,3, 2, 11, 1),
-  (41, 11,3, 2, 11, 1),
-  (42, 11,3, 2, 11, 1),
-  (43, 11,3, 2, 11, 1),
-  (44, 12,3, 2, 11, 1),
-  (45, 12,3, 2, 11, 1),
-  (46, 12,3, 2, 11, 1),
-  (47, 3, 3, 2, 11, 1),
-  (48, 3, 3, 2, 11, 1),
-  (49, 3, 3, 2, 11, 1),
+  /* STUD LETO = 0 (2015/16), 3. Letnik - Moduli */
+  --  Razvoj prog opreme
+  (0, 3, 34, 10, 11, 1),
+  (0, 3, 35, 10, 11, 1),
+  (0, 3, 36, 10, 11, 1),
 
-  (53, 2, 3, 2, 11, 1),
-  (54, 4, 2, 2, 11, 1),
+  --  Inf. sistemi
+  (0, 3, 37, 11, 11, 1),
+  (0, 3, 38, 11, 11, 1),
+  (0, 3, 39, 11, 11, 1),
 
-  (50, 5, 2, 2, 11, 1),
-  (50, 5, 3, 2, 11, 1),
-  (51, 5, 2, 2, 11, 1),
-  (51, 5, 3, 2, 11, 1),
-  (52, 5, 2, 2, 11, 1),
-  (52, 5, 3, 2, 11, 1),
-  (8 ,13, 2, 2, 11, 1),
-  (8 ,13, 3, 2, 11, 1),
-  (26,13, 2, 2, 11, 1),
-  (26,13, 3, 2, 11, 1),
-  (28,13, 2, 2, 11, 1),
-  (28,13, 3, 2, 11, 1),
-  (55,13, 2, 2, 11, 1),
-  (55,13, 3, 2, 11, 1),
-  (56,13, 2, 2, 11, 1),
-  (56,13, 3, 2, 11, 1),
-  (57,13, 2, 2, 11, 1),
-  (57,13, 3, 2, 11, 1),
+  --  Upr. inf.
+  (0, 3, 40, 12, 11, 1),
+  (0, 3, 41, 12, 11, 1),
+  (0, 3, 42, 12, 11, 1),
 
-  #ID_STUD_LETO = 3
-  (1 , 1, 3, 3, 11, 1),
-  (2 , 1, 3, 3, 11, 1),
-  (3 , 1, 3, 3, 11, 1),
-  (4 , 2, 3, 3, 11, 1),
-  (5 , 2, 3, 3, 11, 1),
-  (6 , 3, 1, 3, 11, 1),
-  (7 , 4, 2, 3, 11, 1),
+  --  Rac omz
+  (0, 3, 43, 13, 11, 1),
+  (0, 3, 44, 13, 11, 1),
+  (0, 3, 45, 13, 11, 1),
 
-  (9 , 3, 1, 3, 11, 1),
-  (10, 3, 1, 3, 11, 1),
-  (11, 3, 1, 3, 11, 1),
-  (12, 3, 1, 3, 11, 1),
-  (13, 3, 1, 3, 11, 1),
-  (14, 3, 1, 3, 11, 1),
-  (15, 3, 1, 3, 11, 1),
-  (16, 3, 1, 3, 11, 1),
-  (17, 3, 1, 3, 11, 1),
-  (18, 3, 2, 3, 11, 1),
-  (19, 3, 2, 3, 11, 1),
-  (20, 3, 2, 3, 11, 1),
-  (21, 3, 2, 3, 11, 1),
-  (22, 3, 2, 3, 11, 1),
-  (23, 3, 2, 3, 11, 1),
-  (24, 3, 2, 3, 11, 1),
-  (25, 3, 2, 3, 11, 1),
-  
-  (27, 4, 2, 3, 11, 1),
+  --  Rac sis
+  (0, 3, 46, 14, 11, 1),
+  (0, 3, 47, 14, 11, 1),
+  (0, 3, 48, 14, 11, 1),
 
-  (29, 6, 3, 3, 11, 1),
-  (30, 6, 3, 3, 11, 1),
-  (31, 6, 3, 3, 11, 1),
-  (32, 8, 3, 3, 11, 1),
-  (33, 8, 3, 3, 11, 1),
-  (34, 8, 3, 3, 11, 1),
-  (35, 9, 3, 3, 11, 1),
-  (36, 9, 3, 3, 11, 1),
-  (37, 9, 3, 3, 11, 1),
-  (38, 10,3, 3, 11, 1),
-  (39, 10,3, 3, 11, 1),
-  (40, 10,3, 3, 11, 1),
-  (41, 11,3, 3, 11, 1),
-  (42, 11,3, 3, 11, 1),
-  (43, 11,3, 3, 11, 1),
-  (44, 12,3, 3, 11, 1),
-  (45, 12,3, 3, 11, 1),
-  (46, 12,3, 3, 11, 1),
-  (47, 3, 3, 3, 11, 1),
-  (48, 3, 3, 3, 11, 1),
-  (49, 3, 3, 3, 11, 1),
+  --  Alg sis prog
+  (0, 3, 49, 15, 11, 1),
+  (0, 3, 50, 15, 11, 1),
+  (0, 3, 51, 15, 11, 1),
 
-  (53, 2, 3, 3, 11, 1),
-  (54, 4, 2, 3, 11, 1),
+   --  Umet int
+  (0, 3, 52, 16, 11, 1),
+  (0, 3, 53, 16, 11, 1),
+  (0, 3, 54, 16, 11, 1),
 
-  (50, 5, 2, 3, 11, 1),
-  (50, 5, 3, 3, 11, 1),
-  (51, 5, 2, 3, 11, 1),
-  (51, 5, 3, 3, 11, 1),
-  (52, 5, 2, 3, 11, 1),
-  (52, 5, 3, 3, 11, 1),
-  (8 ,13, 2, 3, 11, 1),
-  (8 ,13, 3, 3, 11, 1),
-  (26,13, 2, 3, 11, 1),
-  (26,13, 3, 3, 11, 1),
-  (28,13, 2, 3, 11, 1),
-  (28,13, 3, 3, 11, 1),
-  (55,13, 2, 3, 11, 1),
-  (55,13, 3, 3, 11, 1),
-  (56,13, 2, 3, 11, 1),
-  (56,13, 3, 3, 11, 1),
-  (57,13, 2, 3, 11, 1),
-  (57,13, 3, 3, 11, 1),
+   --  Med teh
+  (0, 3, 55, 17, 11, 1),
+  (0, 3, 56, 17, 11, 1),
+  (0, 3, 57, 17, 11, 1),
 
-  #ID_STUD_LETO = 4
-  (1 , 1, 3, 4, 11, 1),
-  (2 , 1, 3, 4, 11, 1),
-  (3 , 1, 3, 4, 11, 1),
-  (4 , 2, 3, 4, 11, 1),
-  (5 , 2, 3, 4, 11, 1),
-  (6 , 3, 1, 4, 11, 1),
-  (7 , 4, 2, 4, 11, 1),
+  /* STUD LETO = 0 (2015/16), 3. Letnik - Splosni izbirni */
+  (0, 3, 100, 4, 11, 1),
+  (0, 3, 101, 4, 11, 1),
+  (0, 3, 102, 4, 11, 1),
+  (0, 3, 103, 4, 11, 1),
+  (0, 3, 104, 4, 11, 1),
+  (0, 3, 105, 4, 11, 1),
+  (0, 3, 106, 4, 11, 1),
+  (0, 3, 107, 4, 11, 1),
+  (0, 3, 108, 4, 11, 1),
+  (0, 3, 109, 3, 11, 1),
+  (0, 3, 110, 3, 11, 1),
+  (0, 3, 111, 3, 11, 1),
 
-  (9 , 3, 1, 4, 11, 1),
-  (10, 3, 1, 4, 11, 1),
-  (11, 3, 1, 4, 11, 1),
-  (12, 3, 1, 4, 11, 1),
-  (13, 3, 1, 4, 11, 1),
-  (14, 3, 1, 4, 11, 1),
-  (15, 3, 1, 4, 11, 1),
-  (16, 3, 1, 4, 11, 1),
-  (17, 3, 1, 4, 11, 1),
-  (18, 3, 2, 4, 11, 1),
-  (19, 3, 2, 4, 11, 1),
-  (20, 3, 2, 4, 11, 1),
-  (21, 3, 2, 4, 11, 1),
-  (22, 3, 2, 4, 11, 1),
-  (23, 3, 2, 4, 11, 1),
-  (24, 3, 2, 4, 11, 1),
-  (25, 3, 2, 4, 11, 1),
-  
-  (27, 4, 2, 4, 11, 1),
+  /* -- -- -- -- -- -- -- --  STUD LETO 0 END   -- -- -- -- -- -- -- --  */
 
-  (29, 6, 3, 4, 11, 1),
-  (30, 6, 3, 4, 11, 1),
-  (31, 6, 3, 4, 11, 1),
-  (32, 8, 3, 4, 11, 1),
-  (33, 8, 3, 4, 11, 1),
-  (34, 8, 3, 4, 11, 1),
-  (35, 9, 3, 4, 11, 1),
-  (36, 9, 3, 4, 11, 1),
-  (37, 9, 3, 4, 11, 1),
-  (38, 10,3, 4, 11, 1),
-  (39, 10,3, 4, 11, 1),
-  (40, 10,3, 4, 11, 1),
-  (41, 11,3, 4, 11, 1),
-  (42, 11,3, 4, 11, 1),
-  (43, 11,3, 4, 11, 1),
-  (44, 12,3, 4, 11, 1),
-  (45, 12,3, 4, 11, 1),
-  (46, 12,3, 4, 11, 1),
-  (47, 3, 3, 4, 11, 1),
-  (48, 3, 3, 4, 11, 1),
-  (49, 3, 3, 4, 11, 1),
+  /* -- -- -- -- -- -- -- --  STUD LETO 1 START -- -- -- -- -- -- -- --  */
+  /* STUD LETO = 1 (2016/17), 1. Letnik */
+  (1, 1, 10, 1, 11, 1),
+  (1, 1, 11, 1, 11, 1),
+  (1, 1, 12, 1, 11, 1),
+  (1, 1, 13, 1, 11, 1),
+  (1, 1, 14, 1, 11, 1),
+  (1, 1, 15, 1, 11, 1),
+  (1, 1, 16, 1, 11, 1),
+  (1, 1, 17, 1, 11, 1),
+  (1, 1, 18, 1, 11, 1),
+  (1, 1, 19, 1, 11, 1),
 
-  (53, 2, 3, 4, 11, 1),
-  (54, 4, 2, 4, 11, 1),
+  /* STUD LETO = 1 (2016/17), 2. Letnik - Obvezni */
+  (1, 2, 20, 1, 11, 1),
+  (1, 2, 21, 1, 11, 1),
+  (1, 2, 22, 1, 11, 1),
+  (1, 2, 23, 1, 11, 1),
+  (1, 2, 24, 1, 11, 1),
+  (1, 2, 25, 1, 11, 1),
+  (1, 2, 26, 1, 11, 1),
+  (1, 2, 27, 1, 11, 1),
 
-  (50, 5, 2, 4, 11, 1),
-  (50, 5, 3, 4, 11, 1),
-  (51, 5, 2, 4, 11, 1),
-  (51, 5, 3, 4, 11, 1),
-  (52, 5, 2, 4, 11, 1),
-  (52, 5, 3, 4, 11, 1),
-  (8 ,13, 2, 4, 11, 1),
-  (8 ,13, 3, 4, 11, 1),
-  (26,13, 2, 4, 11, 1),
-  (26,13, 3, 4, 11, 1),
-  (28,13, 2, 4, 11, 1),
-  (28,13, 3, 4, 11, 1),
-  (55,13, 2, 4, 11, 1),
-  (55,13, 3, 4, 11, 1),
-  (56,13, 2, 4, 11, 1),
-  (56,13, 3, 4, 11, 1),
-  (57,13, 2, 4, 11, 1),
-  (57,13, 3, 4, 11, 1),
+  /* STUD LETO = 1 (2016/17), 2. Letnik - Strokovni izbirni */
+  (1, 2, 28, 2, 11, 1),
+  (1, 2, 29, 2, 11, 1),
+  (1, 2, 30, 2, 11, 1),
 
-  #ID_STUD_LE4O = 5
-  (1 , 1, 3, 5, 11, 1),
-  (2 , 1, 3, 5, 11, 1),
-  (3 , 1, 3, 5, 11, 1),
-  (4 , 2, 3, 5, 11, 1),
-  (5 , 2, 3, 5, 11, 1),
-  (6 , 3, 1, 5, 11, 1),
-  (7 , 4, 2, 5, 11, 1),
+  /* STUD LETO = 1 (2016/17), 2. Letnik - Splosni izbirni */
+  (1, 2, 100, 4, 11, 1),
+  (1, 2, 101, 4, 11, 1),
+  (1, 2, 102, 4, 11, 1),
+  (1, 2, 103, 4, 11, 1),
+  (1, 2, 104, 4, 11, 1),
+  (1, 2, 105, 4, 11, 1),
+  (1, 2, 106, 4, 11, 1),
+  (1, 2, 107, 4, 11, 1),
+  (1, 2, 108, 4, 11, 1),
+  (1, 2, 109, 3, 11, 1),
+  (1, 2, 110, 3, 11, 1),
+  (1, 2, 111, 3, 11, 1),
 
-  (9 , 3, 1, 5, 11, 1),
-  (10, 3, 1, 5, 11, 1),
-  (11, 3, 1, 5, 11, 1),
-  (12, 3, 1, 5, 11, 1),
-  (13, 3, 1, 5, 11, 1),
-  (14, 3, 1, 5, 11, 1),
-  (15, 3, 1, 5, 11, 1),
-  (16, 3, 1, 5, 11, 1),
-  (17, 3, 1, 5, 11, 1),
-  (18, 3, 2, 5, 11, 1),
-  (19, 3, 2, 5, 11, 1),
-  (20, 3, 2, 5, 11, 1),
-  (21, 3, 2, 5, 11, 1),
-  (22, 3, 2, 5, 11, 1),
-  (23, 3, 2, 5, 11, 1),
-  (24, 3, 2, 5, 11, 1),
-  (25, 3, 2, 5, 11, 1),
-  
-  (27, 4, 2, 5, 11, 1),
+  /* STUD LETO = 1 (2016/17), 3. Letnik - Obvezni */
+  (1, 3, 31, 1, 11, 1),
+  (1, 3, 32, 1, 11, 1),
+  (1, 3, 33, 1, 11, 1),
 
-  (29, 6, 3, 5, 11, 1),
-  (30, 6, 3, 5, 11, 1),
-  (31, 6, 3, 5, 11, 1),
-  (32, 8, 3, 5, 11, 1),
-  (33, 8, 3, 5, 11, 1),
-  (34, 8, 3, 5, 11, 1),
-  (35, 9, 3, 5, 11, 1),
-  (36, 9, 3, 5, 11, 1),
-  (37, 9, 3, 5, 11, 1),
-  (38, 10,3, 5, 11, 1),
-  (39, 10,3, 5, 11, 1),
-  (40, 10,3, 5, 11, 1),
-  (41, 11,3, 5, 11, 1),
-  (42, 11,3, 5, 11, 1),
-  (43, 11,3, 5, 11, 1),
-  (44, 12,3, 5, 11, 1),
-  (45, 12,3, 5, 11, 1),
-  (46, 12,3, 5, 11, 1),
-  (47, 3, 3, 5, 11, 1),
-  (48, 3, 3, 5, 11, 1),
-  (49, 3, 3, 5, 11, 1),
+  /* STUD LETO = 1 (2016/17), 3. Letnik - Moduli */
+  --  Razvoj prog opreme
+  (1, 3, 34, 10, 11, 1),
+  (1, 3, 35, 10, 11, 1),
+  (1, 3, 36, 10, 11, 1),
 
-  (53, 2, 3, 5, 11, 1),
-  (54, 4, 2, 5, 11, 1),
+  --  Inf. sistemi
+  (1, 3, 37, 11, 11, 1),
+  (1, 3, 38, 11, 11, 1),
+  (1, 3, 39, 11, 11, 1),
 
-  (50, 5, 2, 5, 11, 1),
-  (50, 5, 3, 5, 11, 1),
-  (51, 5, 2, 5, 11, 1),
-  (51, 5, 3, 5, 11, 1),
-  (52, 5, 2, 5, 11, 1),
-  (52, 5, 3, 5, 11, 1),
-  (8 ,13, 2, 5, 11, 1),
-  (8 ,13, 3, 5, 11, 1),
-  (26,13, 2, 5, 11, 1),
-  (26,13, 3, 5, 11, 1),
-  (28,13, 2, 5, 11, 1),
-  (28,13, 3, 5, 11, 1),
-  (55,13, 2, 5, 11, 1),
-  (55,13, 3, 5, 11, 1),
-  (56,13, 2, 5, 11, 1),
-  (56,13, 3, 5, 11, 1),
-  (57,13, 2, 5, 11, 1),
-  (57,13, 3, 5, 11, 1),
+  --  Upr. inf.
+  (1, 3, 40, 12, 11, 1),
+  (1, 3, 41, 12, 11, 1),
+  (1, 3, 42, 12, 11, 1),
 
-  #ID_STUD_LETO = 6
-  (1 , 1, 3, 6, 11, 1),
-  (2 , 1, 3, 6, 11, 1),
-  (3 , 1, 3, 6, 11, 1),
-  (4 , 2, 3, 6, 11, 1),
-  (5 , 2, 3, 6, 11, 1),
-  (6 , 3, 1, 6, 11, 1),
-  (7 , 4, 2, 6, 11, 1),
+  --  Rac omz
+  (1, 3, 43, 13, 11, 1),
+  (1, 3, 44, 13, 11, 1),
+  (1, 3, 45, 13, 11, 1),
 
-  (9 , 3, 1, 6, 11, 1),
-  (10, 3, 1, 6, 11, 1),
-  (11, 3, 1, 6, 11, 1),
-  (12, 3, 1, 6, 11, 1),
-  (13, 3, 1, 6, 11, 1),
-  (14, 3, 1, 6, 11, 1),
-  (15, 3, 1, 6, 11, 1),
-  (16, 3, 1, 6, 11, 1),
-  (17, 3, 1, 6, 11, 1),
-  (18, 3, 2, 6, 11, 1),
-  (19, 3, 2, 6, 11, 1),
-  (20, 3, 2, 6, 11, 1),
-  (21, 3, 2, 6, 11, 1),
-  (22, 3, 2, 6, 11, 1),
-  (23, 3, 2, 6, 11, 1),
-  (24, 3, 2, 6, 11, 1),
-  (25, 3, 2, 6, 11, 1),
-  
-  (27, 4, 2, 6, 11, 1),
+  --  Rac sis
+  (1, 3, 46, 14, 11, 1),
+  (1, 3, 47, 14, 11, 1),
+  (1, 3, 48, 14, 11, 1),
 
-  (29, 6, 3, 6, 11, 1),
-  (30, 6, 3, 6, 11, 1),
-  (31, 6, 3, 6, 11, 1),
-  (32, 8, 3, 6, 11, 1),
-  (33, 8, 3, 6, 11, 1),
-  (34, 8, 3, 6, 11, 1),
-  (35, 9, 3, 6, 11, 1),
-  (36, 9, 3, 6, 11, 1),
-  (37, 9, 3, 6, 11, 1),
-  (38, 10,3, 6, 11, 1),
-  (39, 10,3, 6, 11, 1),
-  (40, 10,3, 6, 11, 1),
-  (41, 11,3, 6, 11, 1),
-  (42, 11,3, 6, 11, 1),
-  (43, 11,3, 6, 11, 1),
-  (44, 12,3, 6, 11, 1),
-  (45, 12,3, 6, 11, 1),
-  (46, 12,3, 6, 11, 1),
-  (47, 3, 3, 6, 11, 1),
-  (48, 3, 3, 6, 11, 1),
-  (49, 3, 3, 6, 11, 1),
+  --  Alg sis prog
+  (1, 3, 49, 15, 11, 1),
+  (1, 3, 50, 15, 11, 1),
+  (1, 3, 51, 15, 11, 1),
 
-  (53, 2, 3, 6, 11, 1),
-  (54, 4, 2, 6, 11, 1),
+   --  Umet int
+  (1, 3, 52, 16, 11, 1),
+  (1, 3, 53, 16, 11, 1),
+  (1, 3, 54, 16, 11, 1),
 
-  (50, 5, 2, 6, 11, 1),
-  (50, 5, 3, 6, 11, 1),
-  (51, 5, 2, 6, 11, 1),
-  (51, 5, 3, 6, 11, 1),
-  (52, 5, 2, 6, 11, 1),
-  (52, 5, 3, 6, 11, 1),
-  (8 ,13, 2, 6, 11, 1),
-  (8 ,13, 3, 6, 11, 1),
-  (26,13, 2, 6, 11, 1),
-  (26,13, 3, 6, 11, 1),
-  (28,13, 2, 6, 11, 1),
-  (28,13, 3, 6, 11, 1),
-  (55,13, 2, 6, 11, 1),
-  (55,13, 3, 6, 11, 1),
-  (56,13, 2, 6, 11, 1),
-  (56,13, 3, 6, 11, 1),
-  (57,13, 2, 6, 11, 1),
-  (57,13, 3, 6, 11, 1);
+   --  Med teh
+  (1, 3, 55, 17, 11, 1),
+  (1, 3, 56, 17, 11, 1),
+  (1, 3, 57, 17, 11, 1),
 
+  /* STUD LETO = 1 (2016/17), 3. Letnik - Splosni izbirni */
+  (1, 3, 100, 4, 11, 1),
+  (1, 3, 101, 4, 11, 1),
+  (1, 3, 102, 4, 11, 1),
+  (1, 3, 103, 4, 11, 1),
+  (1, 3, 104, 4, 11, 1),
+  (1, 3, 105, 4, 11, 1),
+  (1, 3, 106, 4, 11, 1),
+  (1, 3, 107, 4, 11, 1),
+  (1, 3, 108, 4, 11, 1),
+  (1, 3, 109, 3, 11, 1),
+  (1, 3, 110, 3, 11, 1),
+  (1, 3, 111, 3, 11, 1),
+
+  /* -- -- -- -- -- -- -- --  STUD LETO 1 END   -- -- -- -- -- -- -- --  */
+
+  /* -- -- -- -- -- -- -- --  STUD LETO 2 START -- -- -- -- -- -- -- --  */
+  /* STUD LETO = 2 (2017/18), 1. Letnik */
+  (2, 1, 10, 1, 11, 1),
+  (2, 1, 11, 1, 11, 1),
+  (2, 1, 12, 1, 11, 1),
+  (2, 1, 13, 1, 11, 1),
+  (2, 1, 14, 1, 11, 1),
+  (2, 1, 15, 1, 11, 1),
+  (2, 1, 16, 1, 11, 1),
+  (2, 1, 17, 1, 11, 1),
+  (2, 1, 18, 1, 11, 1),
+  (2, 1, 19, 1, 11, 1),
+
+  /* STUD LETO = 2 (2017/18), 2. Letnik - Obvezni */
+  (2, 2, 20, 1, 11, 1),
+  (2, 2, 21, 1, 11, 1),
+  (2, 2, 22, 1, 11, 1),
+  (2, 2, 23, 1, 11, 1),
+  (2, 2, 24, 1, 11, 1),
+  (2, 2, 25, 1, 11, 1),
+  (2, 2, 26, 1, 11, 1),
+  (2, 2, 27, 1, 11, 1),
+
+  /* STUD LETO = 2 (2017/18), 2. Letnik - Strokovni izbirni */
+  (2, 2, 28, 2, 11, 1),
+  (2, 2, 29, 2, 11, 1),
+  (2, 2, 30, 2, 11, 1),
+
+  /* STUD LETO = 2 (2017/18), 2. Letnik - Splosni izbirni */
+  (2, 2, 100, 4, 11, 1),
+  (2, 2, 101, 4, 11, 1),
+  (2, 2, 102, 4, 11, 1),
+  (2, 2, 103, 4, 11, 1),
+  (2, 2, 104, 4, 11, 1),
+  (2, 2, 105, 4, 11, 1),
+  (2, 2, 106, 4, 11, 1),
+  (2, 2, 107, 4, 11, 1),
+  (2, 2, 108, 4, 11, 1),
+  (2, 2, 109, 3, 11, 1),
+  (2, 2, 110, 3, 11, 1),
+  (2, 2, 111, 3, 11, 1),
+
+  /* STUD LETO = 2 (2017/18), 3. Letnik - Obvezni */
+  (2, 3, 31, 1, 11, 1),
+  (2, 3, 32, 1, 11, 1),
+  (2, 3, 33, 1, 11, 1),
+
+  /* STUD LETO = 2 (2017/18), 3. Letnik - Moduli */
+  --  Razvoj prog opreme
+  (2, 3, 34, 10, 11, 1),
+  (2, 3, 35, 10, 11, 1),
+  (2, 3, 36, 10, 11, 1),
+
+  --  Inf. sistemi
+  (2, 3, 37, 11, 11, 1),
+  (2, 3, 38, 11, 11, 1),
+  (2, 3, 39, 11, 11, 1),
+
+  --  Upr. inf.
+  (2, 3, 40, 12, 11, 1),
+  (2, 3, 41, 12, 11, 1),
+  (2, 3, 42, 12, 11, 1),
+
+  --  Rac omz
+  (2, 3, 43, 13, 11, 1),
+  (2, 3, 44, 13, 11, 1),
+  (2, 3, 45, 13, 11, 1),
+
+  --  Rac sis
+  (2, 3, 46, 14, 11, 1),
+  (2, 3, 47, 14, 11, 1),
+  (2, 3, 48, 14, 11, 1),
+
+  --  Alg sis prog
+  (2, 3, 49, 15, 11, 1),
+  (2, 3, 50, 15, 11, 1),
+  (2, 3, 51, 15, 11, 1),
+
+   --  Umet int
+  (2, 3, 52, 16, 11, 1),
+  (2, 3, 53, 16, 11, 1),
+  (2, 3, 54, 16, 11, 1),
+
+   --  Med teh
+  (2, 3, 55, 17, 11, 1),
+  (2, 3, 56, 17, 11, 1),
+  (2, 3, 57, 17, 11, 1),
+
+  /* STUD LETO = 2 (2017/18), 3. Letnik - Splosni izbirni */
+  (2, 3, 100, 4, 11, 1),
+  (2, 3, 101, 4, 11, 1),
+  (2, 3, 102, 4, 11, 1),
+  (2, 3, 103, 4, 11, 1),
+  (2, 3, 104, 4, 11, 1),
+  (2, 3, 105, 4, 11, 1),
+  (2, 3, 106, 4, 11, 1),
+  (2, 3, 107, 4, 11, 1),
+  (2, 3, 108, 4, 11, 1),
+  (2, 3, 109, 3, 11, 1),
+  (2, 3, 110, 3, 11, 1),
+  (2, 3, 111, 3, 11, 1),
+
+  /* -- -- -- -- -- -- -- --  STUD LETO 2 END   -- -- -- -- -- -- -- --  */
+
+  /* -- -- -- -- -- -- -- --  STUD LETO 3 START -- -- -- -- -- -- -- --  */
+  /* STUD LETO = 3 (2018/19) 1. Letnik */
+  (3, 1, 10, 1, 11, 1),
+  (3, 1, 11, 1, 11, 1),
+  (3, 1, 12, 1, 11, 1),
+  (3, 1, 13, 1, 11, 1),
+  (3, 1, 14, 1, 11, 1),
+  (3, 1, 15, 1, 11, 1),
+  (3, 1, 16, 1, 11, 1),
+  (3, 1, 17, 1, 11, 1),
+  (3, 1, 18, 1, 11, 1),
+  (3, 1, 19, 1, 11, 1),
+
+  /* STUD LETO = 3 (2018/19), 2. Letnik - Obvezni */
+  (3, 2, 20, 1, 11, 1),
+  (3, 2, 21, 1, 11, 1),
+  (3, 2, 22, 1, 11, 1),
+  (3, 2, 23, 1, 11, 1),
+  (3, 2, 24, 1, 11, 1),
+  (3, 2, 25, 1, 11, 1),
+  (3, 2, 26, 1, 11, 1),
+  (3, 2, 27, 1, 11, 1),
+
+  /* STUD LETO = 3 (2018/19), 2. Letnik - Strokovni izbirni */
+  (3, 2, 28, 2, 11, 1),
+  (3, 2, 29, 2, 11, 1),
+  (3, 2, 30, 2, 11, 1),
+
+  /* STUD LETO = 3 (2018/19), 2. Letnik - Splosni izbirni */
+  (3, 2, 100, 4, 11, 1),
+  (3, 2, 101, 4, 11, 1),
+  (3, 2, 102, 4, 11, 1),
+  (3, 2, 103, 4, 11, 1),
+  (3, 2, 104, 4, 11, 1),
+  (3, 2, 105, 4, 11, 1),
+  (3, 2, 106, 4, 11, 1),
+  (3, 2, 107, 4, 11, 1),
+  (3, 2, 108, 4, 11, 1),
+  (3, 2, 109, 3, 11, 1),
+  (3, 2, 110, 3, 11, 1),
+  (3, 2, 111, 3, 11, 1),
+
+  /* STUD LETO = 3 (2018/19), 3. Letnik - Obvezni */
+  (3, 3, 31, 1, 11, 1),
+  (3, 3, 32, 1, 11, 1),
+  (3, 3, 33, 1, 11, 1),
+
+  /* STUD LETO = 3 (2018/19), 3. Letnik - Moduli */
+  --  Razvoj prog opreme
+  (3, 3, 34, 10, 11, 1),
+  (3, 3, 35, 10, 11, 1),
+  (3, 3, 36, 10, 11, 1),
+
+  --  Inf. sistemi
+  (3, 3, 37, 11, 11, 1),
+  (3, 3, 38, 11, 11, 1),
+  (3, 3, 39, 11, 11, 1),
+
+  --  Upr. inf.
+  (3, 3, 40, 12, 11, 1),
+  (3, 3, 41, 12, 11, 1),
+  (3, 3, 42, 12, 11, 1),
+
+  --  Rac omz
+  (3, 3, 43, 13, 11, 1),
+  (3, 3, 44, 13, 11, 1),
+  (3, 3, 45, 13, 11, 1),
+
+  --  Rac sis
+  (3, 3, 46, 14, 11, 1),
+  (3, 3, 47, 14, 11, 1),
+  (3, 3, 48, 14, 11, 1),
+
+  --  Alg sis prog
+  (3, 3, 49, 15, 11, 1),
+  (3, 3, 50, 15, 11, 1),
+  (3, 3, 51, 15, 11, 1),
+
+   --  Umet int
+  (3, 3, 52, 16, 11, 1),
+  (3, 3, 53, 16, 11, 1),
+  (3, 3, 54, 16, 11, 1),
+
+   --  Med teh
+  (3, 3, 55, 17, 11, 1),
+  (3, 3, 56, 17, 11, 1),
+  (3, 3, 57, 17, 11, 1),
+
+  /* STUD LETO = 3 (2018/19), 3. Letnik - Splosni izbirni */
+  (3, 3, 100, 4, 11, 1),
+  (3, 3, 101, 4, 11, 1),
+  (3, 3, 102, 4, 11, 1),
+  (3, 3, 103, 4, 11, 1),
+  (3, 3, 104, 4, 11, 1),
+  (3, 3, 105, 4, 11, 1),
+  (3, 3, 106, 4, 11, 1),
+  (3, 3, 107, 4, 11, 1),
+  (3, 3, 108, 4, 11, 1),
+  (3, 3, 109, 3, 11, 1),
+  (3, 3, 110, 3, 11, 1),
+  (3, 3, 111, 3, 11, 1);
+
+  /* -- -- -- -- -- -- -- --  STUD LETO 3 END   -- -- -- -- -- -- -- --  */
 INSERT INTO `tpo`.`IZVEDBA_PREDMETA`
-(`ID_IZVEDBA`, `ID_STUD_LETO`, `ID_OSEBA1`, `ID_OSEBA2`, `ID_OSEBA3`, `ID_PREDMET`)
-VALUES
-  (1, 1, 2,13,  14,   1),
-  (2, 1, 2,NULL,NULL, 6),
-  (3, 1,13,14,  NULL, 4),
-  (5, 2, 2,13,  14,   1),
-  (6, 2, 2,NULL,NULL, 6),
-  (7, 2,13,14,  NULL, 4),
-  (9, 3, 2,13,  14,   1),
-  (10,3, 2,NULL,NULL, 6),
-  (11,3,13,14,  NULL, 4),
-  (244,4, 2,13,  14,   1),
-  (245,4, 2,NULL,NULL, 6),
-  (246,4,13,14,  NULL, 4),
-  (247,5, 2,13,  14,   1),
-  (248,5, 2,NULL,NULL, 6),
-  (249,5,13,14,  NULL, 4),
-  (250,6, 2,13,  14,   1),
-  (251,6, 2,NULL,NULL, 6),
-  (252,6,13,14,  NULL, 4),
+(`ID_IZVEDBA`, `ID_STUD_LETO`, `ID_PREDMET`, `ID_OSEBA1`, `ID_OSEBA2`, `ID_OSEBA3`) VALUES
 
-  #ID_STUD_LETO = 1
-  (13,1,29,NULL,NULL,10),
-  (15,1,32,NULL,NULL,11),
-  (16,1,34,NULL,NULL,13),
-  (17,1,35,NULL,NULL,15),
-  (18,1,36,NULL,NULL,16),
-  (19,1,37,NULL,NULL,17),
-  (20,1,38,NULL,NULL,14),
-  (21,1,2, 30,  NULL, 9),
-  (22,1,14,NULL,NULL,12),
-  (23,1,36,NULL,NULL,18),
-  (24,1,37,NULL,NULL,19),
+/* -- -- - STUD LETO 0 START -- -- - */
+/* 1. Letnik, Stud leto = 0, Obvezni */
+(1,0,10,102,NULL,NULL),
+(2,0,11,101,NULL,NULL),
+(3,0,12,100,NULL,NULL),
+(4,0,13,103,NULL,NULL),
+(5,0,14,104,NULL,NULL),
+(6,0,15,105,NULL,NULL),
+(7,0,16,109,NULL,NULL),
+(8,0,17,106,NULL,NULL),
+(9,0,18,107,NULL,NULL),
+(10,0,19,108,NULL,NULL),
 
-  (27,1,14,NULL,NULL,12),
-  (28,1,32,NULL,NULL,20),
-  (29,1,34,NULL,NULL,21),
-  (30,1,35,NULL,NULL,22),
-  (31,1,36,NULL,NULL,23),
-  (32,1,37,NULL,NULL,24),
-  (33,1,38,NULL,NULL,25),
-  (34,1,29,NULL,NULL,26),
-  (35,1,30,NULL,NULL,27),
-  (36,1,31,NULL,NULL,29),
-  (37,1,32,NULL,NULL,7),
-  (38,1,33,NULL,NULL,8),
-  (39,1,29,NULL,NULL,2),
-  (40,1,30,NULL,NULL,3),
-  (41,1,31,NULL,NULL,5),
-  (42,1,32,NULL,NULL,30),
-  (43,1,33,NULL,NULL,31),
-  (44,1,32,NULL,NULL,32),
-  (45,1,31,NULL,NULL,33),
-  (46,1,30,NULL,NULL,54),
-  (47,1,29,NULL,NULL,53),
-  (48,1,38,NULL,NULL,52),
-  (49,1,37,NULL,NULL,51),
-  (50,1,36,NULL,NULL,50),
-  (51,1,35,NULL,NULL,55),
-  (52,1,34,NULL,NULL,56),
-  (238,1,34,NULL,NULL,57),
+/* 2. Letnik, Stud leto = 0, Obvezni */
+(11,0,20,112,NULL,NULL),
+(12,0,21,114,NULL,NULL),
+(13,0,22,113,NULL,NULL),
+(14,0,23,111,NULL,NULL),
+(15,0,24,114,NULL,NULL),
+(16,0,25,115,NULL,NULL),
+(17,0,26,114,NULL,NULL),
+(18,0,27,110,NULL,NULL),
 
+/* 2. Letnik, Stud leto = 0, Strokovni izbirni */
+(19,0,28,117,NULL,NULL),
+(20,0,29,116,NULL,NULL),
+(21,0,30,118,NULL,NULL),
 
-  (53,2,29,NULL,NULL,10),
-  (54,2,32,NULL,NULL,11),
-  (55,2,34,NULL,NULL,13),
-  (56,2,35,NULL,NULL,15),
-  (57,2,36,NULL,NULL,16),
-  (58,2,37,NULL,NULL,17),
-  (59,2,38,NULL,NULL,14),
-  (60,2,2, 30,  NULL, 9),
-  (61,2,14,NULL,NULL,12),
-  (62,2,36,NULL,NULL,18),
-  (63,2,37,NULL,NULL,19),
+/* 2. Letnik, Stud leto = 0, Splosni izbirni */
+(22,0,100,130,NULL,NULL),
+(23,0,101,107,NULL,NULL),
+(24,0,102,107,NULL,NULL),
+(25,0,103,108,NULL,NULL),
+(26,0,104,109,NULL,NULL),
+(27,0,105,113,NULL,NULL),
+(28,0,106,117,NULL,NULL),
+(29,0,107,117,NULL,NULL),
+(30,0,108,117,NULL,NULL),
+(31,0,109,115,NULL,NULL),
+(32,0,110,117,NULL,NULL),
+(33,0,111,107,NULL,NULL),
 
-  (64,2,14,NULL,NULL,12),
-  (65,2,32,NULL,NULL,20),
-  (66,2,34,NULL,NULL,21),
-  (67,2,35,NULL,NULL,22),
-  (68,2,36,NULL,NULL,23),
-  (69,2,37,NULL,NULL,24),
-  (70,2,38,NULL,NULL,25),
-  (71,2,29,NULL,NULL,26),
-  (72,2,30,NULL,NULL,27),
-  (73,2,31,NULL,NULL,29),
-  (74,2,32,NULL,NULL,7),
-  (75,2,33,NULL,NULL,8),
-  (76,2,29,NULL,NULL,2),
-  (77,2,30,NULL,NULL,3),
-  (78,2,31,NULL,NULL,5),
-  (79,2,32,NULL,NULL,30),
-  (80,2,33,NULL,NULL,31),
-  (81,2,32,NULL,NULL,32),
-  (82,2,31,NULL,NULL,33),
-  (83,2,30,NULL,NULL,54),
-  (84,2,29,NULL,NULL,53),
-  (85,2,38,NULL,NULL,52),
-  (86,2,37,NULL,NULL,51),
-  (87,2,36,NULL,NULL,50),
-  (88,2,35,NULL,NULL,55),
-  (89,2,34,NULL,NULL,56),
-  (239,2,34,NULL,NULL,57),
+/* 3. Letnik, Stud leto = 0, Obvezni */
+(34,0,31,107,NULL,NULL),
+(35,0,32,127,128,129),
+(36,0,33,109,NULL,NULL),
 
+/* 3. Letnik, Stud leto = 0, Moduli */
+--  Raz prog opr
+(37,0,34,102,NULL,NULL),
+(38,0,35,124,NULL,NULL),
+(39,0,36,108,NULL,NULL),
+--  Inf sis
+(40,0,37,120,NULL,NULL),
+(41,0,38,119,NULL,NULL),
+(42,0,39,121,NULL,NULL),
+--  Obv inf
+(43,0,40,122,NULL,NULL),
+(44,0,41,113,NULL,NULL),
+(45,0,42,123,NULL,NULL),
+--  Rac omr
+(46,0,43,126,NULL,NULL),
+(47,0,44,103,NULL,NULL),
+(48,0,45,125,NULL,NULL),
+--  Rac sis
+(49,0,46,125,NULL,NULL),
+(50,0,47,110,NULL,NULL),
+(51,0,48,115,NULL,NULL),
+--  Alg pod sis
+(52,0,49,106,NULL,NULL),
+(53,0,50,114,NULL,NULL),
+(54,0,51,105,NULL,NULL),
+--  Umet int
+(55,0,52,129,NULL,NULL),
+(56,0,53,127,NULL,NULL),
+(57,0,54,128,NULL,NULL),
+--  Med teh
+(58,0,55,130,NULL,NULL),
+(59,0,56,131,NULL,NULL),
+(60,0,57,132,NULL,NULL),
 
-  (90,3,29,NULL,NULL,10),
-  (91,3,32,NULL,NULL,11),
-  (92,3,34,NULL,NULL,13),
-  (93,3,35,NULL,NULL,15),
-  (94,3,36,NULL,NULL,16),
-  (95,3,37,NULL,NULL,17),
-  (96,3,38,NULL,NULL,14),
-  (97,3,2, 30,  NULL, 9),
-  (98,3,14,NULL,NULL,12),
-  (99,3,36,NULL,NULL,18),
-  (100,3,37,NULL,NULL,19),
+/* -- -- - STUD LETO 0 END -- -- - */
 
-  (101,3,14,NULL,NULL,12),
-  (102,3,32,NULL,NULL,20),
-  (103,3,34,NULL,NULL,21),
-  (104,3,35,NULL,NULL,22),
-  (105,3,36,NULL,NULL,23),
-  (106,3,37,NULL,NULL,24),
-  (107,3,38,NULL,NULL,25),
-  (108,3,29,NULL,NULL,26),
-  (109,3,30,NULL,NULL,27),
-  (110,3,31,NULL,NULL,29),
-  (111,3,32,NULL,NULL,7),
-  (112,3,33,NULL,NULL,8),
-  (113,3,29,NULL,NULL,2),
-  (114,3,30,NULL,NULL,3),
-  (115,3,31,NULL,NULL,5),
-  (116,3,32,NULL,NULL,30),
-  (117,3,33,NULL,NULL,31),
-  (118,3,32,NULL,NULL,32),
-  (119,3,31,NULL,NULL,33),
-  (120,3,30,NULL,NULL,54),
-  (121,3,29,NULL,NULL,53),
-  (122,3,38,NULL,NULL,52),
-  (123,3,37,NULL,NULL,51),
-  (124,3,36,NULL,NULL,50),
-  (125,3,35,NULL,NULL,55),
-  (126,3,34,NULL,NULL,56),
-  (240,3,34,NULL,NULL,57),
+/* -- -- - STUD LETO 1 START -- -- - */
+/* 1. Letnik, Stud leto = 1, Obvezni */
+(61,1,10,102,NULL,NULL),
+(62,1,11,101,NULL,NULL),
+(63,1,12,100,NULL,NULL),
+(64,1,13,103,NULL,NULL),
+(65,1,14,104,NULL,NULL),
+(66,1,15,105,NULL,NULL),
+(67,1,16,109,NULL,NULL),
+(68,1,17,106,NULL,NULL),
+(69,1,18,107,NULL,NULL),
+(70,1,19,108,NULL,NULL),
 
+/* 2. Letnik, Stud leto = 1, Obvezni */
+(71,1,20,112,NULL,NULL),
+(72,1,21,114,NULL,NULL),
+(73,1,22,113,NULL,NULL),
+(74,1,23,111,NULL,NULL),
+(75,1,24,114,NULL,NULL),
+(76,1,25,115,NULL,NULL),
+(77,1,26,114,NULL,NULL),
+(78,1,27,110,NULL,NULL),
 
-  (127,4,29,NULL,NULL,10),
-  (128,4,32,NULL,NULL,11),
-  (129,4,34,NULL,NULL,13),
-  (130,4,35,NULL,NULL,15),
-  (131,4,36,NULL,NULL,16),
-  (132,4,37,NULL,NULL,17),
-  (133,4,38,NULL,NULL,14),
-  (134,4,2, 30,  NULL, 9),
-  (135,4,14,NULL,NULL,12),
-  (136,4,36,NULL,NULL,18),
-  (137,4,37,NULL,NULL,19),
+/* 2. Letnik, Stud leto = 1, Strokovni izbirni */
+(79,1,28,117,NULL,NULL),
+(80,1,29,116,NULL,NULL),
+(81,1,30,118,NULL,NULL),
 
-  (138,4,14,NULL,NULL,12),
-  (139,4,32,NULL,NULL,20),
-  (140,4,34,NULL,NULL,21),
-  (141,4,35,NULL,NULL,22),
-  (142,4,36,NULL,NULL,23),
-  (143,4,37,NULL,NULL,24),
-  (144,4,38,NULL,NULL,25),
-  (145,4,29,NULL,NULL,26),
-  (146,4,30,NULL,NULL,27),
-  (147,4,31,NULL,NULL,29),
-  (148,4,32,NULL,NULL,7),
-  (149,4,33,NULL,NULL,8),
-  (150,4,29,NULL,NULL,2),
-  (151,4,30,NULL,NULL,3),
-  (152,4,31,NULL,NULL,5),
-  (153,4,32,NULL,NULL,30),
-  (154,4,33,NULL,NULL,31),
-  (155,4,32,NULL,NULL,32),
-  (156,4,31,NULL,NULL,33),
-  (157,4,30,NULL,NULL,54),
-  (158,4,29,NULL,NULL,53),
-  (159,4,38,NULL,NULL,52),
-  (160,4,37,NULL,NULL,51),
-  (161,4,36,NULL,NULL,50),
-  (162,4,35,NULL,NULL,55),
-  (163,4,34,NULL,NULL,56),
-  (241,4,34,NULL,NULL,57),
+/* 2. Letnik, Stud leto = 1, Splosni izbirni */
+(82,1,100,130,NULL,NULL),
+(84,1,101,107,NULL,NULL),
+(85,1,102,107,NULL,NULL),
+(86,1,103,108,NULL,NULL),
+(87,1,104,109,NULL,NULL),
+(88,1,105,113,NULL,NULL),
+(89,1,106,117,NULL,NULL),
+(90,1,107,117,NULL,NULL),
+(91,1,108,117,NULL,NULL),
+(92,1,109,115,NULL,NULL),
+(93,1,110,117,NULL,NULL),
+(94,1,111,107,NULL,NULL),
 
+/* 3. Letnik, Stud leto = 1, Obvezni */
+(95,1,31,107,NULL,NULL),
+(96,1,32,127,128,129),
+(97,1,33,109,NULL,NULL),
 
-  (164,5,29,NULL,NULL,10),
-  (165,5,32,NULL,NULL,11),
-  (166,5,34,NULL,NULL,13),
-  (167,5,35,NULL,NULL,15),
-  (168,5,36,NULL,NULL,16),
-  (169,5,37,NULL,NULL,17),
-  (170,5,38,NULL,NULL,14),
-  (171,5,2, 30,  NULL, 9),
-  (172,5,14,NULL,NULL,12),
-  (173,5,36,NULL,NULL,18),
-  (174,5,37,NULL,NULL,19),
+/* 3. Letnik, Stud leto = 11, Moduli */
+--  Raz prog opr
+(98,1,34,102,NULL,NULL),
+(99,1,35,124,NULL,NULL),
+(100,1,36,108,NULL,NULL),
+--  Inf sis
+(101,1,37,120,NULL,NULL),
+(102,1,38,119,NULL,NULL),
+(103,1,39,121,NULL,NULL),
+--  Obv inf
+(104,1,40,122,NULL,NULL),
+(105,1,41,113,NULL,NULL),
+(106,1,42,123,NULL,NULL),
+--  Rac omr
+(107,1,43,126,NULL,NULL),
+(108,1,44,103,NULL,NULL),
+(109,1,45,125,NULL,NULL),
+--  Rac sis
+(110,1,46,125,NULL,NULL),
+(111,1,47,110,NULL,NULL),
+(112,1,48,115,NULL,NULL),
+--  Alg pod sis
+(113,1,49,106,NULL,NULL),
+(114,1,50,114,NULL,NULL),
+(115,1,51,105,NULL,NULL),
+--  Umet int
+(116,1,52,129,NULL,NULL),
+(117,1,53,127,NULL,NULL),
+(118,1,54,128,NULL,NULL),
+--  Med teh
+(119,1,55,130,NULL,NULL),
+(120,1,56,131,NULL,NULL),
+(121,1,57,132,NULL,NULL),
 
-  (175,5,14,NULL,NULL,12),
-  (176,5,32,NULL,NULL,20),
-  (177,5,34,NULL,NULL,21),
-  (178,5,35,NULL,NULL,22),
-  (179,5,36,NULL,NULL,23),
-  (180,5,37,NULL,NULL,24),
-  (181,5,38,NULL,NULL,25),
-  (182,5,29,NULL,NULL,26),
-  (183,5,30,NULL,NULL,27),
-  (184,5,31,NULL,NULL,29),
-  (185,5,32,NULL,NULL,7),
-  (186,5,33,NULL,NULL,8),
-  (187,5,29,NULL,NULL,2),
-  (188,5,30,NULL,NULL,3),
-  (189,5,31,NULL,NULL,5),
-  (190,5,32,NULL,NULL,30),
-  (191,5,33,NULL,NULL,31),
-  (192,5,32,NULL,NULL,32),
-  (193,5,31,NULL,NULL,33),
-  (194,5,30,NULL,NULL,54),
-  (195,5,29,NULL,NULL,53),
-  (196,5,38,NULL,NULL,52),
-  (197,5,37,NULL,NULL,51),
-  (198,5,36,NULL,NULL,50),
-  (199,5,35,NULL,NULL,55),
-  (200,5,34,NULL,NULL,56),
-  (242,5,34,NULL,NULL,57),
+/* -- -- - STUD LETO 1 END -- -- -*/
 
+/* -- -- - STUD LETO 2 START -- -- -*/
 
-  (201,6,29,NULL,NULL,10),
-  (202,6,32,NULL,NULL,11),
-  (203,6,34,NULL,NULL,13),
-  (204,6,35,NULL,NULL,15),
-  (205,6,36,NULL,NULL,16),
-  (206,6,37,NULL,NULL,17),
-  (207,6,38,NULL,NULL,14),
-  (208,6,2, 30,  NULL, 9),
-  (209,6,14,NULL,NULL,12),
-  (210,6,36,NULL,NULL,18),
-  (211,6,37,NULL,NULL,19),
+/* 1. Letnik, Stud leto = 2, Obvezni */
+(122,2,10,102,NULL,NULL),
+(123,2,11,101,NULL,NULL),
+(124,2,12,100,NULL,NULL),
+(125,2,13,103,NULL,NULL),
+(126,2,14,104,NULL,NULL),
+(127,2,15,105,NULL,NULL),
+(128,2,16,109,NULL,NULL),
+(129,2,17,106,NULL,NULL),
+(130,2,18,107,NULL,NULL),
+(131,2,19,108,NULL,NULL),
 
-  (212,6,14,NULL,NULL,12),
-  (213,6,32,NULL,NULL,20),
-  (214,6,34,NULL,NULL,21),
-  (215,6,35,NULL,NULL,22),
-  (216,6,36,NULL,NULL,23),
-  (217,6,37,NULL,NULL,24),
-  (218,6,38,NULL,NULL,25),
-  (219,6,29,NULL,NULL,26),
-  (220,6,30,NULL,NULL,27),
-  (221,6,31,NULL,NULL,29),
-  (222,6,32,NULL,NULL,7),
-  (223,6,33,NULL,NULL,8),
-  (224,6,29,NULL,NULL,2),
-  (225,6,30,NULL,NULL,3),
-  (226,6,31,NULL,NULL,5),
-  (227,6,32,NULL,NULL,30),
-  (228,6,33,NULL,NULL,31),
-  (229,6,32,NULL,NULL,32),
-  (230,6,31,NULL,NULL,33),
-  (231,6,30,NULL,NULL,54),
-  (232,6,29,NULL,NULL,53),
-  (233,6,38,NULL,NULL,52),
-  (234,6,37,NULL,NULL,51),
-  (235,6,36,NULL,NULL,50),
-  (236,6,35,NULL,NULL,55),
-  (237,6,34,NULL,NULL,56),
-  (243,6,33,NULL,NULL,57),
-  
-  (253,6,32,NULL,NULL,47),
-  (254,6,31,NULL,NULL,48),
-  (255,6,30,NULL,NULL,49);
+/* 2. Letnik, Stud leto = 2, Obvezni */
+(132,2,20,112,NULL,NULL),
+(133,2,21,114,NULL,NULL),
+(134,2,22,113,NULL,NULL),
+(135,2,23,111,NULL,NULL),
+(136,2,24,114,NULL,NULL),
+(137,2,25,115,NULL,NULL),
+(138,2,26,114,NULL,NULL),
+(139,2,27,110,NULL,NULL),
 
+/* 2. Letnik, Stud leto = 2, Strokovni izbirni */
+(140,2,28,117,NULL,NULL),
+(141,2,29,116,NULL,NULL),
+(142,2,30,118,NULL,NULL),
 
-INSERT INTO `tpo`.`vpis`(`ID_VPIS`,`ID_PROGRAM`,`ID_NACIN`,`ID_STUD_LETO`,`ID_VRSTAVPISA`,
-                         `ID_OBLIKA`,`ID_LETNIK`,`POTRJENOST_VPISA`,`VPISNA_STEVILKA`)VALUES
+/* 2. Letnik, Stud leto = 2, Splosni izbirni */
+(143,2,100,130,NULL,NULL),
+(144,2,101,107,NULL,NULL),
+(145,2,102,107,NULL,NULL),
+(146,2,103,108,NULL,NULL),
+(147,2,104,109,NULL,NULL),
+(148,2,105,113,NULL,NULL),
+(149,2,106,117,NULL,NULL),
+(150,2,107,117,NULL,NULL),
+(151,2,108,117,NULL,NULL),
+(152,2,109,115,NULL,NULL),
+(153,2,110,117,NULL,NULL),
+(154,2,111,107,NULL,NULL),
 
-  (1,11,1, 2,1,1,1,1,63150000),
-  (2,11,1, 2,1,1,1,1,63150001),
-  (3,11,1, 2,1,1,1,1,63150002),
-  (4,11,1, 2,1,1,1,1,63150003),
-  #(5,11,1,2,1,1,1,1,63150004),
+/* 3. Letnik, Stud leto = 2, Obvezni */
+(155,2,31,107,NULL,NULL),
+(156,2,32,127,128,129),
+(157,2,33,109,NULL,NULL),
 
-  (6,11,1, 2,1,1,2,1,63150005),
-  (7,11,1, 2,1,1,2,1,63150006),
-  (8,11,2, 2,1,1,1,1,63150007),
+/* 3. Letnik, Stud leto = 2, Moduli */
+--  Raz prog opr
+(158,2,34,102,NULL,NULL),
+(159,2,35,124,NULL,NULL),
+(160,2,36,108,NULL,NULL),
+--  Inf sis
+(161,2,37,120,NULL,NULL),
+(162,2,38,119,NULL,NULL),
+(163,2,39,121,NULL,NULL),
+--  Obv inf
+(164,2,40,122,NULL,NULL),
+(165,2,41,113,NULL,NULL),
+(166,2,42,123,NULL,NULL),
+--  Rac omr
+(167,2,43,126,NULL,NULL),
+(168,2,44,103,NULL,NULL),
+(169,2,45,125,NULL,NULL),
+--  Rac sis
+(170,2,46,125,NULL,NULL),
+(171,2,47,110,NULL,NULL),
+(172,2,48,115,NULL,NULL),
+--  Alg pod sis
+(173,2,49,106,NULL,NULL),
+(174,2,50,114,NULL,NULL),
+(175,2,51,105,NULL,NULL),
+--  Umet int
+(176,2,52,129,NULL,NULL),
+(177,2,53,127,NULL,NULL),
+(178,2,54,128,NULL,NULL),
+--  Med teh
+(179,2,55,130,NULL,NULL),
+(180,2,56,131,NULL,NULL),
+(181,2,57,132,NULL,NULL),
 
+/* -- -- - STUD LETO 2 END -- -- -*/
 
-  (9,11,1, 2,1,1,3,1,63150008),
-  (10,11,1,2,1,1,2,1,63150009),
-  (11,11,1,2,1,1,3,1,63150010),
-  (12,11,1,2,1,1,1,1,63150011),
-  (13,11,1,2,1,1,2,1,63150012),
-  (14,11,1,2,1,1,2,1,63150013),
+/* -- -- - STUD LETO 3 START -- -- -*/
 
-  (15,11,1,2,1,1,2,1,63150014),
-  (16,11,1,2,1,1,2,1,63150015),
-  (17,11,1,2,1,1,2,1,63150016),
-  (18,11,1,2,1,1,2,1,63150017),
-  (19,11,1,2,1,1,2,1,63150018),
-  (20,11,1,2,1,1,2,1,63150019),
-  (21,11,1,2,1,1,2,1,63150020),
-  (22,11,1,2,1,1,2,1,63150022),
+/* 1. Letnik, Stud leto = 3, Obvezni */
+(182,3,10,102,NULL,NULL),
+(183,3,11,101,NULL,NULL),
+(184,3,12,100,NULL,NULL),
+(185,3,13,103,NULL,NULL),
+(186,3,14,104,NULL,NULL),
+(187,3,15,105,NULL,NULL),
+(188,3,16,109,NULL,NULL),
+(189,3,17,106,NULL,NULL),
+(190,3,18,107,NULL,NULL),
+(191,3,19,108,NULL,NULL),
 
-  (51,11,1,1,1,1,1,1,63150101),
+/* 2. Letnik, Stud leto = 3, Obvezni */
+(192,3,20,112,NULL,NULL),
+(193,3,21,114,NULL,NULL),
+(194,3,22,113,NULL,NULL),
+(195,3,23,111,NULL,NULL),
+(196,3,24,114,NULL,NULL),
+(197,3,25,115,NULL,NULL),
+(198,3,26,114,NULL,NULL),
+(199,3,27,110,NULL,NULL),
 
-  (52,11,1,1,1,1,1,1,63150102),
-  (53,11,1,2,1,1,2,1,63150102),
+/* 2. Letnik, Stud leto = 3, Strokovni izbirni */
+(200,3,28,117,NULL,NULL),
+(201,3,29,116,NULL,NULL),
+(202,3,30,118,NULL,NULL),
 
-  (54,11,1,1,1,1,1,1,63150103),
+/* 2. Letnik, Stud leto = 3, Splosni izbirni */
+(203,3,100,130,NULL,NULL),
+(204,3,101,107,NULL,NULL),
+(205,3,102,107,NULL,NULL),
+(206,3,103,108,NULL,NULL),
+(207,3,104,109,NULL,NULL),
+(208,3,105,113,NULL,NULL),
+(209,3,106,117,NULL,NULL),
+(210,3,107,117,NULL,NULL),
+(211,3,108,117,NULL,NULL),
+(212,3,109,115,NULL,NULL),
+(213,3,110,117,NULL,NULL),
+(214,3,111,107,NULL,NULL),
 
-  (55,11,1,2,1,1,2,1,63150103);
+/* 3. Letnik, Stud leto = 3, Obvezni */
+(215,3,31,107,NULL,NULL),
+(216,3,32,127,128,129),
+(217,3,33,109,NULL,NULL),
+
+/* 3. Letnik, Stud leto = 3, Moduli */
+--  Raz prog opr
+(218,3,34,102,NULL,NULL),
+(219,3,35,124,NULL,NULL),
+(220,3,36,108,NULL,NULL),
+--  Inf sis
+(221,3,37,120,NULL,NULL),
+(222,3,38,119,NULL,NULL),
+(223,3,39,121,NULL,NULL),
+--  Obv inf
+(224,3,40,122,NULL,NULL),
+(225,3,41,113,NULL,NULL),
+(226,3,42,123,NULL,NULL),
+--  Rac omr
+(227,3,43,126,NULL,NULL),
+(228,3,44,103,NULL,NULL),
+(229,3,45,125,NULL,NULL),
+--  Rac sis
+(230,3,46,125,NULL,NULL),
+(231,3,47,110,NULL,NULL),
+(232,3,48,115,NULL,NULL),
+--  Alg pod sis
+(233,3,49,106,NULL,NULL),
+(234,3,50,114,NULL,NULL),
+(235,3,51,105,NULL,NULL),
+--  Umet int
+(236,3,52,129,NULL,NULL),
+(237,3,53,127,NULL,NULL),
+(238,3,54,128,NULL,NULL),
+--  Med teh
+(239,3,55,130,NULL,NULL),
+(240,3,56,131,NULL,NULL),
+(241,3,57,132,NULL,NULL);
+
+/* -- -- - STUD LETO 3 END -- -- -*/
+
+INSERT INTO `tpo`.`vpis`(`ID_VPIS`, `ID_STUD_LETO`, `ID_LETNIK`, `ID_PROGRAM`, `ID_NACIN`, `ID_VRSTAVPISA`, `ID_OBLIKA`, `POTRJENOST_VPISA`, `VPISNA_STEVILKA`)VALUES
+/* Stud leto = 0 -- > Vpisani v 1. letnik */
+(1, 0, 1, 11, 1, 1, 1, 1, 63150001),
+(2, 1, 2, 11, 1, 1, 1, 1, 63150001),
+(3, 2, 3, 11, 1, 1, 1, 1, 63150001),
+
+(4, 0, 1, 11, 1, 1, 1, 1, 63150002),
+(5, 1, 2, 11, 1, 1, 1, 1, 63150002),
+(6, 2, 3, 11, 1, 1, 1, 1, 63150002),
+
+(7, 0, 1, 11, 1, 1, 1, 1, 63150003),
+(8, 1, 2, 11, 1, 1, 1, 1, 63150003),
+(9, 2, 3, 11, 1, 1, 1, 1, 63150003),
+
+(10, 0, 1, 11, 1, 1, 1, 1, 63150004),
+(11, 1, 2, 11, 1, 1, 1, 1, 63150004),
+(12, 2, 3, 11, 1, 1, 1, 1, 63150004),
+
+(13, 0, 1, 11, 1, 1, 1, 1, 63150005),
+(14, 1, 2, 11, 1, 1, 1, 1, 63150005),
+(15, 2, 3, 11, 1, 1, 1, 1, 63150005),
+
+/* Stud leto = 1 -- > Vpisani v 1. letnik */
+(16, 1, 1, 11, 1, 1, 1, 1, 63150006),
+(17, 2, 2, 11, 1, 1, 1, 1, 63150006),
+
+(18, 1, 1, 11, 1, 1, 1, 1, 63150007),
+(19, 2, 2, 11, 1, 1, 1, 1, 63150007),
+
+(20, 1, 1, 11, 1, 1, 1, 1, 63150008),
+(21, 2, 2, 11, 1, 1, 1, 1, 63150008),
+
+(22, 1, 1, 11, 1, 1, 1, 1, 63150009),
+(23, 2, 2, 11, 1, 1, 1, 1, 63150009),
+
+(24, 1, 1, 11, 1, 1, 1, 1, 63150010),
+(25, 2, 2, 11, 1, 1, 1, 1, 63150010),
+
+/* Stud leto = 2 -- > Vpisani v 1. letnik */
+(26, 2, 1, 11, 1, 1, 1, 1, 63150011),
+(27, 2, 1, 11, 1, 1, 1, 1, 63150012),
+(28, 2, 1, 11, 1, 1, 1, 1, 63150013),
+(29, 2, 1, 11, 1, 1, 1, 1, 63150014),
+(30, 2, 1, 11, 1, 1, 1, 1, 63150015);
 
 
 INSERT INTO `tpo`.`student`
 (`VPISNA_STEVILKA`,`ID_OSEBA`,`ID_KANDIDAT`,`ID_VPIS`,`EMSO`,`ID_PROGRAM`,
  `VSOTA_OPRAVLJENIH_KREDITNIH_TOCK`,`POVPRECNA_OCENA_OPRAVLJENIH_IZPITOV`)VALUES
+  /* Studenti 3. letnika -- > Prvi vpis v STUD_LETO=0 */
+  (63150001,1,1,3,1706996500334,11,150,6),
+  (63150002,2,2,6,1706996500334,11,150,7),
+  (63150003,3,3,9,1706996500334,11,150,8),
+  (63150004,4,4,12,1706996500334,11,150,9),
+  (63150005,5,5,15,1706996500334,11,150,10),
 
-  (63150000,1,1,1,2505996500510,11,60,10),
-  (63150001,4,2,2,1234567891211,11,60,6),
-  (63150002,7,2,2,1234567891212,11,36,6),
-  (63150003,8,2,2,1234567891213,11,60,10),
-  (63150004,9,2,2,1234567891214,11,12,7),
-  (63150005,10,2,2,1234567891215,11,120,9.33),
-  (63150006,11,2,2,1234567891216,11,100,8.20),
-  (63150007,12,2,2,1234567891217,11,66,7.3),
-  (63150008,15,2,2,1234567891218,11,180,6),
-  (63150009,16,2,2,1234567891219,11,54,7.7),
-  (63150010,17,2,2,1234567891220,11,114,8),
-  (63150011,18,2,2,1234567891221,11,42,7),
-  (63150012,19,2,2,1234567891222,11,24,6),
-  (63150013,20,2,2,1234567891223,12,120,6),
-  (63150014,21,2,2,1234567891224,11,120,6),
-  (63150015,22,2,2,1234567891225,11,120,6),
-  (63150021,23,2,2,1234567891226,11,120,6),
-  (63150016,24,2,2,1234567891227,11,120,6),
-  (63150017,25,2,2,1234567891228,11,120,6),
-  (63150018,26,2,2,1234567891229,11,120,6),
-  (63150019,27,2,2,12345678912330,11,120,6),
-  (63150020,28,2,2,12345678912331,11,120,6),
-  (63150022,39,2,22,12345678912332,11,54,6),
-  (63150101, 41, 4, 51, 1706996500334, 11, 60, 8),
-  (63150102, 42, 5, 53, 1706996500334, 11, 120, 8),
-  (63150103, 43, 6, 55, 1706996500334, 11, 120, 9);
+  /* Studenti 2. letnika -- > Prvi vpis v STUD_LETO=1 */
+  (63150006,6,6,16,1706996500334,11,120,6),
+  (63150007,7,7,18,1706996500334,11,120,7),
+  (63150008,8,8,20,1706996500334,11,120,8),
+  (63150009,9,9,22,1706996500334,11,120,9),
+  (63150010,10,10,24,1706996500334,11,120,10),
 
-INSERT INTO `tpo`.`naslov`(`ID_NASLOV`,`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVA`,
-                           `ID_OSEBA`,`JE_ZAVROCANJE`,`JE_STALNI`,`ULICA`) VALUES
-  (1,1,1,705,1,1,0,'naslovzavrocanje 13'),
-  (2,1,1,705,1,0,1,'stalninaslov 12'),
-  (3,2,1,705,4,1,0,'zaVrocanje Ulica 12'),
-  (4,2,1,705,4,0,1,'stalna Ulica 12'),
+  /* Studenti 3. letnika -- > Prvi vpis v STUD_LETO=2 */
+  (63150011,11,11,25,1706996500334,11,60,6),
+  (63150012,12,12,26,1706996500334,11,60,7),
+  (63150013,13,13,27,1706996500334,11,60,8),
+  (63150014,14,14,28,1706996500334,11,60,9),
+  (63150015,15,15,29,1706996500334,11,60,10);
 
-  (11, NULL, NULL, 40,  41, 0, 1, 'Test 50, 1000 Viena'),
-  (12,  187,   61, 705, 41, 1, 0, 'Dunajska 10'),
 
-  (13, NULL, NULL,   40, 42, 0, 1, 'Test 50, 1000 Viena'),
-  (14,  187,   61,  705, 42, 1, 0, 'Dunajska 10'),
+INSERT INTO `tpo`.`naslov`(`ID_NASLOV`,`ID_OSEBA`,`ID_POSTA`,`ID_OBCINA`,`ID_DRZAVA`,
+                           `JE_ZAVROCANJE`,`JE_STALNI`,`ULICA`) VALUES
 
-  (15, NULL, NULL, 40, 43, 0, 1, 'Test 50, 1000 Viena'),
-  (16,  187,  61, 705, 43, 1, 0, 'Dunajska 10');
+  (1,1,420,189,705,0,1,'Litijska cesta 1'),
+  (2,1,53,17,705,1,0,'Slovenska cesta 111'),
+  (3,2,420,189,705,0,1,'Litijska cesta 1'),
+  (4,2,53,17,705,1,0,'Slovenska cesta 111'),
+  (5,3,420,189,705,0,1,'Litijska cesta 1'),
+  (6,3,53,17,705,1,0,'Slovenska cesta 111'),
+  (7,4,420,189,705,0,1,'Litijska cesta 1'),
+  (8,4,53,17,705,1,0,'Slovenska cesta 111'),
+  (9,5,420,189,705,0,1,'Litijska cesta 1'),
+  (10,5,53,17,705,1,0,'Slovenska cesta 111'),
+  (11,6,420,189,705,0,1,'Litijska cesta 1'),
+  (12,6,53,17,705,1,0,'Slovenska cesta 111'),
+  (13,7,420,189,705,0,1,'Litijska cesta 1'),
+  (14,7,53,17,705,1,0,'Slovenska cesta 111'),
+  (15,8,420,189,705,0,1,'Litijska cesta 1'),
+  (16,8,53,17,705,1,0,'Slovenska cesta 111'),
+  (17,9,420,189,705,0,1,'Litijska cesta 1'),
+  (18,9,53,17,705,1,0,'Slovenska cesta 111'),
+  (19,10,420,189,705,0,1,'Litijska cesta 1'),
+  (20,10,53,17,705,1,0,'Slovenska cesta 111'),
+  (21,11,420,189,705,0,1,'Litijska cesta 1'),
+  (22,11,53,17,705,1,0,'Slovenska cesta 111'),
+  (23,12,420,189,705,0,1,'Litijska cesta 1'),
+  (24,12,53,17,705,1,0,'Slovenska cesta 111'),
+  (25,13,420,189,705,0,1,'Litijska cesta 1'),
+  (26,13,53,17,705,1,0,'Slovenska cesta 111'),
+  (27,14,420,189,705,0,1,'Litijska cesta 1'),
+  (28,14,53,17,705,1,0,'Slovenska cesta 111'),
+  (29,15,420,189,705,0,1,'Litijska cesta 1'),
+  (30,15,53,17,705,1,0,'Slovenska cesta 111');
 
 INSERT INTO  `tpo`.`zeton`
 (`ID_OSEBA`, `ID_LETNIK`, `ID_STUD_LETO`, `ID_OBLIKA`, `ID_NACIN`, `ID_VRSTAVPISA`, `ID_PROGRAM`,`IZKORISCEN`, `AKTIVNOST`)
 VALUES
-  (1,1,1,1,1,1, 11,1,1),
-  (4,1,1,1,1,1, 11,1,1),
-  (7,1,1,1,1,2, 11,1,0),
-  (8,1,1,1,1,1, 11,1,0),
-  (10,2,1,1,1,1,11,1,0),
-  (11,2,1,1,1,1,11,1,0),
+  /* Studenti z 1. vtisom v STUD_LETO=0 */
+  (1,1,0,1,1,1,11,1,0),
+  (1,2,1,1,1,1,11,1,0),
+  (1,3,2,1,1,1,11,1,0),
 
+  (2,1,0,1,1,1,11,1,0),
+  (2,2,1,1,1,1,11,1,0),
+  (2,3,2,1,1,1,11,1,0),
 
-  (15,3,1,1,1,1,11,1, 1),
-  (16,2,1,1,1,2,11,1, 1),
-  (17,3,1,1,1,2,11,1, 1),
-  (18,1,1,1,1,1,11,1, 1),
-  (19,2,1,1,1,1,11,1, 1),
-  (20,2,1,1,1,1,11,1, 1),
-  (21,2,1,1,1,1,11,1, 1),
-  (22,2,1,1,1,1,11,1, 1),
-  (23,2,1,1,1,1,11,1, 1),
-  (24,2,1,1,1,1,11,1, 1),
-  (25,2,1,1,1,1,11,1, 1),
-  (26,2,1,1,1,1,11,1, 1),
-  (27,2,1,1,1,1,11,1, 1),
-  (28,2,1,1,1,1,11,1, 1),
+  (3,1,0,1,1,1,11,1,0),
+  (3,2,1,1,1,1,11,1,0),
+  (3,3,2,1,1,1,11,1,0),
 
-  (41,1,1,1,1,1,11,1,1),
-  (41,2,2,1,1,1,11,0,1),
+  (4,1,0,1,1,1,11,1,0),
+  (4,2,1,1,1,1,11,1,0),
+  (4,3,2,1,1,1,11,1,0),
 
-  (42,1,1,1,1,1,11,1,1),
-  (42,2,2,1,1,1,11,1,1),
-  (42,3,2,1,1,1,11,0,1),
+  (5,1,0,1,1,1,11,1,0),
+  (5,2,1,1,1,1,11,1,0),
+  (5,3,2,1,1,1,11,1,0),
 
-  (43,1,1,1,1,1,11,1,1),
-  (43,2,2,1,1,1,11,1,1);
+  /* Studenti z 1. vtisom v STUD_LETO=1 */
+  (6,1,1,1,1,1,11,1,0),
+  (6,2,2,1,1,1,11,1,0),
 
-INSERT INTO  `tpo`.`zeton` (`ID_OSEBA`, `ID_LETNIK`, `ID_STUD_LETO`, `ID_OBLIKA`, `ID_NACIN`, `ID_VRSTAVPISA`, `ID_PROGRAM`,`IZKORISCEN`, `AKTIVNOST`, `PROSTA_IZBIRNOST`) VALUES
-  (43,3,2,1,1,1,11,0,1,1);
+  (7,1,1,1,1,1,11,1,0),
+  (7,2,2,1,1,1,11,1,0),
+
+  (8,1,1,1,1,1,11,1,0),
+  (8,2,2,1,1,1,11,1,0),
+
+  (9,1,1,1,1,1,11,1,0),
+  (9,2,2,1,1,1,11,1,0),
+
+  (10,1,1,1,1,1,11,1,0),
+  (10,2,2,1,1,1,11,1,0),
+
+  /* Studenti z 1. vtisom v STUD_LETO=2 */
+  (11,1,2,1,1,1,11,1,0),
+  (12,2,2,1,1,1,11,1,0),
+  (13,2,2,1,1,1,11,1,0),
+  (14,2,2,1,1,1,11,1,0),
+  (15,2,2,1,1,1,11,1,0);
 
 INSERT INTO tpo.rok
 (ID_ROK, ID_IZVEDBA, DATUM_ROKA, CAS_ROKA, AKTIVNOST, ID_OSEBA_IZPRASEVALEC1, ID_OSEBA_IZPRASEVALEC2, ID_OSEBA_IZPRASEVALEC3)
 VALUES
-  /* TPO (Mah, Fur, Poz), Studijsko leto 2017/18 */
-  (1,5,"2018-01-13", "10:00:00", 1, 2, 13, NULL),
-  (2,5,"2018-01-25", "11:00:00", 1, 2, 14, NULL),
-  (3,5,"2018-09-25", "12:00:00", 1, 2, 13, 14),
 
-  /* P1 (Mah), Studijsko leto 2017/18 */
-  (4,6,"2018-01-12", "12:00:00", 1, NULL, NULL, NULL),
-  (5,6,"2018-01-19", "13:00:00", 1, NULL, NULL, NULL),
-  (6,6,"2018-09-21", "14:00:00", 1, NULL, NULL, NULL),
+  /* Stud. leto 0 -- > Imamo le studente 1. letnika: 001-005 */
+  --  Roki 1. letnik
+  (1,1,'2016-01-04','10:00:00',1,102,NULL,NULL),     --  P1
+  (2,2,'2016-01-05','10:00:00',1,101,NULL,NULL),     --  OMA
+  (3,3,'2016-01-06','10:00:00',1,100,NULL,NULL),     --  DS
+  (4,4,'2016-01-07','10:00:00',1,103,NULL,NULL),     --  ODV
+  (5,5,'2016-01-08','10:00:00',1,104,NULL,NULL),     --  FIZ
 
-  /* TPO (Mah, Fur, Poz), Studijsko leto 2016/17 */
-  (7,1,"2017-06-20", "14:00:00", 1, NULL, NULL, NULL),
-  (8,1,"2017-06-25", "15:00:00", 1, NULL, NULL, NULL),
-  (9,1,"2017-09-05", "16:00:00", 1, NULL, NULL, NULL),
+  (6,6,'2016-06-06','10:00:00',1,105,NULL,NULL),     --  P2
+  (7,7,'2016-06-07','10:00:00',1,109,NULL,NULL),     --  LA
+  (8,8,'2016-06-08','10:00:00',1,106,NULL,NULL),     --  ARS
+  (9,9,'2016-06-09','10:00:00',1,107,NULL,NULL),     --  RK
+  (10,10,'2016-06-10','10:00:00',1,108,NULL,NULL),    --  OIS
 
-  /* P1 (Fur, Poz), Studijsko leto 2016/17 */
-  (10,2,"2017-01-20", "16:00:00", 1, NULL, NULL, NULL),
-  (11,2,"2017-01-25", "17:00:00", 1, NULL, NULL, NULL),
-  (12,2,"2017-09-05", "18:00:00", 1, NULL, NULL, NULL),
+  /* Stud. leto 1 -- > Imamo 5 stud 1. let, 5 stud 2. letnik */
+  --  Roki 1. letnik
+  (11,61,'2017-01-04','10:00:00',1,102,NULL,NULL),     --  P1
+  (12,62,'2017-01-05','10:00:00',1,101,NULL,NULL),     --  OMA
+  (13,63,'2017-01-06','10:00:00',1,100,NULL,NULL),     --  DS
+  (14,64,'2017-01-09','10:00:00',1,103,NULL,NULL),     --  ODV
+  (15,65,'2017-01-10','10:00:00',1,104,NULL,NULL),     --  FIZ
 
-  /*id_predmet=9, stud_leto=2017/18*/
-  (13,21,"2019-01-20", "16:00:00", 1, NULL, NULL, NULL),
-  (14,21,"2019-01-25", "17:00:00", 1, NULL, NULL, NULL),
-  (15,21,"2018-09-05", "18:00:00", 1, NULL, NULL, NULL),
+  (16,66,'2017-06-05','10:00:00',1,105,NULL,NULL),     --  P2
+  (17,67,'2017-06-06','10:00:00',1,109,NULL,NULL),     --  LA
+  (18,68,'2017-06-07','10:00:00',1,106,NULL,NULL),     --  ARS
+  (19,69,'2017-06-08','10:00:00',1,107,NULL,NULL),     --  RK
+  (20,70,'2017-06-09','10:00:00',1,108,NULL,NULL),    --  OIS
 
-  /*id_predmet=12, stud_leto=2017/18*/
-  (16,22,"2019-01-21", "16:00:00", 1, NULL, NULL, NULL),
-  (17,22,"2019-01-26", "17:00:00", 1, NULL, NULL, NULL),
-  (18,22,"2018-09-06", "18:00:00", 1, NULL, NULL, NULL),
+  --  Roki 2. letnik
+  (21,71,'2017-01-04','10:00:00',1,112,NULL,NULL),     --  APS1
+  (22,72,'2017-01-05','10:00:00',1,114,NULL,NULL),     --  APS2
+  (23,73,'2017-01-06','10:00:00',1,113,NULL,NULL),     --  OPB
+  (24,74,'2017-01-09','10:00:00',1,111,NULL,NULL),     --  VS
+  (25,75,'2017-01-10','10:00:00',1,114,NULL,NULL),     --  IRZ
+  (26,76,'2017-06-05','10:00:00',1,115,NULL,NULL),     --  TIS
+  (27,77,'2017-06-06','10:00:00',1,114,NULL,NULL),     --  OS
+  (28,78,'2017-06-07','10:00:00',1,110,NULL,NULL),     --  ORS
 
-  /*id_predmet=18, stud_leto=2017/18*/
-  (19,23,"2019-01-21", "16:00:00", 1, NULL, NULL, NULL),
-  (20,23,"2019-01-26", "17:00:00", 1, NULL, NULL, NULL),
-  (21,23,"2018-09-06", "18:00:00", 1, NULL, NULL, NULL),
+  (29,80,'2017-06-08','10:00:00',1,116,NULL,NULL),     --  MM
 
-  /*id_predmet=19, stud_leto=2017/18*/
-  (22,24,"2019-01-21", "16:00:00", 1, NULL, NULL, NULL),
-  (23,24,"2019-01-26", "17:00:00", 1, NULL, NULL, NULL),
-  (24,24,"2018-09-06", "18:00:00", 1, NULL, NULL, NULL),
+  /* Stud. leto 2 -- > Imamo 5 stud 1. let, 5 stud 2. letnik, 5 stud 3. letnik */
+   --  Roki 1. letnik - 1. semester
+  (30,122,'2018-01-04','10:00:00',1,102,NULL,NULL),     --  P1
+  (31,123,'2018-01-05','10:00:00',1,101,NULL,NULL),     --  OMA
+  (32,124,'2018-01-08','10:00:00',1,100,NULL,NULL),     --  DS
+  (33,125,'2018-01-09','10:00:00',1,103,NULL,NULL),     --  ODV
+  (34,126,'2018-01-10','10:00:00',1,104,NULL,NULL),     --  FIZ
 
-  /*
-    (25,25,"2018-06-20", "14:00:00", 1, NULL, NULL, NULL),
-    (26,25,"2018-06-25", "15:00:00", 1, NULL, NULL, NULL),
-    (27,25,"2018-09-05", "16:00:00", 1, NULL, NULL, NULL),
+  (35,122,'2018-01-22','10:00:00',1,102,NULL,NULL),     --  P1
+  (36,123,'2018-01-23','10:00:00',1,101,NULL,NULL),     --  OMA
+  (37,124,'2018-01-24','10:00:00',1,100,NULL,NULL),     --  DS
+  (38,125,'2018-01-25','10:00:00',1,103,NULL,NULL),     --  ODV
+  (39,126,'2018-01-26','10:00:00',1,104,NULL,NULL),     --  FIZ
 
-    (28,26,"2019-06-20", "14:00:00", 1, NULL, NULL, NULL),
-    (29,26,"2019-06-25", "15:00:00", 1, NULL, NULL, NULL),
-    (30,26,"2019-09-05", "16:00:00", 1, NULL, NULL, NULL),
-    (31,26,"2019-09-07", "16:00:00", 1, NULL, NULL, NULL),
-  */
-  (32,27,"2017-06-20", "14:00:00", 1, NULL, NULL, NULL),
-  (33,27,"2017-06-25", "15:00:00", 1, NULL, NULL, NULL),
-  (34,27,"2017-09-05", "16:00:00", 1, NULL, NULL, NULL),
+  (40,122,'2018-06-18','10:00:00',1,102,NULL,NULL),     --  P1
+  (41,123,'2018-06-19','10:00:00',1,101,NULL,NULL),     --  OMA
+  (42,124,'2018-06-20','10:00:00',1,100,NULL,NULL),     --  DS
+  (43,125,'2018-06-21','10:00:00',1,103,NULL,NULL),     --  ODV
+  (44,126,'2018-06-22','10:00:00',1,104,NULL,NULL),     --  FIZ
 
-  (35,22,"2018-09-20","10:00:00",1, NULL, NULL, NULL);
+  --  Roki 1. letnik - 2. semester
+  (45,127,'2018-06-15','10:00:00',1,105,NULL,NULL),     --  P2
+  (46,128,'2018-06-11','10:00:00',1,109,NULL,NULL),     --  LA
+  (47,129,'2018-06-12','10:00:00',1,106,NULL,NULL),     --  ARS
+  (48,130,'2018-06-13','10:00:00',1,107,NULL,NULL),     --  RK
+  (49,131,'2018-06-14','10:00:00',1,108,NULL,NULL),    --  OIS
 
+  (50,127,'2018-06-25','10:00:00',1,105,NULL,NULL),     --  P2
+  (51,128,'2018-06-26','10:00:00',1,109,NULL,NULL),     --  LA
+  (52,129,'2018-06-27','10:00:00',1,106,NULL,NULL),     --  ARS
+  (53,130,'2018-06-28','10:00:00',1,107,NULL,NULL),     --  RK
+  (54,131,'2018-06-29','10:00:00',1,108,NULL,NULL),    --  OIS
+
+  (55,127,'2018-07-02','10:00:00',1,105,NULL,NULL),     --  P2
+  (56,128,'2018-07-03','10:00:00',1,109,NULL,NULL),     --  LA
+  (57,129,'2018-07-04','10:00:00',1,106,NULL,NULL),     --  ARS
+  (58,130,'2018-07-05','10:00:00',1,107,NULL,NULL),     --  RK
+  (59,131,'2018-07-06','10:00:00',1,108,NULL,NULL),    --  OIS
+
+  --  Roki 2. letnik
+  (60,132,'2018-01-04','10:00:00',1,112,NULL,NULL),     --  APS1 z
+  (61,133,'2018-06-05','10:00:00',1,114,NULL,NULL),     --  APS2 p
+  (62,134,'2018-01-08','10:00:00',1,113,NULL,NULL),     --  OPB  z
+  (63,135,'2018-01-09','10:00:00',1,111,NULL,NULL),     --  VS   z
+  (64,136,'2018-01-10','10:00:00',1,114,NULL,NULL),     --  IRZ  z
+  (65,137,'2018-06-13','10:00:00',1,115,NULL,NULL),     --  TIS  p
+  (66,138,'2018-06-14','10:00:00',1,114,NULL,NULL),     --  OS   p
+  (67,139,'2018-01-15','10:00:00',1,110,NULL,NULL),     --  ORS  z
+  (68,141,'2018-06-16','10:00:00',1,116,NULL,NULL),     --  MM   p
+
+  (69,132,'2018-01-11','10:00:00',1,112,NULL,NULL),     --  APS1  z
+  (70,133,'2018-06-12','10:00:00',1,114,NULL,NULL),     --  APS2  p
+  (71,134,'2018-01-13','10:00:00',1,113,NULL,NULL),     --  OPB   z
+  (72,135,'2018-01-14','10:00:00',1,111,NULL,NULL),     --  VS    z
+  (73,136,'2018-01-15','10:00:00',1,114,NULL,NULL),     --  IRZ   z
+  (74,137,'2018-06-18','10:00:00',1,115,NULL,NULL),     --  TIS   p
+  (75,138,'2018-06-19','10:00:00',1,114,NULL,NULL),     --  OS    p
+  (76,139,'2018-01-20','10:00:00',1,110,NULL,NULL),     --  ORS   z
+  (77,141,'2018-06-21','10:00:00',1,116,NULL,NULL),     --  MM    p
+
+  (78,132,'2018-09-03','10:00:00',1,112,NULL,NULL),     --  APS1
+  (79,133,'2018-09-04','10:00:00',1,114,NULL,NULL),     --  APS2
+  (80,134,'2018-09-05','10:00:00',1,113,NULL,NULL),     --  OPB
+  (81,135,'2018-09-06','10:00:00',1,111,NULL,NULL),     --  VS
+  (82,136,'2018-09-07','10:00:00',1,114,NULL,NULL),     --  IRZ
+  (83,137,'2018-09-10','10:00:00',1,115,NULL,NULL),     --  TIS
+  (84,138,'2018-09-11','10:00:00',1,114,NULL,NULL),     --  OS
+  (85,139,'2018-09-12','10:00:00',1,110,NULL,NULL),     --  ORS
+  (86,141,'2018-09-13','10:00:00',1,116,NULL,NULL),     --  MM
+
+  --  Roki 3. letnik
+  (87,155,'2018-01-04','10:00:00',1,107,NULL,NULL),       --  OUI   z
+  (88,156,'2018-06-05','10:00:00',1,127,128,129),         --  EP    p
+  (89,158,'2018-06-08','10:00:00',1,102,NULL,NULL),       --  TPO   p
+  (90,159,'2018-01-09','10:00:00',1,124,NULL,NULL),       --  PRPO  z
+  (91,160,'2018-01-10','10:00:00',1,108,NULL,NULL),       --  SP    z
+  (92,173,'2018-01-13','10:00:00',1,106,NULL,NULL),       --  SPO   z
+  (93,174,'2018-01-14','10:00:00',1,114,NULL,NULL),       --  RZHP  z
+  (94,175,'2018-06-15','10:00:00',1,105,NULL,NULL),       --  PRE   p
+
+  (95,155,'2018-01-11','10:00:00',1,107,NULL,NULL),       --  OUI   z
+  (96,156,'2018-06-12','10:00:00',1,127,128,129),         --  EP    p
+  (97,158,'2018-06-13','10:00:00',1,102,NULL,NULL),       --  TPO   p
+  (98,159,'2018-01-14','10:00:00',1,124,NULL,NULL),       --  PRPO  z
+  (99,160,'2018-01-15','10:00:00',1,108,NULL,NULL),       --  SP    z
+  (100,173,'2018-01-18','10:00:00',1,106,NULL,NULL),       --  SPO  z
+  (101,174,'2018-01-19','10:00:00',1,114,NULL,NULL),       --  RZHP z
+  (102,175,'2018-06-20','10:00:00',1,105,NULL,NULL),       --  PRE  p
+
+  (103,155,'2018-09-03','10:00:00',1,107,NULL,NULL),       --  OUI  z
+  (104,156,'2018-09-04','10:00:00',1,127,128,129),         --  EP   p
+  (105,158,'2018-09-05','10:00:00',1,102,NULL,NULL),       --  TPO  p
+  (106,159,'2018-09-06','10:00:00',1,124,NULL,NULL),       --  PRPO p
+  (107,160,'2018-09-07','10:00:00',1,108,NULL,NULL),       --  SP   z
+  (108,173,'2018-09-10','10:00:00',1,106,NULL,NULL),       --  SPO  z
+  (109,174,'2018-09-11','10:00:00',1,114,NULL,NULL),       --  RZHP z
+  (110,175,'2018-09-12','10:00:00',1,105,NULL,NULL);       --  PRE  p
+  
+  
 
 
 INSERT INTO `predmeti_studenta`
-( `VPISNA_STEVILKA`, `ID_PREDMET`, `ID_STUD_LETO`)
+(`ID_PREDMETISTUDENTA`, `VPISNA_STEVILKA`, `ID_PREDMET`, `ID_STUD_LETO`)
 VALUES
-  (63150000,  6,    2),
-  (63150000,  9,    2),
-  (63150000,  10,   2),
-  (63150000,  11,   2),
-  (63150000,  12,   2),
-  (63150000,  13,   2),
-  (63150000,  14,   2),
-  (63150000,  15,   2),
-  (63150000,  16,   2),
-  (63150000,  17,   2),
-  (63150001,  6,    2),
-  (63150001,  9,    2),
-  (63150001,  10,   2),
-  (63150001,  11,   2),
-  (63150001,  12,   2),
-  (63150001,  13,   2),
-  (63150001,  14,   2),
-  (63150001,  15,   2),
-  (63150001,  16,   2),
-  (63150001,  17,   2),
-  (63150002,  6,    2),
-  (63150002,  9,    2),
-  (63150002,  10,   2),
-  (63150002,  11,   2),
-  (63150002,  12,   2),
-  (63150002,  13,   2),
-  (63150002,  14,   2),
-  (63150002,  15,   2),
-  (63150002,  16,   2),
-  (63150002,  17,   2),
-  (63150003,  6,    2),
-  (63150003,  9,    2),
-  (63150003,  10,   2),
-  (63150003,  11,   2),
-  (63150003,  12,   2),
-  (63150003,  13,   2),
-  (63150003,  14,   2),
-  (63150003,  15,   2),
-  (63150003,  16,   2),
-  (63150003,  17,   2),
-  (63150004,  6,    2),
-  (63150004,  9,    2),
-  (63150004,  10,   2),
-  (63150004,  11,   2),
-  (63150004,  12,   2),
-  (63150004,  13,   2),
-  (63150004,  14,   2),
-  (63150004,  15,   2),
-  (63150004,  16,   2),
-  (63150004,  17,   2),
-  (63150011,  6,    2),
-  (63150011,  9,    2),
-  (63150011,  10,   2),
-  (63150011,  11,   2),
-  (63150011,  12,   2),
-  (63150011,  13,   2),
-  (63150011,  14,   2),
-  (63150011,  15,   2),
-  (63150011,  16,   2),
-  (63150011,  17,   2),
-  (63150005,  18,   2),
-  (63150006,  18,   2),
-  (63150007,  18,   2),
-  (63150012,  18,   2),
-  (63150013,  18,   2),
-  (63150014,  18,   2),
-  (63150015,  18,   2),
-  (63150016,  18,   2),
-  (63150017,  18,   2),
-  (63150018,  18,   2),
-  (63150019,  18,   2),
-  (63150020,  18,   2),
-  (63150005,  19,   2),
-  (63150006,  19,   2),
-  (63150007,  19,   2),
-  (63150012,  19,   2),
-  (63150013,  19,   2),
-  (63150014,  19,   2),
-  (63150015,  19,   2),
-  (63150016,  19,   2),
-  (63150017,  19,   2),
-  (63150018,  19,   2),
-  (63150019,  19,   2),
-  (63150020,  19,   2),
-  (63150005,  20,   2),
-  (63150006,  20,   2),
-  (63150007,  20,   2),
-  (63150012,  20,   2),
-  (63150013,  20,   2),
-  (63150014,  20,   2),
-  (63150015,  20,   2),
-  (63150016,  20,   2),
-  (63150017,  20,   2),
-  (63150018,  20,   2),
-  (63150019,  20,   2),
-  (63150020,  20,   2),
-  (63150005,  21,   2),
-  (63150006,  21,   2),
-  (63150007,  21,   2),
-  (63150012,  21,   2),
-  (63150013,  21,   2),
-  (63150014,  21,   2),
-  (63150015,  21,   2),
-  (63150016,  21,   2),
-  (63150017,  21,   2),
-  (63150018,  21,   2),
-  (63150019,  21,   2),
-  (63150020,  21,   2),
-  (63150005,  22,   2),
-  (63150006,  22,   2),
-  (63150007,  22,   2),
-  (63150012,  22,   2),
-  (63150013,  22,   2),
-  (63150014,  22,   2),
-  (63150015,  22,   2),
-  (63150016,  22,   2),
-  (63150017,  22,   2),
-  (63150018,  22,   2),
-  (63150019,  22,   2),
-  (63150020,  22,   2),
-  (63150005,  23,   2),
-  (63150006,  23,   2),
-  (63150007,  23,   2),
-  (63150012,  23,   2),
-  (63150013,  23,   2),
-  (63150014,  23,   2),
-  (63150015,  23,   2),
-  (63150016,  23,   2),
-  (63150017,  23,   2),
-  (63150018,  23,   2),
-  (63150019,  23,   2),
-  (63150020,  23,   2),
-  (63150005,  24,   2),
-  (63150006,  24,   2),
-  (63150007,  24,   2),
-  (63150012,  24,   2),
-  (63150013,  24,   2),
-  (63150014,  24,   2),
-  (63150015,  24,   2),
-  (63150016,  24,   2),
-  (63150017,  24,   2),
-  (63150018,  24,   2),
-  (63150019,  24,   2),
-  (63150020,  24,   2),
-  (63150005,  25,   2),
-  (63150006,  25,   2),
-  (63150007,  25,   2),
-  (63150012,  25,   2),
-  (63150013,  25,   2),
-  (63150014,  25,   2),
-  (63150015,  25,   2),
-  (63150016,  25,   2),
-  (63150017,  25,   2),
-  (63150018,  25,   2),
-  (63150019,  25,   2),
-  (63150020,  25,   2),
-  (63150005,  26,   2),
-  (63150006,  26,   2),
-  (63150007,  26,   2),
-  (63150012,  26,   2),
-  (63150013,  26,   2),
-  (63150014,  26,   2),
-  (63150015,  26,   2),
-  (63150016,  26,   2),
-  (63150017,  26,   2),
-  (63150018,  26,   2),
-  (63150019,  26,   2),
-  (63150020,  26,   2),
-  (63150000,  1,    2),
-  (63150001,  1,    2),
-  (63150002,  1,    2),
-  (63150022, 18,2),
-  (63150022, 19,2),
-  (63150022, 20,2),
-  (63150022, 21,2),
-  (63150022, 22,2);
-/*
-(63150022, 57,2);
-*/
 
-INSERT INTO prijava(ID_PRIJAVA, ID_ROK, VPISNA_STEVILKA, ZAP_ST_POLAGANJ, ZAP_ST_POLAGANJ_LETOS, PODATKI_O_PLACILU, TOCKE_IZPITA, DATUM_PRIJAVE, DATUM_ODJAVE) VALUES
-  /* Prijave na izpite TPO. 1,2 in 3 rok, stud. leto 2017/18 */
-  (1, 1,  63150000, 1,  1, 1,   NULL, '2018-01-02 12:22:00',  NULL),
-  (2, 1,  63150001, 1,  1, 1,   NULL, '2018-01-04 12:23:00',  NULL),
-  (3, 1,  63150002, 1,  1, 2,   NULL, '2018-01-05 23:32:22',  NULL),
-  (4, 2,  63150000, 2,  2, 1,   NULL, '2018-01-03 12:23:34',  NULL),
-  (5, 2,  63150001, 1,  1, 1,   NULL, '2018-06-01 11:12:13',  NULL),
-  (6, 2,  63150002, 2,  2, 1,   NULL, '2018-06-01 17:12:13',  NULL),
-  (7, 3,  63150003, 2,  2, 1,   NULL, '2018-06-03 15:16:17',  NULL),
+  /* 1. Letnik, Stud leto=0. St. vpisanih = 5 */
+  (0,63150001,10,0),
+  (1,63150001,11,0),
+  (2,63150001,12,0),
+  (3,63150001,13,0),
+  (4,63150001,14,0),
+  (5,63150001,15,0),
+  (6,63150001,16,0),
+  (7,63150001,17,0),
+  (8,63150001,18,0),
+  (9,63150001,19,0),
 
-  /* Prijave na izpite P1. 1,2 in 3 rok, stud. leto 2017/18 */
-  (8, 4,  63150000, 1,  1,  1,  NULL, '2018-01-02 11:11:11',  NULL),
-  (9, 5,  63150000, 2,  2,  1,  NULL, '2018-01-03 12:12:12',  NULL),
-  (10,4,  63150001, 1,  1,  1,  NULL, '2018-01-04 13:14:11',  NULL),
-  (11,4,  63150002, 1,  1,  1,  NULL, '2018-01-05 16:16:16',  NULL),
-  (12,4,  63150003, 1,  1,  1,  NULL, '2018-01-05 17:16:15',  NULL),
-  (13,4,  63150004, 1,  1,  1,  NULL, '2018-01-05 14:13:12',  NULL),
-  (14,5,  63150004, 2,  1,  1,  NULL, '2018-01-05 14:11:12',  NULL),
-  (15,4,  63150011, 1,  1,  1,  NULL, '2018-01-05 11:10:09',  NULL);
+  (10,63150002,10,0),
+  (11,63150002,11,0),
+  (12,63150002,12,0),
+  (13,63150002,13,0),
+  (14,63150002,14,0),
+  (15,63150002,15,0),
+  (16,63150002,16,0),
+  (17,63150002,17,0),
+  (18,63150002,18,0),
+  (19,63150002,19,0),
 
+  (20,63150003,10,0),
+  (21,63150003,11,0),
+  (22,63150003,12,0),
+  (23,63150003,13,0),
+  (24,63150003,14,0),
+  (25,63150003,15,0),
+  (26,63150003,16,0),
+  (27,63150003,17,0),
+  (28,63150003,18,0),
+  (29,63150003,19,0),
+
+  (30,63150004,10,0),
+  (31,63150004,11,0),
+  (32,63150004,12,0),
+  (33,63150004,13,0),
+  (34,63150004,14,0),
+  (35,63150004,15,0),
+  (36,63150004,16,0),
+  (37,63150004,17,0),
+  (38,63150004,18,0),
+  (39,63150004,19,0),
+
+  (40,63150005,10,0),
+  (41,63150005,11,0),
+  (42,63150005,12,0),
+  (43,63150005,13,0),
+  (44,63150005,14,0),
+  (45,63150005,15,0),
+  (46,63150005,16,0),
+  (47,63150005,17,0),
+  (48,63150005,18,0),
+  (49,63150005,19,0),
+
+  /* STUD_LETO=1. St. vpisanih=10 (5 v 1.let, 5 v 2.let) */
+
+  --  Vpisi v prvi letnik
+    (50,63150006,10,1),
+    (51,63150006,11,1),
+    (52,63150006,12,1),
+    (53,63150006,13,1),
+    (54,63150006,14,1),
+    (55,63150006,15,1),
+    (56,63150006,16,1),
+    (57,63150006,17,1),
+    (58,63150006,18,1),
+    (59,63150006,19,1),
+
+    (60,63150007,10,1),
+    (61,63150007,11,1),
+    (62,63150007,12,1),
+    (63,63150007,13,1),
+    (64,63150007,14,1),
+    (65,63150007,15,1),
+    (66,63150007,16,1),
+    (67,63150007,17,1),
+    (68,63150007,18,1),
+    (69,63150007,19,1),
+
+    (70,63150008,10,1),
+    (71,63150008,11,1),
+    (72,63150008,12,1),
+    (73,63150008,13,1),
+    (74,63150008,14,1),
+    (75,63150008,15,1),
+    (76,63150008,16,1),
+    (77,63150008,17,1),
+    (78,63150008,18,1),
+    (79,63150008,19,1),
+
+    (80,63150009,10,1),
+    (81,63150009,11,1),
+    (82,63150009,12,1),
+    (83,63150009,13,1),
+    (84,63150009,14,1),
+    (85,63150009,15,1),
+    (86,63150009,16,1),
+    (87,63150009,17,1),
+    (88,63150009,18,1),
+    (89,63150009,19,1),
+
+    (90,63150010,10,1),
+    (91,63150010,11,1),
+    (92,63150010,12,1),
+    (93,63150010,13,1),
+    (94,63150010,14,1),
+    (95,63150010,15,1),
+    (96,63150010,16,1),
+    (97,63150010,17,1),
+    (98,63150010,18,1),
+    (99,63150010,19,1),
+
+  --  Vpisi v drugi letnik
+    /* 001 */
+    (100,63150001,20,1),
+    (101,63150001,21,1),
+    (102,63150001,22,1),
+    (103,63150001,23,1),
+    (104,63150001,24,1),
+    (105,63150001,25,1),
+    (106,63150001,26,1),
+    (107,63150001,27,1),
+    --  Strokovni izbirni
+    (108,63150001,29,1),
+    --  Splosni izbirni
+    (109,63150001,100,1),
+    (110,63150001,101,1),
+
+    /* 002 */
+    (111,63150002,20,1),
+    (112,63150002,21,1),
+    (113,63150002,22,1),
+    (114,63150002,23,1),
+    (115,63150002,24,1),
+    (116,63150002,25,1),
+    (117,63150002,26,1),
+    (118,63150002,27,1),
+    --  Strokovni izbirni
+    (119,63150002,29,1),
+    --  Splosni izbirni
+    (120,63150002,102,1),
+    (121,63150002,103,1),
+
+    /* 003 */
+    (122,63150003,20,1),
+    (123,63150003,21,1),
+    (124,63150003,22,1),
+    (125,63150003,23,1),
+    (126,63150003,24,1),
+    (127,63150003,25,1),
+    (128,63150003,26,1),
+    (129,63150003,27,1),
+    -- Strokovni izbirni
+    (130,63150003,29,1),
+    -- Splosni izbirni
+    (131,63150003,104,1),
+    (132,63150003,105,1),
+
+    /* 504 */
+    (133,63150004,20,1),
+    (134,63150004,21,1),
+    (135,63150004,22,1),
+    (136,63150004,23,1),
+    (137,63150004,24,1),
+    (138,63150004,25,1),
+    (139,63150004,26,1),
+    (140,63150004,27,1),
+    -- Strokovni izbirni
+    (141,63150004,29,1),
+    -- Splosni izbirni
+    (142,63150004,110,1),
+
+    /* 505 */
+    (143,63150005,20,1),
+    (144,63150005,21,1),
+    (145,63150005,22,1),
+    (146,63150005,23,1),
+    (147,63150005,24,1),
+    (148,63150005,25,1),
+    (149,63150005,26,1),
+    (150,63150005,27,1),
+    -- Strokovni izbirni
+    (151,63150005,29,1),
+    -- Splosni izbirni
+    (152,63150005,111,1),
+
+  /* STUD_LETO=2. St. vpisanih=15 (5 v 1.let, 5 v 2.let, 5 v 3.let) */
+
+    --  Vpisi v prvi letnik
+    (153 ,63150011,10,2),
+    (154,63150011,11,2),
+    (155,63150011,12,2),
+    (156,63150011,13,2),
+    (157,63150011,14,2),
+    (158,63150011,15,2),
+    (159,63150011,16,2),
+    (160,63150011,17,2),
+    (161,63150011,18,2),
+    (162,63150011,19,2),
+
+    (163,63150012,10,2),
+    (164,63150012,11,2),
+    (165,63150012,12,2),
+    (166,63150012,13,2),
+    (167,63150012,14,2),
+    (168,63150012,15,2),
+    (169,63150012,16,2),
+    (170,63150012,17,2),
+    (171,63150012,18,2),
+    (172,63150012,19,2),
+
+    (173,63150013,10,2),
+    (174,63150013,11,2),
+    (175,63150013,12,2),
+    (176,63150013,13,2),
+    (177,63150013,14,2),
+    (178,63150013,15,2),
+    (179,63150013,16,2),
+    (180,63150013,17,2),
+    (181,63150013,18,2),
+    (182,63150013,19,2),
+
+    (193,63150014,10,2),
+    (194,63150014,11,2),
+    (195,63150014,12,2),
+    (196,63150014,13,2),
+    (197,63150014,14,2),
+    (198,63150014,15,2),
+    (199,63150014,16,2),
+    (200,63150014,17,2),
+    (201,63150014,18,2),
+    (202,63150014,19,2),
+
+    (203,63150015,10,2),
+    (204,63150015,11,2),
+    (205,63150015,12,2),
+    (206,63150015,13,2),
+    (207,63150015,14,2),
+    (208,63150015,15,2),
+    (209,63150015,16,2),
+    (210,63150015,17,2),
+    (211,63150015,18,2),
+    (212,63150015,19,2),
+
+    --  Vpisi v drugi letnik
+    /* 006 */
+    (213,63150006,20,2),
+    (214,63150006,21,2),
+    (215,63150006,22,2),
+    (216,63150006,23,2),
+    (217,63150006,24,2),
+    (218,63150006,25,2),
+    (219,63150006,26,2),
+    (220,63150006,27,2),
+    -- Strokovni izbirni
+    (221,63150006,29,2),
+    -- Splosni izbirni
+    (222,63150006,100,2),
+    (223,63150006,101,2),
+
+    /* 007 */
+    (224,63150007,20,2),
+    (225,63150007,21,2),
+    (226,63150007,22,2),
+    (227,63150007,23,2),
+    (228,63150007,24,2),
+    (229,63150007,25,2),
+    (230,63150007,26,2),
+    (231,63150007,27,2),
+    -- Strokovni izbirni
+    (232,63150007,29,2),
+    -- Splosni izbirni
+    (233,63150007,102,2),
+    (234,63150007,103,2),
+
+    /* 008 */
+    (235,63150008,20,2),
+    (236,63150008,21,2),
+    (237,63150008,22,2),
+    (238,63150008,23,2),
+    (239,63150008,24,2),
+    (240,63150008,25,2),
+    (241,63150008,26,2),
+    (242,63150008,27,2),
+    -- Strokovni izbirni
+    (243,63150008,29,2),
+    -- Splosni izbirni
+    (244,63150008,104,2),
+    (245,63150008,105,2),
+
+    /* 009 */
+    (246,63150009,20,2),
+    (247,63150009,21,2),
+    (248,63150009,22,2),
+    (249,63150009,23,2),
+    (250,63150009,24,2),
+    (251,63150009,25,2),
+    (252,63150009,26,2),
+    (253,63150009,27,2),
+    -- Strokovni izbirni
+    (254,63150009,29,2),
+    -- Splosni izbirni
+    (255,63150009,110,2),
+
+    /* 010 */
+    (256,63150010,20,2),
+    (257,63150010,21,2),
+    (258,63150010,22,2),
+    (259,63150010,23,2),
+    (260,63150010,24,2),
+    (261,63150010,25,2),
+    (262,63150010,26,2),
+    (263,63150010,27,2),
+    -- Strokovni izbirni
+    (264,63150010,29,2),
+    -- Splosni izbirni
+    (265,63150010,111,2),
+
+    --  Vpisi v 3. letnik
+    /* 001 - Povp 6*/
+    (266,63150001,31,2),
+    (267,63150001,32,2),
+    (268,63150001,33,2),
+
+    (269,63150001,34,2),
+    (270,63150001,35,2),
+    (271,63150001,36,2),
+    (272,63150001,49,2),
+    (273,63150001,50,2),
+    (274,63150001,51,2),
+    (275,63150001,109,2),
+
+    /* 002 - Povp 7 */
+    (276,63150002,31,2),
+    (277,63150002,32,2),
+    (278,63150002,33,2),
+
+    (279,63150002,34,2),
+    (280,63150002,35,2),
+    (281,63150002,36,2),
+    (282,63150002,49,2),
+    (283,63150002,50,2),
+    (284,63150002,51,2),
+    (285,63150002,109,2),
+
+    /* 003 - Povp 8 */
+    (286,63150003,31,2),
+    (287,63150003,32,2),
+    (288,63150003,33,2),
+
+    (289,63150003,34,2),
+    (290,63150003,35,2),
+    (291,63150003,36,2),
+    (292,63150003,49,2),
+    (293,63150003,50,2),
+    (294,63150003,51,2),
+    (296,63150003,109,2),
+
+    /* 004 - Povp 9 */
+    (297,63150004,31,2),
+    (298,63150004,32,2),
+    (299,63150004,33,2),
+
+    (300,63150004,34,2),
+    (301,63150004,35,2),
+    (302,63150004,36,2),
+    (303,63150004,49,2),
+    (304,63150004,50,2),
+    (305,63150004,51,2),
+    (306,63150004,109,2),
+
+    /* 005 - Povp 10 */
+    (307,63150005,31,2),
+    (308,63150005,32,2),
+    (309,63150005,33,2),
+
+    (310,63150005,34,2),
+    (311,63150005,35,2),
+    (312,63150005,36,2),
+    (313,63150005,49,2),
+    (314,63150005,50,2),
+    (315,63150005,51,2),
+    (316,63150005,109,2);
+
+INSERT INTO prijava(ID_PRIJAVA, ID_ROK, VPISNA_STEVILKA, ZAP_ST_POLAGANJ, ZAP_ST_POLAGANJ_LETOS, PODATKI_O_PLACILU, TOCKE_IZPITA, OCENA_IZPITA, DATUM_PRIJAVE, DATUM_ODJAVE) VALUES
+  
+  /* Prijave STUD_LETO = 0, 5 stud 1. letnik */
+  --  P1
+  (1,1,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (2,1,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (3,1,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (4,1,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (5,1,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  --  OMA
+  (6,2,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (7,2,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (8,2,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (9,2,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (10,2,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  --  DS
+  (11,3,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (12,3,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (13,3,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (14,3,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (15,3,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  --  ODV
+  (16,4,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (17,4,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (18,4,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (19,4,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (20,4,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  --  FIZ
+  (21,5,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (22,5,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (23,5,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (24,5,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (25,5,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  --  P2
+  (26,6,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (27,6,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (28,6,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (29,6,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (30,6,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  --  LA
+  (31,7,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (32,7,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (33,7,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (34,7,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (35,7,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  --  ARS
+  (36,8,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (37,8,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (38,8,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (39,8,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (40,8,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  --  RK
+  (41,9,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (42,9,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (43,9,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (44,9,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (45,9,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  --  OIS
+  (46,10,63150001,1,1,1,50,6,'2016-01-01',NULL),
+  (47,10,63150002,1,1,1,60,7,'2016-01-01',NULL),
+  (48,10,63150003,1,1,1,70,8,'2016-01-01',NULL),
+  (49,10,63150004,1,1,1,80,9,'2016-01-01',NULL),
+  (50,10,63150005,1,1,1,90,10,'2016-01-01',NULL),
+  
+   /* Prijave STUD_LETO = 1, 5 stud 1. letnik, 5 stud 2. letnik */
+   /* -- - 1. letnik -- - */
+   --  P1
+  (51,11,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (52,11,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (53,11,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (54,11,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (55,11,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  --  OMA
+  (56,12,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (57,12,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (58,12,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (59,12,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (60,12,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  --  DS
+  (61,13,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (62,13,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (63,13,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (64,13,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (65,13,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  --  ODV
+  (66,14,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (67,14,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (68,14,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (69,14,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (70,14,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  --  FIZ
+  (71,15,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (72,15,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (73,15,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (74,15,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (75,15,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  --  P2
+  (76,16,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (77,16,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (78,16,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (79,16,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (80,16,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  --  LA
+  (81,17,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (82,17,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (83,17,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (84,17,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (85,17,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  --  ARS
+  (86,18,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (87,18,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (88,18,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (89,18,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (90,18,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  --  RK
+  (91,19,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (92,19,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (93,19,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (94,19,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (95,19,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  --  OIS
+  (96,20,63150006,1,1,1,50,6,'2017-01-01',NULL),
+  (97,20,63150007,1,1,1,60,7,'2017-01-01',NULL),
+  (98,20,63150008,1,1,1,70,8,'2017-01-01',NULL),
+  (99,20,63150009,1,1,1,80,9,'2017-01-01',NULL),
+  (100,20,63150010,1,1,1,90,10,'2017-01-01',NULL),
+  
+  /* -- - 2. letnik -- - */
+  --  APS1
+  (101,21,63150001,1,1,1,50,6,'2017-01-01',NULL),
+  (102,21,63150002,1,1,1,60,7,'2017-01-01',NULL),
+  (103,21,63150003,1,1,1,70,8,'2017-01-01',NULL),
+  (104,21,63150004,1,1,1,80,9,'2017-01-01',NULL),
+  (105,21,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  --  APS2
+  (106,22,63150001,1,1,1,50,6,'2017-01-01',NULL),
+  (107,22,63150002,1,1,1,60,7,'2017-01-01',NULL),
+  (108,22,63150003,1,1,1,70,8,'2017-01-01',NULL),
+  (109,22,63150004,1,1,1,80,9,'2017-01-01',NULL),
+  (110,22,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  --  OPB
+  (111,23,63150001,1,1,1,50,6,'2017-01-01',NULL),
+  (112,23,63150002,1,1,1,60,7,'2017-01-01',NULL),
+  (113,23,63150003,1,1,1,70,8,'2017-01-01',NULL),
+  (114,23,63150004,1,1,1,80,9,'2017-01-01',NULL),
+  (115,23,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  --  VS
+  (116,24,63150001,1,1,1,50,6,'2017-01-01',NULL),
+  (117,24,63150002,1,1,1,60,7,'2017-01-01',NULL),
+  (118,24,63150003,1,1,1,70,8,'2017-01-01',NULL),
+  (119,24,63150004,1,1,1,80,9,'2017-01-01',NULL),
+  (120,24,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  --  IRZ
+  (121,25,63150001,1,1,1,50,6,'2017-01-01',NULL),
+  (122,25,63150002,1,1,1,60,7,'2017-01-01',NULL),
+  (123,25,63150003,1,1,1,70,8,'2017-01-01',NULL),
+  (124,25,63150004,1,1,1,80,9,'2017-01-01',NULL),
+  (125,25,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  --  TIS
+  (126,26,63150001,1,1,1,50,6,'2017-01-01',NULL),
+  (127,26,63150002,1,1,1,60,7,'2017-01-01',NULL),
+  (128,26,63150003,1,1,1,70,8,'2017-01-01',NULL),
+  (129,26,63150004,1,1,1,80,9,'2017-01-01',NULL),
+  (130,26,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  --  OS
+  (131,27,63150001,1,1,1,50,6,'2017-01-01',NULL),
+  (132,27,63150002,1,1,1,60,7,'2017-01-01',NULL),
+  (133,27,63150003,1,1,1,70,8,'2017-01-01',NULL),
+  (134,27,63150004,1,1,1,80,9,'2017-01-01',NULL),
+  (135,27,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  --  ORS
+  (136,28,63150001,1,1,1,50,6,'2017-01-01',NULL),
+  (137,28,63150002,1,1,1,60,7,'2017-01-01',NULL),
+  (138,28,63150003,1,1,1,70,8,'2017-01-01',NULL),
+  (139,28,63150004,1,1,1,80,9,'2017-01-01',NULL),
+  (140,28,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  --  MM
+  (141,29,63150001,1,1,1,50,6,'2017-01-01',NULL),
+  (142,29,63150002,1,1,1,60,7,'2017-01-01',NULL),
+  (143,29,63150003,1,1,1,70,8,'2017-01-01',NULL),
+  (144,29,63150004,1,1,1,80,9,'2017-01-01',NULL),
+  (145,29,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  
+  /* Stud. leto = 2. 5 v 1l, 5 v 2l, 5 v 3l */
+  --  1. Letnik
+   --  P1
+  (146,30,63150011,1,1,1,50,6,'2018-01-01',NULL),
+  (147,35,63150012,1,1,1,60,7,'2018-01-01',NULL),
+  (148,30,63150013,1,1,1,70,8,'2018-01-01',NULL),
+  (149,35,63150014,1,1,1,80,9,'2018-01-01',NULL),
+  (150,30,63150015,1,1,1,90,10,'2018-01-01',NULL),
+  --  OMA
+  (151,31,63150011,1,1,1,50,6,'2018-01-01',NULL),
+  (152,36,63150012,1,1,1,60,7,'2018-01-01',NULL),
+  (153,31,63150013,1,1,1,70,8,'2018-01-01',NULL),
+  (154,36,63150014,1,1,1,80,9,'2018-01-01',NULL),
+  (155,31,63150015,1,1,1,90,10,'2018-01-01',NULL),
+  --  DS
+  (156,32,63150011,1,1,1,50,6,'2018-01-01',NULL),
+  (157,37,63150012,1,1,1,60,7,'2018-01-01',NULL),
+  (158,32,63150013,1,1,1,70,8,'2018-01-01',NULL),
+  (159,37,63150014,1,1,1,80,9,'2018-01-01',NULL),
+  (160,32,63150015,1,1,1,90,10,'2018-01-01',NULL),
+  --  ODV
+  (161,33,63150011,1,1,1,50,6,'2018-01-01',NULL),
+  (162,38,63150012,1,1,1,60,7,'2018-01-01',NULL),
+  (163,33,63150013,1,1,1,70,8,'2018-01-01',NULL),
+  (164,38,63150014,1,1,1,80,9,'2018-01-01',NULL),
+  (165,33,63150015,1,1,1,90,10,'2018-01-01',NULL),
+  --  FIZ
+  (166,34,63150011,1,1,1,50,6,'2018-01-01',NULL),
+  (167,39,63150012,1,1,1,60,7,'2018-01-01',NULL),
+  (168,34,63150013,1,1,1,70,8,'2018-01-01',NULL),
+  (169,39,63150014,1,1,1,80,9,'2018-01-01',NULL),
+  (170,34,63150015,1,1,1,90,10,'2018-01-01',NULL),
+  
+  --  2. letnik
+  --  APS1
+  (171,60,63150006,1,1,1,50,6,'2018-01-01',NULL),
+  (172,69,63150007,1,1,1,60,7,'2018-01-01',NULL),
+  (173,60,63150008,1,1,1,70,8,'2018-01-01',NULL),
+  (174,69,63150009,1,1,1,80,9,'2018-01-01',NULL),
+  (175,60,63150010,1,1,1,90,10,'2018-01-01',NULL),
+  --  OPB
+  (176,62,63150006,1,1,1,50,6,'2018-01-01',NULL),
+  (177,71,63150007,1,1,1,60,7,'2018-01-01',NULL),
+  (178,62,63150008,1,1,1,70,8,'2018-01-01',NULL),
+  (179,71,63150009,1,1,1,80,9,'2018-01-01',NULL),
+  (180,62,63150010,1,1,1,90,10,'2018-01-01',NULL),
+  --  VS
+  (181,63,63150006,1,1,1,50,6,'2018-01-01',NULL),
+  (182,72,63150007,1,1,1,60,7,'2018-01-01',NULL),
+  (183,63,63150008,1,1,1,70,8,'2018-01-01',NULL),
+  (184,72,63150009,1,1,1,80,9,'2018-01-01',NULL),
+  (185,63,63150010,1,1,1,90,10,'2018-01-01',NULL),
+  --  IRZ
+  (186,64,63150006,1,1,1,50,6,'2018-01-01',NULL),
+  (187,73,63150007,1,1,1,60,7,'2018-01-01',NULL),
+  (188,64,63150008,1,1,1,70,8,'2018-01-01',NULL),
+  (189,74,63150009,1,1,1,80,9,'2018-01-01',NULL),
+  (190,64,63150010,1,1,1,90,10,'2018-01-01',NULL),
+  --  ORS
+  (191,67,63150006,1,1,1,50,6,'2018-01-01',NULL),
+  (192,76,63150007,1,1,1,60,7,'2018-01-01',NULL),
+  (193,67,63150008,1,1,1,70,8,'2018-01-01',NULL),
+  (194,76,63150009,1,1,1,80,9,'2018-01-01',NULL),
+  (195,67,63150010,1,1,1,90,10,'2018-01-01',NULL),
+  
+  --  3. letnik
+  --  OUI
+  (196,87,63150001,1,1,1,50,6,'2018-01-01',NULL),
+  (197,95,63150002,1,1,1,60,7,'2018-01-01',NULL),
+  (198,87,63150003,1,1,1,70,8,'2018-01-01',NULL),
+  (199,95,63150004,1,1,1,80,9,'2018-01-01',NULL),
+  (200,87,63150005,1,1,1,90,10,'2018-01-01',NULL),
+  --  PRPO
+  (201,90,63150001,1,1,1,50,6,'2018-01-01',NULL),
+  (202,98,63150002,1,1,1,60,7,'2018-01-01',NULL),
+  (203,90,63150003,1,1,1,70,8,'2018-01-01',NULL),
+  (204,98,63150004,1,1,1,80,9,'2018-01-01',NULL),
+  (205,90,63150005,1,1,1,90,10,'2018-01-01',NULL),
+  --  SP
+  (206,91,63150001,1,1,1,50,6,'2018-01-01',NULL),
+  (207,99,63150002,1,1,1,60,7,'2018-01-01',NULL),
+  (208,91,63150003,1,1,1,70,8,'2018-01-01',NULL),
+  (209,99,63150004,1,1,1,80,9,'2018-01-01',NULL),
+  (210,91,63150005,1,1,1,90,10,'2018-01-01',NULL),
+  --  SPO
+  (211,92,63150001,1,1,1,50,6,'2018-01-01',NULL),
+  (212,100,63150002,1,1,1,60,7,'2018-01-01',NULL),
+  (213,92,63150003,1,1,1,70,8,'2018-01-01',NULL),
+  (214,100,63150004,1,1,1,80,9,'2018-01-01',NULL),
+  (215,92,63150005,1,1,1,90,10,'2018-01-01',NULL),
+  --  RZHP
+  (216,93,63150001,1,1,1,50,6,'2018-01-01',NULL),
+  (217,101,63150002,1,1,1,60,7,'2018-01-01',NULL),
+  (218,93,63150003,1,1,1,70,8,'2018-01-01',NULL),
+  (219,101,63150004,1,1,1,80,9,'2018-01-01',NULL),
+  (220,93,63150005,1,1,1,90,10,'2018-01-01',NULL);
+  
 
 INSERT INTO `posta_obcina` (`MID_POSTA`, `MID_OBCINA`) VALUES
   (21431010,	11027156),

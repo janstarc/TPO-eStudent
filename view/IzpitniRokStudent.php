@@ -15,9 +15,7 @@
     $datum=new DateTime();
 
     $datum->setDate(2018,6,1);
-
     $datumString="2018-06-01";
-
 
     ?>
 
