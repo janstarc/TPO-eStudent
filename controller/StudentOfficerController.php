@@ -704,7 +704,7 @@ class StudentOfficerController {
             if (User::isLoggedInAsStudentOfficer()) {
 
                 ViewHelper::render("view/ZetonChooseStudLetoViewer.php", [
-                    "pageTitle" => "Seznam vseh študijskih let",
+                    "pageTitle" => "Izberi študijsko leto vpisa študenta",
                     "allData" => StudijskoLetoModel::getAll(),
                     "formAction" => "zetoni",
                     "status" => $status,
@@ -1366,7 +1366,7 @@ class StudentOfficerController {
         $predmet = StudentOfficerDB::getPredmet($data['idPredmet']);
         $vpisani = count($main);
         $header = array('Šifra predmeta','Ime predmeta', 'Študijsko leto', 'Število vpisanih');
-        $lineData = array($predmet["ID_PREDMET"] , $predmet["IME_PREDMET"], $leto, $vpisani);
+        $lineData = array($predmet["SIFRA_PREDMET"] , $predmet["IME_PREDMET"], $leto, $vpisani);
 
         $header2 = array('Vpisna številka','Priimek in ime', 'Vrsta vpisa');
         $all = [];

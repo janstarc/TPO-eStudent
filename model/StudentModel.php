@@ -385,6 +385,7 @@ class StudentModel{
             WHERE z.ID_OSEBA = :id_oseba
             AND z.IZKORISCEN = 0
             AND z.AKTIVNOST = 1
+            ORDER BY ID_STUD_LETO DESC LIMIT 1
         ");
 
         $statement->bindValue(":id_oseba", $id_oseba);

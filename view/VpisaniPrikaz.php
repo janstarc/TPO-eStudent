@@ -89,7 +89,7 @@
                         <tbody>
                         <tr>
 
-                            <td><?= $predmet["ID_PREDMET"] ?></td>
+                            <td><?= $predmet["SIFRA_PREDMET"] ?></td>
                             <td><?= $predmet["IME_PREDMET"] ?></td>
                             <th><?= $leto ?></th>
                             <th><?= count($vpisani) ?></th>

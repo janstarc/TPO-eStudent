@@ -758,7 +758,7 @@ class StudentController {
         $pdf->Ln();
         $pdf->Ln();
         $pdf->SetY(265);
-        $pdf->Cell(0, 10, 'Page '.$pdf->PageNo().'/'.$pdf->PageNo(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo().'/'.$pdf->PageNo(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
 
         $pdf->Output();
 
