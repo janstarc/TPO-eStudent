@@ -583,7 +583,7 @@ class AdminController {
         }
     }
 
-    public static function getNewIzvajalec($id_leto,$id_predmet,$id){
+    public static function getNewIzvajalec($id_leto,$id_predmet){
         if (User::isLoggedIn()) {
             if (User::isLoggedInAsAdmin()) {
                 ViewHelper::render("view/PodatkiIzvajalcevAdd.php", [

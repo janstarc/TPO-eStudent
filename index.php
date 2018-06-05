@@ -317,7 +317,7 @@ $urls = [
         if ($method == "GET") AdminController::getFormPredmetIzvajalec($id);
         else ViewHelper::error405();
     },"/^PodatkiIzvajalcevAdd\/leto\/(\d+)\/(\d+)$/" => function ($method,$id,$id2) {
-        if ($method == "GET") AdminController::getIzbiraDelPremdetnika($id,$id2);
+        if ($method == "GET") AdminController::getNewIzvajalec($id,$id2);
         else ViewHelper::error405();
     },"/^PodatkiIzvajalcevAdd\/leto\/(\d+)\/(\d+)\/(\d+)$/" => function ($method,$id,$id2,$id3) {
         if ($method == "GET") AdminController::getNewIzvajalec($id,$id2,$id3);
