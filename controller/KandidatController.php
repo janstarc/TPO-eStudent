@@ -128,6 +128,7 @@ class KandidatController {
                         $idKandidat = KandidatModel::getKandidatIdWithUserId(User::getId());
                         KandidatModel::updateEmso($idKandidat, $data["emso"]);
                         KandidatModel::updateTelefon($idKandidat, $data["telefonska_stevilka"]);
+                        KandidatModel::izkoristiZeton(User::getId());
                         
                         KandidatModel::insertNaslov($idKandidat, [
                             "id_drzava" => $data["id_drzava"],

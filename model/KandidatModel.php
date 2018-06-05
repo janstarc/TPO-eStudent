@@ -18,6 +18,31 @@ class KandidatModel {
         $result = $statement->fetch();
         return $result["ID_KANDIDAT"];
     }
+    public static function izkoristiZeton($id){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+           SELECT z.ID_ZETON FROM kandidat k
+JOIN zeton z on k.ID_OSEBA = z.ID_OSEBA
+WHERE k.ID_OSEBA = :id
+ORDER BY z.ID_STUD_LETO DESC LIMIT 1
+        ");
+
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $result = $statement->fetchColumn();
+
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+         UPDATE zeton SET IZKORISCEN = 1 WHERE ID_ZETON = :rez
+        ");
+
+        $statement->bindValue(":rez", $result);
+        $statement->execute();
+
+        return TRUE;
+    }
     
     // id_oseba --> kandidat_id
     public static function getKandidatIdWithUserId($id_oseba){

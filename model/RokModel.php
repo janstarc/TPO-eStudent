@@ -120,12 +120,24 @@ class RokModel {
 
         $statement = $db->prepare("
             SELECT r.ID_ROK, ip.ID_IZVEDBA, ip.ID_STUD_LETO, p.ID_PREDMET, p.IME_PREDMET, r.DATUM_ROKA, r.CAS_ROKA,
-            r.ID_OSEBA_IZPRASEVALEC1, r.ID_OSEBA_IZPRASEVALEC2, r.ID_OSEBA_IZPRASEVALEC3, ip.ID_OSEBA1, ip.ID_OSEBA2, ip.ID_OSEBA3
-            FROM IZVEDBA_PREDMETA as ip
-            JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
-            JOIN ROK as r ON r.ID_IZVEDBA = ip.ID_IZVEDBA
-            WHERE r.ID_ROK = :idRok
-                AND p.AKTIVNOST = 1
+  r.ID_OSEBA_IZPRASEVALEC1, r.ID_OSEBA_IZPRASEVALEC2, r.ID_OSEBA_IZPRASEVALEC3,
+  o.ID_OSEBA as ID_IZPRASEVALEC1, o.IME as IME_IZPRASEVALEC1, o.PRIIMEK as PRIIMEK_IZPRASEVALEC1,
+  o2.ID_OSEBA as ID_IZPRASEVALEC2, o2.IME as IME_IZPRASEVALEC2, o2.PRIIMEK as PRIIMEK_IZPRASEVALEC2,
+  o3.ID_OSEBA as ID_IZPRASEVALEC3, o.IME as IME_IZPRASEVALEC3, o.PRIIMEK as PRIIMEK_IZPRASEVALEC3,
+  o4.ID_OSEBA as ID_IZVAJALEC1, o4.IME as IME_IZVAJALEC1, o4.PRIIMEK as PRIIMEK_IZVAJALEC1,
+  o5.ID_OSEBA as ID_IZVAJALEC2, o5.IME as IME_IZVAJALEC2, o5.PRIIMEK as PRIIMEK_IZVAJALEC2,
+  o6.ID_OSEBA as ID_IZVAJALEC3, o6.IME as IME_IZVAJALEC3, o6.PRIIMEK as PRIIMEK_IZVAJALEC3
+FROM IZVEDBA_PREDMETA as ip
+  JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
+  JOIN ROK as r ON r.ID_IZVEDBA = ip.ID_IZVEDBA
+  LEFT JOIN oseba o ON r.ID_OSEBA_IZPRASEVALEC1 = o.ID_OSEBA
+  LEFT JOIN oseba o2 ON r.ID_OSEBA_IZPRASEVALEC2 = o2.ID_OSEBA
+  LEFT JOIN oseba o3 ON r.ID_OSEBA_IZPRASEVALEC3 = o3.ID_OSEBA
+  LEFT JOIN oseba o4 ON ip.ID_OSEBA1 = o4.ID_OSEBA
+  LEFT JOIN oseba o5 ON ip.ID_OSEBA2 = o5.ID_OSEBA
+  LEFT JOIN oseba o6 ON ip.ID_OSEBA3 = o6.ID_OSEBA
+WHERE r.ID_ROK = :idRok
+      AND p.AKTIVNOST = 1
         ");
         $statement->bindParam(":idRok", $idRok, PDO::PARAM_INT);
         $statement->execute();
@@ -138,17 +150,24 @@ class RokModel {
         }
     }
     
-    public static function update($ID_ROK, $ID_IZVEDBA, $DATUM_ROKA, $CAS_ROKA) {
+    public static function update($ID_ROK, $DATUM_ROKA, $CAS_ROKA, $prof1, $prof2, $prof3) {
         $db = DBInit::getInstance();
+        if($prof1 == "0") $prof1 = NULL;
+        if($prof2 == "0") $prof2 = NULL;
+        if($prof3 == "0") $prof3 = NULL;
+
 
         $statement = $db->prepare("
             UPDATE ROK
-            SET ID_IZVEDBA = :ID_IZVEDBA, DATUM_ROKA = :DATUM_ROKA, CAS_ROKA = :CAS_ROKA
+            SET DATUM_ROKA = :DATUM_ROKA, CAS_ROKA = :CAS_ROKA,
+            ID_OSEBA_IZPRASEVALEC1= :prof1,ID_OSEBA_IZPRASEVALEC2 = :prof2 ,ID_OSEBA_IZPRASEVALEC3 = :prof3
             WHERE ID_ROK = :ID_ROK
         ");
-        $statement->bindParam(":ID_IZVEDBA", $ID_IZVEDBA);
         $statement->bindParam(":DATUM_ROKA", $DATUM_ROKA);
         $statement->bindParam(":CAS_ROKA", $CAS_ROKA);
+        $statement->bindParam(":prof1", $prof1);
+        $statement->bindParam(":prof2", $prof2);
+        $statement->bindParam(":prof3", $prof3);
         $statement->bindParam(":ID_ROK", $ID_ROK, PDO::PARAM_INT);
         $statement->execute();
     }

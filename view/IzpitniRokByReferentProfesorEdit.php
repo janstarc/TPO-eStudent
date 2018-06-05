@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-    <?php include("view/includes/head.php"); ?>
+    <?php include("view/includes/head.php"); #var_dump($getId); ?>
 </head>
 <body>
 <section id="container">
@@ -29,14 +29,42 @@
                             <input type="text" class="form-control" name="CAS_ROKA" value="<?= $getId['CAS_ROKA']?>" placeholder="Cas: vnesi kot HH:MM:SS" pattern="[0-2][0-9]:[0-5][0-9]:[0-5][0-9]" required>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" name="ID_IZVEDBA" required>
-                                <?php foreach ($IdIzvedbaPredmeta as $idIP):
-                                    if ($getId['ID_IZVEDBA'] == $idIP["ID_IZVEDBA"]): ?>
-                                        <option selected value="<?= $idIP["ID_IZVEDBA"] ?>"><?= $idIP["IME_PREDMET"] ?></option>
-                                    <?php else: ?>
-                                        <option value="<?= $idIP["ID_IZVEDBA"] ?>"><?= $idIP["IME_PREDMET"] ?></option>
-                                    <?php endif;
-                                endforeach; ?>
+                            <select class="form-control" name="PROFESOR1" required>
+                                <?php if($getId['ID_IZPRASEVALEC1'] == ""){ ?>
+                                    <option selected value="0">Brez izpraševalca</option>
+                                    <option  value="<?= $getId['ID_IZVAJALEC1'] ?>"><?= $getId['IME_IZVAJALEC1']." ".$getId['PRIIMEK_IZVAJALEC1'] ?></option>
+                                <?php } else { ?>
+                                    <option  value="0">"Brez izpraševalca</option>
+                                    <option selected value="<?= $getId['ID_IZVAJALEC1'] ?>"><?= $getId['IME_IZVAJALEC1']." ".$getId['PRIIMEK_IZVAJALEC1'] ?></option>
+
+                                    <?php } ?>
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="PROFESOR2" required>
+                                <?php if($getId['ID_IZPRASEVALEC2'] == ""){ ?>
+                                    <option selected value="0">Brez izpraševalca</option>
+                                    <option <?php if ($getId['ID_IZVAJALEC2'] == ""){ echo 'style="display:none;"';} ?> value="<?= $getId['ID_IZVAJALEC2'] ?>"><?= $getId['IME_IZVAJALEC2']." ".$getId['PRIIMEK_IZVAJALEC2'] ?></option>
+                                <?php } else { ?>
+                                    <option  value="0">"Brez izpraševalca</option>
+                                    <option selected value="<?= $getId['ID_IZVAJALEC2'] ?>"><?= $getId['IME_IZVAJALEC2']." ".$getId['PRIIMEK_IZVAJALEC2'] ?></option>
+
+                                <?php } ?>
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="PROFESOR3" required>
+                                <?php if($getId['ID_IZPRASEVALEC3'] == ""){ ?>
+                                    <option selected value="0">Brez izpraševalca</option>
+                                    <option <?php if ($getId['ID_IZVAJALEC3'] == ""){ echo 'style="display:none;"';} ?> value="<?= $getId['ID_IZVAJALEC3'] ?>"><?= $getId['IME_IZVAJALEC3']." ".$getId['PRIIMEK_IZVAJALEC3'] ?></option>
+                                <?php } else { ?>
+                                    <option  value="0">"Brez izpraševalca</option>
+                                    <option selected value="<?= $getId['ID_IZVAJALEC3'] ?>"><?= $getId['IME_IZVAJALEC3']." ".$getId['PRIIMEK_IZVAJALEC3'] ?></option>
+
+                                <?php } ?>
+
                             </select>
                         </div>
                         <button id="btn" class="btn btn-theme btn-block" type="submit">Spremeni</button>

@@ -147,17 +147,15 @@ class StudentOfficerController {
 
     public static function SpremembaIzpitnegaRoka($id1, $id2) {
         $data = filter_input_array(INPUT_POST, [
-            'ID_IZVEDBA' => [
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => [
-                    'min_range' => 1
-                ]
-            ],
             "DATUM_ROKA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            "CAS_ROKA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
+            "CAS_ROKA"  => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "PROFESOR1" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "PROFESOR2" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "PROFESOR3" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
-        if (!Validation::checkValues($data)) {
-            self::izpitniRokEditForm($id1, $id2, "Failure", "You have entered an invalid value. Please try again.");
+
+        if ($data['PROFESOR1'] == 0 AND$data['PROFESOR3'] == 0 AND$data['PROFESOR2'] == 0 ) {
+            self::izpitniRokEditForm($id1, $id2, "Failure", "Izbran mora biti vsaj 1 izpraševalec!");
         } else {
             list($d, $m, $y) = explode('-', $data["DATUM_ROKA"]);
             $data["DATUM_ROKA"] = $y."-".$m."-".$d;
@@ -183,7 +181,7 @@ class StudentOfficerController {
                                 if (!RokModel::isUniqueIfAlreadyCreated($data)) {
                                     self::izpitniRokEditForm($id1, $id2, "Failure", "Napaka, rok na ta datum ze obstaja. Poskusite znova.");
                                 } else {
-                                    RokModel::update($id2, $data["ID_IZVEDBA"], $data["DATUM_ROKA"], $data["CAS_ROKA"]);
+                                    RokModel::update($id2, $data["DATUM_ROKA"], $data["CAS_ROKA"], $data["PROFESOR1"], $data["PROFESOR2"],$data["PROFESOR3"]);
                                     self::izpitniRokAllForm($id1, "Success", "Uspesno ste spremenili izbrani rok.");
                                 }
                             }
