@@ -87,7 +87,6 @@ class PredmetModel {
     }
 
     public static function getAllByType($data) {
-        var_dump($data);
         $db = DBInit::getInstance();
         $statement = $db->prepare("
             SELECT DEL_PREDMETNIKA.ID_DELPREDMETNIKA, PREDMET.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK, SIFRA_PREDMET

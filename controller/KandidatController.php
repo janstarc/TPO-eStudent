@@ -58,7 +58,6 @@ class KandidatController {
     }
     
     public static function vpis() {
-//            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
         $data = filter_input_array(INPUT_POST, [
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "DATUM_ROJSTVA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
@@ -117,51 +116,55 @@ class KandidatController {
                 ]);
             }
             
-            if (Validation::verifyEMSO($data["emso"])) {
-                if (($data["id_drzava"] != 705 &&
-                (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
-                (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
-                || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
-                    if (($data["id_drzava2"] != 705 &&
-                    (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
-                    (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
-                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
-                        $idKandidat = KandidatModel::getKandidatIdWithUserId(User::getId());
-                        KandidatModel::updateEmso($idKandidat, $data["emso"]);
-                        KandidatModel::updateTelefon($idKandidat, $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
-                        KandidatModel::izkoristiZeton(User::getId());
-                        
-                        KandidatModel::insertNaslov($idKandidat, [
-                            "id_drzava" => $data["id_drzava"],
-                            "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
-                            "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
-                            "ulica" => $data["ulica"],
-                            "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0),
-                            "je_stalni" => 1
-                        ]);
-                        KandidatModel::insertNaslov($idKandidat, [
-                            "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
-                            "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
-                            "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
-                            "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
-                            "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0),
-                            "je_stalni" => 0
-                        ]);
-                        
-                        KandidatModel::potrdiVpisKandidat($idKandidat);
-                        
-                        ViewHelper::render("view/DisplayMessageViewer.php", [
-                            "status" => "Success",
-                            "message" => "Vpisni list ste uspesno oddali. Prosim pocakajte potrditev referenta."
-                        ]);
+            if (Validation::verifyDatumRojstvaInEMSO($data["DATUM_ROJSTVA"], $data["emso"])) {
+                if (Validation::verifyEMSO($data["emso"])) {
+                    if (($data["id_drzava"] != 705 &&
+                    (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
+                    (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
+                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
+                        if (($data["id_drzava2"] != 705 &&
+                        (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
+                        (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
+                        || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
+                            $idKandidat = KandidatModel::getKandidatIdWithUserId(User::getId());
+                            KandidatModel::updateEmso($idKandidat, $data["emso"]);
+                            KandidatModel::updateTelefon($idKandidat, $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
+                            KandidatModel::izkoristiZeton(User::getId());
+                            
+                            KandidatModel::insertNaslov($idKandidat, [
+                                "id_drzava" => $data["id_drzava"],
+                                "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
+                                "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
+                                "ulica" => $data["ulica"],
+                                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0),
+                                "je_stalni" => 1
+                            ]);
+                            KandidatModel::insertNaslov($idKandidat, [
+                                "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
+                                "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
+                                "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
+                                "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
+                                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0),
+                                "je_stalni" => 0
+                            ]);
+                            
+                            KandidatModel::potrdiVpisKandidat($idKandidat);
+                            
+                            ViewHelper::render("view/DisplayMessageViewer.php", [
+                                "status" => "Success",
+                                "message" => "Vpisni list ste uspesno oddali. Prosim pocakajte potrditev referenta."
+                            ]);
+                        } else {
+                            self::vpisForm("Failure", "Napaka, preslikava posta-obcina za zacasni naslov ni veljavna. Poskusite znova.");
+                        }
                     } else {
-                        self::vpisForm("Failure", "Napaka, preslikava posta-obcina za zacasni naslov ni veljavna. Poskusite znova.");
+                        self::vpisForm("Failure", "Napaka, preslikava posta-obcina za stalni naslov ni veljavna. Poskusite znova.");
                     }
                 } else {
-                    self::vpisForm("Failure", "Napaka, preslikava posta-obcina za stalni naslov ni veljavna. Poskusite znova.");
+                    self::vpisForm("Failure", "Napaka, emso st. ni veljavna. Poskusite znova.");
                 }
             } else {
-                self::vpisForm("Failure", "Napaka, emso st. ni veljavna. Poskusite znova.");
+                self::vpisForm("Failure", "Napaka, datum rojstva in emso st. se ne ujemata. Poskusite znova.");
             }
         } else {
             self::vpisForm("Failure", "Napaka, vnos ni veljaven. Poskusite znova.");

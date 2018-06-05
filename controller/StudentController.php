@@ -189,8 +189,6 @@ class StudentController {
     }
     
     public static function vpis2L($status = null, $message = null) {
-        // echo '<pre>' . var_export($_POST, true) . '</pre>';
-        
         $data = filter_input_array(INPUT_POST, [
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "DATUM_ROJSTVA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
@@ -261,93 +259,95 @@ class StudentController {
                 ]);
             }
 
-            if (Validation::verifyEMSO($data["emso"])) {
-                if (($data["id_drzava"] != 705 &&
-                (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
-                (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
-                || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
-                    if (($data["id_drzava2"] != 705 &&
-                    (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
-                    (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
-                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
-                        if (isset($_POST["StrIzbPredmeti"]) && isset($_POST["SplIzbPredmeti"]) && count($_POST["StrIzbPredmeti"])==1) {
-                            $sum = 0;
-                            foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
-                                $sum = $sum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
-                            }
-                            if ($sum == 6) {
-                                KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
-                                
-                                KandidatModel::updateNaslov($data["ID_NASLOV1"], [
-                                    "id_drzava" => $data["id_drzava"],
-                                    "ulica" => $data["ulica"],
-                                    "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
-                                    "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
-                                    "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
-                                ]);
-                                
-                                KandidatModel::updateNaslov($data["ID_NASLOV2"], [
-                                    "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
-                                    "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
-                                    "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
-                                    "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
-                                    "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
-                                ]);
-                                
-                                $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
-                                StudentModel::setZetonToIzkoriscen($zeton["ID_ZETON"]);
-                                $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId(User::getId());
-                                KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
-                                
-                                $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
-                                #$praviPodatki = KandidatModel::getZetonPodatki(User::getId());
-                                $ObvPredmeti = PredmetModel::getAllByType([
-                                    "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
-                                    "ID_PROGRAM" => $KandidatPodatki["id_program"],
-                                    "ID_LETNIK" => 2,
-                                    "TIP" => 'o'
-                                ]);
-                                
-                                // TODO
-                                //$data["ID_STUD_LETO"]=$KandidatPodatki["id_stud_leto"];
-                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
-                                if (isset($_POST["StrIzbPredmeti"])) {
-                                    $StrIzbPredmeti = array();
-                                    foreach ($_POST["StrIzbPredmeti"] as $key => $value) {
-                                        $StrIzbPredmeti[] = PredmetModel::get($value);
-                                    }
-                                    // echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
-                                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $StrIzbPredmeti, $data["ID_STUD_LETO"]);
+            if (Validation::verifyDatumRojstvaInEMSO($data["DATUM_ROJSTVA"], $data["emso"])) {
+                if (Validation::verifyEMSO($data["emso"])) {
+                    if (($data["id_drzava"] != 705 &&
+                    (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
+                    (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
+                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
+                        if (($data["id_drzava2"] != 705 &&
+                        (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
+                        (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
+                        || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
+                            if (isset($_POST["StrIzbPredmeti"]) && isset($_POST["SplIzbPredmeti"]) && count($_POST["StrIzbPredmeti"])==1) {
+                                $sum = 0;
+                                foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
+                                    $sum = $sum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
                                 }
-                                if (isset($_POST["SplIzbPredmeti"])) {
-                                    $SplIzbPredmeti = array();
-                                    foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
-                                        $SplIzbPredmeti[] = PredmetModel::get($value);
+                                if ($sum == 6) {
+                                    KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
+                                    
+                                    KandidatModel::updateNaslov($data["ID_NASLOV1"], [
+                                        "id_drzava" => $data["id_drzava"],
+                                        "ulica" => $data["ulica"],
+                                        "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
+                                        "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
+                                        "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
+                                    ]);
+                                    
+                                    KandidatModel::updateNaslov($data["ID_NASLOV2"], [
+                                        "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
+                                        "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
+                                        "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
+                                        "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
+                                        "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
+                                    ]);
+                                    
+                                    $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
+                                    StudentModel::setZetonToIzkoriscen($zeton["ID_ZETON"]);
+                                    $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId(User::getId());
+                                    KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
+                                    
+                                    $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
+                                    #$praviPodatki = KandidatModel::getZetonPodatki(User::getId());
+                                    $ObvPredmeti = PredmetModel::getAllByType([
+                                        "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+                                        "ID_PROGRAM" => $KandidatPodatki["id_program"],
+                                        "ID_LETNIK" => 2,
+                                        "TIP" => 'o'
+                                    ]);
+                                    
+                                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
+                                    if (isset($_POST["StrIzbPredmeti"])) {
+                                        $StrIzbPredmeti = array();
+                                        foreach ($_POST["StrIzbPredmeti"] as $key => $value) {
+                                            $StrIzbPredmeti[] = PredmetModel::get($value);
+                                        }
+                                        // echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
+                                        KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $StrIzbPredmeti, $data["ID_STUD_LETO"]);
                                     }
-                                    // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
-                                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, $data["ID_STUD_LETO"]);
-                                }
+                                    if (isset($_POST["SplIzbPredmeti"])) {
+                                        $SplIzbPredmeti = array();
+                                        foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
+                                            $SplIzbPredmeti[] = PredmetModel::get($value);
+                                        }
+                                        // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+                                        KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, $data["ID_STUD_LETO"]);
+                                    }
 
-                                ViewHelper::render("view/VpisniListPDFViewer.php", [
-                                    "vloga"=> "student",
-                                    "id"=> User::getId(),
-                                    "status" => "Success",
-                                    "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
-                                ]);
+                                    ViewHelper::render("view/VpisniListPDFViewer.php", [
+                                        "vloga"=> "student",
+                                        "id"=> User::getId(),
+                                        "status" => "Success",
+                                        "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
+                                    ]);
+                                } else {
+                                    self::vpis2LForm("Failure", "Napaka! Potrebna je izbira 6 KT splošnih izbirnih predmetov in 6KT strokovnih izbirnih predmetov. Poskusite znova.");
+                                }
                             } else {
                                 self::vpis2LForm("Failure", "Napaka! Potrebna je izbira 6 KT splošnih izbirnih predmetov in 6KT strokovnih izbirnih predmetov. Poskusite znova.");
                             }
                         } else {
-                            self::vpis2LForm("Failure", "Napaka! Potrebna je izbira 6 KT splošnih izbirnih predmetov in 6KT strokovnih izbirnih predmetov. Poskusite znova.");
+                            self::vpis2LForm("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
                         }
                     } else {
-                        self::vpis2LForm("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
+                        self::vpis2LForm("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
                     }
                 } else {
-                    self::vpis2LForm("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
+                    self::vpis2LForm("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
                 }
             } else {
-                self::vpis2LForm("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
+                self::vpis2LForm("Failure", "Napaka, datum rojstva in emso st. se ne ujemata. Poskusite znova.");
             }
         } else {
             self::vpis2LForm("Failure", "Napaka! Vnos ni veljaven. Poskusite znova.");
@@ -425,89 +425,93 @@ class StudentController {
                 ]);
             }
 
-            if (Validation::verifyEMSO($data["emso"])) {
-                if (($data["id_drzava"] != 705 &&
-                (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
-                (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
-                || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
-                    if (($data["id_drzava2"] != 705 &&
-                    (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
-                    (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
-                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
-                        if (isset($_POST["IzbModulov"]) && isset($_POST["SplIzbPredmeti"]) && count($_POST["IzbModulov"])==2) {
-                            $sum = 0;
-                            foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
-                                $sum = $sum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
-                            }
-                            if ($sum == 6) {
-                                KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
-                                
-                                KandidatModel::updateNaslov($data["ID_NASLOV1"], [
-                                    "id_drzava" => $data["id_drzava"],
-                                    "ulica" => $data["ulica"],
-                                    "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
-                                    "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
-                                    "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
-                                ]);
-                                
-                                KandidatModel::updateNaslov($data["ID_NASLOV2"], [
-                                    "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
-                                    "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
-                                    "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
-                                    "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
-                                    "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
-                                ]);
-                                
-                                $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
-                                StudentModel::setZetonToIzkoriscen($zeton["ID_ZETON"]);
-                                $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId(User::getId());
-                                KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
-                                
-                                $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
-                                $ObvPredmeti = PredmetModel::getAllByType([
-                                    "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
-                                    "ID_PROGRAM" => $KandidatPodatki["id_program"],
-                                    "ID_LETNIK" => 3,
-                                    "TIP" => 'o'
-                                ]);
-                                
-                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
-                                if (isset($_POST["IzbModulov"])) {
-                                    foreach ($_POST["IzbModulov"] as $key => $value) {
-                                        $IzbModulov = DelPredmetnikaModel::getSubjects($value);
-                                        KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $IzbModulov, $data["ID_STUD_LETO"]);
-                                        //echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
-                                    }
+            if (Validation::verifyDatumRojstvaInEMSO($data["DATUM_ROJSTVA"], $data["emso"])) {
+                if (Validation::verifyEMSO($data["emso"])) {
+                    if (($data["id_drzava"] != 705 &&
+                    (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
+                    (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
+                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
+                        if (($data["id_drzava2"] != 705 &&
+                        (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
+                        (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
+                        || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
+                            if (isset($_POST["IzbModulov"]) && isset($_POST["SplIzbPredmeti"]) && count($_POST["IzbModulov"])==2) {
+                                $sum = 0;
+                                foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
+                                    $sum = $sum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
                                 }
-                                if (isset($_POST["SplIzbPredmeti"])) {
-                                    $SplIzbPredmeti = array();
-                                    foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
-                                        $SplIzbPredmeti[] = PredmetModel::get($value);
+                                if ($sum == 6) {
+                                    KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
+                                    
+                                    KandidatModel::updateNaslov($data["ID_NASLOV1"], [
+                                        "id_drzava" => $data["id_drzava"],
+                                        "ulica" => $data["ulica"],
+                                        "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
+                                        "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
+                                        "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
+                                    ]);
+                                    
+                                    KandidatModel::updateNaslov($data["ID_NASLOV2"], [
+                                        "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
+                                        "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
+                                        "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
+                                        "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
+                                        "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
+                                    ]);
+                                    
+                                    $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
+                                    StudentModel::setZetonToIzkoriscen($zeton["ID_ZETON"]);
+                                    $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId(User::getId());
+                                    KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
+                                    
+                                    $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
+                                    $ObvPredmeti = PredmetModel::getAllByType([
+                                        "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+                                        "ID_PROGRAM" => $KandidatPodatki["id_program"],
+                                        "ID_LETNIK" => 3,
+                                        "TIP" => 'o'
+                                    ]);
+                                    
+                                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
+                                    if (isset($_POST["IzbModulov"])) {
+                                        foreach ($_POST["IzbModulov"] as $key => $value) {
+                                            $IzbModulov = DelPredmetnikaModel::getSubjects($value);
+                                            KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $IzbModulov, $data["ID_STUD_LETO"]);
+                                            //echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
+                                        }
                                     }
-                                    // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
-                                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, $data["ID_STUD_LETO"]);
-                                }
+                                    if (isset($_POST["SplIzbPredmeti"])) {
+                                        $SplIzbPredmeti = array();
+                                        foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
+                                            $SplIzbPredmeti[] = PredmetModel::get($value);
+                                        }
+                                        // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+                                        KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, $data["ID_STUD_LETO"]);
+                                    }
 
-                                ViewHelper::render("view/VpisniListPDFViewer.php", [
-                                    "vloga"=> "student",
-                                    "id"=> User::getId(),
-                                    "status" => "Success",
-                                    "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
-                                ]);
+                                    ViewHelper::render("view/VpisniListPDFViewer.php", [
+                                        "vloga"=> "student",
+                                        "id"=> User::getId(),
+                                        "status" => "Success",
+                                        "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
+                                    ]);
+                                } else {
+                                    self::vpis3L1Form("Failure", "Napaka, potrebna je izbira 2 modulov in za 6KT splošnih izbirnih predmetov. Poskusite znova.");
+                                }
                             } else {
                                 self::vpis3L1Form("Failure", "Napaka, potrebna je izbira 2 modulov in za 6KT splošnih izbirnih predmetov. Poskusite znova.");
                             }
                         } else {
-                            self::vpis3L1Form("Failure", "Napaka, potrebna je izbira 2 modulov in za 6KT splošnih izbirnih predmetov. Poskusite znova.");
+                            self::vpis3L1Form("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
                         }
                     } else {
-                        self::vpis3L1Form("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
+                        self::vpis3L1Form("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
                     }
                 } else {
-                    self::vpis3L1Form("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
+                    self::vpis3L1Form("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
                 }
             } else {
-                self::vpis3L1Form("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
+                self::vpis3L1Form("Failure", "Napaka, datum rojstva in emso st. se ne ujemata. Poskusite znova.");
             }
         } else {
             self::vpis3L1Form("Failure", "Napaka! Vnos ni veljaven. Poskusite znova.");
@@ -515,8 +519,6 @@ class StudentController {
     }
     
     public static function vpis3L2($status = null, $message = null) {
-        // echo '<pre>' . var_export($_POST, true) . '</pre>';
-        
         $data = filter_input_array(INPUT_POST, [
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "DATUM_ROJSTVA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
@@ -587,95 +589,99 @@ class StudentController {
                 ]);
             }
             
-            if (Validation::verifyEMSO($data["emso"])) {
-                if (($data["id_drzava"] != 705 &&
-                (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
-                (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
-                || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
-                    if (($data["id_drzava2"] != 705 &&
-                    (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
-                    (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
-                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
-                        $ModIzbPredmeti = 0;
-                        if (isset($_POST["ModIzbPredmeti"])) {
-                            foreach ($_POST["ModIzbPredmeti"] as $key => $value) {
-                                $ModIzbPredmeti = $ModIzbPredmeti + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
-                            }
-                        }
-                        $SplIzbPredmetiSum = 0;
-                        if (isset($_POST["SplIzbPredmeti"])) {
-                            foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
-                                $SplIzbPredmetiSum = $SplIzbPredmetiSum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
-                            }
-                        }
-                        if ($ModIzbPredmeti == 42 && $SplIzbPredmetiSum == 0 || $ModIzbPredmeti == 36 && $SplIzbPredmetiSum == 6) {
-                            KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
-                            
-                            KandidatModel::updateNaslov($data["ID_NASLOV1"], [
-                                "id_drzava" => $data["id_drzava"],
-                                "ulica" => $data["ulica"],
-                                "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
-                                "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
-                                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
-                            ]);
-                            
-                            KandidatModel::updateNaslov($data["ID_NASLOV2"], [
-                                "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
-                                "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
-                                "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
-                                "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
-                                "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
-                            ]);
-                            
-                            $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
-                            StudentModel::setZetonToIzkoriscen($zeton["ID_ZETON"]);
-                            //echo '<pre>' . var_export($zeton, true) . '</pre>';
-                            $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId(User::getId());
-                            KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
-                            
-                            $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
-                            $ObvPredmeti = PredmetModel::getAllByType([
-                                "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
-                                "ID_PROGRAM" => $KandidatPodatki["id_program"],
-                                "ID_LETNIK" => 3,
-                                "TIP" => 'o'
-                            ]);
-                            
-                            KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
+            if (Validation::verifyDatumRojstvaInEMSO($data["DATUM_ROJSTVA"], $data["emso"])) {
+                if (Validation::verifyEMSO($data["emso"])) {
+                    if (($data["id_drzava"] != 705 &&
+                    (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
+                    (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL)==NULL) 
+                    || ObcinaModel::isMatchPostaObcina((isset($data["id_posta"]) ? $data["id_posta"] : NULL), (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL))) {
+                        if (($data["id_drzava2"] != 705 &&
+                        (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL)==NULL &&
+                        (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL)==NULL) 
+                        || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
+                            $ModIzbPredmeti = 0;
                             if (isset($_POST["ModIzbPredmeti"])) {
-                                $ModIzbPredmeti = array();
                                 foreach ($_POST["ModIzbPredmeti"] as $key => $value) {
-                                    $ModIzbPredmeti[] = PredmetModel::get($value);
+                                    $ModIzbPredmeti = $ModIzbPredmeti + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
                                 }
-                                // echo '<pre>' . var_export($ModIzbPredmeti, true) . '</pre>';
-                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ModIzbPredmeti, $data["ID_STUD_LETO"]);
                             }
+                            $SplIzbPredmetiSum = 0;
                             if (isset($_POST["SplIzbPredmeti"])) {
-                                $SplIzbPredmeti = array();
                                 foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
-                                    $SplIzbPredmeti[] = PredmetModel::get($value);
+                                    $SplIzbPredmetiSum = $SplIzbPredmetiSum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
                                 }
-                                // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
-                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, $data["ID_STUD_LETO"]);
                             }
+                            if ($ModIzbPredmeti == 42 && $SplIzbPredmetiSum == 0 || $ModIzbPredmeti == 36 && $SplIzbPredmetiSum == 6) {
+                                KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
+                                
+                                KandidatModel::updateNaslov($data["ID_NASLOV1"], [
+                                    "id_drzava" => $data["id_drzava"],
+                                    "ulica" => $data["ulica"],
+                                    "id_posta" => (isset($data["id_posta"]) ? $data["id_posta"] : NULL),
+                                    "id_obcina" => (isset($data["id_obcina"]) ? $data["id_obcina"] : NULL),
+                                    "je_zavrocanje" => ($data["naslovZaVrocanje"]=="stalni" ? 1 : 0)
+                                ]);
+                                
+                                KandidatModel::updateNaslov($data["ID_NASLOV2"], [
+                                    "id_drzava" => (isset($data["id_drzava2"]) ? $data["id_drzava2"] : NULL),
+                                    "ulica" => (isset($data["ulica2"]) ? $data["ulica2"] : NULL),
+                                    "id_posta" => (isset($data["id_posta2"]) ? $data["id_posta2"] : NULL),
+                                    "id_obcina" => (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL),
+                                    "je_zavrocanje" => ($data["naslovZaVrocanje"]=="zacasni" ? 1 : 0)
+                                ]);
+                                
+                                $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
+                                StudentModel::setZetonToIzkoriscen($zeton["ID_ZETON"]);
+                                //echo '<pre>' . var_export($zeton, true) . '</pre>';
+                                $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId(User::getId());
+                                KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
+                                
+                                $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
+                                $ObvPredmeti = PredmetModel::getAllByType([
+                                    "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
+                                    "ID_PROGRAM" => $KandidatPodatki["id_program"],
+                                    "ID_LETNIK" => 3,
+                                    "TIP" => 'o'
+                                ]);
+                                
+                                KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
+                                if (isset($_POST["ModIzbPredmeti"])) {
+                                    $ModIzbPredmeti = array();
+                                    foreach ($_POST["ModIzbPredmeti"] as $key => $value) {
+                                        $ModIzbPredmeti[] = PredmetModel::get($value);
+                                    }
+                                    // echo '<pre>' . var_export($ModIzbPredmeti, true) . '</pre>';
+                                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ModIzbPredmeti, $data["ID_STUD_LETO"]);
+                                }
+                                if (isset($_POST["SplIzbPredmeti"])) {
+                                    $SplIzbPredmeti = array();
+                                    foreach ($_POST["SplIzbPredmeti"] as $key => $value) {
+                                        $SplIzbPredmeti[] = PredmetModel::get($value);
+                                    }
+                                    // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
+                                    KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $SplIzbPredmeti, $data["ID_STUD_LETO"]);
+                                }
 
-                            ViewHelper::render("view/VpisniListPDFViewer.php", [
-                                "vloga"=> "student",
-                                "id"=> User::getId(),
-                                "status" => "Success",
-                                "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
-                            ]);
+                                ViewHelper::render("view/VpisniListPDFViewer.php", [
+                                    "vloga"=> "student",
+                                    "id"=> User::getId(),
+                                    "status" => "Success",
+                                    "message" => "Vpisni list ste uspešno oddali. Prosim počakajte potrditev referenta."
+                                ]);
+                            } else {
+                                self::vpis3L2Form("Failure", "Napaka! Potrebna je izbira natančno 42KT, od katerih je 42KT modulskih ali 36KT modulskih in 6KT splošnih izbirnih. Poskusite znova.");
+                            }
                         } else {
-                            self::vpis3L2Form("Failure", "Napaka! Potrebna je izbira natančno 42KT, od katerih je 42KT modulskih ali 36KT modulskih in 6KT splošnih izbirnih. Poskusite znova.");
+                            self::vpis3L2Form("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
                         }
                     } else {
-                        self::vpis3L2Form("Failure", "Napaka! Pošta in občina pri začasnem naslovu se ne ujemata. Poskusite znova.");
+                        self::vpis3L2Form("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
                     }
                 } else {
-                    self::vpis3L2Form("Failure", "Napaka! Pošta in občina pri stalnem naslovu se ne ujemata. Poskusite znova.");
+                    self::vpis3L2Form("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
                 }
             } else {
-                self::vpis3L2Form("Failure", "Napaka! EMŠO ni veljaven. Poskusite znova.");
+                self::vpis3L2Form("Failure", "Napaka, datum rojstva in emso st. se ne ujemata. Poskusite znova.");
             }
         } else {
             self::vpis3L2Form("Failure", "Napaka! Vnos ni veljaven. Poskusite znova.");

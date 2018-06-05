@@ -29,4 +29,13 @@ class Validation {
             return false;
         }
     }
+    
+    public static function verifyDatumRojstvaInEMSO($DR, $EMSO) {
+        if (strlen($DR) == 10 && strlen($EMSO) == 13 && ($DR[6]==1 || $DR[6]==2) &&
+            $DR[0]==$EMSO[0] && $DR[1]==$EMSO[1] &&
+            $DR[3]==$EMSO[2] && $DR[4]==$EMSO[3] &&
+            $DR[7]==$EMSO[4] && $DR[8]==$EMSO[5] && $DR[9]==$EMSO[6]
+        ) return true;
+        return false;
+    }
 }
