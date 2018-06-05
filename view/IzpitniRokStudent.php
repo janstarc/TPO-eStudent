@@ -14,9 +14,9 @@
     //TODO : HARD-CODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     $datum=new DateTime();
 
-    $datum->setDate(2017,9,1);
+    $datum->setDate(2018,6,1);
 
-    $datumString="2017-09-01";
+    $datumString="2018-06-01";
 
 
     ?>
@@ -128,38 +128,26 @@
 
                             $nacinStudij=StudentController::getNacinStudija();
                             foreach($roki as $i=>$rok):
-                                $odjava=0;
-                                if(isset($rok["DATUM_ODJAVE"])){
-                                   $odjava=$rok["ID_ROK"];
-
-                                }
-                                //var_dump($odjava);
-
-                                if($i>0){
-                                    $getTmpName=$roki[$i]["IME_PREDMET"];
-                                    $getPrevName=$roki[$i-1]["IME_PREDMET"];
-                                    $getTmpDate=$roki[$i]["DATUM_ROKA"];
-                                    $getPrevDate=$roki[$i-1]["DATUM_ROKA"];
-
-                                    if($getPrevName==$getTmpName && $getPrevDate==$getTmpDate){
-                                        continue;
-                                    }
-                                }
 
                                 if(isset($rok["OCENA_IZPITA"])){
                                     continue;
                                 }
 
-                                if(new DateTime($rok["DATUM_ROKA"]) <= $datum && !isset($rok["ID_PRIJAVA"])){
+                                $odjava=0;
+                                if(isset($rok["DATUM_ODJAVE"])){
+                                   $odjava=$rok["ID_ROK"];
+
+                                }
+
+
+                               if(new DateTime($rok["DATUM_ROKA"]) <= $datum && !isset($rok["ID_PRIJAVA"])){
 
                                     continue;
-                                }
+                               }
 
                                 $stejPrijavLetos=StudentController::zapSteviloPrijavLetos($rok["ID_ROK"]);
                                 $stejPrijavSkupno=StudentController::zapSteviloPrijavSkupno($rok["ID_ROK"]);
 
-
-                               // var_dump($rok["IME_PREDMET"].' '. $odjava);
 
                                 $dozvoliPrijava=StudentController::dozvoliPrijava2($roki,$rok["ID_ROK"]);
 
@@ -178,9 +166,9 @@
 
                                 }else if($rok["VSOTA_OPRAVLJENIH_KREDITNIH_TOCK"] < 54){
                                     if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])>0){
-                                        /*if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])==3){
+                                        if(StudentController::postoiPrijavaVoBazata($rok["ID_PREDMET"])==3){
                                             $dozvoliPrijava=-5;
-                                        }*/
+                                        }
                                         $stejPrijavLetos=$stejPrijavSkupno-3;
                                     }
                                 }
@@ -198,8 +186,13 @@
                                 }
 
 
-                                if($i>0){
+                                /*if($i>0){
                                    $datumPrejsnega=StudentController::findDatumPrejnegaRoka($roki,$rok["ID_ROK"],$rok["ID_PREDMET"]);
+                                   var_dump($datumPrejsnega);
+                                   echo "<br>";
+                                   var_dump($roki[$i]["DATUM_ROKA"]);
+                                    echo "<br>";
+
                                    $datumPrejsnega=date_create($datumPrejsnega);
                                    $dateTrenutnega=date_create($roki[$i]["DATUM_ROKA"]);
 
@@ -211,7 +204,7 @@
                                        $dozvoliPrijava=-10;
 
                                    }
-                                }
+                                }*/
 
 
                                 $id_rok=$rok["ID_ROK"];

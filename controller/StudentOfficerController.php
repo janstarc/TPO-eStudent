@@ -2119,7 +2119,7 @@ class StudentOfficerController {
             $pdf->Ln();
 
 
-            $header2 = array('Šifra predmeta', 'Ime predmeta', 'KT/U', 'Izpraševalec/ci', 'Datum izpita', 'št.polaganj', 'ocena');
+            $header2 = array('Šifra predmeta', 'Ime predmeta', 'KT/U', 'Izpraševalec/ci', 'Datum izpita', 'št.polaganj', 'Ocena');
             $lineData2=null;
             $c = -1;
             $all = array();
@@ -2132,6 +2132,7 @@ class StudentOfficerController {
 
                 if($datum != ""){
                     $izvajalci = $value['izvajalci'];
+                    //  var_dump(explode(" ",$izvajalci)[1]);
                     $polaganja = $value['ZAP_ST_POLAGANJ']."/".$value['ZAP_ST_POLAGANJ_LETOS'];
                     $ocena = $value['OCENA_IZPITA'];
                 }
