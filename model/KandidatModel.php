@@ -60,6 +60,23 @@ ORDER BY z.ID_STUD_LETO DESC LIMIT 1
         return $result["ID_KANDIDAT"];
     }
 
+    public static function getZetonPodatki($id_oseba){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT *
+            FROM zeton
+            JOIN studijsko_leto l ON zeton.ID_STUD_LETO = l.ID_STUD_LETO
+            WHERE ID_OSEBA = :id_oseba
+            ORDER BY zeton.ID_STUD_LETO DESC LIMIT 1
+        ");
+
+        $statement->bindValue(":id_oseba", $id_oseba);
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
     // id_stud_leto --> studijsko_leto
     public static function getStudijskoLeto($id_stud_leto){
         $db = DBInit::getInstance();
@@ -119,22 +136,26 @@ ORDER BY z.ID_STUD_LETO DESC LIMIT 1
     }
 
     public static function getStudentPodatki($id_oseba){
+
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
             SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
-                    p.st_semestrov, sl.stud_leto, s.vpisna_stevilka, s.emso, v.id_stud_leto, v.ID_VRSTAVPISA, v.ID_OBLIKA, v.ID_LETNIK, v.ID_NACIN,
-                    o2.NAZIV_OBLIKA,n.OPIS_NACIN,v3.OPIS_VPISA,l.LETNIK
-            FROM oseba AS o 
-            JOIN student AS s ON s.ID_OSEBA = o.ID_OSEBA
-            JOIN vpis AS v ON v.VPISNA_STEVILKA = s.VPISNA_STEVILKA
-            JOIN program AS p ON v.ID_PROGRAM = p.ID_PROGRAM
-            JOIN studijsko_leto AS sl ON v.ID_STUD_LETO = sl.ID_STUD_LETO
-            JOIN oblika_studija o2 ON v.ID_OBLIKA = o2.ID_OBLIKA
-            JOIN nacin_studija n ON v.ID_NACIN = n.ID_NACIN
-            JOIN vrsta_vpisa v3 ON v.ID_VRSTAVPISA = v3.ID_VRSTAVPISA
-            JOIN letnik l ON v.ID_LETNIK = l.ID_LETNIK
-            WHERE o.ID_OSEBA = :id_oseba
+  p.st_semestrov, sl.stud_leto, s.vpisna_stevilka, s.emso, v.id_stud_leto, v.ID_VRSTAVPISA, v.ID_OBLIKA, v.ID_LETNIK, v.ID_NACIN,
+  o2.NAZIV_OBLIKA,n.OPIS_NACIN,v3.OPIS_VPISA,l.LETNIK
+FROM oseba AS o
+  JOIN student AS s ON s.ID_OSEBA = o.ID_OSEBA
+  JOIN zeton v ON s.ID_OSEBA = v.ID_OSEBA
+
+  JOIN program AS p ON v.ID_PROGRAM = p.ID_PROGRAM
+  JOIN studijsko_leto AS sl ON v.ID_STUD_LETO = sl.ID_STUD_LETO
+  JOIN oblika_studija o2 ON v.ID_OBLIKA = o2.ID_OBLIKA
+  JOIN nacin_studija n ON v.ID_NACIN = n.ID_NACIN
+  JOIN vrsta_vpisa v3 ON v.ID_VRSTAVPISA = v3.ID_VRSTAVPISA
+  JOIN letnik l ON v.ID_LETNIK = l.ID_LETNIK
+  JOIN vpis v2 ON v2.VPISNA_STEVILKA = s.VPISNA_STEVILKA
+WHERE o.ID_OSEBA = :id_oseba
+ORDER BY v.ID_LETNIK DESC  LIMIT 1
         ");
 
         $statement->bindValue(":id_oseba", $id_oseba);
@@ -188,11 +209,10 @@ ORDER BY z.ID_STUD_LETO DESC LIMIT 1
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            SELECT n.ID_NASLOV, n.ID_DRZAVA, n.ID_POSTA, n.ID_OBCINA, n.ULICA, n.JE_ZAVROCANJE, n.JE_STALNI
-            FROM naslov AS n
-            JOIN oseba AS o ON n.ID_OSEBA = o.ID_OSEBA
-            JOIN kandidat AS k ON k.ID_OSEBA = o.ID_OSEBA
-            WHERE o.ID_OSEBA = :id_oseba
+           SELECT n.ID_NASLOV, n.ID_DRZAVA, n.ID_POSTA, n.ID_OBCINA, n.ULICA, n.JE_ZAVROCANJE, n.JE_STALNI
+FROM naslov AS n
+  JOIN oseba AS o ON n.ID_OSEBA = o.ID_OSEBA
+WHERE o.ID_OSEBA = :id_oseba
         ");
 
         $statement->bindValue(":id_oseba", $id_oseba);

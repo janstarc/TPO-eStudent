@@ -87,6 +87,7 @@ class PredmetModel {
     }
 
     public static function getAllByType($data) {
+        var_dump($data);
         $db = DBInit::getInstance();
         $statement = $db->prepare("
             SELECT DEL_PREDMETNIKA.ID_DELPREDMETNIKA, PREDMET.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK, SIFRA_PREDMET
@@ -115,15 +116,16 @@ class PredmetModel {
         return $statement->fetch();
     }
     
-    public static function getAllByStudent($VPISNA_STEVILKA) {
+    public static function getAllByStudent($VPISNA_STEVILKA, $leto) {
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT p.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK,SIFRA_PREDMET
-            FROM predmeti_studenta AS ps
-            JOIN PREDMET AS p ON ps.ID_PREDMET = p.ID_PREDMET
-            WHERE VPISNA_STEVILKA = :VPISNA_STEVILKA
+            SELECT *
+FROM predmeti_studenta AS ps
+  JOIN PREDMET AS p ON ps.ID_PREDMET = p.ID_PREDMET
+WHERE VPISNA_STEVILKA = :VPISNA_STEVILKA and ID_STUD_LETO = :leto
         ");
         $statement->bindValue(":VPISNA_STEVILKA", $VPISNA_STEVILKA);
+        $statement->bindValue(":leto", $leto);
         $statement->execute();
         return $statement->fetchAll();
     }

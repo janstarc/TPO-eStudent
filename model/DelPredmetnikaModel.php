@@ -17,7 +17,7 @@ class DelPredmetnikaModel {
     public static function getSubjects($id) {
         $db = DBInit::getInstance();
         $statement = $db->prepare("
-            SELECT p.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK, SIFRA_PREDMET
+            SELECT DISTINCT  p.ID_PREDMET, IME_PREDMET, ST_KREDITNIH_TOCK, SIFRA_PREDMET
             FROM del_predmetnika AS dp
             JOIN predmetnik as pk ON dp.ID_DELPREDMETNIKA = pk.ID_DELPREDMETNIKA
             JOIN predmet as p ON p.ID_PREDMET = pk.ID_PREDMET

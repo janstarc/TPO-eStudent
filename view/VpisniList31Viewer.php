@@ -201,15 +201,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="ID_STUD_LETO">Študijsko leto</label>
-                                        <select class="form-control" id="ID_STUD_LETO" name="ID_STUD_LETO" required disabled>
-                                            <?php foreach ($StudijskaLeta as $StudijskoLeto):
-                                                if ($stud_leto['ID_STUD_LETO'] == $StudijskoLeto["ID_STUD_LETO"]): ?>
-                                                    <option selected value="<?= $StudijskoLeto["ID_STUD_LETO"] ?>"><?= $StudijskoLeto["STUD_LETO"] ?></option>
-                                                <?php else: ?>
-                                                    <option value="<?= $StudijskoLeto["ID_STUD_LETO"] ?>"><?= $StudijskoLeto["STUD_LETO"] ?></option>
-                                                <?php endif;
-                                            endforeach; ?>
-                                        </select>
+                                        <input type="text" class="form-control" id="ID_STUD_LETO" name="ID_STUD_LETO" value="<?= $StudijskaLeta ?>" required disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="vpisna_stevilka">Vpisna številka</label>
@@ -229,7 +221,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="LETNIK">Letnik</label>
-                                        <input type="text" class="form-control" id="word" name="LETNIK" value="<?= $KandidatPodatki["LETNIK"] ?>" required disabled>
+                                        <input type="text" class="form-control" id="word" name="LETNIK" value="<?= $KandidatPodatki["ID_LETNIK"] ?>" required disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="OBLIKA_STUDIJA">Oblika študija</label>

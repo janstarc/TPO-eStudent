@@ -537,7 +537,7 @@ class StudentOfficerController {
 
                 $VPISNA_STEVILKA = KandidatModel::getVpisnaStevilkaWithOsebaId($id);
                 // TODO getAllByStudent() return all subjects, filter by letnik is needed
-                $predmeti = PredmetModel::getAllByStudent($VPISNA_STEVILKA);
+                $predmeti = PredmetModel::getAllByStudent($VPISNA_STEVILKA, $KandidatPodatki['id_stud_leto']);
 
                 ViewHelper::render("view/VpisniListPotrditevViewer.php", [
                     "pageTitle" => "Potrdi vpisni list izbranega kandidata za visji letnik",
