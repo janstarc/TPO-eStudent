@@ -18,10 +18,10 @@
             } else if(tocke > 100) {
                 $("#alert").removeClass("alert-success").addClass("alert-danger").show();
                 $("#alertContent").text("Napaka - Vnešene točke morajo biti manjše od 100");
-            } else if(today < datumRokaDate) {
+            } /*else if(today < datumRokaDate) {
                 $("#alert").removeClass("alert-success").addClass("alert-danger").show();
                 $("#alertContent").text("Napaka - Ocen ni mogoče vnašati, datum roka je večji od današnjega dne");
-            } else {
+            }*/ else {
                 $.ajax({
                     type: "POST",
                     url:   "seznamStudentov/vnosEneOceneAjax",

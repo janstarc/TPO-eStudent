@@ -120,14 +120,14 @@
 <body>
 <section id="container">
     <?php
-    if($oseba ==1) {
+    if(User::isLoggedInAsStudentOfficer()) {
         include("view/includes/menu-links-student-officer.php");
         $pdf = "kartotecniList";
     }
-    if($oseba ==2){
+    if(User::isLoggedInAsStudent()){
         include("view/includes/menu-links-student.php");
         $pdf = "kartotecniList";}
-    if($oseba ==3){
+    if(User::isLoggedInAsProfessor()){
         include("view/includes/menu-links-professor.php");
         $pdf = "kartotecniListP";}?>
     <section id="main-content">
