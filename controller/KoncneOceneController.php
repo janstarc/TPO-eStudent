@@ -104,9 +104,10 @@ class KoncneOceneController
 
         $izvajalci = ProfessorController::createIzvajalciString($izvajalciArray);
         $izprasevalci = ProfessorController::createIzprasevalciString($izprasevalciArray);
-        $rokData = RokModel::get($data["id_rok"]);
+        $rok_data = RokModel::get($data["id_rok"]);
 
         $stud_leto=StudijskoLetoModel::getIme($id_stud_leto);
+        $datum_roka=ProfessorController::formatDateSlo($rok_data["DATUM_ROKA"])." ob ".$rok_data["CAS_ROKA"];
 
        // var_dump($prijavljeniStudenti);
 
@@ -126,7 +127,7 @@ class KoncneOceneController
 
 
         $pdf->SetFont('DejaVu','',18);
-        $pdf->Cell(180,10,'Pregled seznama študentov s končnimi ocenami',0,0,'C');
+        $pdf->Cell(180,10,'Seznam prijavljenih študentov na izpitni rok',0,0,'C');
         $pdf->Ln();
         $pdf->Ln();
 
@@ -138,6 +139,8 @@ class KoncneOceneController
         $pdf->Cell(120,10,'Izpraševalec/i: ' . $izprasevalci,0);
         $pdf->Ln();
         $pdf->Cell(120,10,'Študijsko leto: ' . $stud_leto,0);
+        $pdf->Ln();
+        $pdf->Cell(120,10,'Datum roka: ' . $datum_roka,0);
         $pdf->Ln();
 
         $pdf->SetFont('DejaVu','',8);
@@ -154,7 +157,7 @@ class KoncneOceneController
         $zapPolaganjLetos=0;
         $tocke=0;
         $ocena=0;
-        $i=0;
+        $i=1;
         foreach ($prijavljeniStudenti as $key => $value) {
             if ($value['ZAP_ST_POLAGANJ'] == null) {
                 $zapPolaganj = "Ni vnosa";
@@ -167,7 +170,8 @@ class KoncneOceneController
                 $zapPolaganjLetos = $value["ZAP_ST_POLAGANJ_LETOS"];
             }
             if ($value['TOCKE_IZPITA'] == null && $value['OCENA_IZPITA']==null) {
-                continue;
+                $tocke = "-";
+                $ocena = "-";
             } else if($value['TOCKE_IZPITA']!= null) {
                 $tocke = $value["TOCKE_IZPITA"];
             }
@@ -176,7 +180,7 @@ class KoncneOceneController
                 $ocena = $value["OCENA_IZPITA"];
             }
             $lineData = array($value["VPISNA_STEVILKA"], $value["IME"], $value["PRIIMEK"], $zapPolaganj, $zapPolaganjLetos, $tocke, $ocena);
-            $pdf->Cell(25, 7, $i, 1);
+            $pdf->Cell(7, 7, $i, 1);
             foreach($lineData as $col) {
                 $pdf->Cell(25, 7, $col, 1);
 

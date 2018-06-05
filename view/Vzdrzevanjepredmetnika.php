@@ -30,6 +30,10 @@
                     "sClass": "center",
                     "bSortable": true,
                     "sType":"slo"
+                },{
+                    "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
                 }, {
                     "sClass": "center",
                     "bSortable": false
@@ -63,6 +67,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Šifra predmeta</th>
                                     <th>Ime predmeta</th>
                                     <th>Uredi</th>
                                 </tr>
@@ -73,7 +78,8 @@
                                     foreach ($data as $row):
                                 ?>
                                 <td></td>
-                                <td><?= $row["IME_PREDMET"]." (".$row["ID_PREDMET"].")"?></td>
+                                <td><?= $row["SIFRA_PREDMET"]?></td>
+                                <td><?= $row["IME_PREDMET"]?></td>
                                 <td>
                                     <form class=example2  action="<?= BASE_URL . "predmet" ?>" method='post'>
                                         <input type="hidden" name="idPredmet" value="<?= $row["ID_PREDMET"] ?>" />
