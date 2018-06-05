@@ -66,7 +66,14 @@
 
                         <div class="col-md-12">
                             <div class="content-panel">
-                                <h2><?= $pageTitle ?></h2>
+                                <div class="row">
+                                    <h2><?= $pageTitle ?></h2>
+                                    <form action="<?= BASE_URL . $formAction . "/add/" ?>" method="get">
+                                        <div class="col-xs-12 col-md-6">
+                                            <input class="btn btn-primary btn-sm" type="submit" value="Ustvari nov" />
+                                        </div>
+                                    </form>
+                                </div>
                                 <?php if(isset($status)): ?>
                                     <div class="alert alert-<?= ($status === "Failure") ? "danger" : (($status === "Success") ? "success" : "info") ?> alert-dismissible" role="alert">
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

@@ -327,21 +327,24 @@ $urls = [
         if ($method == "POST") AdminController::addIzvajalec($id,$id2);
         else ViewHelper::error405();
     },
-
-    "/^izpitniRok\/profesor$/" => function ($method) {
-        if ($method == "GET") ProfessorController::izpitniRokAllForm();
+    
+    "/^izpitniRok\/chooseStudLeto$/" => function ($method) {
+        if ($method == "GET") ProfessorController::izpitniRokChooseStudLetoForm();
         else ViewHelper::error405();
-    }, "/^izpitniRok\/profesor\/add$/" => function ($method) {
-        if ($method == "GET") ProfessorController::izpitniRokForm();
-        else if ($method == "POST") ProfessorController::VnosIzpitnegaRoka();
+    }, "/^izpitniRok\/chooseStudLeto\/(\d+)\/profesor$/" => function ($method, $id) {
+        if ($method == "GET") ProfessorController::izpitniRokAllForm($id);
         else ViewHelper::error405();
-    }, "/^izpitniRok\/profesor\/edit\/(\d+)$/" => function ($method, $id) {
-        if ($method == "GET") ProfessorController::izpitniRokEditForm($id);
-        else if ($method == "POST") ProfessorController::SpremembaIzpitnegaRoka($id);
+    }, "/^izpitniRok\/chooseStudLeto\/(\d+)\/profesor\/add$/" => function ($method, $id) {
+        if ($method == "GET") ProfessorController::izpitniRokForm($id);
+        else if ($method == "POST") ProfessorController::VnosIzpitnegaRoka($id);
         else ViewHelper::error405();
-    }, "/^izpitniRok\/profesor\/toogleActivated$/" => function ($method) {
-        if ($method == "POST") ProfessorController::toggleizpitniRokActivated();
-        else if ($method == "GET") ViewHelper::redirect(BASE_URL . "izpitniRok/profesor");
+    }, "/^izpitniRok\/chooseStudLeto\/(\d+)\/profesor\/edit\/(\d+)$/" => function ($method, $id1, $id2) {
+        if ($method == "GET") ProfessorController::izpitniRokEditForm($id1, $id2);
+        else if ($method == "POST") ProfessorController::SpremembaIzpitnegaRoka($id1, $id2);
+        else ViewHelper::error405();
+    }, "/^izpitniRok\/chooseStudLeto\/(\d+)\/profesor\/toogleActivated$/" => function ($method, $id) {
+        if ($method == "POST") ProfessorController::toggleizpitniRokActivated($id);
+        else if ($method == "GET") ViewHelper::redirect(BASE_URL . "izpitniRok/chooseStudLeto/".$id."/profesor");
         else ViewHelper::error405();
     },
 

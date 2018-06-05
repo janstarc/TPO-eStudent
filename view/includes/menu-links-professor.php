@@ -55,13 +55,8 @@
                 </a>
             </li>
             <li class="mt">
-                <a href="<?= BASE_URL . "izpitniRok/profesor" ?>">
+                <a href="<?= BASE_URL . "izpitniRok/chooseStudLeto" ?>">
                     <span>Izpitni Rok</span>
-                </a>
-            </li>
-            <li class="mt">
-                <a href="<?= BASE_URL . "izpitniRok/profesor/add" ?>">
-                    <span>Dodaj Izpitni Rok</span>
                 </a>
             </li>
             <li class="mt">
