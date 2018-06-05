@@ -662,7 +662,7 @@ class StudentOfficerController {
                         KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
                         KandidatModel::updateOsebaEmsoInTelefon($id, $data["emso"], $data["telefonska_stevilka"]);
                         KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
-                        KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
+                        #KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
 
                         KandidatModel::updateNaslov($data["ID_NASLOV1"], [
                             "id_drzava" => $data["id_drzava"],
