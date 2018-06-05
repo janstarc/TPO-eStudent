@@ -49,6 +49,10 @@
                                         <input type="number" class="form-control" id="emso" name="emso" value="<?= $KandidatPodatki["emso"] ?>" maxlength="13" required>
                                     </div>
                                     <div class="form-group">
+                                        <label for="DATUM_ROJSTVA">Datum rojstva</label>
+                                        <input type="text" class="form-control" id="DATUM_ROJSTVA" name="DATUM_ROJSTVA" placeholder="Datum: vnesi kot DD-MM-YYYY" pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" value="<?= $KandidatPodatki["DATUM_ROJSTVA"] ?>" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="telefonska_stevilka">Telefon</label>
                                         <input type="number" class="form-control" id="telefonska_stevilka" name="telefonska_stevilka" value="<?= $KandidatPodatki["telefonska_stevilka"] ?>" required>
                                     </div>

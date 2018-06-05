@@ -378,11 +378,11 @@ class StudentOfficerController {
     }
 
     public static function kandidatiPotrdiVpisForm($id) {
-//            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
         $data = filter_input_array(INPUT_POST, [
             "Ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "Priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "DATUM_ROJSTVA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "ID_PROGRAM" => [
                 'filter' => FILTER_VALIDATE_INT,
@@ -476,7 +476,7 @@ class StudentOfficerController {
                         $id_vpis = KandidatModel::getVpisId($idKandidat);
                         KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
                         KandidatModel::updateEmso($idKandidat, $data['emso']);
-                        KandidatModel::updateTelefon($idKandidat, $data['telefonska_stevilka']);
+                        KandidatModel::updateTelefon($idKandidat, $data['telefonska_stevilka'], $data["DATUM_ROJSTVA"]);
                         KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
                         KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
 
@@ -569,6 +569,7 @@ class StudentOfficerController {
             "Ime" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "Priimek" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "DATUM_ROJSTVA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "ID_PROGRAM" => [
                 'filter' => FILTER_VALIDATE_INT,
@@ -660,7 +661,7 @@ class StudentOfficerController {
                         $idKandidat = KandidatModel::getKandidatIdWithUserId($id);
                         $id_vpis = KandidatModel::getVpisId($idKandidat);
                         KandidatModel::updateImeInPriimek($idKandidat, $data['Ime'], $data['Priimek']);
-                        KandidatModel::updateOsebaEmsoInTelefon($id, $data["emso"], $data["telefonska_stevilka"]);
+                        KandidatModel::updateOsebaEmsoInTelefon($id, $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
                         KandidatModel::updateProgram($id_vpis, $data['ID_PROGRAM']);
                         #KandidatModel::updateStudLeto($id_vpis, $data['ID_STUD_LETO']);
 

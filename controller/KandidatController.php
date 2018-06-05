@@ -30,7 +30,7 @@ class KandidatController {
                     $drzave = DrzavaModel::getAll();
                     $userName = UserModel::getUserName(User::getId());
                     $predmeti = PredmetModel::getAll([
-                        "ID_STUD_LETO" => 2, //TODO create subjects for id_stud_leto=1 $KandidatPodatki["id_stud_leto"],
+                        "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
                         "ID_PROGRAM" => $KandidatPodatki["id_program"],
                         "ID_LETNIK" => 1
                     ]);
@@ -61,6 +61,7 @@ class KandidatController {
 //            "email" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
         $data = filter_input_array(INPUT_POST, [
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "DATUM_ROJSTVA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "id_drzava" => [
@@ -127,7 +128,7 @@ class KandidatController {
                     || ObcinaModel::isMatchPostaObcina((isset($data["id_posta2"]) ? $data["id_posta2"] : NULL), (isset($data["id_obcina2"]) ? $data["id_obcina2"] : NULL))) {
                         $idKandidat = KandidatModel::getKandidatIdWithUserId(User::getId());
                         KandidatModel::updateEmso($idKandidat, $data["emso"]);
-                        KandidatModel::updateTelefon($idKandidat, $data["telefonska_stevilka"]);
+                        KandidatModel::updateTelefon($idKandidat, $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
                         KandidatModel::izkoristiZeton(User::getId());
                         
                         KandidatModel::insertNaslov($idKandidat, [

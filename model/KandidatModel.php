@@ -115,8 +115,7 @@ ORDER BY z.ID_STUD_LETO DESC LIMIT 1
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            SELECT o.id_oseba, o.ime, o.priimek, o.email,o.uporabnisko_ime, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
-                    p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto, k.ID_KANDIDAT,v3.OPIS_VPISA, l.LETNIK,n.OPIS_NACIN,o2.NAZIV_OBLIKA
+            SELECT o.id_oseba, o.ime, o.priimek, o.email,o.uporabnisko_ime, o.telefonska_stevilka, o.DATUM_ROJSTVA, p.naziv_program, p.sifra_evs, p.id_program, p.st_semestrov, s.stud_leto, k.vpisna_stevilka, k.emso, k.id_stud_leto, k.ID_KANDIDAT,v3.OPIS_VPISA, l.LETNIK, n.OPIS_NACIN, o2.NAZIV_OBLIKA
             FROM oseba AS o 
             JOIN kandidat AS k ON k.id_oseba = o.id_oseba
             JOIN program AS p ON k.id_program = p.id_program
@@ -140,7 +139,7 @@ ORDER BY z.ID_STUD_LETO DESC LIMIT 1
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
+            SELECT o.ime, o.priimek, o.email, o.uporabnisko_ime, o.telefonska_stevilka, o.DATUM_ROJSTVA, p.naziv_program, p.sifra_evs, p.id_program,
   p.st_semestrov, sl.stud_leto, s.vpisna_stevilka, s.emso, v.id_stud_leto, v.ID_VRSTAVPISA, v.ID_OBLIKA, v.ID_LETNIK, v.ID_NACIN,
   o2.NAZIV_OBLIKA,n.OPIS_NACIN,v3.OPIS_VPISA,l.LETNIK
 FROM oseba AS o
@@ -295,17 +294,18 @@ WHERE o.ID_OSEBA = :id_oseba
         $statement->execute();
     }
 
-    public static function updateTelefon($id_kandidat, $telefon){
+    public static function updateTelefon($id_kandidat, $telefon, $DATUM_ROJSTVA){
         $id_oseba = self::getOsebaIdWithKandidatId($id_kandidat);
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
             UPDATE OSEBA
-            SET TELEFONSKA_STEVILKA = :telefonska_stevilka
+            SET TELEFONSKA_STEVILKA = :telefonska_stevilka, DATUM_ROJSTVA = :DATUM_ROJSTVA
             WHERE ID_OSEBA = :oseba_id
         ");
 
         $statement->bindValue(":telefonska_stevilka", $telefon);
+        $statement->bindValue(":DATUM_ROJSTVA", $DATUM_ROJSTVA);
         $statement->bindValue(":oseba_id", $id_oseba);
         $statement->execute();
     }
@@ -324,15 +324,16 @@ WHERE o.ID_OSEBA = :id_oseba
         $statement->execute();
     }
     
-    public static function updateOsebaEmsoInTelefon($id_oseba, $emso, $telefon){
+    public static function updateOsebaEmsoInTelefon($id_oseba, $emso, $telefon, $DATUM_ROJSTVA){
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
             UPDATE OSEBA
-            SET TELEFONSKA_STEVILKA = :telefonska_stevilka
+            SET TELEFONSKA_STEVILKA = :telefonska_stevilka, DATUM_ROJSTVA = :DATUM_ROJSTVA
             WHERE ID_OSEBA = :oseba_id
         ");
         $statement->bindValue(":telefonska_stevilka", $telefon);
+        $statement->bindValue(":DATUM_ROJSTVA", $DATUM_ROJSTVA);
         $statement->bindValue(":oseba_id", $id_oseba);
         $statement->execute();
         

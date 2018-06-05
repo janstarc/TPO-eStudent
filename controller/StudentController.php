@@ -66,7 +66,6 @@ class StudentController {
         // echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
         // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
         $KandidatPodatki['ID_LETNIK'] = $Pravipodatki['ID_LETNIK'];
-        var_dump($KandidatPodatki);
         ViewHelper::render("view/VpisniList2Viewer.php", [
             "pageTitle" => "Vpisni list",
             "formAction" => "vpis2L",
@@ -194,6 +193,7 @@ class StudentController {
         
         $data = filter_input_array(INPUT_POST, [
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "DATUM_ROJSTVA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "id_drzava" => [
@@ -234,8 +234,6 @@ class StudentController {
             ]);
         }
         $data["ID_STUD_LETO"] = KandidatModel::getZetonPodatki(User::getID())['ID_STUD_LETO'];
-
-        var_dump($data);
         if (Validation::checkValues($data)) {
             $data = $data + filter_input_array(INPUT_POST, [
                 "id_drzava2" => [
@@ -278,7 +276,7 @@ class StudentController {
                                 $sum = $sum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
                             }
                             if ($sum == 6) {
-                                KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"]);
+                                KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
                                 
                                 KandidatModel::updateNaslov($data["ID_NASLOV1"], [
                                     "id_drzava" => $data["id_drzava"],
@@ -357,11 +355,9 @@ class StudentController {
     }
     
     public static function vpis3L1($status = null, $message = null) {
-        // echo '<pre>' . var_export($_POST, true) . '</pre>';
-        var_dump("TEST");
-        var_dump(KandidatModel::getZetonPodatki(User::getID())['ID_STUD_LETO']);
         $data = filter_input_array(INPUT_POST, [
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "DATUM_ROJSTVA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "id_drzava" => [
@@ -402,7 +398,6 @@ class StudentController {
             ]);
         }
         $data["ID_STUD_LETO"] = KandidatModel::getZetonPodatki(User::getID())['ID_STUD_LETO'];
-        var_dump($data);
         if (Validation::checkValues($data)) {
             $data = $data + filter_input_array(INPUT_POST, [
                 "id_drzava2" => [
@@ -445,7 +440,7 @@ class StudentController {
                                 $sum = $sum + (int)PredmetModel::get($value)["ST_KREDITNIH_TOCK"];
                             }
                             if ($sum == 6) {
-                                KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"]);
+                                KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
                                 
                                 KandidatModel::updateNaslov($data["ID_NASLOV1"], [
                                     "id_drzava" => $data["id_drzava"],
@@ -479,7 +474,6 @@ class StudentController {
                                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
                                 if (isset($_POST["IzbModulov"])) {
                                     foreach ($_POST["IzbModulov"] as $key => $value) {
-                                        var_dump("KOJIFAKINKURAC");
                                         $IzbModulov = DelPredmetnikaModel::getSubjects($value);
                                         KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $IzbModulov, $data["ID_STUD_LETO"]);
                                         //echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
@@ -525,11 +519,9 @@ class StudentController {
         
         $data = filter_input_array(INPUT_POST, [
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
+            "DATUM_ROJSTVA" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
-            // TODO Hardcoded - DELETE
-
-            // TODO HARDCODED
             "id_drzava" => [
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => [
@@ -551,9 +543,6 @@ class StudentController {
             ]
         ]);
         $data["ID_STUD_LETO"] = KandidatModel::getZetonPodatki(User::getID())['ID_STUD_LETO'];
-
-        var_dump($data);
-        
         if($data["id_drzava"] == 705) {
             $data = $data + filter_input_array(INPUT_POST, [
                 "id_posta" => [
@@ -620,7 +609,7 @@ class StudentController {
                             }
                         }
                         if ($ModIzbPredmeti == 42 && $SplIzbPredmetiSum == 0 || $ModIzbPredmeti == 36 && $SplIzbPredmetiSum == 6) {
-                            KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"]);
+                            KandidatModel::updateOsebaEmsoInTelefon(User::getId(), $data["emso"], $data["telefonska_stevilka"], $data["DATUM_ROJSTVA"]);
                             
                             KandidatModel::updateNaslov($data["ID_NASLOV1"], [
                                 "id_drzava" => $data["id_drzava"],
@@ -737,7 +726,7 @@ class StudentController {
             }
         }
 
-        $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'],"DODAJ DATUMA");
+        $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'], $studData['DATUM_ROJSTVA']);
         //Podatki o vpisu
         $vpisData=DataForExportModel::getVpisPodatki($studentId);
         $header2=array('Štidijski program','Študijsko leto','Nacin študija','Obliika študija','Vrsta vpisa','Letnik');
@@ -800,7 +789,7 @@ class StudentController {
             }
         }
 
-        $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'],"DODAJ DATUMA");
+        $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'], $studData['DATUM_ROJSTVA']);
         //Podatki o vpisu
         $vpisData=DataForExportModel::getVpisPodatki($studentId);
         $header2=array('Štidijski program','Študijsko leto','Nacin študija','Obliika študija','Vrsta vpisa','Letnik');
@@ -1223,7 +1212,7 @@ class StudentController {
         else if (UserModel::getTypeOfUser($id) == 's') $studData = KandidatModel::getStudentPodatki($id);
         //Osebni podatki
         $header = array('Ime', 'Priimek', 'Email', 'EMŠO','Telefon','Datum rojstva');
-        $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $studData["emso"], $studData['telefonska_stevilka'],"DODAJ DATUM");
+        $lineData = array($studData['ime'], $studData['priimek'], $studData['email'], $studData["emso"], $studData['telefonska_stevilka'], $studData['DATUM_ROJSTVA']);
 
         //Naslov za vrocanje in stalni naslov
         $naslove=KandidatModel::getKandidatVseNaslove($id);
@@ -1414,12 +1403,11 @@ class StudentController {
                 $program = $data[1];
                 $data = $data[0];
                 $programi = array();
-                foreach ($program as $key=>$value):
+                foreach ($program as $key=>$value) {
                     if (!in_array($key, $programi)){
                         array_push($programi, $key);
                     }
-
-                endforeach;
+                }
 
                 if(count($program) > 1){
                     $programi = KartotecniListDB::getProgrami($programi);
