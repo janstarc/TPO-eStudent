@@ -38,6 +38,10 @@
                     "sType":"slo"
                 },{
                     "sClass": "center",
+                    "bSortable": true,
+                    "sType":"slo"
+                },{
+                    "sClass": "center",
                     "bSortable": false
                 },{
                     "sClass": "center",
@@ -84,6 +88,7 @@
                                 <th>Ime</th>
                                 <th>Priimek</th>
                                 <th>Vpisna stevilka</th>
+                                <th>Letnik</th>
                                 <th>Tiskaj vpisni list</th>
                                 <th>Potrdilo o vpisu</th>
                                 <th>Potrdilo o vpisu(6)</th>
@@ -97,6 +102,7 @@
                                     <td><?php echo $data['ime']; ?></td>
                                     <td><?php echo $data['priimek']; ?></td>
                                     <td><?php echo $data['vpisna_stevilka']; ?></td>
+                                    <td><?php echo $data['ID_LETNIK']; ?></td>
                                     <td>
                                         <form action="<?= BASE_URL . "studenti/".$data['id_oseba']."/exportPDFTiskaj" ?>" method="post">
                                             <input class="btn btn-primary btn-sm" type="submit" value="Preglej" />

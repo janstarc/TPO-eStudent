@@ -510,7 +510,7 @@ WHERE o.ID_OSEBA = :id_oseba
 
         $statement = $db -> prepare("
             SELECT o.id_oseba, o.ime, o.priimek, o.email, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
-                    p.st_semestrov, s.stud_leto, st.vpisna_stevilka, st.emso, v.id_stud_leto, v.id_vpis
+                    p.st_semestrov, s.stud_leto, st.vpisna_stevilka, st.emso, v.id_stud_leto, v.id_vpis, v.ID_LETNIK
             FROM oseba AS o 
             JOIN kandidat AS k ON k.id_oseba = o.id_oseba
             JOIN program AS p ON k.id_program = p.id_program
