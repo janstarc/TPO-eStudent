@@ -13,6 +13,7 @@ require_once("model/KartotecniListDB.php");
 require_once ("view/includes/tfpdf.php");
 
 
+
 class StudentController {
     public static function vpisForm() {
         $zeton = StudentModel::getLastNeIzkoriscenZeton(User::getId());
@@ -41,6 +42,7 @@ class StudentController {
         $drzave = DrzavaModel::getAll();
         $userName = UserModel::getUserName(User::getId());
         $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
+        $Pravipodatki = KandidatModel::getZetonPodatki(User::getId());
         
         $ObvPredmeti = PredmetModel::getAllByType([
             "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
@@ -63,13 +65,14 @@ class StudentController {
         // echo '<pre>' . var_export($ObvPredmeti, true) . '</pre>';
         // echo '<pre>' . var_export($StrIzbPredmeti, true) . '</pre>';
         // echo '<pre>' . var_export($SplIzbPredmeti, true) . '</pre>';
-        
+        $KandidatPodatki['ID_LETNIK'] = $Pravipodatki['ID_LETNIK'];
+        var_dump($KandidatPodatki);
         ViewHelper::render("view/VpisniList2Viewer.php", [
             "pageTitle" => "Vpisni list",
             "formAction" => "vpis2L",
             "KandidatPodatki" => $KandidatPodatki,
             "userName" => $userName,
-            "StudijskaLeta" => StudijskoLetoModel::getAll(),
+            "StudijskaLeta" => $Pravipodatki['STUD_LETO'],
             "StudijskiProgrami" => StudijskiProgramModel::getAll(),
             "obcine" => $obcine,
             "poste" => $poste,
@@ -86,6 +89,7 @@ class StudentController {
     public static function vpis3L1Form($status = null, $message = null) {
         $userName = UserModel::getUserName(User::getId());
         $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
+        $Pravipodatki = KandidatModel::getZetonPodatki(User::getId());
         $obcine = ObcinaModel::getAll();
         $poste = PostaModel::getAll();
         $drzave = DrzavaModel::getAll();
@@ -120,7 +124,7 @@ class StudentController {
             "formAction" => "vpis3L1",
             "KandidatPodatki" => $KandidatPodatki,
             "userName" => $userName,
-            "StudijskaLeta" => StudijskoLetoModel::getAll(),
+            "StudijskaLeta" =>$Pravipodatki['STUD_LETO'],
             "StudijskiProgrami" => StudijskiProgramModel::getAll(),
             "obcine" => $obcine,
             "poste" => $poste,
@@ -138,10 +142,12 @@ class StudentController {
     public static function vpis3L2Form($status = null, $message = null) {
         $userName = UserModel::getUserName(User::getId());
         $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
+        $Pravipodatki = KandidatModel::getZetonPodatki(User::getId());
         $obcine = ObcinaModel::getAll();
         $poste = PostaModel::getAll();
         $drzave = DrzavaModel::getAll();
-        
+
+
         $ObvPredmeti = PredmetModel::getAllByType([
             "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
             "ID_PROGRAM" => $KandidatPodatki["id_program"],
@@ -169,7 +175,7 @@ class StudentController {
             "formAction" => "vpis3L2",
             "KandidatPodatki" => $KandidatPodatki,
             "userName" => $userName,
-            "StudijskaLeta" => StudijskoLetoModel::getAll(),
+            "StudijskaLeta" => $Pravipodatki['STUD_LETO'],
             "StudijskiProgrami" => StudijskiProgramModel::getAll(),
             "obcine" => $obcine,
             "poste" => $poste,
@@ -227,7 +233,9 @@ class StudentController {
                 ]
             ]);
         }
-        
+        $data["ID_STUD_LETO"] = KandidatModel::getZetonPodatki(User::getID())['ID_STUD_LETO'];
+
+        var_dump($data);
         if (Validation::checkValues($data)) {
             $data = $data + filter_input_array(INPUT_POST, [
                 "id_drzava2" => [
@@ -254,7 +262,7 @@ class StudentController {
                     ]
                 ]);
             }
-            
+
             if (Validation::verifyEMSO($data["emso"])) {
                 if (($data["id_drzava"] != 705 &&
                 (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
@@ -294,6 +302,7 @@ class StudentController {
                                 KandidatModel::potrdiVpisStudent($VPISNA_STEVILKA, $zeton);
                                 
                                 $KandidatPodatki = KandidatModel::getStudentPodatki(User::getId());
+                                #$praviPodatki = KandidatModel::getZetonPodatki(User::getId());
                                 $ObvPredmeti = PredmetModel::getAllByType([
                                     "ID_STUD_LETO" => $KandidatPodatki["id_stud_leto"],
                                     "ID_PROGRAM" => $KandidatPodatki["id_program"],
@@ -349,7 +358,8 @@ class StudentController {
     
     public static function vpis3L1($status = null, $message = null) {
         // echo '<pre>' . var_export($_POST, true) . '</pre>';
-        
+        var_dump("TEST");
+        var_dump(KandidatModel::getZetonPodatki(User::getID())['ID_STUD_LETO']);
         $data = filter_input_array(INPUT_POST, [
             "emso" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
@@ -360,6 +370,7 @@ class StudentController {
                     'min_range' => 1
                 ]
             ],
+
             "ulica" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "ID_NASLOV1" => [
                 'filter' => FILTER_VALIDATE_INT,
@@ -374,7 +385,6 @@ class StudentController {
                 ]
             ]
         ]);
-        
         if($data["id_drzava"] == 705) {
             $data = $data + filter_input_array(INPUT_POST, [
                 "id_posta" => [
@@ -391,7 +401,8 @@ class StudentController {
                 ]
             ]);
         }
-        
+        $data["ID_STUD_LETO"] = KandidatModel::getZetonPodatki(User::getID())['ID_STUD_LETO'];
+        var_dump($data);
         if (Validation::checkValues($data)) {
             $data = $data + filter_input_array(INPUT_POST, [
                 "id_drzava2" => [
@@ -418,7 +429,7 @@ class StudentController {
                     ]
                 ]);
             }
-            
+
             if (Validation::verifyEMSO($data["emso"])) {
                 if (($data["id_drzava"] != 705 &&
                 (isset($data["id_posta"]) ? $data["id_posta"] : NULL)==NULL &&
@@ -468,6 +479,7 @@ class StudentController {
                                 KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $ObvPredmeti, $data["ID_STUD_LETO"]);
                                 if (isset($_POST["IzbModulov"])) {
                                     foreach ($_POST["IzbModulov"] as $key => $value) {
+                                        var_dump("KOJIFAKINKURAC");
                                         $IzbModulov = DelPredmetnikaModel::getSubjects($value);
                                         KandidatModel::insertPredmetiKandidat($VPISNA_STEVILKA, $IzbModulov, $data["ID_STUD_LETO"]);
                                         //echo '<pre>' . var_export($IzbModulov, true) . '</pre>';
@@ -516,7 +528,7 @@ class StudentController {
             "telefonska_stevilka" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             "naslovZaVrocanje" => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS],
             // TODO Hardcoded - DELETE
-            //"ID_STUD_LETO" => 3,
+
             // TODO HARDCODED
             "id_drzava" => [
                 'filter' => FILTER_VALIDATE_INT,
@@ -538,7 +550,9 @@ class StudentController {
                 ]
             ]
         ]);
+        $data["ID_STUD_LETO"] = KandidatModel::getZetonPodatki(User::getID())['ID_STUD_LETO'];
 
+        var_dump($data);
         
         if($data["id_drzava"] == 705) {
             $data = $data + filter_input_array(INPUT_POST, [
