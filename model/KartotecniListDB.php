@@ -91,7 +91,7 @@ LEFT JOIN oseba o3 ON predmeta.ID_OSEBA2 = o3.ID_OSEBA
 LEFT JOIN oseba o4 ON predmeta.ID_OSEBA3 = o4.ID_OSEBA
 JOIN vpis v ON s.VPISNA_STEVILKA = v.VPISNA_STEVILKA
 
-where o.ID_OSEBA = :id and predmeta.ID_STUD_LETO = studenta.ID_STUD_LETO and v.ID_STUD_LETO = studenta.ID_STUD_LETO ORDER BY  leto ASC");
+where o.ID_OSEBA = :id and predmeta.ID_STUD_LETO = studenta.ID_STUD_LETO and v.ID_STUD_LETO = studenta.ID_STUD_LETO ORDER BY  l.ID_STUD_LETO ASC, IME_PREDMET ASC");
         $statement->bindParam(":id", $id);
         $statement->execute();
 
@@ -101,11 +101,11 @@ where o.ID_OSEBA = :id and predmeta.ID_STUD_LETO = studenta.ID_STUD_LETO and v.I
         $out = [];
         foreach ($all as $row){
             $i = 0;
-            $row['izvajalci'] = $row['p2i']." ". $row['p2p']."  (".$row['p2s'].")";
+            $row['izvajalci'] = $row['p2i']." ". $row['p2p']." (".$row['p2s'].")";
             if ($row['p3i'] != null){
-                $row['izvajalci'] = $row['izvajalci']. ", " . $row['p3i']." ". $row['p3p']."  (".$row['p3s'].")";
+                $row['izvajalci'] = $row['izvajalci']. ", " . $row['p3i']." ". $row['p3p']." (".$row['p3s'].")";
                 if ($row['p4i'] != null){
-                    $row['izvajalci'] = $row['izvajalci']. ", " . $row['p4i']." ". $row['p4p']."  (".$row['p4s'].")";
+                    $row['izvajalci'] = $row['izvajalci']. ", " . $row['p4i']." ". $row['p4p']." (".$row['p4s'].")";
                 }
             }
             $db = DBInit::getInstance();
@@ -194,7 +194,7 @@ LEFT JOIN oseba o3 ON predmeta.ID_OSEBA2 = o3.ID_OSEBA
 LEFT JOIN oseba o4 ON predmeta.ID_OSEBA3 = o4.ID_OSEBA
 JOIN vpis v ON s.VPISNA_STEVILKA = v.VPISNA_STEVILKA
 
-where o.ID_OSEBA = :id and predmeta.ID_STUD_LETO = studenta.ID_STUD_LETO and v.ID_STUD_LETO = studenta.ID_STUD_LETO ORDER BY  leto ASC");
+where o.ID_OSEBA = :id and predmeta.ID_STUD_LETO = studenta.ID_STUD_LETO and v.ID_STUD_LETO = studenta.ID_STUD_LETO ORDER BY  l.ID_STUD_LETO ASC, IME_PREDMET ASC");
         $statement->bindParam(":id", $id);
         $statement->execute();
 

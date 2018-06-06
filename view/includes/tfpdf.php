@@ -1383,8 +1383,9 @@ class tFPDF
             if ($c == 2 ) $size = 54;
             if ($c == 4) $size = 38;
             if ($c == 7) $size = 10;
-            if($c == 3 ) $size = 12;
-            if ($c == 6) $size = 17;
+            if($c == 3 ) $size = 14;
+            if ($c == 6) $size = 18;
+            if ($c == 5) $size = 20;
             $this->Cell($size, 7, $col, 1);
         }
         $this->Ln();
@@ -1399,8 +1400,9 @@ class tFPDF
                 if ($c == 2 ) $size = 54;
                 if ($c == 4) $size = 38;
                 if ($c == 7) $size = 10;
-                if($c == 3 ) $size = 12;
-                if ($c == 6) $size = 17;
+                if($c == 3 ) $size = 14;
+                if ($c == 6) $size = 18;
+                if ($c == 5) $size = 20;
                 $this->Cell($size, 7, $col, 1);
             }
             $this->Ln();

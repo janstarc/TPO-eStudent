@@ -737,6 +737,7 @@ class StudentOfficerController {
                 }
                 foreach ($data as &$value) {
                     $pogoj = StudentOfficerDB::PreveriOcene($value['VPISNA_STEVILKA']);
+                    $pogoj = StudentOfficerDB::PreveriOcene($value['VPISNA_STEVILKA']);
 
                     if ($pogoj == 1){
                         $value['pogoj1'] = 1;
@@ -2119,7 +2120,7 @@ class StudentOfficerController {
             $pdf->Ln();
 
 
-            $header2 = array('Šifra predmeta', 'Ime predmeta', 'KT/U', 'Izpraševalec/ci', 'Datum izpita', 'št.polaganj', 'Ocena');
+            $header2 = array('Šifra predmeta', 'Ime predmeta', 'KT/U', 'Izpraševalec/ci', 'Datum izpita', 'št.polaganj', 'ocena');
             $lineData2=null;
             $c = -1;
             $all = array();
@@ -2148,7 +2149,7 @@ class StudentOfficerController {
                 array_push($all, $lineData2);
             }
             $pdf->Ln();
-            $pdf->SetFont('DejaVu','',8);
+            $pdf->SetFont('DejaVu','',7);
             $pdf->BasicTableHKT($header2,$all);
             $pdf->AddPage('');
         }
