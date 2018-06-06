@@ -1231,6 +1231,13 @@ class ProfessorController {
             $pdf->Ln();
             $pdf->SetFont('DejaVu','',8);
             $pdf->BasicTableHKT($header2,$all);
+
+            $pdf->SetX(180);
+            $pdf->SetY(265);
+            $pdf->AliasNbPages('{totalPages}');
+            $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
+
+
             $pdf->AddPage('');
         }
         $noga = array("#", "Studijsko leto","Letnik", "KT/U", "Ocena");
