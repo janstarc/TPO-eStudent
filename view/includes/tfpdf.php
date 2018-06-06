@@ -1296,7 +1296,10 @@ class tFPDF
     {
         for($i=0; $i<count($header);$i++) {
             if($i==0){
-                $this->Cell(55, 7, $header[$i], 0);
+                $this->Cell(10, 7, $header[$i], 0);
+            }
+            else if($i==1){
+                $this->Cell(60, 7, $header[$i], 0);
             }
             else{
                 $this->Cell(30, 7, $header[$i], 0);
@@ -1307,7 +1310,8 @@ class tFPDF
         $this->Ln();
 
         for($i=0; $i<count($imena);$i++) {
-            $this->Cell(55, 7, $imena[$i], 0);
+            $this->Cell(10, 7, $i+1, 0);
+            $this->Cell(60, 7, $imena[$i], 0);
             $this->Cell(30, 7, $sifre[$i], 0);
             $this->Cell(30, 7, $lineData[$i], 0);
             $this->Cell(30, 7, $izvajalec[$i], 0);

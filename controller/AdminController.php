@@ -1076,9 +1076,9 @@ class AdminController {
             }
 
             if ($value['JE_STALNI'] == 1) {
-                $naslovStalnegaBivalisca=$value["ULICA"].' '.$posta.' '.$obcina.' '.$drzava;
+                $naslovStalnegaBivalisca=$value["ULICA"].', '.$posta.', '.$drzava;
             }else{
-                $zacasniNaslov=$value["ULICA"].' '.$posta.' '.$obcina.' '.$drzava;
+                $zacasniNaslov=$value["ULICA"].', '.$posta.', '.$drzava;
             }
         }
 

@@ -11,7 +11,7 @@
         <section class="wrapper">
             <br>
             <h3>Uvoz sprejetih študentov prvega letnika</h3>
-            <h5>Uvoz za študijsko leto: 2018/19</h5>
+            <h5>Uvoz za študijsko leto: 2017/18</h5>
             <br>
             <form action="<?= BASE_URL . "UvozPodatkov/parse" ?>" method="post" enctype="multipart/form-data">
                 Izberi datoteko:

@@ -42,7 +42,7 @@ class DataForExportModel
         $db = DBInit::getInstance();
 
         $statement = $db -> prepare("
-            SELECT s.STUD_LETO, st.VPISNA_STEVILKA,v.ID_LETNIK
+            SELECT s.STUD_LETO, st.VPISNA_STEVILKA,v.ID_LETNIK,s.ID_STUD_LETO
             FROM studijsko_leto as s, VPIS as v, student as st
             WHERE st.id_kandidat = :id_kandidat and st.ID_VPIS=v.ID_VPIS and v.ID_STUD_LETO=s.ID_STUD_LETO
         ");
@@ -78,15 +78,15 @@ class DataForExportModel
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            SELECT DISTINCT o.IME, o.PRIIMEK
+            SELECT o.IME, o.PRIIMEK
             FROM IZVEDBA_PREDMETA as ip
             JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
             JOIN STUDIJSKO_LETO as st ON ip.ID_STUD_LETO=st.ID_STUD_LETO
             JOIN OSEBA as o ON (ip.ID_OSEBA1 = o.ID_OSEBA OR ip.ID_OSEBA2 = o.ID_OSEBA OR ip.ID_OSEBA3 = ID_OSEBA)
-            WHERE ip.ID_PREDMET=:id_predmet 
+            WHERE ip.ID_PREDMET=:id_predmet AND ip.ID_STUD_LETO=:stud_leto
         ");
         $statement->bindParam(":id_predmet", $id_predmet);
-        //$statement->bindParam(":stud_leto", $stud_leto);
+        $statement->bindParam(":stud_leto", $stud_leto);
         $statement->execute();
         $IzvedbaPredmeta = $statement->fetch();
 
@@ -97,6 +97,38 @@ class DataForExportModel
         } else {
             throw new InvalidArgumentException("No record with id_predmet $id_predmet");
         }
+    }
+
+    public static function getVpisPodatkeeee($id_stud_leto, $vp){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("
+            SELECT o.id_oseba, o.ime, o.priimek, o.email, o.telefonska_stevilka, p.naziv_program, p.sifra_evs, p.id_program,
+              p.st_semestrov, s.stud_leto, st.vpisna_stevilka, st.emso, v.id_stud_leto, v.id_vpis, v.ID_LETNIK,
+              n.OPIS_NACIN, v3.OPIS_VPISA, o2.NAZIV_OBLIKA,l.ID_LETNIK
+            FROM oseba AS o
+            JOIN kandidat AS k ON k.id_oseba = o.id_oseba
+            JOIN program AS p ON k.id_program = p.id_program
+            JOIN studijsko_leto AS s ON k.id_stud_leto = s.id_stud_leto
+            JOIN student AS st ON st.ID_OSEBA = o.ID_OSEBA
+            JOIN vpis AS v ON k.VPISNA_STEVILKA = v.VPISNA_STEVILKA
+            JOIN nacin_studija n on v.ID_NACIN = n.ID_NACIN
+            JOIN vrsta_vpisa v3 on v.ID_VRSTAVPISA = v3.ID_VRSTAVPISA
+            JOIN oblika_studija o2 on v.ID_OBLIKA = o2.ID_OBLIKA
+            JOIN letnik l on v.ID_LETNIK = l.ID_LETNIK
+            WHERE v.ID_STUD_LETO = :id_stud_leto
+                    AND v.VPISNA_STEVILKA = :vp
+        ");
+        $statement->bindParam(":id_stud_leto", $id_stud_leto);
+        $statement->bindParam(":vp", $vp);
+        $statement->execute();
+        $IzvedbaPredmeta = $statement->fetch();
+
+        //   var_dump($IzvedbaPredmeta);
+
+        return $IzvedbaPredmeta;
+
+
     }
 
 

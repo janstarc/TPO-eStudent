@@ -734,10 +734,10 @@ class StudentController {
 
         $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'], $studData['DATUM_ROJSTVA']);
         //Podatki o vpisu
-        $vpisData=DataForExportModel::getVpisPodatki($studentId);
+       // $vpisData=DataForExportModel::getVpisPodatki($studentId);
+        $vpisData=DataForExportModel::getVpisPodatkeeee($studLetoVpisna["ID_STUD_LETO"],$studLetoVpisna['VPISNA_STEVILKA']);
         $header2=array('Štidijski program','Študijsko leto','Nacin študija','Obliika študija','Vrsta vpisa','Letnik');
-        $lineData2=array($vpisData['NAZIV_PROGRAM'],$studLetoVpisna['STUD_LETO'],$vpisData['OPIS_NACIN'],$vpisData['NAZIV_OBLIKA'],$studData['OPIS_VPISA'],$studData['LETNIK']);
-
+        $lineData2=array($vpisData['naziv_program'],$studLetoVpisna['STUD_LETO'],$vpisData['OPIS_NACIN'],$vpisData['NAZIV_OBLIKA'],$vpisData['OPIS_VPISA'],$vpisData['ID_LETNIK']);
 
 
         $pdf= new tFPDF();
@@ -797,9 +797,9 @@ class StudentController {
 
         $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'], $studData['DATUM_ROJSTVA']);
         //Podatki o vpisu
-        $vpisData=DataForExportModel::getVpisPodatki($studentId);
+        $vpisData=DataForExportModel::getVpisPodatkeeee($studLetoVpisna["ID_STUD_LETO"],$studLetoVpisna['VPISNA_STEVILKA']);
         $header2=array('Štidijski program','Študijsko leto','Nacin študija','Obliika študija','Vrsta vpisa','Letnik');
-        $lineData2=array($vpisData['NAZIV_PROGRAM'],$studLetoVpisna['STUD_LETO'],$vpisData['OPIS_NACIN'],$vpisData['NAZIV_OBLIKA'],$studData['OPIS_VPISA'],$studData['LETNIK']);
+        $lineData2=array($vpisData['naziv_program'],$studLetoVpisna['STUD_LETO'],$vpisData['OPIS_NACIN'],$vpisData['NAZIV_OBLIKA'],$vpisData['OPIS_VPISA'],$vpisData['ID_LETNIK']);
 
 
         $pdf= new tFPDF();
@@ -1227,6 +1227,7 @@ class StudentController {
         $naslovStalnegaBivalisca=NULL;
         $naslovPrejemanje=NULL;
         $zacasniNaslov=NULL;
+        $i = 1;
         foreach ($naslove as $key => $value) {
             if($value["ID_POSTA"]==NULL){
                 $posta='';
@@ -1272,7 +1273,7 @@ class StudentController {
 
 
         //Predmetnik
-        $header3=array('Ime predmeta','Šifra predmeta','KT','Izvajalec');
+        $header3=array('#','Ime predmeta','Šifra predmeta','KT','Izvajalec');
         $imena=array();
         $lineData3=array();
         $sifre=array();
@@ -1295,7 +1296,7 @@ class StudentController {
             $sifre[$i]=$predmete[$i]['SIFRA_PREDMET'];
             $lineData3[$i]=$predmete[$i]['ST_KREDITNIH_TOCK'];
             $idPredmet=$predmete[$i]['ID_PREDMET'];
-            $getIzvajalec=DataForExportModel::getIzvajalec($idPredmet,$studLetoVpisna['STUD_LETO']);
+            $getIzvajalec=DataForExportModel::getIzvajalec($idPredmet,$studData["id_stud_leto"]);
             $izvajalec[$i]=$getIzvajalec["IME"] . " " . $getIzvajalec["PRIIMEK"];
         }
 
@@ -1350,6 +1351,7 @@ class StudentController {
 
         $pdf->SetFont('DejaVu','',15);
         $pdf->Cell(180,10,'Predmetnik študenta',0,0,'C');
+        $pdf->Ln();
         $pdf->Ln();
         $pdf->SetFont('DejaVu','',8);
         $pdf->BasicTable2($header3,$imena,$lineData3,$sifre,$izvajalec);

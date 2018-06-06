@@ -71,7 +71,7 @@ class UserModel {
     public static function insertNewCandidate($candidateArray){
 
         // TODO Fix hardcoded stud_leto!
-        $id_stud_leto = 3;
+        $id_stud_leto = 2;
         $db = DBInit::getInstance();
 
         foreach ($candidateArray as $key => $value){
