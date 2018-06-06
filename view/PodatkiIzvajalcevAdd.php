@@ -29,7 +29,7 @@
                                             <select class="form-control" name="imePriimek" onchange="this.form.submit()">
                                                 <option selected disabled hidden></option>
                                                 <?php foreach ($profesori as $i=>$data): ?>
-                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["IME"] .' '.$data["PRIIMEK"] .'('.$data["SIFRA_IZVAJALCA"].')'?></option>
+                                                    <option value="<?= $data["IME"] .' '.$data["PRIIMEK"] .' '.$data["ID_OSEBA"]?>"><?= $data["PRIIMEK"] .' '.$data["IME"] .'('.$data["SIFRA_IZVAJALCA"].')'?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                             <!--<input class="btn btn-primary btn-sm" type="submit" value="Dodaj" />-->

@@ -1745,7 +1745,7 @@ INSERT INTO `tpo`.`studijsko_leto`(`ID_STUD_LETO`, `STUD_LETO`)VALUES
 INSERT INTO `tpo`.`oseba`(`ID_OSEBA`,`EMAIL`,`UPORABNISKO_IME`,`GESLO`,`VRSTA_VLOGE`,`IME`,`PRIIMEK`,`TELEFONSKA_STEVILKA`, `SIFRA_IZVAJALCA`, `DATUM_ROJSTVA`)VALUES
   (1,     'ab0001@student.uni-lj.si',      'ab0001',      '123456',     's',       'Ana',    'Balon',    '040040040'     ,NULL, '17-06-1996'),
   (2,     'bc0002@student.uni-lj.si',      'bc0002',      '123456',     's',       'Borut',    'Čementarna',    '040040040'     ,NULL, '17-06-1996'  ),
-  (3,     'cd0003@student.uni-lj.si',      'cd0003',      '123456',     's',       'Cilko',    'Debeljak',    '040040040'     ,NULL, '17-06-1996'  ),
+  (3,     'cd0003@student.uni-lj.si',      'cd0003',      '123456',     's',       'Cvilko',    'Debeljak',    '040040040'     ,NULL, '17-06-1996'  ),
   (4,     'de0004@student.uni-lj.si',      'de0004',      '123456',     's',       'Demir',    'Ehratatan',    '040040040'     ,NULL , '17-06-1996' ),
   (5,     'ef0005@student.uni-lj.si',      'ef0005',      '123456',     's',       'Evelina',    'Frača',    '040040040'     ,NULL, '17-06-1996'  ),
   (6,     'fg0006@student.uni-lj.si',      'fg0006',      '123456',     's',       'Filip',    'Granata',    '040040040'     ,NULL, '17-06-1996'  ),
@@ -3679,7 +3679,9 @@ INSERT INTO prijava(ID_PRIJAVA, ID_ROK, VPISNA_STEVILKA, ZAP_ST_POLAGANJ, ZAP_ST
   (217,101,63150002,1,1,1,60,7,'2018-01-01',NULL),
   (218,93,63150003,1,1,1,70,8,'2018-01-01',NULL),
   (219,101,63150004,1,1,1,80,9,'2018-01-01',NULL),
-  (220,93,63150005,1,1,1,90,10,'2018-01-01',NULL);
+  (220,93,63150005,1,1,1,90,10,'2018-01-01',NULL),
+  -- Erhatatan, Rok 111
+  (223,111,63150004,1,1,1,80,9,'2017-01-01',NULL);
   
 
 INSERT INTO `posta_obcina` (`MID_POSTA`, `MID_OBCINA`) VALUES
