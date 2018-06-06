@@ -15,7 +15,7 @@
             else if (User::isLoggedInAsStudent()) echo "student";
             else if (User::isLoggedInAsStudentOfficer()) echo "referent";
             else if (User::isLoggedInAsCandidate()) echo "kandidat";
-            echo " | Logout (".User::getEmail().")";
+            echo " | Logout (".User::getNameAndSurname().")";
             ?>
         </b>
     </a>

@@ -15,7 +15,7 @@
             else if (User::isLoggedInAsStudent()) echo "student";
             else if (User::isLoggedInAsStudentOfficer()) echo "referent";
             else if (User::isLoggedInAsCandidate()) echo "kandidat";
-            echo " | Logout (".User::getEmail().")";
+            echo " | Logout (".User::getNameAndSurname().")";
             ?>
         </b>
     </a>
@@ -43,14 +43,15 @@
                 <a href="<?= BASE_URL . "steviloVpisanih" ?>">
                     <span>Število vpisanih v predmete (pregled po predmetih)</span>
                 </a>
-            </li><li class="mt">
-                <a href="<?= BASE_URL . "steviloVpisanihLetniki" ?>">
-                    <span>Seznam vpisanih v letnike</span>
-                </a>
             </li>
             <li class="mt">
                 <a href="<?= BASE_URL . "vpisPredmet/" ?>">
-                    <span>Seznam vpisanih v predmet</span>
+                    <span>Seznam vpisanih v predmete</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="<?= BASE_URL . "steviloVpisanihLetniki" ?>">
+                    <span>Seznam vpisanih v letnike</span>
                 </a>
             </li>
             <li class="mt">

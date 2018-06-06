@@ -1087,10 +1087,7 @@ class AdminController {
 
         $header2 = array('Letnik','Naziv program', 'Šifra programa', 'Vrsta vpisa', 'Nacin študija');
 
-        $lineData2=null;
-        foreach ($vpisData as $key => $value){
-            $lineData2 = array($value['letnik'], $value['naziv_program'], $value['sifra_evs'], $value['opis_vpisa'],$value['opis_nacin']);
-        }
+
 
         $pdf= new tFPDF();
         $pdf->AddPage('');
@@ -1123,7 +1120,24 @@ class AdminController {
         $pdf->Cell(80,10,'Izpis podatkov o vpisih');
         $pdf->Ln();
         $pdf->SetFont('DejaVu','',10);
-        $pdf->BasicTableP($header2,$lineData2);
+        $lineData2=null;
+
+        foreach($header2 as $i=>$col) {
+            if($i==0){
+                $pdf->Cell(15, 7, $col, 1);
+            }else if($i==1){
+                $pdf->Cell(60, 7, $col, 1);
+            }else{
+                $pdf->Cell(35, 7, $col, 1);
+            }
+
+        }
+        $pdf->Ln();
+        foreach ($vpisData as $key => $value){
+            $lineData2 = array($value['letnik'], $value['naziv_program'], $value['sifra_evs'], $value['opis_vpisa'],$value['opis_nacin']);
+            $pdf->BasicTablePNew($header2,$lineData2);
+        }
+
 
         $pdf->SetX(180);
         $pdf->SetY(265);

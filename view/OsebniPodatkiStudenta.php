@@ -167,6 +167,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Letnik</th>
+                                    <th>Študijsko leto</th>
                                     <th>Študijski program</th>
                                     <th>Šifra EVS</th>
                                     <th>Vrsta vpisa</th>
@@ -179,6 +180,7 @@
                                                 echo "<tr>"
                                                         ."<td>".$key."</td>"
                                                         ."<td>".$value['letnik']."</td>"
+                                                        ."<td>".$value['stud_leto']."</td>"
                                                         ."<td>".$value['naziv_program']."</td>"
                                                         ."<td>".$value['sifra_evs']."</td>"
                                                         ."<td>".$value['opis_vpisa']."</td>"

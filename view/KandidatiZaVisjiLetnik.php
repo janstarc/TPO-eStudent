@@ -34,8 +34,7 @@
                         "sType":"slo"
                     },{
                         "sClass": "center",
-                        "bSortable": true,
-                        "sType":"slo"
+                        "bSortable": false
                     }],
                     // Ordering v prvem stolpcu
                     "order": [[ 1, 'asc' ]]
@@ -71,16 +70,18 @@
                                 <table id="table-kandidati" class="table table-striped table-advance table-hover">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Ime</th>
                                         <th>Priimek</th>
                                         <th>Vpisna stevilka</th>
-                                        <th>Preglej vloga</th>
+                                        <th>Pregled vpisa</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php
                                     foreach($allData as $data): ?>
                                         <tr>
+                                            <td></td>
                                             <td><?php echo $data['ime']; ?></td>
                                             <td><?php echo $data['priimek']; ?></td>
                                             <td><?php echo $data['vpisna_stevilka']; ?></td>

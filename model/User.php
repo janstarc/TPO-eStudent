@@ -38,4 +38,7 @@ class User {
     public function getEmail() {
         return $_SESSION["user"]["EMAIL"];
     }
+    public function getNameAndSurname() {
+        return $_SESSION["user"]["IME"] . " " . $_SESSION["user"]["PRIIMEK"];
+    }
 }

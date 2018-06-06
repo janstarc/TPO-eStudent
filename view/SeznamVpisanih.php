@@ -84,7 +84,7 @@
                         <table id="table-vpisaniStudenti" class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
-                                <th></th>
+                                <th>#</th>
                                 <th>Ime</th>
                                 <th>Priimek</th>
                                 <th>Vpisna stevilka</th>

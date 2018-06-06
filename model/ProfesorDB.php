@@ -524,6 +524,7 @@ class ProfesorDB
               JOIN izvedba_predmeta AS ip ON r.ID_IZVEDBA = ip.ID_IZVEDBA
             WHERE p.ID_ROK = :id_rok
             AND ISNULL(p.DATUM_ODJAVE)
+            ORDER BY o.PRIIMEK ASC 
         ");
 
         $statement->bindValue(":id_rok", $id_rok);

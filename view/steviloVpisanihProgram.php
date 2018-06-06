@@ -23,7 +23,7 @@
                         <select class="form-control" name="ID_STUD_LETO" onchange="location = this.value;">
                             <option selected disabled hidden></option>
                             <?php foreach ($allData as $data): ?>
-                                <option value="<?= $formAction . "/" . $data["ID_PROGRAM"] ?>"><?= $data["SIFRA_EVS"] . ", " . $data['NAZIV_PROGRAM'] ?></option>
+                                <option value="<?= $formAction . "/" . $data["ID_PROGRAM"] ?>"><?= "(".$data["SIFRA_EVS"] . ") " . $data['NAZIV_PROGRAM'] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

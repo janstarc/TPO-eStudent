@@ -1368,13 +1368,15 @@ class tFPDF
 
         // Data
 
+        $j=1;
         foreach ($lineData as $i=>$row) {
-            $this->Cell(20, 7, $i+1, 1);
+            $this->Cell(20, 7, $j, 1);
             foreach ($row as $col) {
                 $this->Cell(45, 7, $col, 1);
 
             }
             $this->Ln();
+            $j=$j+1;
         }
 
     }
@@ -1595,6 +1597,33 @@ class tFPDF
 
     }
 
+    function BasicTablePNew($header,$lineData){
+
+        /*foreach($header as $i=>$col) {
+            if($i==1){
+                $this->Cell(55, 7, $col, 1);
+            }else{
+                $this->Cell(35, 7, $col, 1);
+            }
+
+        }
+        $this->Ln();
+        // Data
+*/
+
+        foreach ($lineData as $i=>$col) {
+            if($i==0){
+                $this->Cell(15, 7, $col, 1);
+            }else if($i==1){
+                $this->Cell(60, 7, $col, 1);
+            }else{
+                $this->Cell(35, 7, $col, 1);
+            }
+
+        }
+        $this->Ln();
+
+    }
 
     /*******************************************************************************
      *                                                                              *

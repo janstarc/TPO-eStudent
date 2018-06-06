@@ -31,7 +31,7 @@ class UserModel {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-            SELECT ID_OSEBA, EMAIL, GESLO, VRSTA_VLOGE
+            SELECT ID_OSEBA, EMAIL, GESLO, VRSTA_VLOGE, IME, PRIIMEK
             FROM OSEBA
             WHERE EMAIL = :email
         ");

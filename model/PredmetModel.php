@@ -69,6 +69,7 @@ class PredmetModel {
         $statement = $db->prepare("
             SELECT p.SIFRA_PREDMET,p.IME_PREDMET,p.ID_PREDMET
             FROM predmet as p
+            ORDER BY p.IME_PREDMET ASC
             ");
         $statement->execute();
         $result = $statement->fetchAll();

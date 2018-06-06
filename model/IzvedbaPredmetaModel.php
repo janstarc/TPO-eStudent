@@ -119,6 +119,7 @@ class IzvedbaPredmetaModel {
                 SELECT o.IME, o.PRIIMEK,o.ID_OSEBA, o.SIFRA_IZVAJALCA
                 FROM oseba as o
                 WHERE o.VRSTA_VLOGE='p'
+                ORDER BY o.PRIIMEK ASC
               
         ");
 
