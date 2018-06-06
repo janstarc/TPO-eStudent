@@ -5,9 +5,9 @@ require_once "DBInit.php";
 class IzvedbaPredmetaModel {
     public static function getIdIzvedbaPredmetaByProfesor($idUser, $idCurrentYear) {
         $db = DBInit::getInstance();
-
+        
         $statement = $db->prepare("
-            SELECT ip.ID_IZVEDBA, p.ID_PREDMET, p.IME_PREDMET, ID_OSEBA1, ID_OSEBA2, ID_OSEBA3
+            SELECT ip.ID_IZVEDBA, p.ID_PREDMET, p.IME_PREDMET, p.SIFRA_PREDMET, ID_OSEBA1, ID_OSEBA2, ID_OSEBA3
             FROM IZVEDBA_PREDMETA as ip
             JOIN PREDMET as p ON ip.ID_PREDMET = p.ID_PREDMET
             WHERE ID_STUD_LETO = :idCurrentYear
@@ -15,6 +15,7 @@ class IzvedbaPredmetaModel {
                     ID_OSEBA1 = :idUser OR ID_OSEBA2 = :idUser OR ID_OSEBA3 = :idUser
                 )
                 AND p.AKTIVNOST = 1
+            ORDER BY p.IME_PREDMET
         ");
         $statement->bindParam(":idUser", $idUser, PDO::PARAM_INT);
         $statement->bindParam(":idCurrentYear", $idCurrentYear, PDO::PARAM_INT);

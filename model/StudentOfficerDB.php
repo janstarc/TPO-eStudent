@@ -922,6 +922,7 @@ where s.ID_OSEBA = :id
             LEFT JOIN oseba o2 on ip.ID_OSEBA2 = o2.ID_OSEBA
             LEFT JOIN oseba o3 on ip.ID_OSEBA3 = o3.ID_OSEBA
             WHERE ip.ID_STUD_LETO = :id_stud_leto
+            ORDER BY p.IME_PREDMET
         ");
 
         $statement->bindValue(":id_stud_leto", $id_stud_leto);

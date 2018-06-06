@@ -33,7 +33,7 @@
                                         <select class="form-control" name="ID_IZVEDBA" required>
                                             <option selected disabled hidden></option>
                                             <?php foreach ($IdIzvedbaPredmeta as $idIP): ?>
-                                                <option value="<?= $idIP["ID_IZVEDBA"] ?>"><?= $idIP["IME_PREDMET"] ?></option>
+                                                <option value="<?= $idIP["ID_IZVEDBA"] ?>"><?= $idIP["SIFRA_PREDMET"].": ".$idIP["IME_PREDMET"] ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>

@@ -23,7 +23,7 @@
                                 <select class="form-control" onchange="location = this.value;">
                                     <option selected disabled hidden></option>
                                     <?php foreach ($allData as $data): ?>
-                                        <option value="<?= $formAction . "/" . $data["ID_OSEBA"] ?>"><?= $data["IME"] . " " . $data["PRIIMEK"] . " (" . $data["EMAIL"] . ")" ?></option>
+                                        <option value="<?= $formAction . "/" . $data["ID_OSEBA"] ?>"><?= $data["SIFRA_IZVAJALCA"] . ": " . $data["IME"] . " " . $data["PRIIMEK"] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
