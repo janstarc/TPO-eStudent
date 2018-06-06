@@ -82,7 +82,7 @@ class AdminDB {
         echo("<script>console.log('ADMINFB: ', ".$idPredmet . ");</script>");
         $db = DBInit::getInstance();
         $statement = $db -> prepare(
-            "SELECT p.id_predmetnik,s.stud_leto, l.letnik, pr.Naziv_program, d.NAZIV_DELAPREDMETNIKA, p.aktivnost
+            "SELECT p.id_predmetnik,s.stud_leto, l.letnik, pr.SIFRA_EVS, pr.Naziv_program, d.NAZIV_DELAPREDMETNIKA, p.aktivnost
             FROM predmetnik p, studijsko_leto s, letnik l, program pr, del_predmetnika d
             WHERE p.id_stud_leto = s.id_stud_leto and p.id_program = pr.id_program and p.id_letnik = l.id_letnik 
              and p.id_delpredmetnika = d.id_delpredmetnika and p.id_predmet = :predmet"

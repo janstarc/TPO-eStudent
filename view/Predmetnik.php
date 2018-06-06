@@ -58,20 +58,20 @@
                             </select>
                             <select name="program">
                                 <?php
-                                echo "<option >"." program"."</option>";
+                                echo "<option disabled selected>"." program"."</option>";
 
                                 foreach ($all[2] as $key => $value){
                                     if(($data['tip']== "e")and ($predmetnik['ID_PROGRAM'] == $value['ID_PROGRAM'])){
-                                        echo "<option value=".$value['ID_PROGRAM']." selected >".$value['NAZIV_PROGRAM']."</option>";
+                                        echo "<option value=".$value['ID_PROGRAM']." selected >".$value['SIFRA_EVS'].": ".$value['NAZIV_PROGRAM']."</option>";
                                     }
-                                    else{echo "<option value=".$value['ID_PROGRAM']."  >".$value['NAZIV_PROGRAM']."</option>";
+                                    else{echo "<option value=".$value['ID_PROGRAM']."  >".$value['SIFRA_EVS'].": ".$value['NAZIV_PROGRAM']."</option>";
                                         ;}
                                 }
                                 ?>
                             </select>
                             <select name="delpredmetnika">
                                 <?php
-                                echo "<option disabled selected value=''>"." del predmetnika"."</option>";
+                                echo "<option disabled selected>"." del predmetnika"."</option>";
 
                                 foreach ($all[3] as $key => $value){
                                     if(($data['tip']== "e")and ($predmetnik['ID_DELPREDMETNIKA'] == $value['ID_DELPREDMETNIKA'])){
