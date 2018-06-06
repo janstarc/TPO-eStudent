@@ -833,10 +833,14 @@ where s.ID_OSEBA = :id
         $statement->bindParam(":id", $id);
         $statement->execute();
         $letnik = $statement->fetchColumn();
-        if ($krediti == $letnik * 60) return 1;
+        if ($krediti == $letnik * 60) {
+            return 1;
+        }
+
         elseif ($krediti < $letnik * 60 - 30){
             return 0;
         }
+        else return 2;
 
         $db = DBInit::getInstance();
 
