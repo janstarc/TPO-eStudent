@@ -262,7 +262,7 @@
                                             </tr>
                                         <?php endforeach; ?>
                                         <tr>
-                                            <td>Skupno st. KKT</td>
+                                            <td>Skupno st. KT</td>
                                             <td><?php echo $vsota; ?></td>
                                         </tr>
                                             </tbody>

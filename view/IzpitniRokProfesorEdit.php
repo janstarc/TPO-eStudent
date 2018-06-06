@@ -35,7 +35,7 @@
                                         <option selected value="0">Brez izpraševalca</option>
                                         <option  value="<?= $getId['ID_IZVAJALEC1'] ?>"><?= $getId['IME_IZVAJALEC1']." ".$getId['PRIIMEK_IZVAJALEC1'] ?></option>
                                     <?php } else { ?>
-                                        <option  value="0">"Brez izpraševalca</option>
+                                        <option  value="0">Brez izpraševalca</option>
                                         <option selected value="<?= $getId['ID_IZVAJALEC1'] ?>"><?= $getId['IME_IZVAJALEC1']." ".$getId['PRIIMEK_IZVAJALEC1'] ?></option>
 
                                     <?php } ?>
@@ -48,7 +48,7 @@
                                         <option selected value="0">Brez izpraševalca</option>
                                         <option <?php if ($getId['ID_IZVAJALEC2'] == ""){ echo 'style="display:none;"';} ?> value="<?= $getId['ID_IZVAJALEC2'] ?>"><?= $getId['IME_IZVAJALEC2']." ".$getId['PRIIMEK_IZVAJALEC2'] ?></option>
                                     <?php } else { ?>
-                                        <option  value="0">"Brez izpraševalca</option>
+                                        <option  value="0">Brez izpraševalca</option>
                                         <option selected value="<?= $getId['ID_IZVAJALEC2'] ?>"><?= $getId['IME_IZVAJALEC2']." ".$getId['PRIIMEK_IZVAJALEC2'] ?></option>
 
                                     <?php } ?>
@@ -61,7 +61,7 @@
                                         <option selected value="0">Brez izpraševalca</option>
                                         <option <?php if ($getId['ID_IZVAJALEC3'] == ""){ echo 'style="display:none;"';} ?> value="<?= $getId['ID_IZVAJALEC3'] ?>"><?= $getId['IME_IZVAJALEC3']." ".$getId['PRIIMEK_IZVAJALEC3'] ?></option>
                                     <?php } else { ?>
-                                        <option  value="0">"Brez izpraševalca</option>
+                                        <option  value="0">Brez izpraševalca</option>
                                         <option selected value="<?= $getId['ID_IZVAJALEC3'] ?>"><?= $getId['IME_IZVAJALEC3']." ".$getId['PRIIMEK_IZVAJALEC3'] ?></option>
 
                                     <?php } ?>

@@ -24,7 +24,7 @@
 <aside>
     <div id="sidebar" class="nav-collapse " style="overflow-y: auto;">
         <ul class="sidebar-menu" id="nav-accordion">
-            <li class="mt">
+            <!---<li class="mt">
                 <a href="<?= BASE_URL . "ElektronskiIndeks" ?>">
                     <span>Elektronski Indeks</span>
                 </a>
@@ -33,7 +33,7 @@
                 <a href="<?= BASE_URL . "PregledIzpitovStudent" ?>">
                     <span>Pregled Izpitov Študent</span>
                 </a>
-            </li>
+            </li>--->
             <li class="mt">
 
                 <a href="<?= BASE_URL . "izpitniRok/student" ?>">

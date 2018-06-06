@@ -154,7 +154,7 @@
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
-                                <td><b>Skupno st. KKT</b></td>
+                                <td><b>Skupno st. KT</b></td>
                                 <td><b>60</b></td>
                             </tr>
                             </tbody>

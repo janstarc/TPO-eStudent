@@ -24,21 +24,23 @@
 <aside>
     <div id="sidebar" class="nav-collapse " style="overflow-y: auto;">
         <ul class="sidebar-menu" id="nav-accordion">
-            <li class="mt">
+            <!--<li class="mt">
                 <a href="<?= BASE_URL . "PregledIzpitovProfesor" ?>">
                     <span>Pregled Izpitov Profesor</span>
                 </a>
-            </li>
+            </li> ---->
             <li class="mt">
                 <a href="<?= BASE_URL . "OsebniPodatkiStudenta" ?>">
                     <span>Osebni Podatki Študenta</span>
                 </a>
             </li>
+            <!---
             <li class="mt">
                 <a href="<?= BASE_URL . "VnosIzpitov" ?>">
                     <span>Vnos Izpitov</span>
                 </a>
             </li>
+            --->
             <li class="mt">
                 <a href="<?= BASE_URL . "vpisPredmetP" ?>">
                     <span>Seznam vpisanih v predmet</span>

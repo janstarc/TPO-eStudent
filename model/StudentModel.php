@@ -16,7 +16,6 @@ class StudentModel{
         $statement->execute();
         $res =  $statement->fetchAll();
         $all = array();
-        #var_dump($res[0]);
         foreach ($res as $row):
 
             $db = DBInit::getInstance();
@@ -45,12 +44,7 @@ class StudentModel{
 
         array_push($all, $row);
 
-
-
-
         endforeach;
-
-
         return $all;
     }
 

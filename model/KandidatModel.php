@@ -684,17 +684,33 @@ WHERE o.ID_OSEBA = :id_oseba
     }
 
     public static function jeIzkoriscen($id){
-        $db = DBInit::getInstance();
-        $statement = $db -> prepare("
+        if(User::isLoggedInAsCandidate()) {
+            $db = DBInit::getInstance();
+            $statement = $db->prepare("
             SELECT k.IZKORISCEN
             FROM kandidat AS k
             JOIN oseba o ON k.ID_OSEBA = o.ID_OSEBA
             WHERE k.ID_OSEBA =:id
         ");
 
-        $statement->bindValue(":id", $id);
-        $statement->execute();
-        $result = $statement->fetch();
-        return $result['IZKORISCEN'];
+            $statement->bindValue(":id", $id);
+            $statement->execute();
+            $result = $statement->fetch();
+            return $result['IZKORISCEN'];
+        }
+        else{
+            $db = DBInit::getInstance();
+            $statement = $db->prepare("
+            SELECT IZKORISCEN
+            FROM zeton
+            WHERE ID_OSEBA = :id
+            ORDER BY ID_STUD_LETO DESC 
+            LIMIT 1
+        ");
+
+            $statement->bindValue(":id", $id);
+            $statement->execute();
+            return $statement->fetchColumn();
+        }
     }
 }

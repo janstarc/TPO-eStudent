@@ -249,7 +249,7 @@
                                         <thead>
                                         <tr>
                                             <th>Ime predmeta</th>
-                                            <th>St. KKT</th>
+                                            <th>St. KT</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -262,7 +262,7 @@
                                             </tr>
                                         <?php endforeach; ?>
                                         <tr>
-                                            <td>Skupno st. KKT</td>
+                                            <td>Skupno st. KT</td>
                                             <td><?php echo $vsota; ?></td>
                                         </tr>
                                         </tbody>

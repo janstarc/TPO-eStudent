@@ -568,7 +568,7 @@ where pr.ID_PREDMET = p.ID_PREDMET and pr.ID_STUD_LETO = s.ID_STUD_LETO and i.ID
         $statement = $db->prepare("
                     SELECT DISTINCT *
                     FROM  predmeti_studenta p, student s , oseba o, vrsta_vpisa vv, vpis v 
-                    WHERE ID_PREDMET = :predmet and p.ID_STUD_LETO = :leto and
+                    WHERE ID_PREDMET = :predmet and p.ID_STUD_LETO = :leto and v.ID_STUD_LETO = p.ID_STUD_LETO and
                     p.VPISNA_STEVILKA = s.VPISNA_STEVILKA and s.ID_OSEBA = o.ID_OSEBA AND 
                     v.VPISNA_STEVILKA = s.VPISNA_STEVILKA and vv.ID_VRSTAVPISA = v.ID_VRSTAVPISA
                     ORDER BY PRIIMEK ASC
@@ -801,11 +801,43 @@ where s.ID_OSEBA = :id
         $statement->bindParam(":id", $id);
         $statement->execute();
         $check = $statement->fetchAll();
+
         if(count($check)<1) return 0;
         $check = $check[0];
 
         if($check['IZKORISCEN'] == "0") return 0;
         if($check['AKTIVNOST'] == "0") return 0;
+
+
+        //PREVERI KREDITE:
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("  
+                   select SUM(p.ST_KREDITNIH_TOCK) as krediti from student s
+            JOIN predmeti_studenta studenta ON s.VPISNA_STEVILKA = studenta.VPISNA_STEVILKA
+            JOIN predmet p ON studenta.ID_PREDMET = p.ID_PREDMET
+            where studenta.OCENA > 5 and s.VPISNA_STEVILKA = :id    
+    ");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $krediti = $statement->fetchColumn();
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("  
+                            select ID_LETNIK from student s
+            JOIN vpis v ON s.VPISNA_STEVILKA = v.VPISNA_STEVILKA
+            WHERE s.VPISNA_STEVILKA = :id
+            ORDER BY ID_LETNIK DESC
+            LIMIT 1
+    ");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $letnik = $statement->fetchColumn();
+        if ($krediti == $letnik * 60) return 1;
+        elseif ($krediti < $letnik * 60 - 30){
+            return 0;
+        }
+
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("  
@@ -828,7 +860,7 @@ where s.ID_OSEBA = :id
             return 0;
         }
         elseif (count($neizdelani) == 1 ){
-            $db = DBInit::getInstance();
+            /*$db = DBInit::getInstance();
 
             $statement = $db->prepare("  
             SELECT p.ID_PREDMET from predmet p, predmetnik pr ,
@@ -851,7 +883,7 @@ where s.ID_OSEBA = :id
                 if ($value == $neizdelani[0]){
                     $db = DBInit::getInstance();
 
-                    $statement = $db->prepare("  
+                    $statement = $db->prepare("
             select ID_LETNIK from vpis s
             where s.VPISNA_STEVILKA = :id
             order BY  letnik DESC 
@@ -864,7 +896,7 @@ where s.ID_OSEBA = :id
                     $letnik = $statement->fetchColumn();
                     if ($letnik == "3") return 2;
                 } return 1;
-            }
+            }*/
             return 2;
         }
         else{
