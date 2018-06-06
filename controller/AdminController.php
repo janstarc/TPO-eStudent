@@ -865,7 +865,6 @@ class AdminController {
             "tip"  => ["filter" => FILTER_SANITIZE_SPECIAL_CHARS]
         ]);
         if($data['tip'] == "d"){
-
             AdminDB::changePredmetnik($data['idPredmetnik']);
             $predmetniki = AdminDB::predmetniki($data['idPredmet']);
             ViewHelper::render("view/UrediPredmet.php", [
@@ -879,7 +878,6 @@ class AdminController {
                 "data" => $data,
                 "all" => AdminDB::all(),
                 "predmetnik" => AdminDB::predmetnik($data['idPredmetnik'])
-
             ]);
         }
 
