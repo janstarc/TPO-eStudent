@@ -1493,7 +1493,7 @@ class StudentOfficerController {
 
         $pdf = new tFPDF();
         $pdf->AddPage('L');
-        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);
         $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
