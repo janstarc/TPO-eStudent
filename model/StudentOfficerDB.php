@@ -512,7 +512,7 @@ order by STUD_LETO DESC LIMIT 1
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("
-                    SELECT p.ID_PREDMET, p.IME_PREDMET, o.IME as i1, o.PRIIMEK as p1, o2.IME as i2, o2.PRIIMEK as p2, o3.IME as i3, o3.PRIIMEK as p3 FROM predmetnik pr, predmet p, studijsko_leto s, letnik l, program po , oseba o, izvedba_predmeta i LEFT JOIN oseba o2 ON i.ID_OSEBA2 = o2.ID_OSEBA LEFT JOIN oseba o3 on i.ID_OSEBA3 = o3.ID_OSEBA
+                    SELECT p.ID_PREDMET,p.SIFRA_PREDMET, p.IME_PREDMET, o.IME as i1, o.PRIIMEK as p1, o2.IME as i2, o2.PRIIMEK as p2, o3.IME as i3, o3.PRIIMEK as p3 FROM predmetnik pr, predmet p, studijsko_leto s, letnik l, program po , oseba o, izvedba_predmeta i LEFT JOIN oseba o2 ON i.ID_OSEBA2 = o2.ID_OSEBA LEFT JOIN oseba o3 on i.ID_OSEBA3 = o3.ID_OSEBA
 where pr.ID_PREDMET = p.ID_PREDMET and pr.ID_STUD_LETO = s.ID_STUD_LETO and i.ID_STUD_LETO = pr.ID_STUD_LETO
       and pr.ID_LETNIK = l.ID_LETNIK and pr.ID_PROGRAM = po.ID_PROGRAM and i.ID_PREDMET = p.ID_PREDMET
       and :letnik = l.ID_LETNIK and :program = pr.ID_PROGRAM and s.ID_STUD_LETO = :leto

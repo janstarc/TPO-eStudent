@@ -1487,13 +1487,13 @@ class StudentOfficerController {
         $all = [];
         foreach ($data as $key => $value){
 
-            $lineData2 = array($value["ID_PREDMET"],$value["IME_PREDMET"],  $value["i1"]." ".$value["p1"],  $value["i2"]." ".$value["p2"],  $value["i3"]." ".$value["p3"], $value["COUNT"]);
+            $lineData2 = array($value["SIFRA_PREDMET"],$value["IME_PREDMET"],  $value["i1"]." ".$value["p1"],  $value["i2"]." ".$value["p2"],  $value["i3"]." ".$value["p3"], $value["COUNT"]);
             array_push($all, $lineData2);
         }
 
         $pdf = new tFPDF();
         $pdf->AddPage('L');
-        $pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
+        $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
         $pdf->Image('./static/images/logo-ul.jpg', 8, 8, 20, 20, 'JPG');
         $pdf->SetFont('DejaVu','',15);
         $pdf->Cell(200,10,'Univerza v Ljubjani, Fakulteta za računalništvo in informatiko ',0,0,'C');
@@ -1510,11 +1510,6 @@ class StudentOfficerController {
 
         $pdf->Ln();
         $pdf->BasicTableHSt2($header2,$all);
-
-        $pdf->SetX(180);
-        $pdf->SetY(265);
-        $pdf->AliasNbPages('{totalPages}');
-        $pdf->Cell(0, 10, 'Stran '.$pdf->PageNo(). "/{totalPages}", 0, false, 'C', 0, '', 0, false, 'T', 'M');
 
         $pdf->Output();
 
