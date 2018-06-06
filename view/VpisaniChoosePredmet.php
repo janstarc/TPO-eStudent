@@ -81,11 +81,11 @@
                                 $n += 1 ;
                                 $izvedba = $row["IME_PREDMET"];
                                 $id =$row["ID_PREDMET"];
-                                $profesor = $row['IME'] . $row['PRIIMEK']
+                                $profesor = $row['IME'] ." ". $row['PRIIMEK']
                                 ?>
                             <tr>
                                 <td></td>
-                                <td><?= $row['ID_PREDMET'] ?></td>
+                                <td><?= $row['SIFRA_PREDMET'] ?></td>
                                 <td><?= $izvedba?></td>
                                 <td><?= $profesor ?></td>
 

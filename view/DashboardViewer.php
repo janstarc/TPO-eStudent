@@ -11,7 +11,9 @@
                     <section class="wrapper">
                         <div class="row">
                             <div class="col-xs-12 col-md-6">
-                                <h3>Welcome</h3>
+                                <br>
+                                <h3>Pozdravljeni v eŠtudentu!</h3>
+                                <h3>Izberite funkcionalnost v meniju</h3>
                             </div>
                         </div>
                     </div>

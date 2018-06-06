@@ -1899,7 +1899,7 @@ VALUES
   (44, 63259,'Brezžična in Mobilna Omrežja', 1),
   (45, 63257,'Modeliranje Računalniških Omrežji', 1),
 
-  (46, 63262,'Zanesljivost in zmogljivost računalniških sistemov', 1),
+  (46, 63262,'Zanesljivost in zmogljivost rač. sis.', 1),
   (47, 63260,'Digitalno načrtovanje', 1),
   (48, 63261,'Porazdeljeni sistemi', 1),
 
@@ -3002,7 +3002,10 @@ VALUES
   (107,160,'2018-09-07','10:00:00',1,108,NULL,NULL),       --  SP   z
   (108,173,'2018-09-10','10:00:00',1,106,NULL,NULL),       --  SPO  z
   (109,174,'2018-09-11','10:00:00',1,114,NULL,NULL),       --  RZHP z
-  (110,175,'2018-09-12','10:00:00',1,105,NULL,NULL);       --  PRE  p
+  (110,175,'2018-09-12','10:00:00',1,105,NULL,NULL),       --  PRE  p
+
+  -- Dodajanje za Izbrana poglavja RI - Ehratatan
+  (111,110,'2017-09-09','10:00:00',1,105,NULL,NULL);
   
 
 INSERT INTO `predmeti_studenta`
@@ -3577,6 +3580,8 @@ INSERT INTO prijava(ID_PRIJAVA, ID_ROK, VPISNA_STEVILKA, ZAP_ST_POLAGANJ, ZAP_ST
   (143,29,63150003,1,1,1,70,8,'2017-01-01',NULL),
   (144,29,63150004,1,1,1,80,9,'2017-01-01',NULL),
   (145,29,63150005,1,1,1,90,10,'2017-01-01',NULL),
+  -- Izbrana poglavja
+  (222,111,6315004,1,1,1,80,9,'2017-01-01',NULL),
   
   /* Stud. leto = 2. 5 v 1l, 5 v 2l, 5 v 3l */
   --  1. Letnik
@@ -3648,9 +3653,9 @@ INSERT INTO prijava(ID_PRIJAVA, ID_ROK, VPISNA_STEVILKA, ZAP_ST_POLAGANJ, ZAP_ST
   (196,87,63150001,1,1,1,50,6,'2018-01-01',NULL),
   (197,95,63150002,1,1,1,60,7,'2018-01-01',NULL),
   (198,87,63150003,1,1,1,70,8,'2018-01-01',NULL),
-  (199,95,63150004,1,1,1,80,9,'2018-01-01',NULL),
-  (200,87,63150005,1,1,1,90,5,'2018-01-01',NULL),
-  (221,95,63150005,2,2,1,90,10,'2018-01-01',NULL),
+  (199,95,63150004,1,1,1,80,5,'2018-01-01',NULL),
+  (200,87,63150005,1,1,1,90,10,'2018-01-01',NULL),
+  (221,95,63150004,2,2,1,90,9,'2018-01-01',NULL),
   --  PRPO
   (201,90,63150001,1,1,1,50,6,'2018-01-01',NULL),
   (202,98,63150002,1,1,1,60,7,'2018-01-01',NULL),

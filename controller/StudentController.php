@@ -736,7 +736,7 @@ class StudentController {
         //Podatki o vpisu
        // $vpisData=DataForExportModel::getVpisPodatki($studentId);
         $vpisData=DataForExportModel::getVpisPodatkeeee($studLetoVpisna["ID_STUD_LETO"],$studLetoVpisna['VPISNA_STEVILKA']);
-        $header2=array('Štidijski program','Študijsko leto','Nacin študija','Obliika študija','Vrsta vpisa','Letnik');
+        $header2=array('Študijski program','Študijsko leto','Način študija','Oblika študija','Vrsta vpisa','Letnik');
         $lineData2=array($vpisData['naziv_program'],$studLetoVpisna['STUD_LETO'],$vpisData['OPIS_NACIN'],$vpisData['NAZIV_OBLIKA'],$vpisData['OPIS_VPISA'],$vpisData['ID_LETNIK']);
 
 
@@ -798,7 +798,7 @@ class StudentController {
         $lineData = array($priimekIme,$studLetoVpisna['VPISNA_STEVILKA'], $studData['email'], $emso['EMSO'], $studData['DATUM_ROJSTVA']);
         //Podatki o vpisu
         $vpisData=DataForExportModel::getVpisPodatkeeee($studLetoVpisna["ID_STUD_LETO"],$studLetoVpisna['VPISNA_STEVILKA']);
-        $header2=array('Štidijski program','Študijsko leto','Nacin študija','Obliika študija','Vrsta vpisa','Letnik');
+        $header2=array('Študijski program','Študijsko leto','Način študija','Oblika študija','Vrsta vpisa','Letnik');
         $lineData2=array($vpisData['naziv_program'],$studLetoVpisna['STUD_LETO'],$vpisData['OPIS_NACIN'],$vpisData['NAZIV_OBLIKA'],$vpisData['OPIS_VPISA'],$vpisData['ID_LETNIK']);
 
 

@@ -86,7 +86,7 @@
                             ?>
                         <tr>
                             <td><?= $n       ?></td>
-                            <td><?= $row['ID_PREDMET'] ?></td>
+                            <td><?= $row['SIFRA_PREDMET'] ?></td>
                             <td><?= $izvedba?></td>
                             <td><?= $profesor ?></td>
 
